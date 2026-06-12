@@ -1,0 +1,263 @@
+{
+  "artifact_type": "resyst_labs_arena_snapshots",
+  "synced_at": "2026-06-12T13:51:48.496419+00:00",
+  "summary": {
+    "title": "Resyst Arena",
+    "description": "A deterministic turn-based duel benchmark for strategic LLM behavior. Battle outcome is separate from latency, tokens and cost telemetry.",
+    "methodology_note": "Single matches are evidence artifacts, not final model rankings. Strong claims require side-swapped repeated seed series."
+  },
+  "matches": [
+    {
+      "id": "resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824",
+      "title": "deepseek-v4-flash-openrouter-native-high vs step-3.7-flash-openrouter-native-high",
+      "date_label": "20260531",
+      "lane": "0.3",
+      "mode": "duel",
+      "seed": 1188878758,
+      "max_turns": 100,
+      "random_positions": true,
+      "entrants": {
+        "A": "deepseek-v4-flash-openrouter-native-high",
+        "B": "step-3.7-flash-openrouter-native-high"
+      },
+      "winner": "A",
+      "winner_label": "deepseek-v4-flash-openrouter-native-high",
+      "winner_reason": "core_destroyed",
+      "turns": 63,
+      "final_score": {
+        "A": 1.0,
+        "B": 0.0
+      },
+      "core_hp": {
+        "A": 26,
+        "B": 0
+      },
+      "core_damage_dealt": {
+        "A": 30,
+        "B": 4
+      },
+      "resources_collected": {
+        "A": 20,
+        "B": 20
+      },
+      "invalid_actions": {
+        "A": 0,
+        "B": 0
+      },
+      "spatial_efficiency": {
+        "A": {
+          "alignment_per_non_wait_action": 0.902,
+          "contested_resources_per_non_wait_action": 0.2353,
+          "core_damage_per_non_wait_action": 0.5882,
+          "non_wait_actions": 51,
+          "productive_action_rate": 0.8824,
+          "productive_actions": 45,
+          "resources_per_non_wait_action": 0.3922
+        },
+        "B": {
+          "alignment_per_non_wait_action": 1.0,
+          "contested_resources_per_non_wait_action": 0.3243,
+          "core_damage_per_non_wait_action": 0.1081,
+          "non_wait_actions": 37,
+          "productive_action_rate": 0.9189,
+          "productive_actions": 34,
+          "resources_per_non_wait_action": 0.5405
+        }
+      },
+      "tactical_metrics": {
+        "center_approach_moves": {
+          "A": 16,
+          "B": 14
+        },
+        "center_drift_moves": {
+          "A": 9,
+          "B": 5
+        },
+        "contested_resource_pressure_moves": {
+          "A": 11,
+          "B": 11
+        },
+        "missed_attack_opportunities": {
+          "A": 2,
+          "B": 4
+        },
+        "missed_gather_opportunities": {
+          "A": 0,
+          "B": 3
+        },
+        "non_wait_actions": {
+          "A": 51,
+          "B": 37
+        },
+        "objective_alignment_score": {
+          "A": 46,
+          "B": 37
+        },
+        "plan_continuity_breaks": {
+          "A": 23,
+          "B": 9
+        },
+        "productive_actions": {
+          "A": 45,
+          "B": 34
+        },
+        "strategic_drift_moves": {
+          "A": 7,
+          "B": 6
+        }
+      },
+      "artifacts": {
+        "replay": "results/raw/resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824.json",
+        "summary": "results/reports/resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824-summary.json"
+      }
+    },
+    {
+      "id": "resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210",
+      "title": "deepseek-v4-flash-openrouter-native-medium vs step-3.7-flash-openrouter-native-medium",
+      "date_label": "20260531",
+      "lane": "0.3",
+      "mode": "duel",
+      "seed": 42,
+      "max_turns": 100,
+      "random_positions": false,
+      "entrants": {
+        "A": "deepseek-v4-flash-openrouter-native-medium",
+        "B": "step-3.7-flash-openrouter-native-medium"
+      },
+      "winner": "A",
+      "winner_label": "deepseek-v4-flash-openrouter-native-medium",
+      "winner_reason": "adjudication",
+      "turns": 100,
+      "final_score": {
+        "A": 1.0,
+        "B": 0.0
+      },
+      "core_hp": {
+        "A": 28,
+        "B": 19
+      },
+      "core_damage_dealt": {
+        "A": 11,
+        "B": 2
+      },
+      "resources_collected": {
+        "A": 20,
+        "B": 20
+      },
+      "invalid_actions": {
+        "A": 0,
+        "B": 0
+      },
+      "spatial_efficiency": {
+        "A": {
+          "alignment_per_non_wait_action": 0.4884,
+          "contested_resources_per_non_wait_action": 0.2791,
+          "core_damage_per_non_wait_action": 0.2558,
+          "non_wait_actions": 43,
+          "productive_action_rate": 0.7907,
+          "productive_actions": 34,
+          "resources_per_non_wait_action": 0.4651
+        },
+        "B": {
+          "alignment_per_non_wait_action": 0.2462,
+          "contested_resources_per_non_wait_action": 0.1846,
+          "core_damage_per_non_wait_action": 0.0308,
+          "non_wait_actions": 65,
+          "productive_action_rate": 0.7846,
+          "productive_actions": 51,
+          "resources_per_non_wait_action": 0.3077
+        }
+      },
+      "tactical_metrics": {
+        "center_approach_moves": {
+          "A": 19,
+          "B": 31
+        },
+        "center_drift_moves": {
+          "A": 9,
+          "B": 17
+        },
+        "contested_resource_pressure_moves": {
+          "A": 8,
+          "B": 10
+        },
+        "missed_attack_opportunities": {
+          "A": 1,
+          "B": 3
+        },
+        "missed_gather_opportunities": {
+          "A": 1,
+          "B": 0
+        },
+        "non_wait_actions": {
+          "A": 43,
+          "B": 65
+        },
+        "objective_alignment_score": {
+          "A": 21,
+          "B": 16
+        },
+        "plan_continuity_breaks": {
+          "A": 17,
+          "B": 25
+        },
+        "productive_actions": {
+          "A": 34,
+          "B": 51
+        },
+        "strategic_drift_moves": {
+          "A": 9,
+          "B": 15
+        }
+      },
+      "artifacts": {
+        "replay": "results/raw/resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210.json",
+        "summary": "results/reports/resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210-summary.json"
+      }
+    },
+    {
+      "id": "resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107",
+      "title": "deepseek-v4-flash-openrouter-thinking vs gemini-3-flash-preview-openrouter-thinking",
+      "date_label": "3-seed76",
+      "lane": "0.3",
+      "mode": "duel",
+      "seed": 761168107,
+      "max_turns": 200,
+      "random_positions": false,
+      "entrants": {
+        "A": "deepseek-v4-flash-openrouter-thinking",
+        "B": "gemini-3-flash-preview-openrouter-thinking"
+      },
+      "winner": "B",
+      "winner_label": "gemini-3-flash-preview-openrouter-thinking",
+      "winner_reason": "adjudication",
+      "turns": 200,
+      "final_score": {
+        "A": 0.0,
+        "B": 1.0
+      },
+      "core_hp": {
+        "A": 21,
+        "B": 29
+      },
+      "core_damage_dealt": {
+        "A": 1,
+        "B": 12
+      },
+      "resources_collected": {
+        "A": 8,
+        "B": 28
+      },
+      "invalid_actions": {
+        "A": 0,
+        "B": 0
+      },
+      "spatial_efficiency": {},
+      "tactical_metrics": {},
+      "artifacts": {
+        "replay": "results/raw/resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107.json",
+        "summary": ""
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "resyst-benchmarks",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Standalone public benchmark and Resyst Arena site for Resyst Labs.",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/validate-site.mjs",
+    "verify": "npm run test && npm run build"
+  },
+  "keywords": [
+    "resyst",
+    "benchmarks",
+    "llm",
+    "arena"
+  ],
+  "license": "UNLICENSED"
+}
