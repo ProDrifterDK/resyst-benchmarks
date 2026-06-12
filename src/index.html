@@ -44,7 +44,7 @@
 
     <header class="site-header">
       <a class="brand" href="#top" aria-label="Resyst Labs Benchmarks home">
-        <span class="brand-mark">R</span>
+        <img class="brand-logo" src="assets/ResystLabs-Logo.png" alt="" width="42" height="42" />
         <span>
           <strong>Resyst Labs</strong>
           <small>Benchmarks</small>
@@ -52,7 +52,7 @@
       </a>
       <nav aria-label="Primary navigation">
         <a href="#ranking">Ranking</a>
-        <a href="#arena">Arena</a>
+        <a href="arena/">Arena</a>
         <a href="#methodology">Methodology</a>
         <a href="#evidence">Evidence</a>
       </nav>
@@ -70,7 +70,7 @@
           </p>
           <div class="hero-actions">
             <a class="button primary" href="#ranking">Explore the ranking</a>
-            <a class="button secondary" href="#arena">Enter Resyst Arena</a>
+            <a class="button secondary" href="arena/">Enter Resyst Arena</a>
           </div>
         </div>
 
@@ -146,11 +146,12 @@
                 <th>SWE</th>
                 <th>Cost</th>
                 <th>Reliability</th>
+                <th>Details</th>
               </tr>
             </thead>
             <tbody id="ranking-body">
               <tr>
-                <td colspan="8">Loading benchmark rows…</td>
+                <td colspan="9">Loading benchmark rows…</td>
               </tr>
             </tbody>
           </table>
@@ -163,7 +164,7 @@
             <div class="section-kicker">Resyst Arena</div>
             <h2 id="arena-title">A tactical testbed, not a latency race.</h2>
             <p>
-              Arena matches isolate strategic behavior in deterministic turn-based games. A win records the battle outcome; latency, token use, and cost stay as telemetry rather than hidden score modifiers.
+              Arena matches isolate strategic behavior in deterministic turn-based games. The home page keeps the high-level ranking context; the dedicated Arena page preserves match summaries, replay players, and sanitized replay JSON artifacts.
             </p>
             <ul class="principles">
               <li>Side-swapped series before ranking-grade claims.</li>
@@ -185,6 +186,7 @@
             <div class="trajectory t1"></div>
             <div class="trajectory t2"></div>
           </div>
+          <a class="button primary arena-open-link" href="arena/">Open the Arena replay room</a>
         </div>
         <div id="arena-matches" class="match-grid" aria-label="Highlighted Arena matches"></div>
       </section>

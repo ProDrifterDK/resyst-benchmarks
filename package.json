@@ -7,7 +7,7 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "test": "node scripts/validate-site.mjs",
-    "verify": "npm run test && npm run build"
+    "verify": "npm run build && npm run test"
   },
   "keywords": [
     "resyst",

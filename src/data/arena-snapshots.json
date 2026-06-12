@@ -108,7 +108,8 @@
       },
       "artifacts": {
         "replay": "results/raw/resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824.json",
-        "summary": "results/reports/resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824-summary.json"
+        "summary": "results/reports/resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824-summary.json",
+        "public_replay": "data/replays/resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824.json"
       }
     },
     {
@@ -212,7 +213,8 @@
       },
       "artifacts": {
         "replay": "results/raw/resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210.json",
-        "summary": "results/reports/resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210-summary.json"
+        "summary": "results/reports/resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210-summary.json",
+        "public_replay": "data/replays/resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210.json"
       }
     },
     {
@@ -256,7 +258,8 @@
       "tactical_metrics": {},
       "artifacts": {
         "replay": "results/raw/resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107.json",
-        "summary": ""
+        "summary": "",
+        "public_replay": "data/replays/resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107.json"
       }
     }
   ]
