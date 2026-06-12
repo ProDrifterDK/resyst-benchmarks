@@ -165,6 +165,34 @@ function addAnchor(board, at, width, height, side) {
   board.append(node);
 }
 
+function controlZoneCells(width, height, events = []) {
+  const eventZone = events.find((event) => event?.type === 'center_control' && Array.isArray(event.zone))?.zone;
+  const fallback = [[Math.floor(width / 2) - 1, Math.floor(height / 2)], [Math.floor(width / 2), Math.floor(height / 2) - 1]];
+  const zone = eventZone?.length ? eventZone : fallback;
+  return zone
+    .map((cell) => Array.isArray(cell) ? { x: Number(cell[0]), y: Number(cell[1]) } : { x: Number(cell?.x), y: Number(cell?.y) })
+    .filter((cell) => Number.isFinite(cell.x) && Number.isFinite(cell.y) && cell.x >= 0 && cell.y >= 0 && cell.x < width && cell.y < height);
+}
+
+function addControlZone(board, cells, width, height) {
+  if (!cells?.length) return;
+  const xs = cells.map((cell) => Number(cell.x));
+  const ys = cells.map((cell) => Number(cell.y));
+  const minX = Math.min(...xs);
+  const maxX = Math.max(...xs);
+  const minY = Math.min(...ys);
+  const maxY = Math.max(...ys);
+  const node = document.createElement('div');
+  node.className = 'board-control-zone';
+  node.style.left = `${(minX / width) * 100}%`;
+  node.style.top = `${(minY / height) * 100}%`;
+  node.style.width = `${((maxX - minX + 1) / width) * 100}%`;
+  node.style.height = `${((maxY - minY + 1) / height) * 100}%`;
+  node.innerHTML = '<span>Control<br>Zone</span>';
+  node.setAttribute('aria-hidden', 'true');
+  board.append(node);
+}
+
 function addBoardLayer(board, className) {
   const node = document.createElement('div');
   node.className = className;
@@ -321,6 +349,8 @@ function renderBoard(board, state, frame) {
   const obstacleCells = new Set(obstacles.map(coordKey));
   const coreCells = new Map(cores.map((core) => [coordKey(core), core.player]));
   const unitSides = new Map();
+  const controlCells = controlZoneCells(width, height, events);
+  const controlCellKeys = new Set(controlCells.map(coordKey));
 
   for (const unit of units) {
     const key = coordKey(unit);
@@ -371,6 +401,7 @@ function renderBoard(board, state, frame) {
   }
 
   addBoardLayer(board, 'board-center-sigil');
+  addControlZone(board, controlCells, width, height);
   addBoardLayer(board, 'board-scanline');
 
   for (let y = 0; y < height; y++) {
@@ -379,6 +410,8 @@ function renderBoard(board, state, frame) {
       const cell = document.createElement('div');
       const action = actionCells.get(key);
       const resource = resourceCells.get(key);
+      const isCenterCell = (x === Math.floor(width / 2) || x === Math.ceil(width / 2) - 1) && (y === Math.floor(height / 2) || y === Math.ceil(height / 2) - 1);
+      const isControlCell = controlCellKeys.has(key);
       cell.className = 'replay-cell';
       cell.style.gridColumn = `${x + 1}`;
       cell.style.gridRow = `${y + 1}`;
@@ -386,11 +419,35 @@ function renderBoard(board, state, frame) {
       cell.dataset.y = y;
       cell.dataset.parity = (x + y) % 2;
       if (x === 0 || y === 0 || x === width - 1 || y === height - 1) cell.dataset.edge = 'true';
-      if ((x === Math.floor(width / 2) || x === Math.ceil(width / 2) - 1) && (y === Math.floor(height / 2) || y === Math.ceil(height / 2) - 1)) cell.dataset.center = 'true';
-      if (resource) cell.dataset.resource = Number(resource.amount ?? 0) > 0 ? 'loaded' : 'depleted';
+      if (isCenterCell) {
+        cell.dataset.center = 'true';
+        cell.dataset.cellMark = '⌾';
+      }
+      if (isControlCell) {
+        cell.dataset.zone = 'control';
+        cell.dataset.cellMark = '⌾';
+      }
+      if (resource) {
+        const resourceKind = resource.contested
+          ? 'contested'
+          : String(resource.id ?? '').includes('_A_')
+            ? 'side-a'
+            : String(resource.id ?? '').includes('_B_')
+              ? 'side-b'
+              : 'neutral';
+        cell.dataset.resource = Number(resource.amount ?? 0) > 0 ? 'loaded' : 'depleted';
+        cell.dataset.resourceKind = resourceKind;
+        cell.dataset.cellMark = resource.contested ? '◆' : '◇';
+      }
       if (resource?.contested) cell.dataset.contested = 'true';
-      if (obstacleCells.has(key)) cell.dataset.obstacle = 'true';
-      if (coreCells.has(key)) cell.dataset.core = coreCells.get(key);
+      if (obstacleCells.has(key)) {
+        cell.dataset.obstacle = 'true';
+        cell.dataset.cellMark = '▧';
+      }
+      if (coreCells.has(key)) {
+        cell.dataset.core = coreCells.get(key);
+        cell.dataset.cellMark = '◇';
+      }
       if (unitSides.has(key)) cell.dataset.occupied = [...unitSides.get(key)].sort().join('');
       if (action) {
         cell.dataset.action = action.tone;

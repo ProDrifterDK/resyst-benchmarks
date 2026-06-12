@@ -328,6 +328,7 @@ function matchCard(match) {
           <div class="board-legend" aria-label="Board legend">
             <span><i class="legend-core side-A"></i>A core</span>
             <span><i class="legend-core side-B"></i>B core</span>
+            <span><i class="legend-control"></i>Control zone</span>
             <span><i class="legend-resource"></i>Resource</span>
             <span><i class="legend-vector"></i>Current action</span>
           </div>
