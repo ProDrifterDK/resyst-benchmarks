@@ -179,6 +179,25 @@ function addDamageMarker(board, impact, width, height) {
   board.append(node);
 }
 
+function addDamageProjectile(board, impact, sourcePoint, targetPoint) {
+  const dx = targetPoint.x - sourcePoint.x;
+  const dy = targetPoint.y - sourcePoint.y;
+  const length = Math.hypot(dx, dy);
+  if (!Number.isFinite(length) || length <= 0) return;
+
+  const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+  const node = document.createElement('div');
+  node.className = `damage-shot ${impact.primaryKind ?? 'hit'}`;
+  node.style.left = `${sourcePoint.x}%`;
+  node.style.top = `${sourcePoint.y}%`;
+  node.style.width = `${length}%`;
+  node.style.transform = `rotate(${angle}deg)`;
+  node.dataset.damage = impact.label ?? '';
+  node.dataset.cause = impact.causeLabel ?? impact.primaryKind ?? 'damage';
+  node.setAttribute('aria-hidden', 'true');
+  board.append(node);
+}
+
 function addDamageSourceCue(board, impact, width, height) {
   if (!impact?.target) return;
   const target = impact.target;
@@ -206,6 +225,8 @@ function addDamageSourceCue(board, impact, width, height) {
     line.style.transform = `rotate(${angle}deg)`;
     line.setAttribute('aria-hidden', 'true');
     board.append(line);
+
+    addDamageProjectile(board, impact, sourcePoint, targetPoint);
 
     const mid = { x: sourcePoint.x + dx * 0.5, y: sourcePoint.y + dy * 0.5 };
     const lineLabel = document.createElement('div');
