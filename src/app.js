@@ -187,8 +187,8 @@ function bootSignalField() {
 async function main() {
   bootSignalField();
   const [models, arena] = await Promise.all([
-    loadJson('/data/model-comparison.json'),
-    loadJson('/data/arena-snapshots.json'),
+    loadJson('data/model-comparison.json'),
+    loadJson('data/arena-snapshots.json'),
   ]);
   renderHero(models, arena);
   renderPodium(models);
