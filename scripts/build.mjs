@@ -120,15 +120,15 @@ function buildModelInterpretation(row) {
   const swe = Number(row.swe?.swe_score);
   const parts = [];
   if (rank === 1) {
-    parts.push('This row currently defines the all-around reference point: strong Full/Agentic performance and a competitive SWE lane without hiding runtime basis.');
+    parts.push('Rank #1 is the current all-around reference point: strong Full/Agentic performance, competitive SWE delivery, and transparent runtime telemetry.');
   } else if (rank <= 3) {
-    parts.push('This is a top-tier all-around entrant: the aggregate score stays close to the leader while exposing the lane tradeoffs separately.');
+    parts.push('This is a top-tier all-around entrant: the aggregate score remains close to the leader, with lane-level tradeoffs shown separately.');
   } else if (Number.isFinite(full) && Number.isFinite(swe) && Math.abs(full - swe) > 8) {
     parts.push(full > swe
-      ? 'The model is stronger in the Full/Agentic lane than in the SWE lane, so the page keeps those measurements separate instead of flattening the story into one number.'
-      : 'The model is stronger in the SWE lane than in the Full/Agentic lane, so the page keeps both measurements visible before the overall average.');
+      ? 'The model is stronger in the Full/Agentic lane than in the SWE lane; the overall score is therefore shown with both component lanes visible.'
+      : 'The model is stronger in the SWE lane than in the Full/Agentic lane; the overall score is therefore shown with both component lanes visible.');
   } else {
-    parts.push('The result is best read as a balanced benchmark row: one overall publication view plus the underlying lane scores that produced it.');
+    parts.push('The result is best read as a balanced benchmark entry: one overall score plus the lane measurements that produced it.');
   }
   if (row.notes?.length) parts.push(row.notes.join(' '));
   return parts.join(' ');
@@ -145,7 +145,7 @@ async function writeModelPages() {
         <a class="back-link" href="../../#ranking">← Back to ranking</a>
         <p class="eyebrow">Model result · rank #${escapeHtml(row.overall_rank)}</p>
         <h1>${escapeHtml(row.label)}</h1>
-        <p class="hero-lead">${escapeHtml(row.basis)}. A self-contained readout of the public ranking row, its lane scores, runtime/cost telemetry, and the formula behind the all-around placement.</p>
+        <p class="hero-lead">${escapeHtml(row.basis)}. Public result card with the model’s overall score, lane measurements, runtime/cost telemetry, and ranking formula.</p>
         <div class="detail-actions">
           <a class="button primary" href="../../data/model-comparison.json">Download source JSON</a>
           <a class="button secondary" href="../../#ranking">Compare all models</a>
@@ -164,7 +164,7 @@ async function writeModelPages() {
           ['Score', fmt(row.overall_score)],
           ['Formula', '50% Full + 50% SWE'],
           ['Basis', row.basis],
-        ], 'The main ranking keeps one visible tournament table, but this page preserves the lane evidence that creates the all-around score.')}
+        ], 'The overall score is calculated from the Full/Agentic and SWE lanes, keeping the aggregate comparable while preserving the measurements behind it.')}
         ${metricCard('Full / Agentic benchmark', 'Lane 01', [
           ['Final', fmt(row.full?.final)],
           ['Capability', fmt(row.full?.capability)],
@@ -250,7 +250,7 @@ async function writeArenaPage() {
       <a class="back-link" href="../#arena">← Back to overview</a>
       <p class="eyebrow">Resyst Arena · replay room</p>
       <h1>Tactical evidence you can replay.</h1>
-      <p class="hero-lead">Arena results live on a dedicated page so the home page can stay a ranking surface. Each match below publishes a sanitized replay: board states, actions, events, and tactical telemetry without private model text traces.</p>
+      <p class="hero-lead">Resyst Arena is a deterministic turn-based evaluation environment for spatial strategy, legal-action discipline, and long-horizon tactical continuity. Each replay publishes board states, actions, events, and telemetry so the match can be inspected turn by turn.</p>
       <div class="detail-actions">
         <a class="button primary" href="#replays">Watch replays</a>
         <a class="button secondary" href="../data/arena-snapshots.json">Download Arena data</a>
@@ -260,7 +260,7 @@ async function writeArenaPage() {
     <section class="section-shell arena-rule-grid" aria-label="Arena method principles">
       ${statCard('Score boundary', 'Outcome first', 'Latency, token use, and cost are telemetry, not hidden score modifiers.')}
       ${statCard('Series discipline', 'Side swaps', 'Ranking-grade claims require series, seed variation, and comparable conditions.')}
-      ${statCard('Replay contract', 'Sanitized state', 'Replay JSON exposes the game, not private model text traces.')}
+      ${statCard('Replay contract', 'Sanitized state', 'Replay JSON exposes board states, actions, events, and telemetry while excluding raw model text outputs.')}
     </section>
 
     <section id="replays" class="section-shell replay-list" aria-label="Arena replays">
@@ -271,7 +271,7 @@ async function writeArenaPage() {
   await mkdir(outDir, { recursive: true });
   await writeFile(path.join(outDir, 'index.html'), pageShell({
     title: 'Resyst Arena Replays — Resyst Labs Benchmarks',
-    description: 'Dedicated Resyst Arena replay room with tactical benchmark match summaries and sanitized replay artifacts.',
+    description: 'Resyst Arena replay room with tactical benchmark match summaries, board states, legal actions, events, and telemetry artifacts.',
     canonicalPath: 'arena/',
     prefix: '../',
     bodyClass: 'detail-page arena-replay-page',

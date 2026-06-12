@@ -1,50 +1,76 @@
-import { readFile, stat } from 'node:fs/promises';
+import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 
 const root = process.cwd();
-const srcFiles = [
-  'src/index.html',
-  'src/styles.css',
-  'src/app.js',
-  'src/background.js',
-  'src/replay.js',
-  'src/robots.txt',
-  'src/_headers',
-];
-const distFiles = [
-  'dist/index.html',
-  'dist/arena/index.html',
-  'dist/styles.css',
-  'dist/background.js',
-  'dist/replay.js',
-  'dist/sitemap.xml',
-];
+const textExtensions = new Set(['.html', '.js', '.css', '.json', '.xml', '.txt', '.webmanifest']);
+const publicSourceRoots = ['src', 'dist'];
+const generatorFiles = ['scripts/build.mjs'];
 
 const forbidden = [
-  /twitter/i,
-  /tweet/i,
-  /suspens(?:ion|ión|ded|ión)/i,
-  /@ResystLabs/i,
-  /ai\.resyst\.cl/i,
-  /personal account/i,
-  /cuenta personal/i,
-  /journal/i,
-  /paliativ[ao]/i,
-  /prompt_snapshot/i,
-  /Authorization:/i,
-  /Bearer\s+/i,
-  /sk-or-v1-/i,
+  ['twitter reference', /twitter/i],
+  ['tweet reference', /tweet/i],
+  ['account suspension context', /suspens(?:ion|ión|ded|ión)/i],
+  ['ResystLabs handle leak', /@ResystLabs/i],
+  ['old ai.resyst.cl path', /ai\.resyst\.cl/i],
+  ['personal-account context', /personal account|cuenta personal/i],
+  ['journal context', /journal/i],
+  ['palliative/workaround framing', /paliativ[ao]|palliative|workaround/i],
+  ['prompt snapshot field', /prompt_snapshot|prompt snapshots?/i],
+  ['secret-like authorization text', /Authorization:|Bearer\s+|sk-or-v1-/i],
+  ['internal page-architecture rationale', /ranking surface|home page|main ranking/i],
+  ['non-self-contained page reference', /\bthis page\b|\bthis row\b/i],
+  ['raw private trace wording', /private model text traces/i],
+  ['internal run flag', /exclude=false|reasoning effort xhigh/i],
+  ['historical-row implementation note', /older rows|existing .*baseline/i],
 ];
 
 async function readText(file) {
   return readFile(path.join(root, file), 'utf8');
 }
 
-for (const file of [...srcFiles, ...distFiles]) {
+async function listTextFiles(relativeDir) {
+  const out = [];
+  async function walk(dir) {
+    const full = path.join(root, dir);
+    for (const entry of await readdir(full, { withFileTypes: true })) {
+      const rel = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        await walk(rel);
+      } else if (textExtensions.has(path.extname(entry.name))) {
+        out.push(rel);
+      }
+    }
+  }
+  await walk(relativeDir);
+  return out;
+}
+
+function visibleText(html) {
+  return html
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<svg[\s\S]*?<\/svg>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+const filesToScan = new Set(generatorFiles);
+for (const dir of publicSourceRoots) {
+  for (const file of await listTextFiles(dir)) filesToScan.add(file);
+}
+
+for (const file of filesToScan) {
   const content = await readText(file);
-  for (const pattern of forbidden) {
+  for (const [label, pattern] of forbidden) {
     if (pattern.test(content)) {
-      throw new Error(`${file} contains forbidden public-context term: ${pattern}`);
+      throw new Error(`${file} contains forbidden public-context term (${label}): ${pattern}`);
     }
   }
 }
@@ -56,25 +82,39 @@ const html = await readText('dist/index.html');
 for (const required of [
   'https://benchmarks.resyst.cl/',
   'Resyst Labs Benchmarks',
-  'Resyst Arena',
   'Independent model evaluation',
   'assets/ResystLabs-Logo.png',
   'data/model-comparison.json',
   'data/arena-snapshots.json',
   'arena/',
+  'Resyst Arena evaluates spatial strategy in deterministic turn-based games',
+  'Local and API-backed systems share a single tournament view',
+  'Scores are claims with receipts',
+  'Public by design. Auditable by default.',
 ]) {
-  if (!html.includes(required)) throw new Error(`index.html missing required text: ${required}`);
+  if (!html.includes(required)) throw new Error(`index.html missing required self-contained content: ${required}`);
+}
+
+const sectionChecks = [
+  ['#ranking', 'One table, visible tradeoffs.'],
+  ['#arena', 'Resyst Arena evaluates spatial strategy'],
+  ['#methodology', 'Separate lanes'],
+  ['#evidence', 'versioned data artifacts'],
+];
+for (const [, expected] of sectionChecks) {
+  if (!html.includes(expected)) throw new Error(`index.html section missing context phrase: ${expected}`);
 }
 
 const arenaHtml = await readText('dist/arena/index.html');
 for (const required of [
   'Resyst Arena Replays',
+  'Resyst Arena is a deterministic turn-based evaluation environment',
+  'Replay JSON exposes board states, actions, events, and telemetry',
   'Replay JSON',
   'replay.js',
   'data/replays/',
-  'sanitized replay',
 ]) {
-  if (!arenaHtml.includes(required)) throw new Error(`arena page missing required text: ${required}`);
+  if (!arenaHtml.includes(required)) throw new Error(`arena page missing required self-contained content: ${required}`);
 }
 
 const models = JSON.parse(await readText('src/data/model-comparison.json'));
@@ -91,8 +131,21 @@ const rankedRows = models.rows.filter((row) => Number.isFinite(row.overall_rank)
 for (const row of rankedRows) {
   const modelPage = `dist/models/${row.id}/index.html`;
   const content = await readText(modelPage);
-  for (const required of [row.label, 'Full / Agentic benchmark', 'Software engineering MVP', 'Runtime economics', '../../assets/ResystLabs-Logo.png']) {
-    if (!content.includes(required)) throw new Error(`${modelPage} missing required text: ${required}`);
+  for (const required of [
+    row.label,
+    'Public result card',
+    'Overall score',
+    'Full / Agentic benchmark',
+    'Software engineering MVP',
+    'Runtime economics',
+    'The overall score is calculated from the Full/Agentic and SWE lanes',
+    '../../assets/ResystLabs-Logo.png',
+  ]) {
+    if (!content.includes(required)) throw new Error(`${modelPage} missing required self-contained content: ${required}`);
+  }
+  const text = visibleText(content);
+  for (const label of ['Overall score', 'Full / Agentic', 'SWE MVP', 'Measured cost', 'Runtime economics']) {
+    if (!text.includes(label)) throw new Error(`${modelPage} missing visible metric label: ${label}`);
   }
 }
 
@@ -105,7 +158,7 @@ if (!arena.matches.every((match) => match.entrants?.A && match.entrants?.B && ma
 for (const match of arena.matches) {
   const replayFile = `src/${match.artifacts.public_replay}`;
   const replayText = await readText(replayFile);
-  if (/prompt_snapshot|prompt|completion|messages/i.test(replayText)) {
+  if (/prompt_snapshot|\bprompt\b|completion|messages/i.test(replayText)) {
     throw new Error(`${replayFile} contains prompt/model-text fields; public replays must stay sanitized`);
   }
   const replay = JSON.parse(replayText);
@@ -113,4 +166,4 @@ for (const match of arena.matches) {
   await stat(path.join(root, 'dist', match.artifacts.public_replay));
 }
 
-console.log(`site contract ok: ${rankedRows.length} model pages, ${arena.matches.length} arena replays, official logo present`);
+console.log(`site contract ok: ${rankedRows.length} model pages, ${arena.matches.length} arena replays, self-contained copy verified, official logo present`);

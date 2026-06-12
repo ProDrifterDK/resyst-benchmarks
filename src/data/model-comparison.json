@@ -10,17 +10,11 @@
     "row_count": 10
   },
   "notes": [
-    "Full/Agentic and SWE are separate lanes; do not rank them as one metric without an explicit formula.",
-    "Overall score is an explicit publication view: average of Full final and SWE lane score for models with both lanes measured.",
-    "MiniMax M3 Direct Plus now includes a SWE lane from minimax-m3-direct-anthropic-xhigh; its Full lane remains the existing direct Plus full-suite baseline, so effort consistency should be noted in public comparisons.",
-    "DeepSeek Full Suite calibrated artifacts were included in this revision after a prior card-generation omission.",
-    "Prior non-DeepSeek full rows use full_suite_v2 + v3 16K/32K patch except Qwen3.7 Max full_suite_v3; Gemini uses full_suite_v3 scorer_v2.8.",
-    "SWE rows use software_engineering_mvp_v1 n=3 scorer_v2.8; MiniMax Direct Plus uses the later direct-xhigh SWE lane and is explicitly marked as mixed-basis.",
-    "Added NVIDIA Nemotron 3 Ultra via OpenRouter paid exact model ID nvidia/nemotron-3-ultra-550b-a55b, reasoning effort xhigh/exclude=false.",
-    "Overall score is still publication view: average of Full final and SWE lane score for models with both lanes measured.",
-    "Added Claude Fable 5 via exact OpenRouter model ID anthropic/claude-fable-5 with reasoning effort xhigh/exclude=false.",
-    "Claude Fable 5 full-suite run: 43 prompts, full_suite_v3, n=1; SWE run: software_engineering_mvp_v1 n=3 (24 records).",
-    "OpenRouter provider-reported cost for Claude Fable 5 in this run: full $10.790560, SWE $1.024340."
+    "Full/Agentic and SWE are separate benchmark lanes; the overall score uses an explicit 50/50 formula when both lanes are available.",
+    "Provider, runtime, suite version, cost, latency, reliability, and artifact references are exposed as metadata for auditability.",
+    "Mixed-basis rows are labeled when their Full/Agentic and SWE measurements come from independently versioned benchmark runs.",
+    "SWE rows use the software-engineering MVP suite and are distinct from SWE-bench Verified.",
+    "Arena replays publish board states, legal actions, events, and tactical telemetry while excluding raw model completions."
   ],
   "generated_from": [
     "docs/results/updated-model-comparison-table-20260601.json",
@@ -385,7 +379,7 @@
         }
       },
       "notes": [
-        "Exact paid OpenRouter model ID: anthropic/claude-fable-5; reasoning effort xhigh, exclude=false."
+        "Evaluated through OpenRouter using provider model anthropic/claude-fable-5."
       ],
       "full_rank": 10,
       "swe_rank": 6,
@@ -395,9 +389,9 @@
     {
       "id": "minimax-m3-direct-anthropic",
       "label": "MiniMax M3 Direct Plus",
-      "basis": "MiniMax Plus · direct API · SWE xhigh",
+      "basis": "MiniMax Plus · direct API · mixed-basis lanes",
       "full": {
-        "suite": "Prior models use full_suite_v2 with v3 16K/32K native-tool patch; Qwen3.7 Max uses full_suite_v3.",
+        "suite": "Full/Agentic direct-API baseline with native-tool patch metadata.",
         "artifact": "docs/results/updated-model-comparison-table-20260601.json",
         "final": 84.32,
         "capability": 87.74,
@@ -414,7 +408,7 @@
         "prompt_count": 43
       },
       "swe": {
-        "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8 · direct xhigh",
+        "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8 · direct API",
         "artifact": "results/scored/20260602-190208-287273652Z-software_engineering_mvp.json",
         "model_id": "minimax-m3-direct-anthropic-xhigh",
         "swe_score": 67.77,
@@ -438,7 +432,7 @@
         "prompt_count": 24
       },
       "notes": [
-        "SWE lane uses minimax-m3-direct-anthropic-xhigh; Full lane is the existing MiniMax Direct Plus full-suite baseline."
+        "Mixed-basis row: Full/Agentic and SWE measurements come from independently versioned direct-API benchmark runs."
       ],
       "full_rank": 6,
       "swe_rank": 9,
@@ -448,7 +442,7 @@
     {
       "id": "nemotron-3-ultra-openrouter-xhigh",
       "label": "NVIDIA Nemotron 3 Ultra",
-      "basis": "OpenRouter · nvidia/nemotron-3-ultra-550b-a55b · xhigh reasoning",
+      "basis": "OpenRouter · nvidia/nemotron-3-ultra-550b-a55b · extra-high reasoning",
       "full": {
         "suite": "full_suite_v3 · benchmark_core_v1 · scorer_v2.8_gemini35_swe_aliases",
         "artifact": "results/scored/20260605-155227-552272755Z-benchmark_core_v1.json",
@@ -498,10 +492,10 @@
         }
       },
       "notes": [
-        "Nemotron 3 Ultra row uses paid OpenRouter nvidia/nemotron-3-ultra-550b-a55b with reasoning effort xhigh/exclude=false.",
-        "Full lane is a fresh full_suite_v3 run; many older rows remain mixed historical baselines as documented in their row suite fields.",
-        "SWE lane is software_engineering_mvp_v1 n=3, not the external SWE-bench Verified benchmark.",
-        "Low SWE rank is driven by patch formatting/application failures: no_patch_found=1, patch_rejected=7, tests_failed=3 across 24 SWE records."
+        "Evaluated through OpenRouter using provider model nvidia/nemotron-3-ultra-550b-a55b.",
+        "Full/Agentic and SWE suite metadata are exposed separately because benchmark lanes can be versioned independently.",
+        "SWE lane uses the software-engineering MVP suite, not SWE-bench Verified.",
+        "Lower SWE rank is driven by patch formatting/application failures: no_patch_found=1, patch_rejected=7, tests_failed=3 across 24 SWE records."
       ],
       "full_rank": 9,
       "swe_rank": 10,
