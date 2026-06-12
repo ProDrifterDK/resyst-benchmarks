@@ -211,10 +211,12 @@ const piece = (item, className, label, stack = null) => {
   const node = document.createElement('div');
   const hp = Number(item.hp ?? item.max_hp ?? 1);
   const maxHp = Number(item.max_hp ?? (hp || 1));
+  const motionKey = item.id ?? item.name ?? `${item.type ?? className}:${item.player ?? 'N'}:${item.x ?? 0}:${item.y ?? 0}`;
   node.className = className;
   node.style.gridColumn = `${Number(item.x ?? 0) + 1}`;
   node.style.gridRow = `${Number(item.y ?? 0) + 1}`;
   node.dataset.label = label;
+  node.dataset.motionKey = String(motionKey);
   if (item.id) node.dataset.id = item.id;
   if (item.type) node.dataset.kind = item.type;
   if (item.player) node.dataset.side = item.player;
@@ -240,6 +242,71 @@ const piece = (item, className, label, stack = null) => {
   }
   return node;
 };
+
+function captureBoardMotion(board) {
+  const pieces = new Map();
+  if (!board) return pieces;
+
+  for (const node of board.querySelectorAll('.replay-piece[data-motion-key]')) {
+    const key = node.dataset.motionKey;
+    if (!key) continue;
+    const rect = node.getBoundingClientRect();
+    if (!rect.width && !rect.height) continue;
+    pieces.set(key, { left: rect.left, top: rect.top });
+  }
+
+  return pieces;
+}
+
+function animateBoardMotion(board, previousPieces, duration) {
+  if (!board || !previousPieces?.size || window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches) return;
+
+  const easing = 'cubic-bezier(0.16, 1, 0.3, 1)';
+
+  for (const node of board.querySelectorAll('.replay-piece[data-motion-key]')) {
+    const key = node.dataset.motionKey;
+    const previous = previousPieces.get(key);
+    const baseTransform = window.getComputedStyle(node).transform;
+    const toTransform = baseTransform === 'none' ? 'translate(0px, 0px)' : baseTransform;
+
+    if (!previous) {
+      node.dataset.motion = 'entering';
+      const animation = node.animate([
+        { opacity: 0, transform: toTransform },
+        { opacity: 1, transform: toTransform },
+      ], {
+        duration: Math.min(duration, 260),
+        easing,
+        fill: 'both',
+      });
+      animation.onfinish = () => {
+        animation.cancel();
+        node.removeAttribute('data-motion');
+      };
+      continue;
+    }
+
+    const rect = node.getBoundingClientRect();
+    const dx = previous.left - rect.left;
+    const dy = previous.top - rect.top;
+    if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) continue;
+
+    node.dataset.motion = 'moving';
+    const fromTransform = `translate(${dx.toFixed(2)}px, ${dy.toFixed(2)}px) ${toTransform}`;
+    const animation = node.animate([
+      { transform: fromTransform },
+      { transform: toTransform },
+    ], {
+      duration,
+      easing,
+      fill: 'both',
+    });
+    animation.onfinish = () => {
+      animation.cancel();
+      node.removeAttribute('data-motion');
+    };
+  }
+}
 
 function renderBoard(board, state, frame) {
   const width = state?.width ?? 8;
@@ -469,16 +536,21 @@ async function initReplay(panel) {
   slider.value = 0;
 
   const intervalMs = () => Number(speed?.value ?? 650);
+  const motionMs = () => Math.round(clamp(intervalMs() * 0.64, 140, 440));
 
   const renderList = (items, mapper, emptyText) => items.length
     ? items.map((item) => mapper(item)).join('')
     : `<p class="empty-log">${escapeHtml(emptyText)}</p>`;
 
   const render = (nextIndex) => {
+    const previousIndex = index;
+    const previousPieces = captureBoardMotion(board);
     index = Math.max(0, Math.min(frames.length - 1, Number(nextIndex) || 0));
     const frame = frames[index];
     const state = frame?.state ?? replay.final_state;
+    board.style.setProperty('--frame-motion', `${motionMs()}ms`);
     renderBoard(board, state, frame);
+    if (Math.abs(index - previousIndex) === 1) animateBoardMotion(board, previousPieces, motionMs());
     slider.value = index;
     const progress = frames.length <= 1 ? 0 : (index / (frames.length - 1)) * 100;
     slider.style.setProperty('--progress', `${progress}%`);
