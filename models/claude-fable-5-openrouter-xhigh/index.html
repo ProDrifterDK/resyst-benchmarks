@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Claude Fable 5 — Resyst Labs Benchmark Result</title>
+    <meta name="description" content="Self-contained Resyst Labs benchmark result page for Claude Fable 5, including overall, Full/Agentic, SWE, cost, and reliability metrics." />
+    <meta name="theme-color" content="#050508" />
+    <link rel="canonical" href="https://benchmarks.resyst.cl/models/claude-fable-5-openrouter-xhigh/" />
+    <link rel="icon" href="../../favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="../../site.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://benchmarks.resyst.cl/models/claude-fable-5-openrouter-xhigh/" />
+    <meta property="og:title" content="Claude Fable 5 — Resyst Labs Benchmark Result" />
+    <meta property="og:description" content="Self-contained Resyst Labs benchmark result page for Claude Fable 5, including overall, Full/Agentic, SWE, cost, and reliability metrics." />
+    <meta property="og:image" content="https://benchmarks.resyst.cl/og.svg" />
+    <meta property="og:site_name" content="Resyst Labs Benchmarks" />
+    <link rel="stylesheet" href="../../styles.css" />
+  </head>
+  <body class="detail-page">
+    <canvas id="signal-field" aria-hidden="true"></canvas>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="aurora aurora-a" aria-hidden="true"></div>
+    <div class="aurora aurora-b" aria-hidden="true"></div>
+    
+    <header class="site-header">
+      <a class="brand" href="../../" aria-label="Resyst Labs Benchmarks home">
+        <img class="brand-logo" src="../../assets/ResystLabs-Logo.png" alt="" width="42" height="42" />
+        <span>
+          <strong>Resyst Labs</strong>
+          <small>Benchmarks</small>
+        </span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="../../#ranking">Ranking</a>
+        <a href="../../arena/">Arena</a>
+        <a href="../../#methodology">Methodology</a>
+        <a href="../../#evidence">Evidence</a>
+      </nav>
+    </header>
+    <main class="detail-main model-detail" id="top">
+      <section class="detail-hero section-shell">
+        <a class="back-link" href="../../#ranking">← Back to ranking</a>
+        <p class="eyebrow">Model result · rank #8</p>
+        <h1>Claude Fable 5</h1>
+        <p class="hero-lead">OpenRouter · extra-high reasoning. Public result card with the model’s overall score, lane measurements, runtime/cost telemetry, and ranking formula.</p>
+        <div class="detail-actions">
+          <a class="button primary" href="../../data/model-comparison.json">Download source JSON</a>
+          <a class="button secondary" href="../../#ranking">Compare all models</a>
+        </div>
+      </section>
+
+      <section class="section-shell result-stat-grid" aria-label="Headline metrics">
+        <article class="result-stat-card"><span>Overall score</span><strong>79.22</strong><p>Rank #8</p></article>
+        <article class="result-stat-card"><span>Full / Agentic</span><strong>77.02</strong><p>Full rank #11</p></article>
+        <article class="result-stat-card"><span>SWE MVP</span><strong>81.42</strong><p>SWE rank #6</p></article>
+        <article class="result-stat-card"><span>Measured cost</span><strong>$11.815</strong><p>100.0% reliability</p></article>
+      </section>
+
+      <section class="section-shell result-card-grid" aria-label="Result cards">
+        <article class="result-card glass-panel">
+    <span class="panel-label">Overall</span>
+    <h2>All-around publication view</h2>
+    <div class="result-metric-list">
+      <div><span>Score</span><strong>79.22</strong></div><div><span>Formula</span><strong>50% Full + 50% SWE</strong></div><div><span>Basis</span><strong>OpenRouter · extra-high reasoning</strong></div>
+    </div>
+    <p>The overall score is calculated from the Full/Agentic and SWE lanes, keeping the aggregate comparable while preserving the measurements behind it.</p>
+  </article>
+        <article class="result-card glass-panel">
+    <span class="panel-label">Lane 01</span>
+    <h2>Full / Agentic benchmark</h2>
+    <div class="result-metric-list">
+      <div><span>Final</span><strong>77.02</strong></div><div><span>Capability</span><strong>86.00</strong></div><div><span>Agentic</span><strong>82.26</strong></div><div><span>Pass rate</span><strong>86.0%</strong></div><div><span>Prompts</span><strong>43</strong></div>
+    </div>
+    <p>This lane captures instruction following, structured behavior, tool discipline, and general agentic reliability.</p>
+  </article>
+        <article class="result-card glass-panel">
+    <span class="panel-label">Lane 02</span>
+    <h2>Software engineering MVP</h2>
+    <div class="result-metric-list">
+      <div><span>SWE score</span><strong>81.42</strong></div><div><span>Focused final</span><strong>76.57</strong></div><div><span>Capability</span><strong>79.17</strong></div><div><span>Daily driver</span><strong>75.36</strong></div><div><span>Prompts</span><strong>24</strong></div>
+    </div>
+    <p>This lane is closer to implementation usefulness: source handling, architecture cleanliness, and deliverable quality.</p>
+  </article>
+        <article class="result-card glass-panel">
+    <span class="panel-label">Telemetry</span>
+    <h2>Runtime economics</h2>
+    <div class="result-metric-list">
+      <div><span>Full cost</span><strong>$10.791</strong></div><div><span>SWE cost</span><strong>$1.024</strong></div><div><span>Full avg seconds</span><strong>12.73</strong></div><div><span>SWE time</span><strong>279.59s</strong></div><div><span>Decode</span><strong>18.71</strong></div>
+    </div>
+    <p>Cost, time, and runtime basis are telemetry. They explain tradeoffs; they do not secretly overwrite the capability scores.</p>
+  </article>
+      </section>
+
+      <section class="section-shell result-explainer glass-panel">
+        <div>
+          <span class="panel-label">Interpretation</span>
+          <h2>Why this result lands here.</h2>
+        </div>
+        <p>The result is best read as a balanced benchmark entry: one overall score plus the lane measurements that produced it. Exact OpenRouter model: anthropic/claude-fable-5.</p>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <span>Resyst Labs Benchmarks</span>
+      <span>Independent evaluation for AI systems that act.</span>
+    </footer>
+    <script type="module" src="../../background.js"></script>
+    
+  </body>
+</html>

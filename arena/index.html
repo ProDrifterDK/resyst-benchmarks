@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resyst Arena Replays — Resyst Labs Benchmarks</title>
+    <meta name="description" content="Resyst Arena replay room with tactical benchmark match summaries, board states, legal actions, events, and telemetry artifacts." />
+    <meta name="theme-color" content="#050508" />
+    <link rel="canonical" href="https://benchmarks.resyst.cl/arena/" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://benchmarks.resyst.cl/arena/" />
+    <meta property="og:title" content="Resyst Arena Replays — Resyst Labs Benchmarks" />
+    <meta property="og:description" content="Resyst Arena replay room with tactical benchmark match summaries, board states, legal actions, events, and telemetry artifacts." />
+    <meta property="og:image" content="https://benchmarks.resyst.cl/og.svg" />
+    <meta property="og:site_name" content="Resyst Labs Benchmarks" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="detail-page arena-replay-page">
+    <canvas id="signal-field" aria-hidden="true"></canvas>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="aurora aurora-a" aria-hidden="true"></div>
+    <div class="aurora aurora-b" aria-hidden="true"></div>
+    
+    <header class="site-header">
+      <a class="brand" href="../" aria-label="Resyst Labs Benchmarks home">
+        <img class="brand-logo" src="../assets/ResystLabs-Logo.png" alt="" width="42" height="42" />
+        <span>
+          <strong>Resyst Labs</strong>
+          <small>Benchmarks</small>
+        </span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="../#ranking">Ranking</a>
+        <a href="../arena/">Arena</a>
+        <a href="../#methodology">Methodology</a>
+        <a href="../#evidence">Evidence</a>
+      </nav>
+    </header>
+    <main class="detail-main arena-detail" id="top">
+    <section class="detail-hero section-shell arena-hero-page">
+      <a class="back-link" href="../#arena">← Back to overview</a>
+      <p class="eyebrow">Resyst Arena · replay room</p>
+      <h1>Tactical evidence you can replay.</h1>
+      <p class="hero-lead">Resyst Arena is a deterministic turn-based evaluation environment for spatial strategy, legal-action discipline, and long-horizon tactical continuity. Each replay publishes board states, actions, events, and telemetry so the match can be inspected turn by turn.</p>
+      <div class="detail-actions">
+        <a class="button primary" href="#replays">Watch replays</a>
+        <a class="button secondary" href="../data/arena-snapshots.json">Download Arena data</a>
+      </div>
+    </section>
+
+    <section class="section-shell arena-rule-grid" aria-label="Arena method principles">
+      <article class="result-stat-card"><span>Score boundary</span><strong>Outcome first</strong><p>Latency, token use, and cost are telemetry, not hidden score modifiers.</p></article>
+      <article class="result-stat-card"><span>Series discipline</span><strong>Side swaps</strong><p>Ranking-grade claims require series, seed variation, and comparable conditions.</p></article>
+      <article class="result-stat-card"><span>Replay contract</span><strong>Sanitized state</strong><p>Replay JSON exposes board states, actions, events, and telemetry while excluding raw model text outputs.</p></article>
+    </section>
+
+    <section id="replays" class="section-shell replay-list" aria-label="Arena replays">
+      <div class="match-switcher" role="tablist" aria-label="Select Arena replay">
+        <button class="match-tab is-active" type="button" role="tab" id="tab-resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824" data-match-tab="resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824" aria-controls="resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824" aria-selected="true">
+    <span>Match 1</span>
+    <strong>DeepSeek V4 Flash</strong>
+    <small>core destroyed</small>
+  </button>
+<button class="match-tab " type="button" role="tab" id="tab-resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210" data-match-tab="resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210" aria-controls="resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210" aria-selected="false">
+    <span>Match 2</span>
+    <strong>DeepSeek V4 Flash</strong>
+    <small>adjudication</small>
+  </button>
+<button class="match-tab " type="button" role="tab" id="tab-resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107" data-match-tab="resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107" aria-controls="resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107" aria-selected="false">
+    <span>Match 3</span>
+    <strong>Gemini 3 Flash Preview</strong>
+    <small>adjudication</small>
+  </button>
+      </div>
+      <div class="match-stage-list">
+        <article id="resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824" class="match-replay glass-panel is-active" role="tabpanel" aria-labelledby="tab-resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824"  data-replay-src="../data/replays/resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824.json">
+    <div class="match-replay-head">
+      <div class="match-title-block">
+        <span class="match-label">Seed 1188878758 · duel · 63 turns</span>
+        <h2>DeepSeek V4 Flash <span class="versus-inline">vs</span> Step 3.7 Flash</h2>
+        <p class="entrant-ids"><span>A:</span> deepseek-v4-flash-openrouter-native-high <span>B:</span> step-3.7-flash-openrouter-native-high</p>
+      </div>
+      <aside class="winner-card" aria-label="Match winner">
+        <span>Winner</span>
+        <strong>DeepSeek V4 Flash</strong>
+        <small>core destroyed</small>
+        <a class="data-link" href="../data/replays/resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824.json">Replay JSON</a>
+      </aside>
+    </div>
+
+    <div class="replay-scoreboard" aria-label="Match telemetry summary">
+      <section class="combatant-card side-A" data-side-panel="A" data-damage-A="30" data-invalid-A="0">
+    <div class="combatant-topline">
+      <span class="side-token">A</span>
+      <div>
+        <strong>DeepSeek V4 Flash</strong>
+        <small>deepseek-v4-flash-openrouter-native-high</small>
+      </div>
+    </div>
+    <div class="vital-stack">
+      <div class="vital-row">
+        <span>Core integrity</span>
+        <strong data-core-a>26 / 30</strong>
+      </div>
+      <div class="vital-bar"><i data-core-bar-a style="width:86.7%"></i></div>
+      <div class="vital-row">
+        <span>Energy reserve</span>
+        <strong data-energy-a>— / 12</strong>
+      </div>
+      <div class="vital-bar energy"><i data-energy-bar-a style="width:0%"></i></div>
+    </div>
+    <div class="combatant-microgrid">
+      <div class="score-pill"><span>Damage</span><strong>30</strong></div>
+      <div class="score-pill"><span>Resources</span><strong>20</strong></div>
+      <div class="score-pill"><span>Invalid</span><strong>0</strong></div>
+      <div class="score-pill"><span>Units</span><strong><span data-units-a>—</span></strong></div>
+    </div>
+  </section>
+      <div class="versus-node" aria-hidden="true">
+        <span>VS</span>
+        <strong data-turn-label>Turn 0</strong>
+        <small data-active-label>Loading state</small>
+      </div>
+      <section class="combatant-card side-B" data-side-panel="B" data-damage-B="4" data-invalid-B="0">
+    <div class="combatant-topline">
+      <span class="side-token">B</span>
+      <div>
+        <strong>Step 3.7 Flash</strong>
+        <small>step-3.7-flash-openrouter-native-high</small>
+      </div>
+    </div>
+    <div class="vital-stack">
+      <div class="vital-row">
+        <span>Core integrity</span>
+        <strong data-core-b>0 / 30</strong>
+      </div>
+      <div class="vital-bar"><i data-core-bar-b style="width:0.0%"></i></div>
+      <div class="vital-row">
+        <span>Energy reserve</span>
+        <strong data-energy-b>— / 12</strong>
+      </div>
+      <div class="vital-bar energy"><i data-energy-bar-b style="width:0%"></i></div>
+    </div>
+    <div class="combatant-microgrid">
+      <div class="score-pill"><span>Damage</span><strong>4</strong></div>
+      <div class="score-pill"><span>Resources</span><strong>20</strong></div>
+      <div class="score-pill"><span>Invalid</span><strong>0</strong></div>
+      <div class="score-pill"><span>Units</span><strong><span data-units-b>—</span></strong></div>
+    </div>
+  </section>
+    </div>
+
+    <div class="replay-layout">
+      <div class="replay-stage">
+        <div class="board-chrome">
+          <div class="board-topbar">
+            <span class="live-dot"></span>
+            <strong data-bot-label>Loading model</strong>
+            <small>Board state · legal actions · event telemetry</small>
+          </div>
+          <div class="control-deck">
+            <div class="transport-head">
+              <span class="panel-label">Replay control</span>
+              <div class="speed-picker">
+                <label for="speed-resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824">Speed</label>
+                <select id="speed-resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824" data-speed>
+                  <option value="950">0.7×</option>
+                  <option value="650" selected>1×</option>
+                  <option value="380">1.7×</option>
+                  <option value="210">3×</option>
+                </select>
+              </div>
+            </div>
+            <div class="transport-row">
+              <button class="icon-button" type="button" data-prev aria-label="Previous replay turn">←</button>
+              <button class="button primary replay-play" type="button" data-play aria-pressed="false">Play replay</button>
+              <button class="icon-button" type="button" data-next aria-label="Next replay turn">→</button>
+            </div>
+            <div class="timeline-shell">
+              <div class="timeline-progress" data-progress-fill></div>
+              <input type="range" min="0" max="0" value="0" data-slider aria-label="Replay turn" />
+            </div>
+            <div class="replay-frame-meta" data-frame-meta>Loading replay…</div>
+          </div>
+          <div class="board-legend" aria-label="Board legend">
+            <span><i class="legend-core side-A"></i>A core</span>
+            <span><i class="legend-core side-B"></i>B core</span>
+            <span><i class="legend-control"></i>Control zone</span>
+            <span><i class="legend-resource"></i>Resource</span>
+            <span><i class="legend-vector"></i>Current action</span>
+          </div>
+          <div class="board-wrap">
+            <div class="replay-board-live" data-board aria-label="Replay board for deepseek-v4-flash-openrouter-native-high vs step-3.7-flash-openrouter-native-high"></div>
+            <div class="victory-overlay" data-victory hidden>
+              <span>✦ Victory</span>
+              <strong>DeepSeek V4 Flash</strong>
+              <small>core destroyed · 63 turns</small>
+              <button class="button secondary" type="button" data-restart>Replay from start</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="replay-side-panel">
+        <div class="log-deck">
+          <div>
+            <span class="panel-label">Current events</span>
+            <div class="replay-events" data-events></div>
+          </div>
+          <div>
+            <span class="panel-label">Applied actions</span>
+            <div class="replay-actions" data-actions></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </article>
+<article id="resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210" class="match-replay glass-panel " role="tabpanel" aria-labelledby="tab-resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210" hidden data-replay-src="../data/replays/resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210.json">
+    <div class="match-replay-head">
+      <div class="match-title-block">
+        <span class="match-label">Seed 42 · duel · 100 turns</span>
+        <h2>DeepSeek V4 Flash <span class="versus-inline">vs</span> Step 3.7 Flash</h2>
+        <p class="entrant-ids"><span>A:</span> deepseek-v4-flash-openrouter-native-medium <span>B:</span> step-3.7-flash-openrouter-native-medium</p>
+      </div>
+      <aside class="winner-card" aria-label="Match winner">
+        <span>Winner</span>
+        <strong>DeepSeek V4 Flash</strong>
+        <small>adjudication</small>
+        <a class="data-link" href="../data/replays/resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210.json">Replay JSON</a>
+      </aside>
+    </div>
+
+    <div class="replay-scoreboard" aria-label="Match telemetry summary">
+      <section class="combatant-card side-A" data-side-panel="A" data-damage-A="11" data-invalid-A="0">
+    <div class="combatant-topline">
+      <span class="side-token">A</span>
+      <div>
+        <strong>DeepSeek V4 Flash</strong>
+        <small>deepseek-v4-flash-openrouter-native-medium</small>
+      </div>
+    </div>
+    <div class="vital-stack">
+      <div class="vital-row">
+        <span>Core integrity</span>
+        <strong data-core-a>28 / 30</strong>
+      </div>
+      <div class="vital-bar"><i data-core-bar-a style="width:93.3%"></i></div>
+      <div class="vital-row">
+        <span>Energy reserve</span>
+        <strong data-energy-a>— / 12</strong>
+      </div>
+      <div class="vital-bar energy"><i data-energy-bar-a style="width:0%"></i></div>
+    </div>
+    <div class="combatant-microgrid">
+      <div class="score-pill"><span>Damage</span><strong>11</strong></div>
+      <div class="score-pill"><span>Resources</span><strong>20</strong></div>
+      <div class="score-pill"><span>Invalid</span><strong>0</strong></div>
+      <div class="score-pill"><span>Units</span><strong><span data-units-a>—</span></strong></div>
+    </div>
+  </section>
+      <div class="versus-node" aria-hidden="true">
+        <span>VS</span>
+        <strong data-turn-label>Turn 0</strong>
+        <small data-active-label>Loading state</small>
+      </div>
+      <section class="combatant-card side-B" data-side-panel="B" data-damage-B="2" data-invalid-B="0">
+    <div class="combatant-topline">
+      <span class="side-token">B</span>
+      <div>
+        <strong>Step 3.7 Flash</strong>
+        <small>step-3.7-flash-openrouter-native-medium</small>
+      </div>
+    </div>
+    <div class="vital-stack">
+      <div class="vital-row">
+        <span>Core integrity</span>
+        <strong data-core-b>19 / 30</strong>
+      </div>
+      <div class="vital-bar"><i data-core-bar-b style="width:63.3%"></i></div>
+      <div class="vital-row">
+        <span>Energy reserve</span>
+        <strong data-energy-b>— / 12</strong>
+      </div>
+      <div class="vital-bar energy"><i data-energy-bar-b style="width:0%"></i></div>
+    </div>
+    <div class="combatant-microgrid">
+      <div class="score-pill"><span>Damage</span><strong>2</strong></div>
+      <div class="score-pill"><span>Resources</span><strong>20</strong></div>
+      <div class="score-pill"><span>Invalid</span><strong>0</strong></div>
+      <div class="score-pill"><span>Units</span><strong><span data-units-b>—</span></strong></div>
+    </div>
+  </section>
+    </div>
+
+    <div class="replay-layout">
+      <div class="replay-stage">
+        <div class="board-chrome">
+          <div class="board-topbar">
+            <span class="live-dot"></span>
+            <strong data-bot-label>Loading model</strong>
+            <small>Board state · legal actions · event telemetry</small>
+          </div>
+          <div class="control-deck">
+            <div class="transport-head">
+              <span class="panel-label">Replay control</span>
+              <div class="speed-picker">
+                <label for="speed-resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210">Speed</label>
+                <select id="speed-resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210" data-speed>
+                  <option value="950">0.7×</option>
+                  <option value="650" selected>1×</option>
+                  <option value="380">1.7×</option>
+                  <option value="210">3×</option>
+                </select>
+              </div>
+            </div>
+            <div class="transport-row">
+              <button class="icon-button" type="button" data-prev aria-label="Previous replay turn">←</button>
+              <button class="button primary replay-play" type="button" data-play aria-pressed="false">Play replay</button>
+              <button class="icon-button" type="button" data-next aria-label="Next replay turn">→</button>
+            </div>
+            <div class="timeline-shell">
+              <div class="timeline-progress" data-progress-fill></div>
+              <input type="range" min="0" max="0" value="0" data-slider aria-label="Replay turn" />
+            </div>
+            <div class="replay-frame-meta" data-frame-meta>Loading replay…</div>
+          </div>
+          <div class="board-legend" aria-label="Board legend">
+            <span><i class="legend-core side-A"></i>A core</span>
+            <span><i class="legend-core side-B"></i>B core</span>
+            <span><i class="legend-control"></i>Control zone</span>
+            <span><i class="legend-resource"></i>Resource</span>
+            <span><i class="legend-vector"></i>Current action</span>
+          </div>
+          <div class="board-wrap">
+            <div class="replay-board-live" data-board aria-label="Replay board for deepseek-v4-flash-openrouter-native-medium vs step-3.7-flash-openrouter-native-medium"></div>
+            <div class="victory-overlay" data-victory hidden>
+              <span>✦ Victory</span>
+              <strong>DeepSeek V4 Flash</strong>
+              <small>adjudication · 100 turns</small>
+              <button class="button secondary" type="button" data-restart>Replay from start</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="replay-side-panel">
+        <div class="log-deck">
+          <div>
+            <span class="panel-label">Current events</span>
+            <div class="replay-events" data-events></div>
+          </div>
+          <div>
+            <span class="panel-label">Applied actions</span>
+            <div class="replay-actions" data-actions></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </article>
+<article id="resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107" class="match-replay glass-panel " role="tabpanel" aria-labelledby="tab-resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107" hidden data-replay-src="../data/replays/resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107.json">
+    <div class="match-replay-head">
+      <div class="match-title-block">
+        <span class="match-label">Seed 761168107 · duel · 200 turns</span>
+        <h2>DeepSeek V4 Flash <span class="versus-inline">vs</span> Gemini 3 Flash Preview</h2>
+        <p class="entrant-ids"><span>A:</span> deepseek-v4-flash-openrouter-thinking <span>B:</span> gemini-3-flash-preview-openrouter-thinking</p>
+      </div>
+      <aside class="winner-card" aria-label="Match winner">
+        <span>Winner</span>
+        <strong>Gemini 3 Flash Preview</strong>
+        <small>adjudication</small>
+        <a class="data-link" href="../data/replays/resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107.json">Replay JSON</a>
+      </aside>
+    </div>
+
+    <div class="replay-scoreboard" aria-label="Match telemetry summary">
+      <section class="combatant-card side-A" data-side-panel="A" data-damage-A="1" data-invalid-A="0">
+    <div class="combatant-topline">
+      <span class="side-token">A</span>
+      <div>
+        <strong>DeepSeek V4 Flash</strong>
+        <small>deepseek-v4-flash-openrouter-thinking</small>
+      </div>
+    </div>
+    <div class="vital-stack">
+      <div class="vital-row">
+        <span>Core integrity</span>
+        <strong data-core-a>21 / 30</strong>
+      </div>
+      <div class="vital-bar"><i data-core-bar-a style="width:70.0%"></i></div>
+      <div class="vital-row">
+        <span>Energy reserve</span>
+        <strong data-energy-a>— / 12</strong>
+      </div>
+      <div class="vital-bar energy"><i data-energy-bar-a style="width:0%"></i></div>
+    </div>
+    <div class="combatant-microgrid">
+      <div class="score-pill"><span>Damage</span><strong>1</strong></div>
+      <div class="score-pill"><span>Resources</span><strong>8</strong></div>
+      <div class="score-pill"><span>Invalid</span><strong>0</strong></div>
+      <div class="score-pill"><span>Units</span><strong><span data-units-a>—</span></strong></div>
+    </div>
+  </section>
+      <div class="versus-node" aria-hidden="true">
+        <span>VS</span>
+        <strong data-turn-label>Turn 0</strong>
+        <small data-active-label>Loading state</small>
+      </div>
+      <section class="combatant-card side-B" data-side-panel="B" data-damage-B="12" data-invalid-B="0">
+    <div class="combatant-topline">
+      <span class="side-token">B</span>
+      <div>
+        <strong>Gemini 3 Flash Preview</strong>
+        <small>gemini-3-flash-preview-openrouter-thinking</small>
+      </div>
+    </div>
+    <div class="vital-stack">
+      <div class="vital-row">
+        <span>Core integrity</span>
+        <strong data-core-b>29 / 30</strong>
+      </div>
+      <div class="vital-bar"><i data-core-bar-b style="width:96.7%"></i></div>
+      <div class="vital-row">
+        <span>Energy reserve</span>
+        <strong data-energy-b>— / 12</strong>
+      </div>
+      <div class="vital-bar energy"><i data-energy-bar-b style="width:0%"></i></div>
+    </div>
+    <div class="combatant-microgrid">
+      <div class="score-pill"><span>Damage</span><strong>12</strong></div>
+      <div class="score-pill"><span>Resources</span><strong>28</strong></div>
+      <div class="score-pill"><span>Invalid</span><strong>0</strong></div>
+      <div class="score-pill"><span>Units</span><strong><span data-units-b>—</span></strong></div>
+    </div>
+  </section>
+    </div>
+
+    <div class="replay-layout">
+      <div class="replay-stage">
+        <div class="board-chrome">
+          <div class="board-topbar">
+            <span class="live-dot"></span>
+            <strong data-bot-label>Loading model</strong>
+            <small>Board state · legal actions · event telemetry</small>
+          </div>
+          <div class="control-deck">
+            <div class="transport-head">
+              <span class="panel-label">Replay control</span>
+              <div class="speed-picker">
+                <label for="speed-resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107">Speed</label>
+                <select id="speed-resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107" data-speed>
+                  <option value="950">0.7×</option>
+                  <option value="650" selected>1×</option>
+                  <option value="380">1.7×</option>
+                  <option value="210">3×</option>
+                </select>
+              </div>
+            </div>
+            <div class="transport-row">
+              <button class="icon-button" type="button" data-prev aria-label="Previous replay turn">←</button>
+              <button class="button primary replay-play" type="button" data-play aria-pressed="false">Play replay</button>
+              <button class="icon-button" type="button" data-next aria-label="Next replay turn">→</button>
+            </div>
+            <div class="timeline-shell">
+              <div class="timeline-progress" data-progress-fill></div>
+              <input type="range" min="0" max="0" value="0" data-slider aria-label="Replay turn" />
+            </div>
+            <div class="replay-frame-meta" data-frame-meta>Loading replay…</div>
+          </div>
+          <div class="board-legend" aria-label="Board legend">
+            <span><i class="legend-core side-A"></i>A core</span>
+            <span><i class="legend-core side-B"></i>B core</span>
+            <span><i class="legend-control"></i>Control zone</span>
+            <span><i class="legend-resource"></i>Resource</span>
+            <span><i class="legend-vector"></i>Current action</span>
+          </div>
+          <div class="board-wrap">
+            <div class="replay-board-live" data-board aria-label="Replay board for deepseek-v4-flash-openrouter-thinking vs gemini-3-flash-preview-openrouter-thinking"></div>
+            <div class="victory-overlay" data-victory hidden>
+              <span>✦ Victory</span>
+              <strong>Gemini 3 Flash Preview</strong>
+              <small>adjudication · 200 turns</small>
+              <button class="button secondary" type="button" data-restart>Replay from start</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="replay-side-panel">
+        <div class="log-deck">
+          <div>
+            <span class="panel-label">Current events</span>
+            <div class="replay-events" data-events></div>
+          </div>
+          <div>
+            <span class="panel-label">Applied actions</span>
+            <div class="replay-actions" data-actions></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </article>
+      </div>
+    </section>
+  </main>
+    <footer class="site-footer">
+      <span>Resyst Labs Benchmarks</span>
+      <span>Independent evaluation for AI systems that act.</span>
+    </footer>
+    <script type="module" src="../background.js"></script>
+    <script type="module" src="../replay.js"></script>
+  </body>
+</html>

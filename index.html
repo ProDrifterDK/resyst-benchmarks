@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resyst Labs Benchmarks</title>
+    <meta
+      name="description"
+      content="Independent model evaluation, public ranking artifacts, and Resyst Arena tactical benchmark evidence from Resyst Labs."
+    />
+    <meta name="theme-color" content="#050508" />
+    <link rel="canonical" href="https://benchmarks.resyst.cl/" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="site.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://benchmarks.resyst.cl/" />
+    <meta property="og:title" content="Resyst Labs Benchmarks" />
+    <meta
+      property="og:description"
+      content="A public evidence layer for evaluating AI systems across agentic tasks, software engineering, and tactical Arena duels."
+    />
+    <meta property="og:image" content="https://benchmarks.resyst.cl/og.svg" />
+    <meta property="og:site_name" content="Resyst Labs Benchmarks" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Dataset",
+        "name": "Resyst Labs Benchmarks",
+        "description": "Independent model evaluation rankings and Resyst Arena tactical benchmark evidence.",
+        "url": "https://benchmarks.resyst.cl/",
+        "creator": {
+          "@type": "Organization",
+          "name": "Resyst Labs"
+        },
+        "license": "https://benchmarks.resyst.cl/#evidence"
+      }
+    </script>
+  </head>
+  <body>
+    <canvas id="signal-field" aria-hidden="true"></canvas>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="aurora aurora-a" aria-hidden="true"></div>
+    <div class="aurora aurora-b" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Resyst Labs Benchmarks home">
+        <img class="brand-logo" src="assets/ResystLabs-Logo.png" alt="" width="42" height="42" />
+        <span>
+          <strong>Resyst Labs</strong>
+          <small>Benchmarks</small>
+        </span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#ranking">Ranking</a>
+        <a href="arena/">Arena</a>
+        <a href="#methodology">Methodology</a>
+        <a href="#evidence">Evidence</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero section-shell" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Independent model evaluation · public artifacts · tactical evidence</p>
+          <h1 id="hero-title">
+            Measure what models do when the arena has <em>rules</em>.
+          </h1>
+          <p class="hero-lead">
+            Resyst Labs Benchmarks is a public evidence surface for comparing AI systems across agentic reasoning, software engineering, reliability, runtime economics, and Resyst Arena duels.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#ranking">Explore the ranking</a>
+            <a class="button secondary" href="arena/">Enter Resyst Arena</a>
+          </div>
+        </div>
+
+        <div class="hero-instrument" aria-label="Live benchmark instrument summary">
+          <div class="instrument-orbit" aria-hidden="true">
+            <div class="orbit-ring ring-a"></div>
+            <div class="orbit-ring ring-b"></div>
+            <div class="orbit-core">✦</div>
+          </div>
+          <div class="instrument-panel glass-panel">
+            <span class="panel-label">Current leader</span>
+            <strong id="leader-name">Loading…</strong>
+            <small id="leader-score">Synchronizing benchmark artifact</small>
+          </div>
+          <div class="instrument-strip">
+            <div>
+              <span id="model-count">—</span>
+              <small>ranked entrants</small>
+            </div>
+            <div>
+              <span id="arena-count">—</span>
+              <small>Arena matches</small>
+            </div>
+            <div>
+              <span id="data-date">—</span>
+              <small>data refresh</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-shell signal-grid" aria-label="Benchmark lanes">
+        <article class="lane-card">
+          <span>01</span>
+          <h2>Agentic discipline</h2>
+          <p>Structured outputs, tool-use boundaries, instruction following, grounded reasoning, and hallucination resistance.</p>
+        </article>
+        <article class="lane-card">
+          <span>02</span>
+          <h2>Software execution</h2>
+          <p>Practical implementation quality, final-answer usefulness, source handling, and architecture cleanliness.</p>
+        </article>
+        <article class="lane-card emphasized">
+          <span>03</span>
+          <h2>Resyst Arena</h2>
+          <p>Turn-based spatial duels where legal action discipline and tactical continuity are measured separately from runtime telemetry.</p>
+        </article>
+      </section>
+
+      <section id="ranking" class="section-shell ranking-section" aria-labelledby="ranking-title">
+        <div class="section-kicker">Unified ranking</div>
+        <div class="section-head">
+          <div>
+            <h2 id="ranking-title">One table, visible tradeoffs.</h2>
+            <p>
+              Local and API-backed systems share a single tournament view. Provider, runtime, cost, latency, reliability, and lane basis remain visible so comparisons stay honest.
+            </p>
+          </div>
+          <a class="data-link" href="data/model-comparison.json">Download ranking JSON</a>
+        </div>
+
+        <div id="podium" class="podium" aria-label="Top ranked models"></div>
+
+        <div class="table-wrap glass-panel">
+          <table aria-label="Resyst Labs model ranking">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Model</th>
+                <th>Basis</th>
+                <th>Overall</th>
+                <th>Full</th>
+                <th>SWE</th>
+                <th>Cost</th>
+                <th>Reliability</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody id="ranking-body">
+              <tr>
+                <td colspan="9">Loading benchmark rows…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="arena" class="section-shell arena-section" aria-labelledby="arena-title">
+        <div class="arena-layout">
+          <div>
+            <div class="section-kicker">Resyst Arena</div>
+            <h2 id="arena-title">A tactical testbed, not a latency race.</h2>
+            <p>
+              Resyst Arena evaluates spatial strategy in deterministic turn-based games. Each public match summary links to a replay with board states, legal actions, events, and tactical telemetry.
+            </p>
+            <ul class="principles">
+              <li>Side-swapped series before ranking-grade claims.</li>
+              <li>Legal action rate and invalid actions are first-class evidence.</li>
+              <li>Replay artifacts stay linked to tactical summaries.</li>
+            </ul>
+          </div>
+          <div class="arena-board glass-panel" aria-hidden="true">
+            <div class="board-grid"></div>
+            <div class="core core-a"></div>
+            <div class="core core-b"></div>
+            <div class="unit unit-a one"></div>
+            <div class="unit unit-a two"></div>
+            <div class="unit unit-b one"></div>
+            <div class="unit unit-b two"></div>
+            <div class="resource r1"></div>
+            <div class="resource r2"></div>
+            <div class="resource r3"></div>
+            <div class="trajectory t1"></div>
+            <div class="trajectory t2"></div>
+          </div>
+          <a class="button primary arena-open-link" href="arena/">Open the Arena replay room</a>
+        </div>
+        <div id="arena-matches" class="match-grid" aria-label="Highlighted Arena matches"></div>
+      </section>
+
+      <section id="methodology" class="section-shell methodology" aria-labelledby="method-title">
+        <div class="section-kicker">Methodology</div>
+        <h2 id="method-title">Scores are claims with receipts.</h2>
+        <div class="method-grid">
+          <article>
+            <h3>Separate lanes</h3>
+            <p>Agentic and software-engineering results are preserved as distinct measurements before any publication formula combines them.</p>
+          </article>
+          <article>
+            <h3>Runtime honesty</h3>
+            <p>The same model can appear through different providers or runtimes. The table exposes basis metadata instead of hiding infrastructure differences.</p>
+          </article>
+          <article>
+            <h3>Evidence thresholds</h3>
+            <p>Single runs are artifacts. Stronger claims require repeated series, side swaps, seed variation, and comparable scoring settings.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="evidence" class="section-shell evidence" aria-labelledby="evidence-title">
+        <div class="evidence-card glass-panel">
+          <div>
+            <div class="section-kicker">Evidence contract</div>
+            <h2 id="evidence-title">Public by design. Auditable by default.</h2>
+          </div>
+          <div class="evidence-copy">
+            <p>
+              This site publishes benchmark summaries as versioned data artifacts. The presentation layer is intentionally separate from the scoring harness so rankings can evolve without rewriting the public record.
+            </p>
+            <div class="evidence-actions">
+              <a class="data-link" href="data/model-comparison.json">Ranking data</a>
+              <a class="data-link" href="data/arena-snapshots.json">Arena data</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Resyst Labs Benchmarks</span>
+      <span>Independent evaluation for AI systems that act.</span>
+    </footer>
+
+    <noscript>
+      <div class="noscript">
+        Resyst Labs Benchmarks requires JavaScript to render the live ranking table from the public JSON artifacts. The data files remain available at data/model-comparison.json and data/arena-snapshots.json.
+      </div>
+    </noscript>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

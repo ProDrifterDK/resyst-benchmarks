@@ -1,0 +1,31 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#050508"/>
+  <radialGradient id="a" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(250 70) rotate(52) scale(600 420)">
+    <stop stop-color="#C9A84C" stop-opacity="0.42"/>
+    <stop offset="1" stop-color="#C9A84C" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="b" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(980 210) rotate(130) scale(520 420)">
+    <stop stop-color="#67E8F9" stop-opacity="0.24"/>
+    <stop offset="1" stop-color="#67E8F9" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="1200" height="630" fill="url(#a)"/>
+  <rect width="1200" height="630" fill="url(#b)"/>
+  <g opacity="0.25">
+    <path d="M120 120H1080" stroke="white" stroke-opacity="0.12"/>
+    <path d="M120 210H1080" stroke="white" stroke-opacity="0.08"/>
+    <path d="M120 300H1080" stroke="white" stroke-opacity="0.08"/>
+    <path d="M120 390H1080" stroke="white" stroke-opacity="0.08"/>
+    <path d="M120 480H1080" stroke="white" stroke-opacity="0.12"/>
+    <path d="M210 90V520" stroke="white" stroke-opacity="0.08"/>
+    <path d="M390 90V520" stroke="white" stroke-opacity="0.08"/>
+    <path d="M570 90V520" stroke="white" stroke-opacity="0.08"/>
+    <path d="M750 90V520" stroke="white" stroke-opacity="0.08"/>
+    <path d="M930 90V520" stroke="white" stroke-opacity="0.08"/>
+  </g>
+  <circle cx="926" cy="195" r="120" stroke="#C9A84C" stroke-opacity="0.34"/>
+  <circle cx="926" cy="195" r="74" stroke="#67E8F9" stroke-opacity="0.3"/>
+  <text x="110" y="178" fill="#C9A84C" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="25" letter-spacing="6">RESYST LABS</text>
+  <text x="106" y="302" fill="#FFF8EB" font-family="Inter, Arial, sans-serif" font-size="82" font-weight="800" letter-spacing="-5">Benchmarks</text>
+  <text x="110" y="376" fill="#E8DCC8" fill-opacity="0.78" font-family="Inter, Arial, sans-serif" font-size="32">Independent model rankings and Arena evidence.</text>
+  <text x="110" y="500" fill="#C9A84C" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="24">benchmarks.resyst.cl</text>
+</svg>

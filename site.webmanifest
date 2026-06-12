@@ -1,0 +1,9 @@
+{
+  "name": "Resyst Labs Benchmarks",
+  "short_name": "Resyst Benchmarks",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050508",
+  "theme_color": "#050508",
+  "description": "Independent model rankings and Resyst Arena benchmark evidence."
+}
