@@ -1813,6 +1813,9 @@ td {
 .board-anchor,
 .replay-vector,
 .replay-fx,
+.damage-source-line,
+.damage-source-label,
+.damage-source-origin,
 .damage-marker {
   position: absolute;
   pointer-events: none;
@@ -2380,6 +2383,110 @@ td {
 .replay-fx.damage { color: var(--danger); }
 .replay-fx.control { color: var(--violet); }
 .replay-fx.spawn { color: var(--cyan); }
+
+.damage-source-line {
+  z-index: 24;
+  height: clamp(3px, 0.62vw, 5px);
+  transform-origin: left center;
+  border-radius: 999px;
+  color: var(--danger);
+  background: linear-gradient(90deg, rgba(255,105,135,0.98), rgba(255,105,135,0.62), transparent);
+  box-shadow: 0 0 18px currentColor, 0 0 32px rgba(255,105,135,0.42);
+  opacity: 0.95;
+  animation: damageSourceTrace 980ms ease-out both;
+}
+
+.damage-source-line::before {
+  content: "";
+  position: absolute;
+  inset: -0.34rem 0;
+  background: linear-gradient(90deg, currentColor, transparent 78%);
+  filter: blur(9px);
+  opacity: 0.28;
+}
+
+.damage-source-line::after {
+  content: "";
+  position: absolute;
+  right: -0.42rem;
+  top: 50%;
+  width: clamp(0.58rem, 1.3vw, 0.82rem);
+  height: clamp(0.58rem, 1.3vw, 0.82rem);
+  border-radius: 0.16rem;
+  transform: translateY(-50%) rotate(45deg);
+  background: currentColor;
+  box-shadow: 0 0 18px currentColor;
+}
+
+.damage-source-line.pressure {
+  color: var(--violet);
+  background: repeating-linear-gradient(90deg, rgba(167,139,250,0.96) 0 0.45rem, rgba(255,105,135,0.76) 0.45rem 0.8rem, transparent 0.8rem 1.05rem);
+}
+
+.damage-source-line.starvation {
+  color: var(--amber-2);
+  background: repeating-linear-gradient(90deg, rgba(241,207,119,0.9) 0 0.34rem, transparent 0.34rem 0.62rem);
+}
+
+.damage-source-label,
+.damage-source-origin {
+  z-index: 29;
+  transform: translate(-50%, -50%);
+  max-width: min(14rem, 46vw);
+  padding: 0.17rem 0.42rem;
+  border: 1px solid rgba(255,105,135,0.72);
+  border-radius: 999px;
+  color: #fff8eb;
+  background: rgba(20, 6, 12, 0.82);
+  box-shadow: 0 0 18px rgba(255,105,135,0.48), 0 8px 18px rgba(0,0,0,0.38);
+  font-family: var(--mono);
+  font-size: clamp(0.46rem, 0.92vw, 0.68rem);
+  font-weight: 950;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  animation: damageSourceLabelIn 1120ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.damage-source-label.pressure,
+.damage-source-origin.pressure {
+  border-color: rgba(167,139,250,0.78);
+  background: rgba(22, 12, 38, 0.84);
+  box-shadow: 0 0 20px rgba(167,139,250,0.48), 0 8px 18px rgba(0,0,0,0.38);
+}
+
+.damage-source-label.starvation,
+.damage-source-origin.starvation {
+  border-color: rgba(241,207,119,0.74);
+  background: rgba(42, 30, 8, 0.84);
+  box-shadow: 0 0 18px rgba(241,207,119,0.38), 0 8px 18px rgba(0,0,0,0.38);
+}
+
+.damage-source-origin {
+  font-size: clamp(0.43rem, 0.82vw, 0.62rem);
+  opacity: 0.96;
+}
+
+.damage-source-origin.local {
+  transform: translate(-50%, 108%);
+  animation: none;
+}
+
+@keyframes damageSourceTrace {
+  0% { opacity: 0; clip-path: inset(0 100% 0 0); }
+  28% { opacity: 1; clip-path: inset(0 0 0 0); }
+  100% { opacity: 0.82; clip-path: inset(0 0 0 0); }
+}
+
+@keyframes damageSourceLabelIn {
+  0% { opacity: 0; transform: translate(-50%, -24%) scale(0.88); }
+  22% { opacity: 1; transform: translate(-50%, -50%) scale(1.04); }
+  100% { opacity: 0.96; transform: translate(-50%, -50%) scale(1); }
+}
 
 .damage-marker {
   z-index: 28;

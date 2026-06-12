@@ -56,17 +56,24 @@ const eventText = (event) => {
   if (!event?.type) return 'Event recorded';
   if (event.type === 'move') return `${event.player ?? ''} ${event.unit ?? ''} moved ${event.from ? `from ${event.from.x}:${event.from.y} ` : ''}to ${event.to?.x ?? event.x ?? '?'}:${event.to?.y ?? event.y ?? '?'}`;
   if (event.type === 'gather') return `${event.player ?? ''} ${event.unit ?? ''} gathered ${event.extracted ?? ''} from ${event.resource ?? 'resource'}`;
-  if (event.type === 'core_damage') return `${event.attacker ?? ''} damaged ${event.defender ?? ''} core for ${event.damage ?? '?'}`;
-  if (event.type === 'attack') return `${refLabel(event.attacker ?? event.unit, '')} attacked ${refLabel(event.defender ?? event.target, 'target')}`;
+  if (event.type === 'core_damage') {
+    const source = event.source === 'center_control'
+      ? 'Control Zone pressure'
+      : event.source === 'unit_attack' && ['A', 'B'].includes(event.attacker)
+        ? `Side ${event.attacker} unit attack`
+        : refLabel(event.attacker, 'source');
+    return `${source} → ${event.defender ?? ''} core: −${event.damage ?? '?'} HP`;
+  }
+  if (event.type === 'attack') return `${refLabel(event.attacker ?? event.unit, '')} attacked ${refLabel(event.defender ?? event.target, 'target')} for −${event.damage ?? '?'} HP`;
   if (event.type === 'center_control') return `${event.player ?? ''} applied center pressure`;
   if (event.type === 'spawn') return `${event.player ?? ''} spawned ${refLabel(event.unit)}`;
   if (event.type === 'upgrade') return `${event.player ?? ''} upgraded force capacity`;
   if (event.type === 'repair_core') return `${event.player ?? ''} repaired core to ${event.core_hp ?? '?'} HP`;
   if (event.type === 'upkeep_paid') return `${event.player ?? ''} paid upkeep`;
-  if (event.type === 'starvation') return `${event.unit ?? event.player ?? ''} suffered starvation damage ${event.damage ?? ''}`;
+  if (event.type === 'starvation') return `${event.unit ?? event.player ?? ''} took −${event.damage ?? '?'} HP from starvation`;
   if (event.type === 'unit_destroyed') return `${event.target ?? event.unit ?? 'unit'} destroyed`;
   if (event.type === 'overtime_pressure') return `Overtime pressure dealt ${event.damage ?? '?'} damage`;
-  if (event.type === 'pressure_damage') return `${event.unit ?? event.player ?? ''} took pressure damage ${event.damage ?? ''}`;
+  if (event.type === 'pressure_damage') return `${event.unit ?? event.player ?? ''} took −${event.damage ?? '?'} HP from pressure`;
   if (event.type === 'pressure_unit_destroyed') return `${event.unit ?? 'unit'} destroyed by pressure`;
   if (event.type === 'game_over') return `Game over: ${titleCase(event.reason ?? 'complete')}`;
   return titleCase(event.type);
@@ -172,6 +179,54 @@ function addDamageMarker(board, impact, width, height) {
   board.append(node);
 }
 
+function addDamageSourceCue(board, impact, width, height) {
+  if (!impact?.target) return;
+  const target = impact.target;
+  const source = impact.source;
+  const targetPoint = pointPercent(target, width, height);
+  const sourcePoint = source ? pointPercent(source, width, height) : targetPoint;
+  const sourceKey = coordKey(source);
+  const targetKey = coordKey(target);
+  const labelText = impact.primaryKind === 'pressure'
+    ? `${impact.sourceLabel ?? 'Pressure'} → ${impact.label}`
+    : impact.primaryKind === 'starvation'
+      ? `${impact.causeLabel ?? 'Starvation'} → ${impact.label}`
+      : `${impact.sourceLabel ?? 'Source'} ${impact.causeLabel ?? 'damage'} → ${impact.label}`;
+
+  if (source && sourceKey && sourceKey !== targetKey) {
+    const dx = targetPoint.x - sourcePoint.x;
+    const dy = targetPoint.y - sourcePoint.y;
+    const length = Math.hypot(dx, dy);
+    const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+    const line = document.createElement('div');
+    line.className = `damage-source-line ${impact.primaryKind ?? 'hit'}`;
+    line.style.left = `${sourcePoint.x}%`;
+    line.style.top = `${sourcePoint.y}%`;
+    line.style.width = `${length}%`;
+    line.style.transform = `rotate(${angle}deg)`;
+    line.setAttribute('aria-hidden', 'true');
+    board.append(line);
+
+    const mid = { x: sourcePoint.x + dx * 0.5, y: sourcePoint.y + dy * 0.5 };
+    const lineLabel = document.createElement('div');
+    lineLabel.className = `damage-source-label ${impact.primaryKind ?? 'hit'}`;
+    lineLabel.style.left = `${mid.x}%`;
+    lineLabel.style.top = `${mid.y}%`;
+    lineLabel.textContent = labelText;
+    lineLabel.setAttribute('aria-hidden', 'true');
+    board.append(lineLabel);
+    return;
+  }
+
+  const origin = document.createElement('div');
+  origin.className = `damage-source-origin ${impact.primaryKind ?? 'hit'} local`;
+  origin.style.left = `${sourcePoint.x}%`;
+  origin.style.top = `${sourcePoint.y}%`;
+  origin.textContent = labelText;
+  origin.setAttribute('aria-hidden', 'true');
+  board.append(origin);
+}
+
 function addAnchor(board, at, width, height, side) {
   if (!at) return;
   const point = pointPercent(at, width, height);
@@ -233,27 +288,49 @@ function damageAmount(event) {
   return Number.isFinite(value) && value > 0 ? value : 0;
 }
 
-function damageImpactKey(target) {
+function damageImpactKey(target, source = null, kind = 'hit', discriminator = '') {
+  if (!target) return '';
+  const targetPart = target.id ? `id:${target.id}` : coordKey(target) ? `cell:${coordKey(target)}` : '';
+  if (!targetPart) return '';
+  const sourcePart = source?.id ? `id:${source.id}` : coordKey(source) ? `cell:${coordKey(source)}` : 'local';
+  return `${targetPart}|${sourcePart}|${kind}|${discriminator}`;
+}
+
+function targetImpactKey(target) {
   if (!target) return '';
   if (target.id) return `id:${target.id}`;
   const key = coordKey(target);
   return key ? `cell:${key}` : '';
 }
 
-function addDamageImpact(impacts, event, target, kind = 'hit') {
-  const key = damageImpactKey(target);
+function damageImpactPriority(kind) {
+  return { attack: 5, core: 4, pressure: 3, starvation: 2, destroyed: 1, hit: 0 }[kind] ?? 0;
+}
+
+function addDamageImpact(impacts, event, target, kind = 'hit', source = null, sourceLabel = '', causeLabel = '') {
+  const key = damageImpactKey(target, source, kind, sourceLabel || causeLabel);
   if (!key) return;
   const existing = impacts.get(key) ?? {
     target,
     damage: 0,
     destroyed: false,
     kinds: new Set(),
+    primaryKind: kind,
+    source,
+    sourceLabel,
+    causeLabel,
   };
   existing.target = target;
   existing.damage += damageAmount(event);
   existing.destroyed = existing.destroyed
     || ['unit_destroyed', 'pressure_unit_destroyed'].includes(event?.type)
     || Number(target?.hp ?? 1) <= 0;
+  if (!existing.source || damageImpactPriority(kind) >= damageImpactPriority(existing.primaryKind)) {
+    existing.primaryKind = kind;
+    existing.source = source ?? target;
+    existing.sourceLabel = sourceLabel || titleCase(kind);
+    existing.causeLabel = causeLabel || titleCase(kind);
+  }
   existing.kinds.add(kind);
   impacts.set(key, existing);
 }
@@ -266,15 +343,47 @@ function damageLabel(impact) {
 
 function collectDamageImpacts(events = [], state) {
   const impacts = new Map();
+  const width = state?.width ?? 8;
+  const height = state?.height ?? 8;
+  const centerSource = { id: 'control_zone', type: 'zone', x: (width - 1) / 2, y: (height - 1) / 2 };
   for (const event of events) {
     if (event.type === 'core_damage') {
-      addDamageImpact(impacts, event, state?.players?.[event.defender]?.core, event.source === 'center_control' ? 'pressure' : 'core');
+      const target = state?.players?.[event.defender]?.core;
+      const fromCenter = event.source === 'center_control';
+      const source = fromCenter
+        ? centerSource
+        : !['A', 'B'].includes(event.attacker)
+          ? positionLike(event.attacker, state)
+          : null;
+      const sideOnlyAttack = !fromCenter && ['A', 'B'].includes(event.attacker);
+      addDamageImpact(
+        impacts,
+        event,
+        target,
+        fromCenter ? 'pressure' : 'core',
+        source,
+        fromCenter ? 'Control Zone' : sideOnlyAttack ? `Side ${event.attacker}` : refLabel(event.attacker, 'Source'),
+        fromCenter ? 'center pressure' : event.source === 'unit_attack' ? 'unit attack' : 'core damage',
+      );
     } else if (event.type === 'attack') {
-      addDamageImpact(impacts, event, positionFor(event.defender ?? event.target, state) ?? state?.players?.[event.defender]?.core, 'attack');
-    } else if (['starvation', 'pressure_damage'].includes(event.type)) {
-      addDamageImpact(impacts, event, positionFor(event.unit ?? event.target, state), event.type === 'starvation' ? 'starvation' : 'pressure');
+      const source = positionFor(event.attacker ?? event.unit, state);
+      addDamageImpact(
+        impacts,
+        event,
+        positionFor(event.defender ?? event.target, state) ?? state?.players?.[event.defender]?.core,
+        'attack',
+        source,
+        refLabel(event.attacker ?? event.unit, 'Attacker'),
+        'attack',
+      );
+    } else if (event.type === 'starvation') {
+      const target = positionFor(event.unit ?? event.target, state);
+      addDamageImpact(impacts, event, target, 'starvation', target, 'No upkeep', 'starvation');
+    } else if (event.type === 'pressure_damage') {
+      addDamageImpact(impacts, event, positionFor(event.unit ?? event.target, state), 'pressure', centerSource, 'Overtime pressure', 'pressure');
     } else if (['unit_destroyed', 'pressure_unit_destroyed'].includes(event.type)) {
-      addDamageImpact(impacts, event, positionFor(event.unit ?? event.target, state), 'destroyed');
+      const target = positionFor(event.unit ?? event.target, state);
+      addDamageImpact(impacts, event, target, 'destroyed', target, 'Final blow', 'destroyed');
     }
   }
   return [...impacts.values()].map((impact) => ({
@@ -294,8 +403,46 @@ function buildDamageLookup(impacts) {
   }
   return (item) => {
     if (!item) return null;
-    return byId.get(String(item.id ?? '')) ?? byCoord.get(coordKey(item)) ?? null;
+    if (item.id) return byId.get(String(item.id)) ?? null;
+    return byCoord.get(coordKey(item)) ?? null;
   };
+}
+
+function aggregateDamageTargets(impacts) {
+  const byTarget = new Map();
+  for (const impact of impacts) {
+    const key = targetImpactKey(impact.target);
+    if (!key) continue;
+    const existing = byTarget.get(key) ?? {
+      target: impact.target,
+      damage: 0,
+      destroyed: false,
+      kinds: new Set(),
+      primaryKind: impact.primaryKind,
+      sourceLabels: new Set(),
+      causeLabels: new Set(),
+    };
+    existing.damage += Number(impact.damage ?? 0);
+    existing.destroyed = existing.destroyed || Boolean(impact.destroyed);
+    for (const kind of impact.kinds ?? []) existing.kinds.add(kind);
+    if (impact.sourceLabel) existing.sourceLabels.add(impact.sourceLabel);
+    if (impact.causeLabel) existing.causeLabels.add(impact.causeLabel);
+    if (damageImpactPriority(impact.primaryKind) >= damageImpactPriority(existing.primaryKind)) {
+      existing.primaryKind = impact.primaryKind;
+    }
+    byTarget.set(key, existing);
+  }
+  return [...byTarget.values()].map((impact) => {
+    const sourceLabels = [...impact.sourceLabels];
+    const causeLabels = [...impact.causeLabels];
+    return {
+      ...impact,
+      kinds: [...impact.kinds],
+      sourceLabel: sourceLabels.length > 1 ? 'Multiple sources' : (sourceLabels[0] ?? ''),
+      causeLabel: causeLabels.length > 1 ? 'multiple damage' : (causeLabels[0] ?? ''),
+      label: damageLabel(impact),
+    };
+  });
 }
 
 function buildStackPlan(items) {
@@ -350,9 +497,11 @@ const piece = (item, className, label, stack = null, impact = null) => {
     node.dataset.hit = 'true';
     node.dataset.damage = impact.label;
     node.dataset.damageKind = impact.kinds?.[0] ?? 'hit';
+    node.dataset.damageSource = impact.sourceLabel ?? '';
+    node.dataset.damageCause = impact.causeLabel ?? '';
     if (impact.destroyed) node.dataset.hitOutcome = 'destroyed';
   }
-  node.title = [item.id, item.type, item.player ? `Side ${item.player}` : '', item.hp !== undefined ? `HP ${item.hp}/${item.max_hp}` : '', impact ? `Damage ${impact.label}` : '']
+  node.title = [item.id, item.type, item.player ? `Side ${item.player}` : '', item.hp !== undefined ? `HP ${item.hp}/${item.max_hp}` : '', impact ? `Damage ${impact.label} from ${impact.sourceLabel ?? impact.causeLabel ?? 'source'}` : '']
     .filter(Boolean)
     .join(' · ') || label;
   node.setAttribute('aria-label', node.title);
@@ -452,7 +601,8 @@ function renderBoard(board, state, frame) {
   const controlCells = controlZoneCells(width, height, events);
   const controlCellKeys = new Set(controlCells.map(coordKey));
   const damageImpacts = collectDamageImpacts(events, state);
-  const damageFor = buildDamageLookup(damageImpacts);
+  const damageTargets = aggregateDamageTargets(damageImpacts);
+  const damageFor = buildDamageLookup(damageTargets);
 
   for (const unit of units) {
     const key = coordKey(unit);
@@ -632,7 +782,8 @@ function renderBoard(board, state, frame) {
     board.append(node);
   }
 
-  for (const impact of damageImpacts) addDamageMarker(board, impact, width, height);
+  for (const impact of damageImpacts) addDamageSourceCue(board, impact, width, height);
+  for (const impact of damageTargets) addDamageMarker(board, impact, width, height);
 }
 
 function updateCombatant(panel, side, state, frame) {
