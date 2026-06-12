@@ -72,6 +72,7 @@ function pageShell({ title, description, canonicalPath = '', prefix = '', bodyCl
     <meta name="description" content="${escapeHtml(description)}" />
     <meta name="theme-color" content="#050508" />
     <link rel="canonical" href="${canonical}" />
+    <link rel="icon" href="${prefix}favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="${prefix}site.webmanifest" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="${canonical}" />
@@ -210,37 +211,161 @@ async function writeModelPages() {
   }
 }
 
+function compactEntrant(value = '') {
+  return String(value)
+    .replace(/-openrouter.*/i, '')
+    .replace(/-direct.*/i, '')
+    .replace(/-native.*/i, '')
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase())
+    .replace(/Deepseek/g, 'DeepSeek')
+    .replace(/Minimax/g, 'MiniMax')
+    .replace(/Nvidia/g, 'NVIDIA')
+    .replace(/\bGpt\b/g, 'GPT')
+    .replace(/\bQwen/g, 'Qwen')
+    .replace(/\bAi\b/g, 'AI');
+}
+
+function metricPill(label, value) {
+  return `<div class="score-pill"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`;
+}
+
+function combatantPanel(match, side) {
+  const entrant = match.entrants?.[side] ?? side;
+  const sideKey = side.toLowerCase();
+  const damage = sideValue(match.core_damage_dealt, side);
+  const invalid = sideValue(match.invalid_actions, side);
+  const resources = sideValue(match.resources_collected, side);
+  return `<section class="combatant-card side-${side}" data-side-panel="${side}" data-damage-${side}="${escapeHtml(damage)}" data-invalid-${side}="${escapeHtml(invalid)}">
+    <div class="combatant-topline">
+      <span class="side-token">${side}</span>
+      <div>
+        <strong>${escapeHtml(compactEntrant(entrant))}</strong>
+        <small>${escapeHtml(entrant)}</small>
+      </div>
+    </div>
+    <div class="vital-stack">
+      <div class="vital-row">
+        <span>Core integrity</span>
+        <strong data-core-${sideKey}>${escapeHtml(sideValue(match.core_hp, side))} / 30</strong>
+      </div>
+      <div class="vital-bar"><i data-core-bar-${sideKey} style="width:${Math.max(0, Math.min(100, (Number(sideValue(match.core_hp, side)) / 30) * 100)).toFixed(1)}%"></i></div>
+      <div class="vital-row">
+        <span>Energy reserve</span>
+        <strong data-energy-${sideKey}>— / 12</strong>
+      </div>
+      <div class="vital-bar energy"><i data-energy-bar-${sideKey} style="width:0%"></i></div>
+    </div>
+    <div class="combatant-microgrid">
+      ${metricPill('Damage', damage)}
+      ${metricPill('Resources', resources)}
+      ${metricPill('Invalid', invalid)}
+      ${metricPill('Units', `<span data-units-${sideKey}>—</span>`).replaceAll('&lt;', '<').replaceAll('&gt;', '>')}
+    </div>
+  </section>`;
+}
+
 function matchCard(match) {
   const replay = match.artifacts?.public_replay ?? '';
+  const title = match.title ?? `${match.entrants?.A} vs ${match.entrants?.B}`;
   return `<article id="${escapeHtml(match.id)}" class="match-replay glass-panel" data-replay-src="../${escapeHtml(replay)}">
     <div class="match-replay-head">
-      <div>
+      <div class="match-title-block">
         <span class="match-label">Seed ${escapeHtml(match.seed ?? 'fixed')} · ${escapeHtml(match.mode ?? 'duel')} · ${escapeHtml(match.turns)} turns</span>
-        <h2>${escapeHtml(match.title ?? `${match.entrants?.A} vs ${match.entrants?.B}`)}</h2>
-        <p><strong>Winner:</strong> ${escapeHtml(match.winner_label)} · ${escapeHtml(prettyReason(match.winner_reason))}</p>
+        <h2>${escapeHtml(compactEntrant(match.entrants?.A))} <span class="versus-inline">vs</span> ${escapeHtml(compactEntrant(match.entrants?.B))}</h2>
+        <p class="entrant-ids"><span>A:</span> ${escapeHtml(match.entrants?.A)} <span>B:</span> ${escapeHtml(match.entrants?.B)}</p>
       </div>
-      <a class="data-link" href="../${escapeHtml(replay)}">Replay JSON</a>
+      <aside class="winner-card" aria-label="Match winner">
+        <span>Winner</span>
+        <strong>${escapeHtml(compactEntrant(match.winner_label))}</strong>
+        <small>${escapeHtml(prettyReason(match.winner_reason))}</small>
+        <a class="data-link" href="../${escapeHtml(replay)}">Replay JSON</a>
+      </aside>
     </div>
+
+    <div class="replay-scoreboard" aria-label="Match telemetry summary">
+      ${combatantPanel(match, 'A')}
+      <div class="versus-node" aria-hidden="true">
+        <span>VS</span>
+        <strong data-turn-label>Turn 0</strong>
+        <small data-active-label>Loading state</small>
+      </div>
+      ${combatantPanel(match, 'B')}
+    </div>
+
     <div class="replay-layout">
       <div class="replay-stage">
-        <div class="replay-board-live" data-board aria-label="Replay board for ${escapeHtml(match.title ?? match.id)}"></div>
-      </div>
-      <div class="replay-side-panel">
-        <div class="match-metrics compact">
-          <div class="metric"><span class="metric-label">Core HP A/B</span><strong>${sideValue(match.core_hp, 'A')} / ${sideValue(match.core_hp, 'B')}</strong></div>
-          <div class="metric"><span class="metric-label">Damage A/B</span><strong>${sideValue(match.core_damage_dealt, 'A')} / ${sideValue(match.core_damage_dealt, 'B')}</strong></div>
-          <div class="metric"><span class="metric-label">Resources A/B</span><strong>${sideValue(match.resources_collected, 'A')} / ${sideValue(match.resources_collected, 'B')}</strong></div>
-          <div class="metric"><span class="metric-label">Invalid A/B</span><strong>${sideValue(match.invalid_actions, 'A')} / ${sideValue(match.invalid_actions, 'B')}</strong></div>
+        <div class="board-chrome">
+          <div class="board-topbar">
+            <span class="live-dot"></span>
+            <strong data-bot-label>Loading model</strong>
+            <small>Board state · legal actions · event telemetry</small>
+          </div>
+          <div class="control-deck">
+            <div class="transport-head">
+              <span class="panel-label">Replay control</span>
+              <div class="speed-picker">
+                <label for="speed-${escapeHtml(match.id)}">Speed</label>
+                <select id="speed-${escapeHtml(match.id)}" data-speed>
+                  <option value="950">0.7×</option>
+                  <option value="650" selected>1×</option>
+                  <option value="380">1.7×</option>
+                  <option value="210">3×</option>
+                </select>
+              </div>
+            </div>
+            <div class="transport-row">
+              <button class="icon-button" type="button" data-prev aria-label="Previous replay turn">←</button>
+              <button class="button primary replay-play" type="button" data-play aria-pressed="false">Play replay</button>
+              <button class="icon-button" type="button" data-next aria-label="Next replay turn">→</button>
+            </div>
+            <div class="timeline-shell">
+              <div class="timeline-progress" data-progress-fill></div>
+              <input type="range" min="0" max="0" value="0" data-slider aria-label="Replay turn" />
+            </div>
+            <div class="replay-frame-meta" data-frame-meta>Loading replay…</div>
+          </div>
+          <div class="board-legend" aria-label="Board legend">
+            <span><i class="legend-core side-A"></i>A core</span>
+            <span><i class="legend-core side-B"></i>B core</span>
+            <span><i class="legend-resource"></i>Resource</span>
+            <span><i class="legend-vector"></i>Current action</span>
+          </div>
+          <div class="board-wrap">
+            <div class="replay-board-live" data-board aria-label="Replay board for ${escapeHtml(title)}"></div>
+            <div class="victory-overlay" data-victory hidden>
+              <span>✦ Victory</span>
+              <strong>${escapeHtml(compactEntrant(match.winner_label))}</strong>
+              <small>${escapeHtml(prettyReason(match.winner_reason))} · ${escapeHtml(match.turns)} turns</small>
+              <button class="button secondary" type="button" data-restart>Replay from start</button>
+            </div>
+          </div>
         </div>
-        <div class="replay-controls">
-          <button class="button secondary replay-play" type="button" data-play>Play replay</button>
-          <input type="range" min="0" max="0" value="0" data-slider aria-label="Replay turn" />
-          <div class="replay-frame-meta" data-frame-meta>Loading replay…</div>
-          <div class="replay-events" data-events></div>
-        </div>
       </div>
+
+      <aside class="replay-side-panel">
+        <div class="log-deck">
+          <div>
+            <span class="panel-label">Current events</span>
+            <div class="replay-events" data-events></div>
+          </div>
+          <div>
+            <span class="panel-label">Applied actions</span>
+            <div class="replay-actions" data-actions></div>
+          </div>
+        </div>
+      </aside>
     </div>
   </article>`;
+}
+
+function matchTab(match, index) {
+  const selected = index === 0;
+  return `<button class="match-tab ${selected ? 'is-active' : ''}" type="button" role="tab" id="tab-${escapeHtml(match.id)}" data-match-tab="${escapeHtml(match.id)}" aria-controls="${escapeHtml(match.id)}" aria-selected="${selected ? 'true' : 'false'}">
+    <span>Match ${index + 1}</span>
+    <strong>${escapeHtml(compactEntrant(match.winner_label))}</strong>
+    <small>${escapeHtml(prettyReason(match.winner_reason))}</small>
+  </button>`;
 }
 
 async function writeArenaPage() {
@@ -264,7 +389,12 @@ async function writeArenaPage() {
     </section>
 
     <section id="replays" class="section-shell replay-list" aria-label="Arena replays">
-      ${matches.map(matchCard).join('\n')}
+      <div class="match-switcher" role="tablist" aria-label="Select Arena replay">
+        ${matches.map(matchTab).join('\n')}
+      </div>
+      <div class="match-stage-list">
+        ${matches.map((match, index) => matchCard(match).replace('class="match-replay glass-panel"', `class="match-replay glass-panel ${index === 0 ? 'is-active' : ''}" role="tabpanel" aria-labelledby="tab-${escapeHtml(match.id)}" ${index === 0 ? '' : 'hidden'}`)).join('\n')}
+      </div>
     </section>
   </main>`;
   const outDir = path.join(dist, 'arena');
