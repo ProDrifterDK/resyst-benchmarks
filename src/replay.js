@@ -22,6 +22,15 @@ const eventMeta = (event) => {
     attack: '⚔',
     center_control: '⌾',
     spawn: '+',
+    upgrade: '⇧',
+    repair_core: '+',
+    upkeep_paid: '$',
+    starvation: '!',
+    unit_destroyed: '×',
+    overtime_pressure: '⌁',
+    pressure_damage: '!',
+    pressure_unit_destroyed: '×',
+    game_over: '✓',
   }[type] ?? '•';
   const tone = {
     move: 'move',
@@ -30,6 +39,15 @@ const eventMeta = (event) => {
     attack: 'damage',
     center_control: 'control',
     spawn: 'spawn',
+    upgrade: 'spawn',
+    repair_core: 'gather',
+    upkeep_paid: 'default',
+    starvation: 'damage',
+    unit_destroyed: 'damage',
+    overtime_pressure: 'control',
+    pressure_damage: 'damage',
+    pressure_unit_destroyed: 'damage',
+    game_over: 'control',
   }[type] ?? 'default';
   return { icon, tone };
 };
@@ -39,10 +57,24 @@ const eventText = (event) => {
   if (event.type === 'move') return `${event.player ?? ''} ${event.unit ?? ''} moved ${event.from ? `from ${event.from.x}:${event.from.y} ` : ''}to ${event.to?.x ?? event.x ?? '?'}:${event.to?.y ?? event.y ?? '?'}`;
   if (event.type === 'gather') return `${event.player ?? ''} ${event.unit ?? ''} gathered ${event.extracted ?? ''} from ${event.resource ?? 'resource'}`;
   if (event.type === 'core_damage') return `${event.attacker ?? ''} damaged ${event.defender ?? ''} core for ${event.damage ?? '?'}`;
-  if (event.type === 'attack') return `${event.attacker ?? ''} attacked ${event.defender ?? event.target ?? 'target'}`;
+  if (event.type === 'attack') return `${refLabel(event.attacker ?? event.unit, '')} attacked ${refLabel(event.defender ?? event.target, 'target')}`;
   if (event.type === 'center_control') return `${event.player ?? ''} applied center pressure`;
-  if (event.type === 'spawn') return `${event.player ?? ''} spawned ${event.unit ?? 'unit'}`;
+  if (event.type === 'spawn') return `${event.player ?? ''} spawned ${refLabel(event.unit)}`;
+  if (event.type === 'upgrade') return `${event.player ?? ''} upgraded force capacity`;
+  if (event.type === 'repair_core') return `${event.player ?? ''} repaired core to ${event.core_hp ?? '?'} HP`;
+  if (event.type === 'upkeep_paid') return `${event.player ?? ''} paid upkeep`;
+  if (event.type === 'starvation') return `${event.unit ?? event.player ?? ''} suffered starvation damage ${event.damage ?? ''}`;
+  if (event.type === 'unit_destroyed') return `${event.target ?? event.unit ?? 'unit'} destroyed`;
+  if (event.type === 'overtime_pressure') return `Overtime pressure dealt ${event.damage ?? '?'} damage`;
+  if (event.type === 'pressure_damage') return `${event.unit ?? event.player ?? ''} took pressure damage ${event.damage ?? ''}`;
+  if (event.type === 'pressure_unit_destroyed') return `${event.unit ?? 'unit'} destroyed by pressure`;
+  if (event.type === 'game_over') return `Game over: ${titleCase(event.reason ?? 'complete')}`;
   return titleCase(event.type);
+};
+
+const refLabel = (value, fallback = 'unit') => {
+  if (value && typeof value === 'object') return value.id ?? value.type ?? fallback;
+  return value ?? fallback;
 };
 
 const actionText = (action) => {
@@ -79,41 +111,133 @@ function positionFor(id, state) {
   return null;
 }
 
+function positionLike(value, state) {
+  if (value && typeof value === 'object' && Number.isFinite(Number(value.x)) && Number.isFinite(Number(value.y))) return value;
+  return positionFor(value, state);
+}
+
+const coordKey = (item) => (item && Number.isFinite(Number(item.x)) && Number.isFinite(Number(item.y)))
+  ? `${Number(item.x)}:${Number(item.y)}`
+  : '';
+
+const pointPercent = (item, width, height) => ({
+  x: ((Number(item.x) + 0.5) / width) * 100,
+  y: ((Number(item.y) + 0.5) / height) * 100,
+});
+
 function addVector(board, from, to, width, height, tone = 'move') {
   if (!from || !to) return;
-  const x1 = ((Number(from.x) + 0.5) / width) * 100;
-  const y1 = ((Number(from.y) + 0.5) / height) * 100;
-  const x2 = ((Number(to.x) + 0.5) / width) * 100;
-  const y2 = ((Number(to.y) + 0.5) / height) * 100;
-  const dx = x2 - x1;
-  const dy = y2 - y1;
+  const start = pointPercent(from, width, height);
+  const end = pointPercent(to, width, height);
+  const dx = end.x - start.x;
+  const dy = end.y - start.y;
   const length = Math.hypot(dx, dy);
   const angle = Math.atan2(dy, dx) * (180 / Math.PI);
   const node = document.createElement('div');
   node.className = `replay-vector ${tone}`;
-  node.style.left = `${x1}%`;
-  node.style.top = `${y1}%`;
+  node.style.left = `${start.x}%`;
+  node.style.top = `${start.y}%`;
   node.style.width = `${length}%`;
   node.style.transform = `rotate(${angle}deg)`;
+  node.setAttribute('aria-hidden', 'true');
   board.append(node);
 }
 
 function addPulse(board, at, width, height, tone = 'control') {
   if (!at) return;
+  const point = pointPercent(at, width, height);
   const node = document.createElement('div');
   node.className = `replay-fx ${tone}`;
-  node.style.left = `${((Number(at.x) + 0.5) / width) * 100}%`;
-  node.style.top = `${((Number(at.y) + 0.5) / height) * 100}%`;
+  node.style.left = `${point.x}%`;
+  node.style.top = `${point.y}%`;
+  node.setAttribute('aria-hidden', 'true');
   board.append(node);
 }
 
-const piece = (item, className, label) => {
+function addAnchor(board, at, width, height, side) {
+  if (!at) return;
+  const point = pointPercent(at, width, height);
   const node = document.createElement('div');
+  node.className = `board-anchor side-${side}`;
+  node.style.left = `${point.x}%`;
+  node.style.top = `${point.y}%`;
+  node.setAttribute('aria-hidden', 'true');
+  board.append(node);
+}
+
+function addBoardLayer(board, className) {
+  const node = document.createElement('div');
+  node.className = className;
+  node.setAttribute('aria-hidden', 'true');
+  board.append(node);
+}
+
+function markAction(actionCells, item, tone, role = 'target') {
+  const key = coordKey(item);
+  if (!key) return;
+  const priority = { damage: 4, attack: 4, gather: 3, spawn: 3, move: 2, control: 1, source: 0 };
+  const previous = actionCells.get(key);
+  if (!previous || (priority[tone] ?? 0) >= (priority[previous.tone] ?? 0)) {
+    actionCells.set(key, { tone, role });
+  }
+}
+
+function buildStackPlan(items) {
+  const counts = new Map();
+  for (const item of items) {
+    const key = coordKey(item);
+    if (key) counts.set(key, (counts.get(key) ?? 0) + 1);
+  }
+  const cursors = new Map();
+  return (item) => {
+    const key = coordKey(item);
+    const total = counts.get(key) ?? 1;
+    const index = cursors.get(key) ?? 0;
+    cursors.set(key, index + 1);
+    if (total <= 1) return { total, index, x: '0%', y: '0%' };
+    const angle = ((Math.PI * 2) / total) * index - Math.PI / 2;
+    const radius = Math.min(34, 16 + total * 4);
+    const rounded = (value) => `${Math.abs(value) < 0.01 ? 0 : Number(value.toFixed(2))}%`;
+    return {
+      total,
+      index,
+      x: rounded(Math.cos(angle) * radius),
+      y: rounded(Math.sin(angle) * radius),
+    };
+  };
+}
+
+const piece = (item, className, label, stack = null) => {
+  const node = document.createElement('div');
+  const hp = Number(item.hp ?? item.max_hp ?? 1);
+  const maxHp = Number(item.max_hp ?? (hp || 1));
   node.className = className;
   node.style.gridColumn = `${Number(item.x ?? 0) + 1}`;
   node.style.gridRow = `${Number(item.y ?? 0) + 1}`;
-  node.title = label;
-  node.textContent = label;
+  node.dataset.label = label;
+  if (item.id) node.dataset.id = item.id;
+  if (item.type) node.dataset.kind = item.type;
+  if (item.player) node.dataset.side = item.player;
+  if ('hp' in item) {
+    node.dataset.hp = `${item.hp ?? '—'}/${item.max_hp ?? '—'}`;
+    node.style.setProperty('--hp-pct', pct(hp, maxHp));
+    if (hp <= 0) node.dataset.status = 'destroyed';
+  }
+  if (stack) {
+    node.style.setProperty('--stack-x', stack.x);
+    node.style.setProperty('--stack-y', stack.y);
+    node.dataset.stack = `${stack.index + 1}/${stack.total}`;
+  }
+  node.title = [item.id, item.type, item.player ? `Side ${item.player}` : '', item.hp !== undefined ? `HP ${item.hp}/${item.max_hp}` : '']
+    .filter(Boolean)
+    .join(' · ') || label;
+  node.setAttribute('aria-label', node.title);
+  if (label) {
+    const marker = document.createElement('span');
+    marker.className = 'replay-piece-label';
+    marker.textContent = label;
+    node.append(marker);
+  }
   return node;
 };
 
@@ -121,26 +245,107 @@ function renderBoard(board, state, frame) {
   const width = state?.width ?? 8;
   const height = state?.height ?? 8;
   const events = frame?.events ?? [];
+  const resources = state?.resources ?? [];
+  const obstacles = state?.obstacles ?? [];
+  const units = state?.units ?? [];
+  const cores = ['A', 'B'].map((side) => state?.players?.[side]?.core).filter(Boolean);
+  const actionCells = new Map();
+  const resourceCells = new Map(resources.map((resource) => [coordKey(resource), resource]));
+  const obstacleCells = new Set(obstacles.map(coordKey));
+  const coreCells = new Map(cores.map((core) => [coordKey(core), core.player]));
+  const unitSides = new Map();
+
+  for (const unit of units) {
+    const key = coordKey(unit);
+    if (!key) continue;
+    const set = unitSides.get(key) ?? new Set();
+    set.add(unit.player ?? 'N');
+    unitSides.set(key, set);
+  }
+
   board.innerHTML = '';
   board.dataset.activeSide = frame?.player ?? state?.active_player ?? 'A';
+  board.dataset.turn = frame?.turn ?? state?.turn ?? 0;
   board.style.setProperty('--cols', width);
   board.style.setProperty('--rows', height);
   board.style.gridTemplateColumns = `repeat(${width}, 1fr)`;
   board.style.gridTemplateRows = `repeat(${height}, 1fr)`;
+  board.style.aspectRatio = `${width} / ${height}`;
+
+  for (const event of events) {
+    if (event.type === 'move') {
+      const to = event.to ?? { x: event.x, y: event.y };
+      markAction(actionCells, event.from, 'move', 'source');
+      markAction(actionCells, to, 'move', 'target');
+    } else if (event.type === 'gather') {
+      markAction(actionCells, positionFor(event.resource, state), 'gather', 'target');
+    } else if (event.type === 'core_damage') {
+      markAction(actionCells, state?.players?.[event.defender]?.core, 'damage', 'target');
+      const attacker = !['A', 'B'].includes(event.attacker) && event.source !== 'center_control'
+        ? positionLike(event.attacker, state)
+        : null;
+      if (attacker) markAction(actionCells, attacker, 'damage', 'source');
+    } else if (event.type === 'attack') {
+      markAction(actionCells, positionFor(event.attacker ?? event.unit, state), 'damage', 'source');
+      markAction(actionCells, positionFor(event.defender ?? event.target, state) ?? state?.players?.[event.defender]?.core, 'damage', 'target');
+    } else if (event.type === 'center_control') {
+      for (const [x, y] of event.zone ?? [[Math.floor(width / 2) - 1, Math.floor(height / 2)], [Math.floor(width / 2), Math.floor(height / 2) - 1]]) {
+        markAction(actionCells, { x, y }, 'control', 'target');
+      }
+    } else if (event.type === 'spawn') {
+      markAction(actionCells, positionLike(event.unit, state), 'spawn', 'target');
+    } else if (event.type === 'repair_core') {
+      markAction(actionCells, state?.players?.[event.player]?.core, 'gather', 'target');
+    } else if (['starvation', 'unit_destroyed', 'pressure_damage', 'pressure_unit_destroyed'].includes(event.type)) {
+      markAction(actionCells, positionFor(event.unit ?? event.target, state), 'damage', 'target');
+    } else if (event.type === 'overtime_pressure') {
+      markAction(actionCells, { x: Math.floor(width / 2), y: Math.floor(height / 2) }, 'control', 'target');
+    }
+  }
+
+  addBoardLayer(board, 'board-center-sigil');
+  addBoardLayer(board, 'board-scanline');
 
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
+      const key = `${x}:${y}`;
       const cell = document.createElement('div');
+      const action = actionCells.get(key);
+      const resource = resourceCells.get(key);
       cell.className = 'replay-cell';
       cell.style.gridColumn = `${x + 1}`;
       cell.style.gridRow = `${y + 1}`;
+      cell.dataset.x = x;
+      cell.dataset.y = y;
+      cell.dataset.parity = (x + y) % 2;
       if (x === 0 || y === 0 || x === width - 1 || y === height - 1) cell.dataset.edge = 'true';
       if ((x === Math.floor(width / 2) || x === Math.ceil(width / 2) - 1) && (y === Math.floor(height / 2) || y === Math.ceil(height / 2) - 1)) cell.dataset.center = 'true';
-      if (x === 0 && y % 2 === 0) cell.dataset.coord = y;
-      if (y === height - 1 && x % 2 === 0) cell.dataset.coordX = x;
+      if (resource) cell.dataset.resource = Number(resource.amount ?? 0) > 0 ? 'loaded' : 'depleted';
+      if (resource?.contested) cell.dataset.contested = 'true';
+      if (obstacleCells.has(key)) cell.dataset.obstacle = 'true';
+      if (coreCells.has(key)) cell.dataset.core = coreCells.get(key);
+      if (unitSides.has(key)) cell.dataset.occupied = [...unitSides.get(key)].sort().join('');
+      if (action) {
+        cell.dataset.action = action.tone;
+        cell.dataset.actionRole = action.role;
+      }
+      if (x === 0 && y % 2 === 0) {
+        const coord = document.createElement('span');
+        coord.className = 'cell-coord cell-coord-y';
+        coord.textContent = y;
+        cell.append(coord);
+      }
+      if (y === height - 1 && x % 2 === 0) {
+        const coord = document.createElement('span');
+        coord.className = 'cell-coord cell-coord-x';
+        coord.textContent = x;
+        cell.append(coord);
+      }
       board.append(cell);
     }
   }
+
+  for (const side of ['A', 'B']) addAnchor(board, state?.players?.[side]?.core, width, height, side);
 
   for (const event of events) {
     if (event.type === 'move') {
@@ -148,12 +353,15 @@ function renderBoard(board, state, frame) {
       addVector(board, event.from, to, width, height, 'move');
       addPulse(board, to, width, height, 'move');
     } else if (event.type === 'gather') {
-      addPulse(board, positionFor(event.resource, state), width, height, 'gather');
+      const resource = positionFor(event.resource, state);
+      const unit = positionFor(event.unit, state);
+      addVector(board, unit, resource, width, height, 'gather');
+      addPulse(board, resource, width, height, 'gather');
     } else if (event.type === 'core_damage') {
       const target = state?.players?.[event.defender]?.core;
       addPulse(board, target, width, height, 'damage');
-      const attacker = positionFor(event.attacker, state) ?? state?.players?.[event.attacker]?.core;
-      addVector(board, attacker, target, width, height, 'damage');
+      const attacker = !['A', 'B'].includes(event.attacker) && event.source !== 'center_control' ? positionLike(event.attacker, state) : null;
+      if (attacker) addVector(board, attacker, target, width, height, 'damage');
     } else if (event.type === 'attack') {
       const attacker = positionFor(event.attacker ?? event.unit, state);
       const target = positionFor(event.defender ?? event.target, state) ?? state?.players?.[event.defender]?.core;
@@ -161,34 +369,40 @@ function renderBoard(board, state, frame) {
       addPulse(board, target, width, height, 'damage');
     } else if (event.type === 'center_control') {
       addPulse(board, { x: (width - 1) / 2, y: (height - 1) / 2 }, width, height, 'control');
+    } else if (event.type === 'spawn') {
+      addPulse(board, positionLike(event.unit, state), width, height, 'spawn');
+    } else if (event.type === 'repair_core') {
+      addPulse(board, state?.players?.[event.player]?.core, width, height, 'gather');
+    } else if (['starvation', 'unit_destroyed', 'pressure_damage', 'pressure_unit_destroyed'].includes(event.type)) {
+      addPulse(board, positionFor(event.unit ?? event.target, state), width, height, 'damage');
+    } else if (event.type === 'overtime_pressure') {
+      addPulse(board, { x: (width - 1) / 2, y: (height - 1) / 2 }, width, height, 'control');
     }
   }
 
-  for (const obstacle of state?.obstacles ?? []) {
+  for (const obstacle of obstacles) {
     board.append(piece(obstacle, 'replay-piece obstacle', ''));
   }
 
-  for (const resource of state?.resources ?? []) {
+  for (const resource of resources) {
     const amount = Number(resource.amount ?? 0);
     const node = piece(resource, `replay-piece resource ${resource.contested ? 'contested' : ''}`, '');
-    node.style.opacity = amount > 0 ? '1' : '0.22';
+    node.style.setProperty('--resource-pct', pct(amount, 12));
     node.dataset.amount = amount;
+    node.dataset.status = amount > 0 ? 'loaded' : 'depleted';
     board.append(node);
   }
 
+  const stackFor = buildStackPlan([...cores, ...units]);
+
   for (const side of ['A', 'B']) {
     const core = state?.players?.[side]?.core;
-    if (core) {
-      const node = piece(core, `replay-piece core-piece side-${side}`, side);
-      node.dataset.hp = `${core.hp ?? '—'}/${core.max_hp ?? '—'}`;
-      board.append(node);
-    }
+    if (core) board.append(piece(core, `replay-piece core-piece side-${side}`, side, stackFor(core)));
   }
 
-  for (const unit of state?.units ?? []) {
+  for (const unit of units) {
     const label = unit.type === 'worker' ? 'W' : unit.type === 'striker' ? 'S' : 'U';
-    const node = piece(unit, `replay-piece unit-piece ${unit.type ?? 'unit'} side-${unit.player ?? 'N'}`, label);
-    node.dataset.hp = `${unit.hp ?? '—'}/${unit.max_hp ?? '—'}`;
+    const node = piece(unit, `replay-piece unit-piece ${unit.type ?? 'unit'} side-${unit.player ?? 'N'}`, label, stackFor(unit));
     board.append(node);
   }
 }
@@ -211,7 +425,11 @@ function updateCombatant(panel, side, state, frame) {
   if (energyBar) energyBar.style.width = pct(player?.energy ?? frame?.energy?.[side] ?? 0, player?.max_energy ?? 12);
   if (damageValue) damageValue.textContent = String(panel.dataset[`damage${side}`] ?? '0');
   if (invalidValue) invalidValue.textContent = String(panel.dataset[`invalid${side}`] ?? '0');
-  if (unitsValue) unitsValue.textContent = String((state?.units ?? []).filter((unit) => unit.player === side).length);
+  if (unitsValue) {
+    const sideUnits = (state?.units ?? []).filter((unit) => unit.player === side);
+    const liveUnits = sideUnits.filter((unit) => Number(unit.hp ?? 1) > 0);
+    unitsValue.textContent = `${liveUnits.length}/${sideUnits.length}`;
+  }
 }
 
 async function initReplay(panel) {
