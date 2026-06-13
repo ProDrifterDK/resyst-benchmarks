@@ -1,9 +1,27 @@
 {
   "name": "Resyst Labs Benchmarks",
   "short_name": "Resyst Benchmarks",
+  "description": "Independent AI model rankings, software-engineering scores, agentic reliability measurements, and Resyst Arena benchmark evidence.",
+  "id": "/",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#050508",
   "theme_color": "#050508",
-  "description": "Independent model rankings and Resyst Arena benchmark evidence."
+  "icons": [
+    {
+      "src": "/assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "developer", "education"],
+  "lang": "en"
 }

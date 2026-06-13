@@ -1,81 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://benchmarks.resyst.cl/</loc>
-    <lastmod>2026-06-13</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://benchmarks.resyst.cl/og.png</image:loc>
+      <image:title>Resyst Labs Benchmarks</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://benchmarks.resyst.cl/arena/</loc>
-    <lastmod>2026-06-13</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://benchmarks.resyst.cl/og.png</image:loc>
+      <image:title>Resyst Labs Benchmarks</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://benchmarks.resyst.cl/models/deepseek-v4-flash-direct/</loc>
-    <lastmod>2026-06-13</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
+    <image:image>
+      <image:loc>https://benchmarks.resyst.cl/og.png</image:loc>
+      <image:title>Resyst Labs Benchmarks</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://benchmarks.resyst.cl/models/qwen3.7-max-openrouter-xhigh/</loc>
-    <lastmod>2026-06-13</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
+    <image:image>
+      <image:loc>https://benchmarks.resyst.cl/og.png</image:loc>
+      <image:title>Resyst Labs Benchmarks</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://benchmarks.resyst.cl/models/minimax-m3-openrouter-xhigh/</loc>
-    <lastmod>2026-06-13</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
+    <image:image>
+      <image:loc>https://benchmarks.resyst.cl/og.png</image:loc>
+      <image:title>Resyst Labs Benchmarks</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://benchmarks.resyst.cl/models/claude-opus-4.8-openrouter-xhigh/</loc>
-    <lastmod>2026-06-13</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
+    <image:image>
+      <image:loc>https://benchmarks.resyst.cl/og.png</image:loc>
+      <image:title>Resyst Labs Benchmarks</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://benchmarks.resyst.cl/models/deepseek-v4-pro-direct/</loc>
-    <lastmod>2026-06-13</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
+    <image:image>
+      <image:loc>https://benchmarks.resyst.cl/og.png</image:loc>
+      <image:title>Resyst Labs Benchmarks</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://benchmarks.resyst.cl/models/gpt-5.5-openrouter-xhigh/</loc>
-    <lastmod>2026-06-13</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
+    <image:image>
+      <image:loc>https://benchmarks.resyst.cl/og.png</image:loc>
+      <image:title>Resyst Labs Benchmarks</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://benchmarks.resyst.cl/models/gemini-3.5-flash-openrouter/</loc>
-    <lastmod>2026-06-13</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
+    <image:image>
+      <image:loc>https://benchmarks.resyst.cl/og.png</image:loc>
+      <image:title>Resyst Labs Benchmarks</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://benchmarks.resyst.cl/models/claude-fable-5-openrouter-xhigh/</loc>
-    <lastmod>2026-06-13</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
+    <image:image>
+      <image:loc>https://benchmarks.resyst.cl/og.png</image:loc>
+      <image:title>Resyst Labs Benchmarks</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://benchmarks.resyst.cl/models/minimax-m3-direct-anthropic/</loc>
-    <lastmod>2026-06-13</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
+    <image:image>
+      <image:loc>https://benchmarks.resyst.cl/og.png</image:loc>
+      <image:title>Resyst Labs Benchmarks</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://benchmarks.resyst.cl/models/kimi-k2.7-code-openrouter-xhigh/</loc>
-    <lastmod>2026-06-13</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
+    <image:image>
+      <image:loc>https://benchmarks.resyst.cl/og.png</image:loc>
+      <image:title>Resyst Labs Benchmarks</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://benchmarks.resyst.cl/models/nemotron-3-ultra-openrouter-xhigh/</loc>
-    <lastmod>2026-06-13</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
+    <image:image>
+      <image:loc>https://benchmarks.resyst.cl/og.png</image:loc>
+      <image:title>Resyst Labs Benchmarks</image:title>
+    </image:image>
   </url>
 </urlset>
