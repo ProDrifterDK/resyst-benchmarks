@@ -66,6 +66,18 @@ function jsonLdBlocks(html) {
     .map((match) => JSON.parse(match[1]));
 }
 
+async function assertCrawlerSafePng(file) {
+  const buffer = await readFile(path.join(root, file));
+  const signature = buffer.subarray(0, 8).toString('hex');
+  if (signature !== '89504e470d0a1a0a') throw new Error(`${file} must be a PNG file`);
+  const width = buffer.readUInt32BE(16);
+  const height = buffer.readUInt32BE(20);
+  const bitDepth = buffer.readUInt8(24);
+  const colorType = buffer.readUInt8(25);
+  if (width !== 1200 || height !== 630) throw new Error(`${file} must be 1200x630 for link previews`);
+  if (bitDepth !== 8 || colorType !== 2) throw new Error(`${file} must be 8-bit truecolor RGB PNG; got bitDepth=${bitDepth}, colorType=${colorType}`);
+}
+
 function assertSeoBasics(file, content, canonical) {
   const titleMatch = content.match(/<title>([^<]+)<\/title>/i);
   if (!titleMatch || titleMatch[1].trim().length < 20) throw new Error(`${file} needs a descriptive title tag`);
@@ -77,7 +89,9 @@ function assertSeoBasics(file, content, canonical) {
     `<link rel="canonical" href="${canonical}"`,
     `<link rel="alternate" hreflang="en" href="${canonical}"`,
     `<link rel="alternate" hreflang="x-default" href="${canonical}"`,
-    '<meta property="og:image" content="https://benchmarks.resyst.cl/og.png"',
+    '<meta property="og:image" content="https://benchmarks.resyst.cl/og.png?v=20260613-link-preview"',
+    '<meta property="og:image:secure_url" content="https://benchmarks.resyst.cl/og.png?v=20260613-link-preview"',
+    '<meta property="og:image:type" content="image/png"',
     '<meta property="og:image:width" content="1200"',
     '<meta property="og:image:height" content="630"',
     '<meta property="og:image:alt" content="Resyst Labs Benchmarks: independent AI model rankings and Arena evidence"',
@@ -106,14 +120,16 @@ await stat(path.join(root, 'src/assets/ResystLabs-Logo.png'));
 await stat(path.join(root, 'dist/assets/ResystLabs-Logo.png'));
 await stat(path.join(root, 'src/og.png'));
 await stat(path.join(root, 'dist/og.png'));
+await assertCrawlerSafePng('src/og.png');
+await assertCrawlerSafePng('dist/og.png');
 await stat(path.join(root, 'dist/assets/icon-192.png'));
 await stat(path.join(root, 'dist/assets/icon-512.png'));
 
 const html = await readText('dist/index.html');
 assertSeoBasics('dist/index.html', html, 'https://benchmarks.resyst.cl/');
 for (const required of [
-  'styles.css?v=20260613-seo',
-  'app.js?v=20260613-seo',
+  'styles.css?v=20260613-link-preview',
+  'app.js?v=20260613-link-preview',
   'AI Model Benchmarks & Arena Replays | Resyst Labs',
   'Resyst Labs logo',
   'https://benchmarks.resyst.cl/',
@@ -170,7 +186,7 @@ if (!manifest.icons?.some((icon) => icon.sizes === '192x192') || !manifest.icons
   throw new Error('web manifest must include 192x192 and 512x512 icons');
 }
 const sitemap = await readText('dist/sitemap.xml');
-for (const required of ['https://benchmarks.resyst.cl/', 'https://benchmarks.resyst.cl/arena/', 'xmlns:image=', '<image:loc>https://benchmarks.resyst.cl/og.png</image:loc>']) {
+for (const required of ['https://benchmarks.resyst.cl/', 'https://benchmarks.resyst.cl/arena/', 'xmlns:image=', '<image:loc>https://benchmarks.resyst.cl/og.png?v=20260613-link-preview</image:loc>']) {
   if (!sitemap.includes(required)) throw new Error(`sitemap.xml missing SEO marker: ${required}`);
 }
 if (/<loc>http:\/\//.test(sitemap) || /<image:loc>http:\/\//.test(sitemap)) throw new Error('sitemap.xml canonical URL entries must use HTTPS only');

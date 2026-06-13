@@ -7,8 +7,9 @@ const src = path.join(root, 'src');
 const dist = path.join(root, 'dist');
 const site = 'https://benchmarks.resyst.cl/';
 const logoUrl = `${site}assets/ResystLabs-Logo.png`;
-const ogImageUrl = `${site}og.png`;
-const assetVersion = '20260613-seo';
+const ogImageVersion = '20260613-link-preview';
+const ogImageUrl = `${site}og.png?v=${ogImageVersion}`;
+const assetVersion = '20260613-link-preview';
 
 if (!existsSync(src)) {
   throw new Error('src directory is missing');
