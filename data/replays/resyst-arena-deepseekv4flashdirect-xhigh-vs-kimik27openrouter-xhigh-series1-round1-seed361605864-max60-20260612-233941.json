@@ -2,22 +2,7 @@
   "artifact_type": "resyst_arena_public_replay",
   "config": {
     "action_protocol": "action_ids_v1",
-    "arena_lane": {
-      "context_recent_turns": 6,
-      "description": "Resyst Arena text action-id lane with maximum provider reasoning for DeepSeek direct vs Kimi OpenRouter.",
-      "max_turns": 100,
-      "model_overrides": {
-        "action_protocol": "action_ids_v1",
-        "lane": "arena_xhigh_thinking",
-        "max_tokens": 8192,
-        "output_budget_policy": "opencode_clamped_v1",
-        "reasoning": {
-          "effort": "xhigh",
-          "exclude": false
-        }
-      },
-      "name": "arena_xhigh_text_actions"
-    },
+    "arena_lane": "xhigh text-actions",
     "max_turns": 60,
     "mode": "duel",
     "random_positions": false,
