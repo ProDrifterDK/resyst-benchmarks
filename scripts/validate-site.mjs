@@ -123,6 +123,12 @@ for (const required of [
 if (arenaHtml.includes('<span>Match 1</span>')) {
   throw new Error('arena page still exposes flat global Match 1 tab labels instead of encounter-grouped replay labels');
 }
+for (const cssFile of ['src/styles.css', 'dist/styles.css']) {
+  const css = await readText(cssFile);
+  if (/\.encounter-switcher\s*\{[^}]*position\s*:\s*sticky/i.test(css)) {
+    throw new Error(`${cssFile} keeps the encounter selector sticky; it must scroll as normal page content`);
+  }
+}
 
 const models = JSON.parse(await readText('src/data/model-comparison.json'));
 const arena = JSON.parse(await readText('src/data/arena-snapshots.json'));
