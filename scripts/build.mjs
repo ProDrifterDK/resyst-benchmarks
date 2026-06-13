@@ -6,7 +6,9 @@ const root = process.cwd();
 const src = path.join(root, 'src');
 const dist = path.join(root, 'dist');
 const site = 'https://benchmarks.resyst.cl/';
-const assetVersion = '20260613-home-encounters';
+const logoUrl = `${site}assets/ResystLabs-Logo.png`;
+const ogImageUrl = `${site}og.png`;
+const assetVersion = '20260613-seo';
 
 if (!existsSync(src)) {
   throw new Error('src directory is missing');
@@ -42,12 +44,14 @@ const modelPath = (row) => `models/${slug(row.id)}/`;
 const rankedRows = [...models.rows]
   .filter((row) => Number.isFinite(row.overall_rank))
   .sort((a, b) => a.overall_rank - b.overall_rank);
+const dataDate = (models.generated_at ? new Date(models.generated_at) : new Date()).toISOString().slice(0, 10);
+const dataDateLabel = new Intl.DateTimeFormat('en', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(dataDate));
 
 function header(prefix = '') {
   return `
     <header class="site-header">
       <a class="brand" href="${prefix}" aria-label="Resyst Labs Benchmarks home">
-        <img class="brand-logo" src="${prefix}assets/ResystLabs-Logo.png" alt="" width="42" height="42" />
+        <img class="brand-logo" src="${prefix}assets/ResystLabs-Logo.png" alt="Resyst Labs logo" width="42" height="42" />
         <span>
           <strong>Resyst Labs</strong>
           <small>Benchmarks</small>
@@ -62,7 +66,71 @@ function header(prefix = '') {
     </header>`;
 }
 
-function pageShell({ title, description, canonicalPath = '', prefix = '', bodyClass = '', content = '', extraScript = '' }) {
+function schemaScript(data) {
+  return `<script type="application/ld+json">\n${JSON.stringify(data, null, 2).replace(/</g, '\\u003c')}\n</script>`;
+}
+
+function organizationSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Resyst Labs',
+    url: 'https://resyst.cl/',
+    logo: {
+      '@type': 'ImageObject',
+      url: logoUrl,
+      width: 1254,
+      height: 1254,
+    },
+  };
+}
+
+function webSiteSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Resyst Labs Benchmarks',
+    url: site,
+    publisher: organizationSchema(),
+    inLanguage: 'en',
+    description: 'Independent AI model benchmarks, software engineering scores, agentic reliability measurements, and replayable Resyst Arena evidence.',
+  };
+}
+
+function webPageSchema({ title, description, url }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: title,
+    description,
+    url,
+    isPartOf: { '@id': `${site}#website`, name: 'Resyst Labs Benchmarks' },
+    publisher: organizationSchema(),
+    inLanguage: 'en',
+    dateModified: dataDate,
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: ogImageUrl,
+      width: 1200,
+      height: 630,
+    },
+  };
+}
+
+function breadcrumbSchema(items) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
+}
+
+function pageShell({ title, description, canonicalPath = '', prefix = '', bodyClass = '', content = '', extraScript = '', structuredData = [] }) {
   const canonical = `${site}${canonicalPath}`;
   return `<!doctype html>
 <html lang="en">
@@ -71,17 +139,31 @@ function pageShell({ title, description, canonicalPath = '', prefix = '', bodyCl
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>${escapeHtml(title)}</title>
     <meta name="description" content="${escapeHtml(description)}" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="application-name" content="Resyst Labs Benchmarks" />
+    <meta name="author" content="Resyst Labs" />
+    <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#050508" />
     <link rel="canonical" href="${canonical}" />
+    <link rel="alternate" hreflang="en" href="${canonical}" />
+    <link rel="alternate" hreflang="x-default" href="${canonical}" />
     <link rel="icon" href="${prefix}favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="${prefix}site.webmanifest" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="${canonical}" />
     <meta property="og:title" content="${escapeHtml(title)}" />
     <meta property="og:description" content="${escapeHtml(description)}" />
-    <meta property="og:image" content="${site}og.svg" />
+    <meta property="og:image" content="${ogImageUrl}" />
+    <meta property="og:image:secure_url" content="${ogImageUrl}" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Resyst Labs Benchmarks: independent AI model rankings and Arena evidence" />
     <meta property="og:site_name" content="Resyst Labs Benchmarks" />
     <link rel="stylesheet" href="${prefix}styles.css?v=${assetVersion}" />
+    ${structuredData.map(schemaScript).join('\n    ')}
   </head>
   <body class="${escapeHtml(bodyClass)}">
     <canvas id="signal-field" aria-hidden="true"></canvas>
@@ -114,6 +196,73 @@ function metricCard(title, eyebrow, items, note) {
     </div>
     ${note ? `<p>${escapeHtml(note)}</p>` : ''}
   </article>`;
+}
+
+function modelDatasetSchema(row) {
+  const modelUrl = `${site}${modelPath(row)}`;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Dataset',
+    name: `${row.label} AI benchmark result`,
+    description: `${row.label} benchmark result from Resyst Labs, including overall score, Full/Agentic score, SWE score, runtime cost, and reliability telemetry.`,
+    url: modelUrl,
+    identifier: row.id,
+    creator: organizationSchema(),
+    publisher: organizationSchema(),
+    license: `${site}#evidence`,
+    dateModified: dataDate,
+    keywords: ['AI benchmark', 'LLM benchmark', 'agentic AI evaluation', 'software engineering benchmark', row.label],
+    measurementTechnique: ['Full/Agentic benchmark', 'SWE MVP benchmark', 'runtime cost telemetry', 'reliability telemetry'],
+    variableMeasured: [
+      { '@type': 'PropertyValue', name: 'Overall score', value: fmt(row.overall_score) },
+      { '@type': 'PropertyValue', name: 'Full / Agentic score', value: fmt(row.full?.final) },
+      { '@type': 'PropertyValue', name: 'SWE MVP score', value: fmt(row.swe?.swe_score) },
+      { '@type': 'PropertyValue', name: 'Reliability', value: `${fmtOne(row.swe?.reliability ?? row.full?.reliability)}%` },
+    ],
+    distribution: {
+      '@type': 'DataDownload',
+      encodingFormat: 'application/json',
+      contentUrl: `${site}data/model-comparison.json`,
+    },
+  };
+}
+
+function arenaDatasetSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Dataset',
+    name: 'Resyst Arena replay dataset',
+    description: 'Replayable AI model duel evidence with board states, legal actions, events, tactical telemetry, winners, seeds, and turn counts.',
+    url: `${site}arena/`,
+    creator: organizationSchema(),
+    publisher: organizationSchema(),
+    license: `${site}#evidence`,
+    dateModified: dataDate,
+    keywords: ['AI Arena benchmark', 'LLM game benchmark', 'tactical AI evaluation', 'agentic model benchmark', 'replay dataset'],
+    measurementTechnique: ['deterministic turn-based duel', 'legal action tracking', 'spatial strategy evaluation', 'side-swapped replay series'],
+    variableMeasured: ['winner', 'turn count', 'core damage', 'invalid actions', 'resources collected', 'board state'],
+    distribution: {
+      '@type': 'DataDownload',
+      encodingFormat: 'application/json',
+      contentUrl: `${site}data/arena-snapshots.json`,
+    },
+  };
+}
+
+function rankingItemListSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Resyst Labs AI model benchmark ranking',
+    itemListOrder: 'https://schema.org/ItemListOrderAscending',
+    numberOfItems: rankedRows.length,
+    itemListElement: rankedRows.map((row) => ({
+      '@type': 'ListItem',
+      position: row.overall_rank,
+      name: row.label,
+      url: `${site}${modelPath(row)}`,
+    })),
+  };
 }
 
 function buildModelInterpretation(row) {
@@ -201,13 +350,24 @@ async function writeModelPages() {
 
     const outDir = path.join(dist, modelPath(row));
     await mkdir(outDir, { recursive: true });
+    const modelTitle = `${row.label} Benchmark Result | Resyst Labs`;
+    const modelDescription = `Compare ${row.label} across Resyst Labs AI benchmark scores: overall rank, Full/Agentic result, SWE MVP score, cost, and reliability telemetry.`;
     await writeFile(path.join(outDir, 'index.html'), pageShell({
-      title: `${row.label} — Resyst Labs Benchmark Result`,
-      description: `Self-contained Resyst Labs benchmark result page for ${row.label}, including overall, Full/Agentic, SWE, cost, and reliability metrics.`,
+      title: modelTitle,
+      description: modelDescription,
       canonicalPath: modelPath(row),
       prefix: '../../',
       bodyClass: 'detail-page',
       content,
+      structuredData: [
+        webPageSchema({ title: modelTitle, description: modelDescription, url: `${site}${modelPath(row)}` }),
+        breadcrumbSchema([
+          { name: 'Resyst Labs Benchmarks', url: site },
+          { name: 'AI model ranking', url: `${site}#ranking` },
+          { name: row.label, url: `${site}${modelPath(row)}` },
+        ]),
+        modelDatasetSchema(row),
+      ],
     }));
   }
 }
@@ -452,6 +612,84 @@ function matchTab(match, index, group, selectedMatchId) {
   </button>`;
 }
 
+function overviewPodiumCard(row) {
+  return `<article class="podium-card">
+      <a class="podium-link" href="${modelPath(row)}" aria-label="Open benchmark result for ${escapeHtml(row.label)}"></a>
+      <span class="podium-rank">#${escapeHtml(row.overall_rank)}</span>
+      <h3>${escapeHtml(row.label)}</h3>
+      <p>${escapeHtml(row.basis)}</p>
+      <span class="podium-cta">Open result →</span>
+      <span class="podium-score">${fmtOne(row.overall_score)}</span>
+    </article>`;
+}
+
+function overviewRankingRow(row) {
+  const reliability = row.swe?.reliability ?? row.full?.reliability;
+  const cost = (row.full?.cost ?? 0) + (row.swe?.cost ?? 0);
+  return `<tr>
+        <td class="rank-cell">#${escapeHtml(row.overall_rank)}</td>
+        <td class="model-cell">
+          <a class="model-link" href="${modelPath(row)}"><strong>${escapeHtml(row.label)}</strong></a>
+          <span>${escapeHtml(row.id)}</span>
+        </td>
+        <td>${escapeHtml(row.basis)}</td>
+        <td class="score-cell">${fmt(row.overall_score)}</td>
+        <td>${fmt(row.full?.final)}</td>
+        <td>${fmt(row.swe?.swe_score)}</td>
+        <td>${fmtCost(cost)}</td>
+        <td>${fmtOne(reliability)}%</td>
+        <td><a class="row-action" href="${modelPath(row)}">Result</a></td>
+      </tr>`;
+}
+
+function overviewEncounterCard(group, groupIndex) {
+  const totalTurns = group.matches.reduce((sum, match) => sum + (Number(match.turns) || 0), 0);
+  const seeds = [...new Set(group.matches.map((match) => match.seed).filter((seed) => seed !== undefined && seed !== null))];
+  const firstMatch = group.matches[0];
+  return `<article class="match-card encounter-summary-card" id="highlight-${escapeHtml(group.id)}">
+        <div>
+          <span class="match-label">Encounter ${groupIndex + 1} · ${escapeHtml(encounterMeta(group))}</span>
+          <h3>${escapeHtml(group.title)}</h3>
+          <p><strong>${escapeHtml(encounterWinnerSummary(group))}</strong>. Replays stay grouped under this model-vs-model encounter, including side-swapped rounds.</p>
+          <div class="home-replay-tabs" aria-label="${escapeHtml(group.title)} replay shortcuts">
+            ${group.matches.map((match, index) => {
+              const label = match.series_id ? `Round ${index + 1}` : group.matches.length > 1 ? `Replay ${index + 1}` : 'Replay';
+              const detail = `${prettyReason(match.winner_reason)} · seed ${match.seed ?? 'fixed'}`;
+              return `<a class="home-replay-link" href="arena/#${encodeURIComponent(match.id)}">
+                <span>${escapeHtml(label)}</span>
+                <strong>${escapeHtml(compactEntrant(match.winner_label))}</strong>
+                <small>${escapeHtml(detail)}</small>
+              </a>`;
+            }).join('')}
+          </div>
+        </div>
+        <div class="match-metrics encounter-summary-metrics">
+          <div class="metric"><span class="metric-label">Replays</span><strong>${group.matches.length}</strong></div>
+          <div class="metric"><span class="metric-label">Turns</span><strong>${totalTurns}</strong></div>
+          <div class="metric"><span class="metric-label">Seeds</span><strong>${seeds.length || '—'}</strong></div>
+          <a class="row-action match-action" href="arena/#${encodeURIComponent(firstMatch?.id ?? group.id)}">Open encounter →</a>
+        </div>
+      </article>`;
+}
+
+async function hydrateOverviewHtml() {
+  const indexPath = path.join(dist, 'index.html');
+  const leader = rankedRows[0];
+  const encounterGroups = buildEncounterGroups(arena.matches ?? []).slice(0, 3);
+  let html = await readFile(indexPath, 'utf8');
+  html = html
+    .replace('<strong id="leader-name">Loading…</strong>', `<strong id="leader-name">${escapeHtml(leader?.label ?? 'Pending artifact')}</strong>`)
+    .replace('<small id="leader-score">Synchronizing benchmark artifact</small>', `<small id="leader-score">${leader ? `Overall ${fmt(leader.overall_score)} · ${escapeHtml(leader.basis)}` : 'No ranked data loaded'}</small>`)
+    .replace('<span id="model-count">—</span>', `<span id="model-count">${rankedRows.length}</span>`)
+    .replace('<span id="arena-count">—</span>', `<span id="arena-count">${arena.matches?.length ?? 0}</span>`)
+    .replace('<span id="data-date">—</span>', `<span id="data-date">${escapeHtml(dataDateLabel)}</span>`)
+    .replace('<div id="podium" class="podium" aria-label="Top ranked models"></div>', `<div id="podium" class="podium" aria-label="Top ranked models">\n${rankedRows.slice(0, 3).map(overviewPodiumCard).join('\n')}\n        </div>`)
+    .replace(/<tbody id="ranking-body">[\s\S]*?<\/tbody>/, `<tbody id="ranking-body">\n${rankedRows.map(overviewRankingRow).join('\n')}\n            </tbody>`)
+    .replace('<div id="arena-matches" class="match-grid" aria-label="Highlighted Arena matches"></div>', `<div id="arena-matches" class="match-grid" aria-label="Highlighted Arena matches">\n${encounterGroups.map(overviewEncounterCard).join('\n')}\n        </div>`)
+    .replace('</head>', `    ${schemaScript(rankingItemListSchema())}\n  </head>`);
+  await writeFile(indexPath, html);
+}
+
 async function writeArenaPage() {
   const matches = arena.matches ?? [];
   const encounterGroups = buildEncounterGroups(matches);
@@ -485,33 +723,48 @@ async function writeArenaPage() {
   </main>`;
   const outDir = path.join(dist, 'arena');
   await mkdir(outDir, { recursive: true });
+  const arenaTitle = 'Resyst Arena AI Replays | Tactical LLM Benchmark';
+  const arenaDescription = 'Replay Resyst Arena AI model duels with board states, legal actions, winners, seeds, telemetry, and grouped tactical benchmark evidence.';
   await writeFile(path.join(outDir, 'index.html'), pageShell({
-    title: 'Resyst Arena Replays — Resyst Labs Benchmarks',
-    description: 'Resyst Arena replay room with tactical benchmark match summaries, board states, legal actions, events, and telemetry artifacts.',
+    title: arenaTitle,
+    description: arenaDescription,
     canonicalPath: 'arena/',
     prefix: '../',
     bodyClass: 'detail-page arena-replay-page',
     content,
     extraScript: '<script type="module" src="../replay.js"></script>',
+    structuredData: [
+      webPageSchema({ title: arenaTitle, description: arenaDescription, url: `${site}arena/` }),
+      breadcrumbSchema([
+        { name: 'Resyst Labs Benchmarks', url: site },
+        { name: 'Resyst Arena replays', url: `${site}arena/` },
+      ]),
+      arenaDatasetSchema(),
+    ],
   }));
 }
 
 await writeModelPages();
 await writeArenaPage();
+await hydrateOverviewHtml();
 
-const today = new Date().toISOString().slice(0, 10);
+const today = dataDate;
 const urls = [
   ['', '1.0'],
   ['arena/', '0.9'],
   ...rankedRows.map((row) => [modelPath(row), '0.72']),
 ];
 await writeFile(path.join(dist, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${urls.map(([loc, priority]) => `  <url>
     <loc>${site}${loc}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>${priority}</priority>
+    <image:image>
+      <image:loc>${ogImageUrl}</image:loc>
+      <image:title>Resyst Labs Benchmarks</image:title>
+    </image:image>
   </url>`).join('\n')}
 </urlset>
 `);

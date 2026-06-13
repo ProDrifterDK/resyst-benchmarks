@@ -3,37 +3,81 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Resyst Labs Benchmarks</title>
+    <title>AI Model Benchmarks & Arena Replays | Resyst Labs</title>
     <meta
       name="description"
-      content="Independent model evaluation, public ranking artifacts, and Resyst Arena tactical benchmark evidence from Resyst Labs."
+      content="Compare AI models with public LLM rankings, software-engineering scores, agentic reliability, runtime cost, and replayable Resyst Arena duels."
     />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="application-name" content="Resyst Labs Benchmarks" />
+    <meta name="author" content="Resyst Labs" />
+    <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#050508" />
     <link rel="canonical" href="https://benchmarks.resyst.cl/" />
+    <link rel="alternate" hreflang="en" href="https://benchmarks.resyst.cl/" />
+    <link rel="alternate" hreflang="x-default" href="https://benchmarks.resyst.cl/" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="site.webmanifest" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://benchmarks.resyst.cl/" />
-    <meta property="og:title" content="Resyst Labs Benchmarks" />
+    <meta property="og:title" content="AI Model Benchmarks & Arena Replays | Resyst Labs" />
     <meta
       property="og:description"
-      content="A public evidence layer for evaluating AI systems across agentic tasks, software engineering, and tactical Arena duels."
+      content="Public AI model rankings, software-engineering scores, agentic reliability measurements, runtime cost, and replayable Resyst Arena duels."
     />
-    <meta property="og:image" content="https://benchmarks.resyst.cl/og.svg" />
+    <meta property="og:image" content="https://benchmarks.resyst.cl/og.png" />
+    <meta property="og:image:secure_url" content="https://benchmarks.resyst.cl/og.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Resyst Labs Benchmarks: independent AI model rankings and Arena evidence" />
     <meta property="og:site_name" content="Resyst Labs Benchmarks" />
-    <link rel="stylesheet" href="styles.css?v=20260613-home-encounters" />
+    <link rel="stylesheet" href="styles.css?v=20260613-seo" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Dataset",
-        "name": "Resyst Labs Benchmarks",
-        "description": "Independent model evaluation rankings and Resyst Arena tactical benchmark evidence.",
-        "url": "https://benchmarks.resyst.cl/",
-        "creator": {
-          "@type": "Organization",
-          "name": "Resyst Labs"
-        },
-        "license": "https://benchmarks.resyst.cl/#evidence"
+        "@graph": [
+          {
+            "@type": "Organization",
+            "name": "Resyst Labs",
+            "url": "https://resyst.cl/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://benchmarks.resyst.cl/assets/ResystLabs-Logo.png",
+              "width": 1254,
+              "height": 1254
+            }
+          },
+          {
+            "@type": "WebSite",
+            "name": "Resyst Labs Benchmarks",
+            "url": "https://benchmarks.resyst.cl/",
+            "inLanguage": "en",
+            "description": "Independent AI model benchmarks, software engineering scores, agentic reliability measurements, and replayable Resyst Arena evidence."
+          },
+          {
+            "@type": "Dataset",
+            "name": "Resyst Labs AI model benchmark ranking",
+            "description": "Public AI model ranking dataset with overall scores, Full/Agentic measurements, SWE MVP results, costs, reliability, and Resyst Arena evidence.",
+            "url": "https://benchmarks.resyst.cl/",
+            "license": "https://benchmarks.resyst.cl/#evidence",
+            "keywords": ["AI benchmark", "LLM benchmark", "agentic AI evaluation", "software engineering benchmark", "Resyst Arena"],
+            "distribution": [
+              {
+                "@type": "DataDownload",
+                "encodingFormat": "application/json",
+                "contentUrl": "https://benchmarks.resyst.cl/data/model-comparison.json"
+              },
+              {
+                "@type": "DataDownload",
+                "encodingFormat": "application/json",
+                "contentUrl": "https://benchmarks.resyst.cl/data/arena-snapshots.json"
+              }
+            ]
+          }
+        ]
       }
     </script>
   </head>
@@ -45,7 +89,7 @@
 
     <header class="site-header">
       <a class="brand" href="#top" aria-label="Resyst Labs Benchmarks home">
-        <img class="brand-logo" src="assets/ResystLabs-Logo.png" alt="" width="42" height="42" />
+        <img class="brand-logo" src="assets/ResystLabs-Logo.png" alt="Resyst Labs logo" width="42" height="42" />
         <span>
           <strong>Resyst Labs</strong>
           <small>Benchmarks</small>
@@ -64,7 +108,7 @@
         <div class="hero-copy">
           <p class="eyebrow">Independent model evaluation · public artifacts · tactical evidence</p>
           <h1 id="hero-title">
-            Measure what models do when the arena has <em>rules</em>.
+            AI model benchmarks with <em>rules</em>, receipts, and Arena replays.
           </h1>
           <p class="hero-lead">
             Resyst Labs Benchmarks is a public evidence surface for comparing AI systems across agentic reasoning, software engineering, reliability, runtime economics, and Resyst Arena duels.
@@ -240,6 +284,6 @@
         Resyst Labs Benchmarks requires JavaScript to render the live ranking table from the public JSON artifacts. The data files remain available at data/model-comparison.json and data/arena-snapshots.json.
       </div>
     </noscript>
-    <script type="module" src="app.js?v=20260613-home-encounters"></script>
+    <script type="module" src="app.js?v=20260613-seo"></script>
   </body>
 </html>

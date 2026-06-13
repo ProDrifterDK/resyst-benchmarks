@@ -61,6 +61,33 @@ function visibleText(html) {
     .trim();
 }
 
+function jsonLdBlocks(html) {
+  return [...html.matchAll(/<script\s+type="application\/ld\+json">([\s\S]*?)<\/script>/gi)]
+    .map((match) => JSON.parse(match[1]));
+}
+
+function assertSeoBasics(file, content, canonical) {
+  const titleMatch = content.match(/<title>([^<]+)<\/title>/i);
+  if (!titleMatch || titleMatch[1].trim().length < 20) throw new Error(`${file} needs a descriptive title tag`);
+  const descMatch = content.match(/<meta\s+name="description"[\s\S]*?content="([^"]+)"/i);
+  if (!descMatch || descMatch[1].length < 110 || descMatch[1].length > 180) throw new Error(`${file} needs a 110-180 character meta description`);
+  for (const required of [
+    '<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"',
+    '<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"',
+    `<link rel="canonical" href="${canonical}"`,
+    `<link rel="alternate" hreflang="en" href="${canonical}"`,
+    `<link rel="alternate" hreflang="x-default" href="${canonical}"`,
+    '<meta property="og:image" content="https://benchmarks.resyst.cl/og.png"',
+    '<meta property="og:image:width" content="1200"',
+    '<meta property="og:image:height" content="630"',
+    '<meta property="og:image:alt" content="Resyst Labs Benchmarks: independent AI model rankings and Arena evidence"',
+  ]) {
+    if (!content.includes(required)) throw new Error(`${file} missing SEO marker: ${required}`);
+  }
+  if ((content.match(/<h1\b/gi) ?? []).length !== 1) throw new Error(`${file} must have exactly one h1`);
+  if (!jsonLdBlocks(content).length) throw new Error(`${file} must include JSON-LD structured data`);
+}
+
 const filesToScan = new Set(generatorFiles);
 for (const dir of publicSourceRoots) {
   for (const file of await listTextFiles(dir)) filesToScan.add(file);
@@ -77,11 +104,18 @@ for (const file of filesToScan) {
 
 await stat(path.join(root, 'src/assets/ResystLabs-Logo.png'));
 await stat(path.join(root, 'dist/assets/ResystLabs-Logo.png'));
+await stat(path.join(root, 'src/og.png'));
+await stat(path.join(root, 'dist/og.png'));
+await stat(path.join(root, 'dist/assets/icon-192.png'));
+await stat(path.join(root, 'dist/assets/icon-512.png'));
 
 const html = await readText('dist/index.html');
+assertSeoBasics('dist/index.html', html, 'https://benchmarks.resyst.cl/');
 for (const required of [
-  'styles.css?v=20260613-home-encounters',
-  'app.js?v=20260613-home-encounters',
+  'styles.css?v=20260613-seo',
+  'app.js?v=20260613-seo',
+  'AI Model Benchmarks & Arena Replays | Resyst Labs',
+  'Resyst Labs logo',
   'https://benchmarks.resyst.cl/',
   'Resyst Labs Benchmarks',
   'Independent model evaluation',
@@ -93,6 +127,10 @@ for (const required of [
   'Local and API-backed systems share a single tournament view',
   'Scores are claims with receipts',
   'Public by design. Auditable by default.',
+  'ItemList',
+  'podium-card',
+  '<tbody id="ranking-body">',
+  'encounter-summary-card',
 ]) {
   if (!html.includes(required)) throw new Error(`index.html missing required self-contained content: ${required}`);
 }
@@ -105,6 +143,9 @@ const sectionChecks = [
 ];
 for (const [, expected] of sectionChecks) {
   if (!html.includes(expected)) throw new Error(`index.html section missing context phrase: ${expected}`);
+}
+if (/Loading benchmark rows|Loading…|Synchronizing benchmark artifact/.test(html)) {
+  throw new Error('dist/index.html must ship crawlable benchmark content instead of loading placeholders');
 }
 
 const appJs = await readText('dist/app.js');
@@ -120,12 +161,29 @@ if (/matches\.slice\(0,\s*3\)\.map\(\(match\)/.test(appJs)) {
   throw new Error('app.js still renders highlighted Arena entries as a flat match list instead of grouped encounters');
 }
 
+const robots = await readText('dist/robots.txt');
+if (!/User-agent:\s*\*/.test(robots) || !robots.includes('Sitemap: https://benchmarks.resyst.cl/sitemap.xml')) {
+  throw new Error('robots.txt must allow crawling and point at the canonical HTTPS sitemap');
+}
+const manifest = JSON.parse(await readText('dist/site.webmanifest'));
+if (!manifest.icons?.some((icon) => icon.sizes === '192x192') || !manifest.icons?.some((icon) => icon.sizes === '512x512')) {
+  throw new Error('web manifest must include 192x192 and 512x512 icons');
+}
+const sitemap = await readText('dist/sitemap.xml');
+for (const required of ['https://benchmarks.resyst.cl/', 'https://benchmarks.resyst.cl/arena/', 'xmlns:image=', '<image:loc>https://benchmarks.resyst.cl/og.png</image:loc>']) {
+  if (!sitemap.includes(required)) throw new Error(`sitemap.xml missing SEO marker: ${required}`);
+}
+if (/<loc>http:\/\//.test(sitemap) || /<image:loc>http:\/\//.test(sitemap)) throw new Error('sitemap.xml canonical URL entries must use HTTPS only');
+
 const arenaHtml = await readText('dist/arena/index.html');
+assertSeoBasics('dist/arena/index.html', arenaHtml, 'https://benchmarks.resyst.cl/arena/');
 for (const required of [
-  'Resyst Arena Replays',
+  'Resyst Arena AI Replays | Tactical LLM Benchmark',
   'Resyst Arena is a deterministic turn-based evaluation environment',
   'Replays are grouped by encounter',
   'Encounter grouping',
+  'BreadcrumbList',
+  'Dataset',
   'Encounter 1',
   'Round 1',
   'Replay JSON exposes board states, actions, events, and telemetry',
@@ -159,8 +217,12 @@ const rankedRows = models.rows.filter((row) => Number.isFinite(row.overall_rank)
 for (const row of rankedRows) {
   const modelPage = `dist/models/${row.id}/index.html`;
   const content = await readText(modelPage);
+  assertSeoBasics(modelPage, content, `https://benchmarks.resyst.cl/models/${row.id}/`);
   for (const required of [
     row.label,
+    'Benchmark Result | Resyst Labs',
+    'BreadcrumbList',
+    'Dataset',
     'Public result card',
     'Overall score',
     'Full / Agentic benchmark',
