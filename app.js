@@ -27,6 +27,79 @@ const sideValue = (map, side) => map?.[side] ?? 0;
 const modelPath = (row) => `models/${encodeURIComponent(row.id)}/`;
 const prettyReason = (value = 'resolved') => String(value).replaceAll('_', ' ');
 
+function compactEntrant(value = '') {
+  return String(value)
+    .replace(/-openrouter.*/i, '')
+    .replace(/-direct.*/i, '')
+    .replace(/-native.*/i, '')
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase())
+    .replace(/Deepseek/g, 'DeepSeek')
+    .replace(/Minimax/g, 'MiniMax')
+    .replace(/Nvidia/g, 'NVIDIA')
+    .replace(/\bGpt\b/g, 'GPT')
+    .replace(/\bQwen/g, 'Qwen')
+    .replace(/\bAi\b/g, 'AI');
+}
+
+function encounterLabels(match) {
+  return ['A', 'B'].map((side) => compactEntrant(match.entrants?.[side] ?? side));
+}
+
+function encounterKey(match) {
+  return [...encounterLabels(match)].sort((a, b) => a.localeCompare(b)).join(' vs ');
+}
+
+function buildEncounterGroups(matches) {
+  const groups = new Map();
+  for (const match of matches) {
+    const [first, second] = encounterLabels(match);
+    const key = encounterKey(match);
+    if (!groups.has(key)) {
+      groups.set(key, {
+        id: `encounter-${key.toLowerCase().replace(/[^a-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '')}`,
+        title: `${first} vs ${second}`,
+        key,
+        matches: [],
+      });
+    }
+    groups.get(key).matches.push(match);
+  }
+  return [...groups.values()];
+}
+
+function pluralize(count, singular, plural = `${singular}s`) {
+  return `${count} ${count === 1 ? singular : plural}`;
+}
+
+function encounterWinnerSummary(group) {
+  const counts = new Map();
+  for (const match of group.matches) {
+    const winner = compactEntrant(match.winner_label ?? 'Unresolved');
+    counts.set(winner, (counts.get(winner) ?? 0) + 1);
+  }
+  const ordered = [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  if (!ordered.length) return 'No winner recorded';
+  const [leader, leaderWins] = ordered[0];
+  const runnerWins = ordered[1]?.[1] ?? 0;
+  if (group.matches.length === 1) return `${leader} won the replay`;
+  if (leaderWins === runnerWins) return `Split ${leaderWins}–${runnerWins}`;
+  return `${leader} leads ${leaderWins}–${runnerWins}`;
+}
+
+function matchDateLabel(match) {
+  const label = String(match.date_label ?? '');
+  if (/^20\d{6}$/.test(label)) return label;
+  return String(match.id ?? '').match(/20\d{6}/)?.[0] ?? label ?? 'undated';
+}
+
+function encounterMeta(group) {
+  const latestDate = group.matches.map(matchDateLabel).filter(Boolean).sort().at(-1) ?? 'undated';
+  const lanes = [...new Set(group.matches.map((match) => match.lane).filter(Boolean))];
+  const laneLabel = lanes.length ? ` · ${lanes.join(' / ')}` : '';
+  return `${pluralize(group.matches.length, 'replay')} · latest ${latestDate}${laneLabel}`;
+}
+
 async function loadJson(path) {
   const response = await fetch(path, { cache: 'no-cache' });
   if (!response.ok) throw new Error(`Could not load ${path}: ${response.status}`);
@@ -98,21 +171,39 @@ function renderRanking(models) {
 function renderArena(arena) {
   const container = document.querySelector('#arena-matches');
   const matches = arena.matches ?? [];
+  const encounterGroups = buildEncounterGroups(matches).slice(0, 3);
 
-  container.innerHTML = matches.slice(0, 3).map((match) => `
-    <article class="match-card">
-      <div>
-        <span class="match-label">Seed ${escapeHtml(match.seed ?? 'fixed')} · lane ${escapeHtml(match.lane ?? '—')} · ${escapeHtml(match.turns)} turns</span>
-        <h3>${escapeHtml(match.entrants.A)} <span aria-hidden="true">vs</span> ${escapeHtml(match.entrants.B)}</h3>
-        <p><strong>Winner:</strong> ${escapeHtml(match.winner_label)} · ${escapeHtml(prettyReason(match.winner_reason))}</p>
-      </div>
-      <div class="match-metrics">
-        <div class="metric"><span class="metric-label">Core HP A/B</span><strong>${sideValue(match.core_hp, 'A')} / ${sideValue(match.core_hp, 'B')}</strong></div>
-        <div class="metric"><span class="metric-label">Damage A/B</span><strong>${sideValue(match.core_damage_dealt, 'A')} / ${sideValue(match.core_damage_dealt, 'B')}</strong></div>
-        <a class="row-action match-action" href="arena/#${encodeURIComponent(match.id)}">Open replay →</a>
-      </div>
-    </article>
-  `).join('');
+  container.innerHTML = encounterGroups.map((group, groupIndex) => {
+    const totalTurns = group.matches.reduce((sum, match) => sum + (Number(match.turns) || 0), 0);
+    const seeds = [...new Set(group.matches.map((match) => match.seed).filter((seed) => seed !== undefined && seed !== null))];
+    const firstMatch = group.matches[0];
+    return `
+      <article class="match-card encounter-summary-card" id="highlight-${escapeHtml(group.id)}">
+        <div>
+          <span class="match-label">Encounter ${groupIndex + 1} · ${escapeHtml(encounterMeta(group))}</span>
+          <h3>${escapeHtml(group.title)}</h3>
+          <p><strong>${escapeHtml(encounterWinnerSummary(group))}</strong>. Replays stay grouped under this model-vs-model encounter, including side-swapped rounds.</p>
+          <div class="home-replay-tabs" aria-label="${escapeHtml(group.title)} replay shortcuts">
+            ${group.matches.map((match, index) => {
+              const label = match.series_id ? `Round ${index + 1}` : group.matches.length > 1 ? `Replay ${index + 1}` : 'Replay';
+              const detail = `${prettyReason(match.winner_reason)} · seed ${match.seed ?? 'fixed'}`;
+              return `<a class="home-replay-link" href="arena/#${encodeURIComponent(match.id)}">
+                <span>${escapeHtml(label)}</span>
+                <strong>${escapeHtml(compactEntrant(match.winner_label))}</strong>
+                <small>${escapeHtml(detail)}</small>
+              </a>`;
+            }).join('')}
+          </div>
+        </div>
+        <div class="match-metrics encounter-summary-metrics">
+          <div class="metric"><span class="metric-label">Replays</span><strong>${group.matches.length}</strong></div>
+          <div class="metric"><span class="metric-label">Turns</span><strong>${totalTurns}</strong></div>
+          <div class="metric"><span class="metric-label">Seeds</span><strong>${seeds.length || '—'}</strong></div>
+          <a class="row-action match-action" href="arena/#${encodeURIComponent(firstMatch?.id ?? group.id)}">Open encounter →</a>
+        </div>
+      </article>
+    `;
+  }).join('');
 }
 
 async function main() {
