@@ -6,6 +6,7 @@ const root = process.cwd();
 const src = path.join(root, 'src');
 const dist = path.join(root, 'dist');
 const site = 'https://benchmarks.resyst.cl/';
+const assetVersion = '20260613-nonsticky-encounters';
 
 if (!existsSync(src)) {
   throw new Error('src directory is missing');
@@ -80,7 +81,7 @@ function pageShell({ title, description, canonicalPath = '', prefix = '', bodyCl
     <meta property="og:description" content="${escapeHtml(description)}" />
     <meta property="og:image" content="${site}og.svg" />
     <meta property="og:site_name" content="Resyst Labs Benchmarks" />
-    <link rel="stylesheet" href="${prefix}styles.css" />
+    <link rel="stylesheet" href="${prefix}styles.css?v=${assetVersion}" />
   </head>
   <body class="${escapeHtml(bodyClass)}">
     <canvas id="signal-field" aria-hidden="true"></canvas>
