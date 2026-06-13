@@ -1157,9 +1157,6 @@ td {
 }
 
 .encounter-switcher {
-  position: sticky;
-  top: 6.2rem;
-  z-index: 20;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 0.9rem;
