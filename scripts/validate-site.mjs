@@ -80,6 +80,8 @@ await stat(path.join(root, 'dist/assets/ResystLabs-Logo.png'));
 
 const html = await readText('dist/index.html');
 for (const required of [
+  'styles.css?v=20260613-home-encounters',
+  'app.js?v=20260613-home-encounters',
   'https://benchmarks.resyst.cl/',
   'Resyst Labs Benchmarks',
   'Independent model evaluation',
@@ -103,6 +105,19 @@ const sectionChecks = [
 ];
 for (const [, expected] of sectionChecks) {
   if (!html.includes(expected)) throw new Error(`index.html section missing context phrase: ${expected}`);
+}
+
+const appJs = await readText('dist/app.js');
+for (const required of [
+  'buildEncounterGroups(matches).slice(0, 3)',
+  'Encounter ${groupIndex + 1}',
+  'home-replay-link',
+  'Open encounter',
+]) {
+  if (!appJs.includes(required)) throw new Error(`app.js missing grouped Arena summary behavior: ${required}`);
+}
+if (/matches\.slice\(0,\s*3\)\.map\(\(match\)/.test(appJs)) {
+  throw new Error('app.js still renders highlighted Arena entries as a flat match list instead of grouped encounters');
 }
 
 const arenaHtml = await readText('dist/arena/index.html');

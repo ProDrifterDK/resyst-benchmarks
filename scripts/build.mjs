@@ -6,7 +6,7 @@ const root = process.cwd();
 const src = path.join(root, 'src');
 const dist = path.join(root, 'dist');
 const site = 'https://benchmarks.resyst.cl/';
-const assetVersion = '20260613-nonsticky-encounters';
+const assetVersion = '20260613-home-encounters';
 
 if (!existsSync(src)) {
   throw new Error('src directory is missing');
@@ -276,8 +276,14 @@ function encounterWinnerSummary(group) {
   return `${leader} leads ${leaderWins}–${runnerWins}`;
 }
 
+function matchDateLabel(match) {
+  const label = String(match.date_label ?? '');
+  if (/^20\d{6}$/.test(label)) return label;
+  return String(match.id ?? '').match(/20\d{6}/)?.[0] ?? label ?? 'undated';
+}
+
 function encounterMeta(group) {
-  const latestDate = group.matches.map((match) => match.date_label).filter(Boolean).sort().at(-1) ?? 'undated';
+  const latestDate = group.matches.map(matchDateLabel).filter(Boolean).sort().at(-1) ?? 'undated';
   const lanes = [...new Set(group.matches.map((match) => match.lane).filter(Boolean))];
   const laneLabel = lanes.length ? ` · ${lanes.join(' / ')}` : '';
   return `${pluralize(group.matches.length, 'replay')} · latest ${latestDate}${laneLabel}`;
