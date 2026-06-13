@@ -995,9 +995,13 @@ async function initReplay(panel) {
 function initMatchTabs() {
   const tabs = [...document.querySelectorAll('[data-match-tab]')];
   const panels = [...document.querySelectorAll('[data-match-panel], .match-replay[role="tabpanel"]')];
+  const encounterGroups = [...document.querySelectorAll('[data-encounter-group]')];
   if (!tabs.length || !panels.length) return;
 
-  const activate = (id) => {
+  const activate = (id, { updateHash = false } = {}) => {
+    const selectedTab = tabs.find((tab) => tab.dataset.matchTab === id);
+    if (!selectedTab) return;
+
     document.querySelectorAll('[data-play][aria-pressed="true"]').forEach((button) => button.click());
     for (const tab of tabs) {
       const selected = tab.dataset.matchTab === id;
@@ -1009,10 +1013,16 @@ function initMatchTabs() {
       panel.classList.toggle('is-active', selected);
       panel.hidden = !selected;
     }
+    for (const group of encounterGroups) {
+      group.classList.toggle('is-active', group.contains(selectedTab));
+    }
+    if (updateHash) {
+      history.replaceState(null, '', `#${id}`);
+    }
   };
 
   tabs.forEach((tab) => {
-    tab.addEventListener('click', () => activate(tab.dataset.matchTab));
+    tab.addEventListener('click', () => activate(tab.dataset.matchTab, { updateHash: true }));
     tab.addEventListener('keydown', (event) => {
       const current = tabs.indexOf(tab);
       if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
@@ -1021,10 +1031,24 @@ function initMatchTabs() {
           ? (current + 1) % tabs.length
           : (current - 1 + tabs.length) % tabs.length;
         tabs[nextIndex].focus();
-        activate(tabs[nextIndex].dataset.matchTab);
+        activate(tabs[nextIndex].dataset.matchTab, { updateHash: true });
       }
     });
   });
+
+  const activateHash = () => {
+    const hashId = decodeURIComponent(window.location.hash.replace(/^#/, ''));
+    if (hashId && tabs.some((tab) => tab.dataset.matchTab === hashId)) {
+      activate(hashId);
+      return true;
+    }
+    return false;
+  };
+
+  if (!activateHash()) {
+    activate(tabs[0].dataset.matchTab);
+  }
+  window.addEventListener('hashchange', activateHash);
 }
 
 initMatchTabs();

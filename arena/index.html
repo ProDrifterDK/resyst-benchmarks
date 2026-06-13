@@ -43,46 +43,91 @@
       <a class="back-link" href="../#arena">← Back to overview</a>
       <p class="eyebrow">Resyst Arena · replay room</p>
       <h1>Tactical evidence you can replay.</h1>
-      <p class="hero-lead">Resyst Arena is a deterministic turn-based evaluation environment for spatial strategy, legal-action discipline, and long-horizon tactical continuity. Each replay publishes board states, actions, events, and telemetry so the match can be inspected turn by turn.</p>
+      <p class="hero-lead">Resyst Arena is a deterministic turn-based evaluation environment for spatial strategy, legal-action discipline, and long-horizon tactical continuity. Replays are grouped by encounter so historical DeepSeek vs Step, DeepSeek vs Gemini, and DeepSeek vs Kimi runs stay readable instead of collapsing into one flat match list.</p>
       <div class="detail-actions">
-        <a class="button primary" href="#replays">Watch replays</a>
+        <a class="button primary" href="#replays">Browse encounters</a>
         <a class="button secondary" href="../data/arena-snapshots.json">Download Arena data</a>
       </div>
     </section>
 
     <section class="section-shell arena-rule-grid" aria-label="Arena method principles">
       <article class="result-stat-card"><span>Score boundary</span><strong>Outcome first</strong><p>Latency, token use, and cost are telemetry, not hidden score modifiers.</p></article>
-      <article class="result-stat-card"><span>Series discipline</span><strong>Side swaps</strong><p>Ranking-grade claims require series, seed variation, and comparable conditions.</p></article>
+      <article class="result-stat-card"><span>Encounter grouping</span><strong>Pairing first</strong><p>Replay buttons live under the model-vs-model encounter they belong to, including side-swapped rounds.</p></article>
       <article class="result-stat-card"><span>Replay contract</span><strong>Sanitized state</strong><p>Replay JSON exposes board states, actions, events, and telemetry while excluding raw model text outputs.</p></article>
     </section>
 
-    <section id="replays" class="section-shell replay-list" aria-label="Arena replays">
-      <div class="match-switcher" role="tablist" aria-label="Select Arena replay">
-        <button class="match-tab is-active" type="button" role="tab" id="tab-resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941" data-match-tab="resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941" aria-controls="resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941" aria-selected="true">
-    <span>Match 1</span>
+    <section id="replays" class="section-shell replay-list" aria-label="Arena encounters and replays">
+      <div class="encounter-switcher" aria-label="Grouped Arena encounters">
+        <article id="encounter-deepseek-v4-flash-vs-kimi-k2.7-code" class="encounter-card is-active" data-encounter-group="encounter-deepseek-v4-flash-vs-kimi-k2.7-code" aria-labelledby="encounter-deepseek-v4-flash-vs-kimi-k2.7-code-title">
+    <div class="encounter-card-head">
+      <span class="encounter-label">Encounter 1</span>
+      <h2 id="encounter-deepseek-v4-flash-vs-kimi-k2.7-code-title">DeepSeek V4 Flash vs Kimi K2.7 Code</h2>
+      <p>Kimi K2.7 Code leads 2–0</p>
+    </div>
+    <div class="encounter-meta-grid" aria-label="Encounter summary">
+      <div class="score-pill"><span>Replays</span><strong>2</strong></div>
+      <div class="score-pill"><span>Turns</span><strong>120</strong></div>
+      <div class="score-pill"><span>Seeds</span><strong>1</strong></div>
+    </div>
+    <p class="encounter-meta">2 replays · latest 20260612 · xhigh text-actions</p>
+    <div class="encounter-replay-tabs" role="tablist" aria-label="DeepSeek V4 Flash vs Kimi K2.7 Code replays">
+      <button class="match-tab is-active" type="button" role="tab" id="tab-resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941" data-match-tab="resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941" data-encounter-id="encounter-deepseek-v4-flash-vs-kimi-k2.7-code" aria-controls="resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941" aria-selected="true">
+    <span>Round 1</span>
     <strong>Kimi K2.7 Code</strong>
-    <small>adjudication</small>
+    <small>adjudication · seed 361605864</small>
   </button>
-<button class="match-tab " type="button" role="tab" id="tab-resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round2-seed361605864-max60-20260612-233941" data-match-tab="resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round2-seed361605864-max60-20260612-233941" aria-controls="resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round2-seed361605864-max60-20260612-233941" aria-selected="false">
-    <span>Match 2</span>
+<button class="match-tab " type="button" role="tab" id="tab-resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round2-seed361605864-max60-20260612-233941" data-match-tab="resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round2-seed361605864-max60-20260612-233941" data-encounter-id="encounter-deepseek-v4-flash-vs-kimi-k2.7-code" aria-controls="resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round2-seed361605864-max60-20260612-233941" aria-selected="false">
+    <span>Round 2</span>
     <strong>Kimi K2.7 Code</strong>
-    <small>adjudication</small>
+    <small>adjudication · seed 361605864</small>
   </button>
-<button class="match-tab " type="button" role="tab" id="tab-resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824" data-match-tab="resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824" aria-controls="resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824" aria-selected="false">
-    <span>Match 3</span>
+    </div>
+  </article>
+<article id="encounter-deepseek-v4-flash-vs-step-3.7-flash" class="encounter-card " data-encounter-group="encounter-deepseek-v4-flash-vs-step-3.7-flash" aria-labelledby="encounter-deepseek-v4-flash-vs-step-3.7-flash-title">
+    <div class="encounter-card-head">
+      <span class="encounter-label">Encounter 2</span>
+      <h2 id="encounter-deepseek-v4-flash-vs-step-3.7-flash-title">DeepSeek V4 Flash vs Step 3.7 Flash</h2>
+      <p>DeepSeek V4 Flash leads 2–0</p>
+    </div>
+    <div class="encounter-meta-grid" aria-label="Encounter summary">
+      <div class="score-pill"><span>Replays</span><strong>2</strong></div>
+      <div class="score-pill"><span>Turns</span><strong>163</strong></div>
+      <div class="score-pill"><span>Seeds</span><strong>2</strong></div>
+    </div>
+    <p class="encounter-meta">2 replays · latest 20260531 · 0.3</p>
+    <div class="encounter-replay-tabs" role="tablist" aria-label="DeepSeek V4 Flash vs Step 3.7 Flash replays">
+      <button class="match-tab " type="button" role="tab" id="tab-resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824" data-match-tab="resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824" data-encounter-id="encounter-deepseek-v4-flash-vs-step-3.7-flash" aria-controls="resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824" aria-selected="false">
+    <span>Replay 1</span>
     <strong>DeepSeek V4 Flash</strong>
-    <small>core destroyed</small>
+    <small>core destroyed · seed 1188878758</small>
   </button>
-<button class="match-tab " type="button" role="tab" id="tab-resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210" data-match-tab="resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210" aria-controls="resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210" aria-selected="false">
-    <span>Match 4</span>
+<button class="match-tab " type="button" role="tab" id="tab-resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210" data-match-tab="resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210" data-encounter-id="encounter-deepseek-v4-flash-vs-step-3.7-flash" aria-controls="resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210" aria-selected="false">
+    <span>Replay 2</span>
     <strong>DeepSeek V4 Flash</strong>
-    <small>adjudication</small>
+    <small>adjudication · seed 42</small>
   </button>
-<button class="match-tab " type="button" role="tab" id="tab-resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107" data-match-tab="resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107" aria-controls="resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107" aria-selected="false">
-    <span>Match 5</span>
+    </div>
+  </article>
+<article id="encounter-deepseek-v4-flash-vs-gemini-3-flash-preview" class="encounter-card " data-encounter-group="encounter-deepseek-v4-flash-vs-gemini-3-flash-preview" aria-labelledby="encounter-deepseek-v4-flash-vs-gemini-3-flash-preview-title">
+    <div class="encounter-card-head">
+      <span class="encounter-label">Encounter 3</span>
+      <h2 id="encounter-deepseek-v4-flash-vs-gemini-3-flash-preview-title">DeepSeek V4 Flash vs Gemini 3 Flash Preview</h2>
+      <p>Gemini 3 Flash Preview won the replay</p>
+    </div>
+    <div class="encounter-meta-grid" aria-label="Encounter summary">
+      <div class="score-pill"><span>Replays</span><strong>1</strong></div>
+      <div class="score-pill"><span>Turns</span><strong>200</strong></div>
+      <div class="score-pill"><span>Seeds</span><strong>1</strong></div>
+    </div>
+    <p class="encounter-meta">1 replay · latest 3-seed76 · 0.3</p>
+    <div class="encounter-replay-tabs" role="tablist" aria-label="DeepSeek V4 Flash vs Gemini 3 Flash Preview replays">
+      <button class="match-tab " type="button" role="tab" id="tab-resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107" data-match-tab="resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107" data-encounter-id="encounter-deepseek-v4-flash-vs-gemini-3-flash-preview" aria-controls="resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107" aria-selected="false">
+    <span>Replay</span>
     <strong>Gemini 3 Flash Preview</strong>
-    <small>adjudication</small>
+    <small>adjudication · seed 761168107</small>
   </button>
+    </div>
+  </article>
       </div>
       <div class="match-stage-list">
         <article id="resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941" class="match-replay glass-panel is-active" role="tabpanel" aria-labelledby="tab-resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941"  data-replay-src="../data/replays/resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941.json">
