@@ -230,6 +230,80 @@ function metricPill(label, value) {
   return `<div class="score-pill"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`;
 }
 
+function encounterLabels(match) {
+  return ['A', 'B'].map((side) => compactEntrant(match.entrants?.[side] ?? side));
+}
+
+function encounterKey(match) {
+  return [...encounterLabels(match)].sort((a, b) => a.localeCompare(b)).join(' vs ');
+}
+
+function buildEncounterGroups(matches) {
+  const groups = new Map();
+  for (const match of matches) {
+    const [first, second] = encounterLabels(match);
+    const key = encounterKey(match);
+    if (!groups.has(key)) {
+      groups.set(key, {
+        id: `encounter-${slug(key)}`,
+        title: `${first} vs ${second}`,
+        key,
+        matches: [],
+      });
+    }
+    groups.get(key).matches.push(match);
+  }
+  return [...groups.values()];
+}
+
+function pluralize(count, singular, plural = `${singular}s`) {
+  return `${count} ${count === 1 ? singular : plural}`;
+}
+
+function encounterWinnerSummary(group) {
+  const counts = new Map();
+  for (const match of group.matches) {
+    const winner = compactEntrant(match.winner_label ?? 'Unresolved');
+    counts.set(winner, (counts.get(winner) ?? 0) + 1);
+  }
+  const ordered = [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  if (!ordered.length) return 'No winner recorded';
+  const [leader, leaderWins] = ordered[0];
+  const runnerWins = ordered[1]?.[1] ?? 0;
+  if (group.matches.length === 1) return `${leader} won the replay`;
+  if (leaderWins === runnerWins) return `Split ${leaderWins}–${runnerWins}`;
+  return `${leader} leads ${leaderWins}–${runnerWins}`;
+}
+
+function encounterMeta(group) {
+  const latestDate = group.matches.map((match) => match.date_label).filter(Boolean).sort().at(-1) ?? 'undated';
+  const lanes = [...new Set(group.matches.map((match) => match.lane).filter(Boolean))];
+  const laneLabel = lanes.length ? ` · ${lanes.join(' / ')}` : '';
+  return `${pluralize(group.matches.length, 'replay')} · latest ${latestDate}${laneLabel}`;
+}
+
+function encounterCard(group, groupIndex, selectedMatchId) {
+  const active = group.matches.some((match) => match.id === selectedMatchId);
+  const totalTurns = group.matches.reduce((sum, match) => sum + (Number(match.turns) || 0), 0);
+  const seeds = [...new Set(group.matches.map((match) => match.seed).filter((seed) => seed !== undefined && seed !== null))];
+  return `<article id="${escapeHtml(group.id)}" class="encounter-card ${active ? 'is-active' : ''}" data-encounter-group="${escapeHtml(group.id)}" aria-labelledby="${escapeHtml(group.id)}-title">
+    <div class="encounter-card-head">
+      <span class="encounter-label">Encounter ${groupIndex + 1}</span>
+      <h2 id="${escapeHtml(group.id)}-title">${escapeHtml(group.title)}</h2>
+      <p>${escapeHtml(encounterWinnerSummary(group))}</p>
+    </div>
+    <div class="encounter-meta-grid" aria-label="Encounter summary">
+      ${metricPill('Replays', group.matches.length)}
+      ${metricPill('Turns', totalTurns)}
+      ${metricPill('Seeds', seeds.length || '—')}
+    </div>
+    <p class="encounter-meta">${escapeHtml(encounterMeta(group))}</p>
+    <div class="encounter-replay-tabs" role="tablist" aria-label="${escapeHtml(group.title)} replays">
+      ${group.matches.map((match, index) => matchTab(match, index, group, selectedMatchId)).join('\n')}
+    </div>
+  </article>`;
+}
+
 function combatantPanel(match, side) {
   const entrant = match.entrants?.[side] ?? side;
   const sideKey = side.toLowerCase();
@@ -360,41 +434,45 @@ function matchCard(match) {
   </article>`;
 }
 
-function matchTab(match, index) {
-  const selected = index === 0;
-  return `<button class="match-tab ${selected ? 'is-active' : ''}" type="button" role="tab" id="tab-${escapeHtml(match.id)}" data-match-tab="${escapeHtml(match.id)}" aria-controls="${escapeHtml(match.id)}" aria-selected="${selected ? 'true' : 'false'}">
-    <span>Match ${index + 1}</span>
+function matchTab(match, index, group, selectedMatchId) {
+  const selected = match.id === selectedMatchId;
+  const tabLabel = match.series_id ? `Round ${index + 1}` : group.matches.length > 1 ? `Replay ${index + 1}` : 'Replay';
+  const detail = `${prettyReason(match.winner_reason)} · seed ${match.seed ?? 'fixed'}`;
+  return `<button class="match-tab ${selected ? 'is-active' : ''}" type="button" role="tab" id="tab-${escapeHtml(match.id)}" data-match-tab="${escapeHtml(match.id)}" data-encounter-id="${escapeHtml(group.id)}" aria-controls="${escapeHtml(match.id)}" aria-selected="${selected ? 'true' : 'false'}">
+    <span>${escapeHtml(tabLabel)}</span>
     <strong>${escapeHtml(compactEntrant(match.winner_label))}</strong>
-    <small>${escapeHtml(prettyReason(match.winner_reason))}</small>
+    <small>${escapeHtml(detail)}</small>
   </button>`;
 }
 
 async function writeArenaPage() {
   const matches = arena.matches ?? [];
+  const encounterGroups = buildEncounterGroups(matches);
+  const selectedMatchId = matches[0]?.id;
   const content = `<main class="detail-main arena-detail" id="top">
     <section class="detail-hero section-shell arena-hero-page">
       <a class="back-link" href="../#arena">← Back to overview</a>
       <p class="eyebrow">Resyst Arena · replay room</p>
       <h1>Tactical evidence you can replay.</h1>
-      <p class="hero-lead">Resyst Arena is a deterministic turn-based evaluation environment for spatial strategy, legal-action discipline, and long-horizon tactical continuity. Each replay publishes board states, actions, events, and telemetry so the match can be inspected turn by turn.</p>
+      <p class="hero-lead">Resyst Arena is a deterministic turn-based evaluation environment for spatial strategy, legal-action discipline, and long-horizon tactical continuity. Replays are grouped by encounter so historical DeepSeek vs Step, DeepSeek vs Gemini, and DeepSeek vs Kimi runs stay readable instead of collapsing into one flat match list.</p>
       <div class="detail-actions">
-        <a class="button primary" href="#replays">Watch replays</a>
+        <a class="button primary" href="#replays">Browse encounters</a>
         <a class="button secondary" href="../data/arena-snapshots.json">Download Arena data</a>
       </div>
     </section>
 
     <section class="section-shell arena-rule-grid" aria-label="Arena method principles">
       ${statCard('Score boundary', 'Outcome first', 'Latency, token use, and cost are telemetry, not hidden score modifiers.')}
-      ${statCard('Series discipline', 'Side swaps', 'Ranking-grade claims require series, seed variation, and comparable conditions.')}
+      ${statCard('Encounter grouping', 'Pairing first', 'Replay buttons live under the model-vs-model encounter they belong to, including side-swapped rounds.')}
       ${statCard('Replay contract', 'Sanitized state', 'Replay JSON exposes board states, actions, events, and telemetry while excluding raw model text outputs.')}
     </section>
 
-    <section id="replays" class="section-shell replay-list" aria-label="Arena replays">
-      <div class="match-switcher" role="tablist" aria-label="Select Arena replay">
-        ${matches.map(matchTab).join('\n')}
+    <section id="replays" class="section-shell replay-list" aria-label="Arena encounters and replays">
+      <div class="encounter-switcher" aria-label="Grouped Arena encounters">
+        ${encounterGroups.map((group, index) => encounterCard(group, index, selectedMatchId)).join('\n')}
       </div>
       <div class="match-stage-list">
-        ${matches.map((match, index) => matchCard(match).replace('class="match-replay glass-panel"', `class="match-replay glass-panel ${index === 0 ? 'is-active' : ''}" role="tabpanel" aria-labelledby="tab-${escapeHtml(match.id)}" ${index === 0 ? '' : 'hidden'}`)).join('\n')}
+        ${matches.map((match) => matchCard(match).replace('class="match-replay glass-panel"', `class="match-replay glass-panel ${match.id === selectedMatchId ? 'is-active' : ''}" role="tabpanel" aria-labelledby="tab-${escapeHtml(match.id)}" ${match.id === selectedMatchId ? '' : 'hidden'}`)).join('\n')}
       </div>
     </section>
   </main>`;

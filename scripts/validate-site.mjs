@@ -109,12 +109,19 @@ const arenaHtml = await readText('dist/arena/index.html');
 for (const required of [
   'Resyst Arena Replays',
   'Resyst Arena is a deterministic turn-based evaluation environment',
+  'Replays are grouped by encounter',
+  'Encounter grouping',
+  'Encounter 1',
+  'Round 1',
   'Replay JSON exposes board states, actions, events, and telemetry',
   'Replay JSON',
   'replay.js',
   'data/replays/',
 ]) {
   if (!arenaHtml.includes(required)) throw new Error(`arena page missing required self-contained content: ${required}`);
+}
+if (arenaHtml.includes('<span>Match 1</span>')) {
+  throw new Error('arena page still exposes flat global Match 1 tab labels instead of encounter-grouped replay labels');
 }
 
 const models = JSON.parse(await readText('src/data/model-comparison.json'));
