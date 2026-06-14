@@ -303,13 +303,13 @@ const kimiK27 = models.rows.find((row) => row.id === 'kimi-k2.7-code-openrouter-
 if (kimiK27?.overall_rank !== 10 || Math.abs(Number(kimiK27?.overall_score) - 71.0061) > 0.0001) {
   throw new Error('Kimi K2.7 Code overall must include the published xhigh Hard Intelligence D6 smoke result and rank #10');
 }
-const nemotron3Ultra = models.rows.find((row) => row.id === 'nemotron-3-ultra-openrouter-xhigh');
-if (nemotron3Ultra?.overall_rank !== 11 || Math.abs(Number(nemotron3Ultra?.overall_score) - 67.5758) > 0.0001) {
-  throw new Error('NVIDIA Nemotron 3 Ultra overall must include the published xhigh Hard Intelligence D6 smoke result and rank #11');
-}
 const step37Flash = models.rows.find((row) => row.id === 'step-3.7-flash-openrouter-xhigh');
-if (step37Flash?.overall_rank !== 12 || Math.abs(Number(step37Flash?.overall_score) - 33.9896) > 0.0001) {
-  throw new Error('Step 3.7 Flash overall must include the published xhigh Hard Intelligence D6 smoke result and rank #12');
+if (step37Flash?.overall_rank !== 11 || Math.abs(Number(step37Flash?.overall_score) - 68.0565) > 0.0001) {
+  throw new Error('Step 3.7 Flash overall must include the published Full, SWE, and Hard Intelligence measurements and rank #11');
+}
+const nemotron3Ultra = models.rows.find((row) => row.id === 'nemotron-3-ultra-openrouter-xhigh');
+if (nemotron3Ultra?.overall_rank !== 12 || Math.abs(Number(nemotron3Ultra?.overall_score) - 67.5758) > 0.0001) {
+  throw new Error('NVIDIA Nemotron 3 Ultra overall must include the published xhigh Hard Intelligence D6 smoke result and rank #12');
 }
 for (const row of models.rows.filter((entry) => !hardMeasuredIds.includes(entry.id))) {
   if (row.hard_intelligence) throw new Error(`${row.id} must keep Hard Intelligence blank until measured`);
