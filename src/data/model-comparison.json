@@ -1,8 +1,8 @@
 {
   "artifact_type": "resyst_labs_benchmark_rankings",
-  "source_artifact": "results/hard_intelligence_v1/deepseek-v4-pro-direct-d6-s1-32k-maxthink-20260614-190406-15da63b/summary.json",
-  "generated_at": "2026-06-14T19:16:20.165297+00:00",
-  "synced_at": "2026-06-14T19:16:20.165297+00:00",
+  "source_artifact": "results/hard_intelligence_v1/kimi-k2.7-code-openrouter-xhigh-d6-s1-32k-xhigh-20260614-15da63b/summary.json",
+  "generated_at": "2026-06-14T19:42:02.553741+00:00",
+  "synced_at": "2026-06-14T19:42:02.553741+00:00",
   "summary": {
     "title": "Resyst Labs LLM Benchmark Rankings",
     "formula": "Overall = average of measured major lanes: Full/Agentic, SWE MVP, and Hard Intelligence when a measured Hard Intelligence result is published, including diagnostic smoke slices",
@@ -11,6 +11,7 @@
   },
   "notes": [
     "Full/Agentic, SWE, and Hard Intelligence are separate benchmark lanes; overall uses the average of measured major lanes while preserving blank cells for unmeasured diagnostics.",
+    "Kimi K2.7 Code now includes a D6-only single-seed Hard Intelligence smoke run through OpenRouter extra-high reasoning; it affects overall score per current scoring policy while remaining a public diagnostic smoke slice.",
     "DeepSeek V4 Pro direct now includes a D6-only single-seed Hard Intelligence smoke run using DeepSeek Think Max; it affects overall score per current scoring policy while remaining a public diagnostic smoke slice.",
     "Hard Intelligence measured results, including D6-only smoke slices, affect overall score once published; partial coverage remains visually labeled and caveated.",
     "GPT-5.5 now includes a D6-only single-seed Hard Intelligence smoke run via Hermes openai-codex transport; its Full/SWE lanes remain from the existing GPT-5.5 comparison row, so the basis is mixed and explicitly labeled.",
@@ -663,7 +664,7 @@
     {
       "id": "kimi-k2.7-code-openrouter-xhigh",
       "label": "Kimi K2.7 Code",
-      "basis": "OpenRouter · extra-high reasoning",
+      "basis": "OpenRouter · Kimi K2.7 Code · extra-high Hard IQ",
       "full": {
         "suite": "benchmark_core_v1 · full_suite_v3 · 43 prompts",
         "artifact": "results/scored/20260612-213040-480906794Z-benchmark_core_v1.json",
@@ -698,12 +699,68 @@
       },
       "notes": [
         "Exact OpenRouter model: moonshotai/kimi-k2.7-code.",
-        "Full/Agentic lane is strong; SWE lane exposed patch-format and implementation-delivery failures in the MVP fixtures."
+        "Full/Agentic lane is strong; SWE lane exposed patch-format and implementation-delivery failures in the MVP fixtures.",
+        "Hard Intelligence D6-only single-seed smoke was run through OpenRouter extra-high reasoning; it is included in the current overall formula.",
+        "Kimi remains a mixed-lane profile in interpretation: Full/Agentic is strong, SWE patch delivery is weak, and Hard Intelligence is a partial D6 diagnostic smoke slice."
       ],
-      "overall_score": 73.28,
+      "overall_score": 71.0061,
       "full_rank": 4,
       "swe_rank": 11,
-      "overall_rank": 10
+      "overall_rank": 10,
+      "hard_intelligence": {
+        "suite": "hard_intelligence_v1.alpha · D6-only · 4 lanes · 1 seed · public diagnostic smoke · OpenRouter extra-high reasoning",
+        "artifact": "results/hard_intelligence_v1/kimi-k2.7-code-openrouter-xhigh-d6-s1-32k-xhigh-20260614-15da63b/summary.json",
+        "report": "results/hard_intelligence_v1/kimi-k2.7-code-openrouter-xhigh-d6-s1-32k-xhigh-20260614-15da63b/report.md",
+        "raw_artifact": "results/hard_intelligence_v1/kimi-k2.7-code-openrouter-xhigh-d6-s1-32k-xhigh-20260614-15da63b/raw.jsonl",
+        "coverage_label": "D6 smoke",
+        "diagnostic_score": 66.4583,
+        "official_score": null,
+        "official_eligible": false,
+        "overall_included": true,
+        "difficulty_coverage": [
+          "D6"
+        ],
+        "seed_count": 1,
+        "variant_count": 2,
+        "record_count": 8,
+        "cost": 0.16330475,
+        "cost_basis": "provider_reported_openrouter_usage_cost",
+        "provider_cost_missing": false,
+        "input_tokens": 2873,
+        "output_tokens": 40704,
+        "reasoning_tokens": 46250,
+        "runtime_seconds": 737.7807,
+        "api_status": {
+          "ok": 8
+        },
+        "finish_reasons": {
+          "['stop', 'stop']": 4,
+          "stop": 4
+        },
+        "output_budget_valid": true,
+        "request_max_tokens": 32000,
+        "reasoning_effort": "xhigh",
+        "thinking_mode": "openrouter_reasoning",
+        "d6_diagnostic_score": 66.4583,
+        "lanes": {
+          "active_information_acquisition": 17.5,
+          "online_adaptation_fast_learning": 80.0,
+          "evidence_driven_self_repair": 78.3333,
+          "authority_salience_constraint_integrity": 90.0
+        },
+        "failure_modes": {
+          "prediction_explanation_mismatch": 1
+        },
+        "limitations": [
+          "public_fixture_only",
+          "d6_only",
+          "single_seed",
+          "incomplete_difficulty_curve",
+          "insufficient_seed_count",
+          "official_hidden_fixture_bank_not_enabled"
+        ]
+      },
+      "hard_rank": 5
     },
     {
       "id": "nemotron-3-ultra-openrouter-xhigh",
@@ -778,6 +835,9 @@
     "results/hard_intelligence_v1/gpt-5.5-openai-codex-hermes-d6-s1-32k-20260614-180722-15da63b/raw.jsonl",
     "results/hard_intelligence_v1/deepseek-v4-pro-direct-d6-s1-32k-maxthink-20260614-190406-15da63b/summary.json",
     "results/hard_intelligence_v1/deepseek-v4-pro-direct-d6-s1-32k-maxthink-20260614-190406-15da63b/report.md",
-    "results/hard_intelligence_v1/deepseek-v4-pro-direct-d6-s1-32k-maxthink-20260614-190406-15da63b/raw.jsonl"
+    "results/hard_intelligence_v1/deepseek-v4-pro-direct-d6-s1-32k-maxthink-20260614-190406-15da63b/raw.jsonl",
+    "results/hard_intelligence_v1/kimi-k2.7-code-openrouter-xhigh-d6-s1-32k-xhigh-20260614-15da63b/summary.json",
+    "results/hard_intelligence_v1/kimi-k2.7-code-openrouter-xhigh-d6-s1-32k-xhigh-20260614-15da63b/report.md",
+    "results/hard_intelligence_v1/kimi-k2.7-code-openrouter-xhigh-d6-s1-32k-xhigh-20260614-15da63b/raw.jsonl"
   ]
 }
