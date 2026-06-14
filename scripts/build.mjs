@@ -9,7 +9,7 @@ const site = 'https://benchmarks.resyst.cl/';
 const logoUrl = `${site}assets/ResystLabs-Logo.png`;
 const ogImageVersion = '20260613-link-preview';
 const ogImageUrl = `${site}og.png?v=${ogImageVersion}`;
-const assetVersion = '20260614-hard-intelligence';
+const assetVersion = '20260614-hard-intelligence-minimax-d6';
 
 if (!existsSync(src)) {
   throw new Error('src directory is missing');
@@ -43,10 +43,41 @@ const sideValue = (map, side) => map?.[side] ?? 0;
 const prettyReason = (value = 'resolved') => String(value).replaceAll('_', ' ');
 const modelPath = (row) => `models/${slug(row.id)}/`;
 const hardLane = (row, key) => row.hard_intelligence?.lanes?.[key];
+const hardDifficultyCoverage = (row) => row.hard_intelligence?.difficulty_coverage ?? [];
+const hardOverallIncluded = (row) => Boolean(
+  row.hard_intelligence
+  && row.hard_intelligence.overall_included !== false
+  && hardDifficultyCoverage(row).includes('D1')
+  && hardDifficultyCoverage(row).includes('D6')
+  && Number(row.hard_intelligence.seed_count ?? 0) >= 5,
+);
+const hardCoverageLabel = (row) => row.hard_intelligence?.coverage_label
+  ?? (hardOverallIncluded(row) ? 'D1-D6 diagnostic' : 'Diagnostic smoke');
+const hardStatSubline = (row) => {
+  if (!row.hard_intelligence) return 'D1-D6 pending';
+  if (hardOverallIncluded(row)) return `Hard rank #${row.hard_rank ?? '—'}`;
+  return `${hardCoverageLabel(row)} · excluded from overall`;
+};
+const hardCellAttrs = (row) => {
+  if (!row.hard_intelligence) return ' class="pending-score-cell" aria-label="Not measured"';
+  if (hardOverallIncluded(row)) return '';
+  return ' class="partial-score-cell" title="Partial Hard Intelligence diagnostic smoke; excluded from overall ranking"';
+};
 const totalMeasuredCost = (row) => (row.full?.cost ?? 0) + (row.swe?.cost ?? 0) + (row.hard_intelligence?.cost ?? 0);
-const overallFormula = (row) => row.hard_intelligence
-  ? 'mean(Full, SWE, Hard Intelligence)'
-  : 'mean(Full, SWE; Hard Intelligence pending)';
+const overallFormula = (row) => {
+  if (hardOverallIncluded(row)) return 'mean(Full, SWE, Hard Intelligence)';
+  if (row.hard_intelligence) return 'mean(Full, SWE; Hard Intelligence smoke excluded)';
+  return 'mean(Full, SWE; Hard Intelligence pending)';
+};
+const overallFormulaCopy = (row) => {
+  if (hardOverallIncluded(row)) {
+    return 'The overall score averages benchmark-complete major lanes while keeping the source measurements visible.';
+  }
+  if (row.hard_intelligence) {
+    return 'The overall score keeps this partial Hard Intelligence smoke visible but excludes it from ranking until D1-D6 coverage is complete.';
+  }
+  return 'The overall score averages measured benchmark-complete lanes, keeping blank Hard Intelligence cells visible for entrants that have not completed that diagnostic yet.';
+};
 
 const rankedRows = [...models.rows]
   .filter((row) => Number.isFinite(row.overall_rank))
@@ -290,7 +321,12 @@ function buildModelInterpretation(row) {
     parts.push('The result is best read as a balanced benchmark entry: one overall score plus the lane measurements that produced it.');
   }
   if (row.hard_intelligence) {
-    parts.push(`Hard Intelligence D1-D6 diagnostic score is ${fmt(row.hard_intelligence.diagnostic_score)}, with D6-only stress at ${fmt(row.hard_intelligence.d6_diagnostic_score)}.`);
+    if (hardOverallIncluded(row)) {
+      parts.push(`Hard Intelligence D1-D6 diagnostic score is ${fmt(row.hard_intelligence.diagnostic_score)}, with D6-only stress at ${fmt(row.hard_intelligence.d6_diagnostic_score)}.`);
+    } else {
+      const coverage = hardDifficultyCoverage(row).join(', ') || 'partial coverage';
+      parts.push(`Hard Intelligence ${hardCoverageLabel(row)} score is ${fmt(row.hard_intelligence.diagnostic_score)} over ${coverage} with ${row.hard_intelligence.seed_count ?? '—'} seed; it is displayed as diagnostic evidence but excluded from the overall ranking until D1-D6 coverage is complete.`);
+    }
   } else {
     parts.push('Hard Intelligence cells remain blank until the entrant completes the D1-D6 diagnostic lane.');
   }
@@ -321,7 +357,7 @@ async function writeModelPages() {
         ${statCard('Overall score', fmt(row.overall_score), `Rank #${row.overall_rank}`)}
         ${statCard('Full / Agentic', fmt(row.full?.final), `Full rank #${row.full_rank ?? '—'}`)}
         ${statCard('SWE MVP', fmt(row.swe?.swe_score), `SWE rank #${row.swe_rank ?? '—'}`)}
-        ${statCard('Hard Intelligence', fmt(row.hard_intelligence?.diagnostic_score), row.hard_intelligence ? `Hard rank #${row.hard_rank ?? '—'}` : 'D1-D6 pending')}
+        ${statCard('Hard Intelligence', fmt(row.hard_intelligence?.diagnostic_score), hardStatSubline(row))}
         ${statCard('Measured cost', fmtCost(totalCost), `${fmtOne(reliability)}% reliability`)}
       </section>
 
@@ -330,7 +366,7 @@ async function writeModelPages() {
           ['Score', fmt(row.overall_score)],
           ['Formula', overallFormula(row)],
           ['Basis', row.basis],
-        ], 'The overall score averages measured major lanes, keeping blank Hard Intelligence cells visible for entrants that have not completed that diagnostic yet.')}
+        ], overallFormulaCopy(row))}
         ${metricCard('Full / Agentic benchmark', 'Lane 01', [
           ['Final', fmt(row.full?.final)],
           ['Capability', fmt(row.full?.capability)],
@@ -346,12 +382,12 @@ async function writeModelPages() {
           ['Prompts', String(row.swe?.prompt_count ?? '—')],
         ], 'This lane is closer to implementation usefulness: source handling, architecture cleanliness, and deliverable quality.')}
         ${metricCard('Hard Intelligence diagnostic', 'Lane 03', [
-          ['D1-D6 diagnostic', fmt(row.hard_intelligence?.diagnostic_score)],
+          [hardCoverageLabel(row), fmt(row.hard_intelligence?.diagnostic_score)],
           ['Active inquiry', fmt(hardLane(row, 'active_information_acquisition'))],
           ['Online adaptation', fmt(hardLane(row, 'online_adaptation_fast_learning'))],
           ['Self-repair', fmt(hardLane(row, 'evidence_driven_self_repair'))],
           ['Authority integrity', fmt(hardLane(row, 'authority_salience_constraint_integrity'))],
-        ], row.hard_intelligence ? 'Public fixtures measure active inquiry, fast learning, repair, and authority integrity. Official hidden scoring remains disabled.' : 'Blank values mean the entrant has not completed Hard Intelligence D1-D6 yet.')}
+        ], row.hard_intelligence ? (hardOverallIncluded(row) ? 'Public fixtures measure active inquiry, fast learning, repair, and authority integrity. Official hidden scoring remains disabled.' : 'Partial smoke result: useful evidence for D6 stress, but not a D1-D6 ranking-complete Hard Intelligence score yet.') : 'Blank values mean the entrant has not completed Hard Intelligence D1-D6 yet.')}
         ${metricCard('Runtime economics', 'Telemetry', [
           ['Full cost', fmtCost(fullCost)],
           ['SWE cost', fmtCost(sweCost)],
@@ -650,7 +686,7 @@ function overviewRankingRow(row) {
   const reliability = row.swe?.reliability ?? row.full?.reliability;
   const cost = totalMeasuredCost(row);
   const hard = row.hard_intelligence;
-  const pendingHardAttrs = hard ? '' : ' class="pending-score-cell" aria-label="Not measured"';
+  const hardAttrs = hardCellAttrs(row);
   return `<tr>
         <td class="rank-cell">#${escapeHtml(row.overall_rank)}</td>
         <td class="model-cell">
@@ -661,11 +697,11 @@ function overviewRankingRow(row) {
         <td class="score-cell">${fmt(row.overall_score)}</td>
         <td>${fmt(row.full?.final)}</td>
         <td>${fmt(row.swe?.swe_score)}</td>
-        <td${pendingHardAttrs}>${fmtOptional(hard?.diagnostic_score)}</td>
-        <td${pendingHardAttrs}>${fmtOptional(hard?.lanes?.active_information_acquisition)}</td>
-        <td${pendingHardAttrs}>${fmtOptional(hard?.lanes?.online_adaptation_fast_learning)}</td>
-        <td${pendingHardAttrs}>${fmtOptional(hard?.lanes?.evidence_driven_self_repair)}</td>
-        <td${pendingHardAttrs}>${fmtOptional(hard?.lanes?.authority_salience_constraint_integrity)}</td>
+        <td${hardAttrs}>${fmtOptional(hard?.diagnostic_score)}</td>
+        <td${hardAttrs}>${fmtOptional(hard?.lanes?.active_information_acquisition)}</td>
+        <td${hardAttrs}>${fmtOptional(hard?.lanes?.online_adaptation_fast_learning)}</td>
+        <td${hardAttrs}>${fmtOptional(hard?.lanes?.evidence_driven_self_repair)}</td>
+        <td${hardAttrs}>${fmtOptional(hard?.lanes?.authority_salience_constraint_integrity)}</td>
         <td>${fmtCost(cost)}</td>
         <td>${fmtOne(reliability)}%</td>
         <td><a class="row-action" href="${modelPath(row)}">Result</a></td>

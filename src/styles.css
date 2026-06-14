@@ -639,6 +639,12 @@ td {
   color: transparent;
 }
 
+.partial-score-cell {
+  color: var(--amber-2);
+  text-decoration: underline dotted rgba(241, 206, 111, 0.55);
+  text-underline-offset: 0.18em;
+}
+
 .arena-layout {
   display: grid;
   grid-template-columns: minmax(0, 0.95fr) minmax(360px, 1.05fr);

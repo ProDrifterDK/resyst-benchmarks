@@ -1,16 +1,18 @@
 {
   "artifact_type": "resyst_labs_benchmark_rankings",
-  "source_artifact": "results/hard_intelligence_v1/deepseek-v4-flash-direct-d1d6-s5-32k-20260614-053153-15da63b-hybrid/summary.json",
-  "generated_at": "2026-06-14T05:59:35.824216+00:00",
-  "synced_at": "2026-06-14T05:59:35.824216+00:00",
+  "source_artifact": "results/hard_intelligence_v1/minimax-m3-openrouter-xhigh-d6-s1-32k-20260614-061958-15da63b/summary.json",
+  "generated_at": "2026-06-14T17:23:36.827557+00:00",
+  "synced_at": "2026-06-14T17:23:36.827557+00:00",
   "summary": {
     "title": "Resyst Labs LLM Benchmark Rankings",
-    "formula": "Overall = average of measured major lanes: Full/Agentic, SWE MVP, and Hard Intelligence D1-D6 when available",
-    "public_note": "Local and API-backed models share one tournament table. Blank Hard Intelligence cells mean that entrant has not completed the D1-D6 diagnostic yet.",
+    "formula": "Overall = average of benchmark-complete major lanes: Full/Agentic, SWE MVP, and Hard Intelligence D1-D6 when coverage is complete; partial smoke diagnostics are displayed but excluded",
+    "public_note": "Local and API-backed models share one tournament table. Blank Hard Intelligence cells mean unmeasured; dotted amber cells are partial smoke diagnostics excluded from overall until D1-D6 coverage is complete.",
     "row_count": 11
   },
   "notes": [
     "Full/Agentic, SWE, and Hard Intelligence are separate benchmark lanes; overall uses the average of measured major lanes while preserving blank cells for unmeasured diagnostics.",
+    "MiniMax M3 OpenRouter now includes a D6-only single-seed Hard Intelligence smoke run; it is not directly comparable to complete D1-D6 runs for official ranking claims.",
+    "Partial D6-only Hard Intelligence smoke diagnostics are displayed as evidence but excluded from overall ranking until D1-D6 coverage and sufficient seeds exist.",
     "Hard Intelligence v1 is a public diagnostic suite, not an official hidden benchmark: official scores stay disabled until hidden fixture banks and official gates exist.",
     "Provider, runtime, suite version, cost, latency, reliability, and artifact references are exposed as metadata for auditability.",
     "Mixed-basis rows are labeled when measurements come from independently versioned benchmark runs.",
@@ -215,11 +217,60 @@
         "time_s": 1116.23,
         "prompt_count": 24
       },
-      "notes": [],
+      "notes": [
+        "Hard Intelligence D6-only single-seed smoke is published for evidence, but excluded from overall ranking until D1-D6 coverage is complete.",
+        "MiniMax M3 showed strong online adaptation on this D6 smoke slice, but active inquiry failed the rename metamorphic variant and should be rerun with more seeds before publication-grade claims."
+      ],
       "full_rank": 6,
       "swe_rank": 4,
       "overall_score": 86.105,
-      "overall_rank": 3
+      "overall_rank": 3,
+      "hard_intelligence": {
+        "suite": "hard_intelligence_v1.alpha · D6-only · 4 lanes · 1 seed · public diagnostic smoke",
+        "artifact": "results/hard_intelligence_v1/minimax-m3-openrouter-xhigh-d6-s1-32k-20260614-061958-15da63b/summary.json",
+        "report": "results/hard_intelligence_v1/minimax-m3-openrouter-xhigh-d6-s1-32k-20260614-061958-15da63b/report.md",
+        "raw_artifact": "results/hard_intelligence_v1/minimax-m3-openrouter-xhigh-d6-s1-32k-20260614-061958-15da63b/raw.jsonl",
+        "coverage_label": "D6 smoke",
+        "diagnostic_score": 66.7708,
+        "official_score": null,
+        "official_eligible": false,
+        "overall_included": false,
+        "difficulty_coverage": [
+          "D6"
+        ],
+        "seed_count": 1,
+        "variant_count": 2,
+        "record_count": 8,
+        "cost": 0.0258219,
+        "cost_basis": "estimated_from_openrouter_pricing_20260614_provider_cost_recorded_zero",
+        "input_tokens": 4793,
+        "output_tokens": 20320,
+        "runtime_seconds": 356.22,
+        "api_status": {
+          "ok": 8
+        },
+        "output_budget_valid": true,
+        "request_max_tokens": 32000,
+        "d6_diagnostic_score": 66.7708,
+        "lanes": {
+          "active_information_acquisition": 17.5,
+          "online_adaptation_fast_learning": 97.5,
+          "evidence_driven_self_repair": 82.0833,
+          "authority_salience_constraint_integrity": 70.0
+        },
+        "failure_modes": {
+          "blind_false_premise_agreement": 1
+        },
+        "limitations": [
+          "public_fixture_only",
+          "d6_only",
+          "single_seed",
+          "incomplete_difficulty_curve",
+          "insufficient_seed_count",
+          "official_hidden_fixture_bank_not_enabled"
+        ]
+      },
+      "hard_rank": null
     },
     {
       "id": "claude-opus-4.8-openrouter-xhigh",
@@ -605,5 +656,10 @@
       "overall_score": 69.085,
       "overall_rank": 11
     }
+  ],
+  "evidence_artifacts": [
+    "results/hard_intelligence_v1/minimax-m3-openrouter-xhigh-d6-s1-32k-20260614-061958-15da63b/summary.json",
+    "results/hard_intelligence_v1/minimax-m3-openrouter-xhigh-d6-s1-32k-20260614-061958-15da63b/report.md",
+    "results/hard_intelligence_v1/minimax-m3-openrouter-xhigh-d6-s1-32k-20260614-061958-15da63b/raw.jsonl"
   ]
 }
