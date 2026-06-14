@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-14T20:52:40.636558+00:00",
-  "synced_at": "2026-06-14T20:52:40.636558+00:00",
+  "generated_at": "2026-06-14T21:38:59Z",
+  "synced_at": "2026-06-14T21:38:59Z",
   "summary": {
     "title": "Resyst Labs LLM Benchmark Rankings",
     "formula": "Overall = average of measured major lanes: Full/Agentic, SWE MVP, and Hard Intelligence when a measured Hard Intelligence result is published, including diagnostic smoke slices",
@@ -10,6 +10,7 @@
   "notes": [
     "Full/Agentic, SWE, and Hard Intelligence are separate benchmark lanes; overall uses the average of measured major lanes while preserving blank cells for unmeasured diagnostics.",
     "Gemini 3.5 Flash now includes a D6-only single-seed Hard Intelligence smoke run through OpenRouter extra-high reasoning; it affects overall score per current scoring policy while remaining a public diagnostic smoke slice.",
+    "MiniMax M3 Direct Plus now includes a D6-only single-seed Hard Intelligence smoke run through the direct MiniMax API with extra-high thinking; it affects overall score per current scoring policy while remaining a public diagnostic smoke slice.",
     "Kimi K2.7 Code now includes a D6-only single-seed Hard Intelligence smoke run through OpenRouter extra-high reasoning; it affects overall score per current scoring policy while remaining a public diagnostic smoke slice.",
     "DeepSeek V4 Pro direct now includes a D6-only single-seed Hard Intelligence smoke run using DeepSeek maximum reasoning; it affects overall score per current scoring policy while remaining a public diagnostic smoke slice.",
     "Hard Intelligence measured results, including D6-only smoke slices, affect overall score once published; partial coverage remains visually labeled and caveated.",
@@ -289,97 +290,6 @@
       "hard_rank": 3
     },
     {
-      "id": "deepseek-v4-pro-direct",
-      "label": "DeepSeek V4 Pro",
-      "basis": "DeepSeek direct API · maximum-reasoning Hard IQ",
-      "full": {
-        "suite": "benchmark_core_v1 · 43 prompts · rubric-calibrated-e55eb55",
-        "final": 92.04,
-        "capability": 99.37,
-        "agentic": 97.18,
-        "daily": 89.28,
-        "efficiency": 80.14,
-        "performance": 81.44,
-        "reliability": 100.0,
-        "pass_rate": 100.0,
-        "avg_s": 10.403,
-        "decode": 37.726,
-        "cost": 0.247676,
-        "cost_basis": "provider_reported_or_project_pricing",
-        "prompt_count": 43,
-        "total_time_s": 447.32
-      },
-      "swe": {
-        "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
-        "swe_score": 79.68,
-        "focused_final": 65.14,
-        "capability": 75.75,
-        "daily": 60.42,
-        "performance": 28.45,
-        "efficiency": 75.81,
-        "reliability": 100.0,
-        "cost": 0.032801,
-        "time_s": 696.7,
-        "prompt_count": 24
-      },
-      "notes": [
-        "Hard Intelligence D6-only single-seed smoke was run through DeepSeek direct API maximum reasoning mode; it is included in the current overall formula.",
-        "Mixed effort basis: Full/Agentic and SWE use prior DeepSeek V4 Pro direct benchmark runs, while Hard Intelligence uses the new maximum-reasoning D6 smoke run."
-      ],
-      "full_rank": 2,
-      "swe_rank": 7,
-      "overall_score": 83.365,
-      "overall_rank": 5,
-      "hard_intelligence": {
-        "suite": "hard_intelligence_v1.alpha · D6-only · 4 lanes · 1 seed · public diagnostic smoke · DeepSeek maximum reasoning",
-        "coverage_label": "D6 smoke",
-        "diagnostic_score": 78.375,
-        "official_score": null,
-        "official_eligible": false,
-        "overall_included": true,
-        "difficulty_coverage": [
-          "D6"
-        ],
-        "seed_count": 1,
-        "variant_count": 2,
-        "record_count": 8,
-        "cost": 0.05440197,
-        "cost_basis": "estimated_from_deepseek_direct_cache_miss_pricing_20260614",
-        "input_tokens": 4328,
-        "output_tokens": 60367,
-        "reasoning_tokens": 59301,
-        "runtime_seconds": 599.6958,
-        "api_status": {
-          "ok": 8
-        },
-        "output_budget_valid": true,
-        "request_max_tokens": 32000,
-        "reasoning_level": "maximum",
-        "reasoning_mode": "enabled",
-        "d6_diagnostic_score": 78.375,
-        "lanes": {
-          "active_information_acquisition": 81.4167,
-          "online_adaptation_fast_learning": 80.0,
-          "evidence_driven_self_repair": 82.0833,
-          "authority_salience_constraint_integrity": 70.0
-        },
-        "failure_modes": {
-          "blind_false_premise_agreement": 1,
-          "prediction_explanation_mismatch": 1
-        },
-        "limitations": [
-          "public_fixture_only",
-          "d6_only",
-          "single_seed",
-          "incomplete_difficulty_curve",
-          "insufficient_seed_count",
-          "official_hidden_fixture_bank_not_enabled",
-          "mixed_effort_basis"
-        ]
-      },
-      "hard_rank": 4
-    },
-    {
       "id": "gemini-3.5-flash-openrouter",
       "label": "Gemini 3.5 Flash",
       "basis": "OpenRouter · extra-high reasoning · D6 smoke Hard IQ",
@@ -471,6 +381,97 @@
       "hard_rank": 2
     },
     {
+      "id": "deepseek-v4-pro-direct",
+      "label": "DeepSeek V4 Pro",
+      "basis": "DeepSeek direct API · maximum-reasoning Hard IQ",
+      "full": {
+        "suite": "benchmark_core_v1 · 43 prompts · rubric-calibrated-e55eb55",
+        "final": 92.04,
+        "capability": 99.37,
+        "agentic": 97.18,
+        "daily": 89.28,
+        "efficiency": 80.14,
+        "performance": 81.44,
+        "reliability": 100.0,
+        "pass_rate": 100.0,
+        "avg_s": 10.403,
+        "decode": 37.726,
+        "cost": 0.247676,
+        "cost_basis": "provider_reported_or_project_pricing",
+        "prompt_count": 43,
+        "total_time_s": 447.32
+      },
+      "swe": {
+        "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
+        "swe_score": 79.68,
+        "focused_final": 65.14,
+        "capability": 75.75,
+        "daily": 60.42,
+        "performance": 28.45,
+        "efficiency": 75.81,
+        "reliability": 100.0,
+        "cost": 0.032801,
+        "time_s": 696.7,
+        "prompt_count": 24
+      },
+      "notes": [
+        "Hard Intelligence D6-only single-seed smoke was run through DeepSeek direct API maximum reasoning mode; it is included in the current overall formula.",
+        "Mixed effort basis: Full/Agentic and SWE use prior DeepSeek V4 Pro direct benchmark runs, while Hard Intelligence uses the new maximum-reasoning D6 smoke run."
+      ],
+      "full_rank": 2,
+      "swe_rank": 7,
+      "overall_score": 83.365,
+      "overall_rank": 5,
+      "hard_intelligence": {
+        "suite": "hard_intelligence_v1.alpha · D6-only · 4 lanes · 1 seed · public diagnostic smoke · DeepSeek maximum reasoning",
+        "coverage_label": "D6 smoke",
+        "diagnostic_score": 78.375,
+        "official_score": null,
+        "official_eligible": false,
+        "overall_included": true,
+        "difficulty_coverage": [
+          "D6"
+        ],
+        "seed_count": 1,
+        "variant_count": 2,
+        "record_count": 8,
+        "cost": 0.05440197,
+        "cost_basis": "estimated_from_deepseek_direct_cache_miss_pricing_20260614",
+        "input_tokens": 4328,
+        "output_tokens": 60367,
+        "reasoning_tokens": 59301,
+        "runtime_seconds": 599.6958,
+        "api_status": {
+          "ok": 8
+        },
+        "output_budget_valid": true,
+        "request_max_tokens": 32000,
+        "reasoning_level": "maximum",
+        "reasoning_mode": "enabled",
+        "d6_diagnostic_score": 78.375,
+        "lanes": {
+          "active_information_acquisition": 81.4167,
+          "online_adaptation_fast_learning": 80.0,
+          "evidence_driven_self_repair": 82.0833,
+          "authority_salience_constraint_integrity": 70.0
+        },
+        "failure_modes": {
+          "blind_false_premise_agreement": 1,
+          "prediction_explanation_mismatch": 1
+        },
+        "limitations": [
+          "public_fixture_only",
+          "d6_only",
+          "single_seed",
+          "incomplete_difficulty_curve",
+          "insufficient_seed_count",
+          "official_hidden_fixture_bank_not_enabled",
+          "mixed_effort_basis"
+        ]
+      },
+      "hard_rank": 4
+    },
+    {
       "id": "qwen3.7-max-openrouter-xhigh",
       "label": "Qwen3.7 Max",
       "basis": "OpenRouter · extra-high reasoning · D6 smoke Hard IQ",
@@ -560,7 +561,7 @@
           "official_hidden_fixture_bank_not_enabled"
         ]
       },
-      "hard_rank": 6
+      "hard_rank": 7
     },
     {
       "id": "minimax-m3-openrouter-xhigh",
@@ -645,7 +646,7 @@
           "official_hidden_fixture_bank_not_enabled"
         ]
       },
-      "hard_rank": 7
+      "hard_rank": 8
     },
     {
       "id": "claude-fable-5-openrouter-xhigh",
@@ -750,8 +751,60 @@
       ],
       "full_rank": 7,
       "swe_rank": 9,
-      "overall_score": 76.045,
-      "overall_rank": 9
+      "overall_score": 74.629,
+      "overall_rank": 9,
+      "hard_intelligence": {
+        "suite": "hard_intelligence_v1.alpha · D6-only · 4 lanes · 1 seed · public diagnostic smoke · MiniMax direct extra-high thinking",
+        "coverage_label": "D6 smoke",
+        "diagnostic_score": 71.7969,
+        "official_score": null,
+        "official_eligible": false,
+        "overall_included": true,
+        "difficulty_coverage": [
+          "D6"
+        ],
+        "seed_count": 1,
+        "variant_count": 2,
+        "record_count": 8,
+        "cost": 0.00039262,
+        "cost_basis": "minimax_plus_quota_equivalent_20usd_1.7b_tokens",
+        "provider_cost_missing": true,
+        "input_tokens": 2246,
+        "output_tokens": 19994,
+        "reasoning_tokens_estimate": 11133,
+        "provider_tokens_total_for_quota": 33373,
+        "runtime_seconds": 276.0055,
+        "api_status": {
+          "ok": 8
+        },
+        "finish_reasons": {
+          "end_turn": 8
+        },
+        "output_budget_valid": true,
+        "request_max_tokens": 32000,
+        "reasoning_level": "extra-high",
+        "reasoning_mode": "MiniMax direct Anthropic-compatible thinking",
+        "d6_diagnostic_score": 71.7969,
+        "lanes": {
+          "active_information_acquisition": 17.5,
+          "online_adaptation_fast_learning": 98.5,
+          "evidence_driven_self_repair": 71.1875,
+          "authority_salience_constraint_integrity": 100.0
+        },
+        "failure_modes": {
+          "case_5": 1,
+          "regressed_public_case": 1
+        },
+        "limitations": [
+          "public_fixture_only",
+          "d6_only",
+          "single_seed",
+          "incomplete_difficulty_curve",
+          "insufficient_seed_count",
+          "official_hidden_fixture_bank_not_enabled"
+        ]
+      },
+      "hard_rank": 6
     },
     {
       "id": "kimi-k2.7-code-openrouter-xhigh",
@@ -847,7 +900,7 @@
           "official_hidden_fixture_bank_not_enabled"
         ]
       },
-      "hard_rank": 8
+      "hard_rank": 9
     },
     {
       "id": "nemotron-3-ultra-openrouter-xhigh",
