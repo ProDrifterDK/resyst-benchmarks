@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-14T21:38:59Z",
-  "synced_at": "2026-06-14T21:38:59Z",
+  "generated_at": "2026-06-14T22:21:16Z",
+  "synced_at": "2026-06-14T22:21:16Z",
   "summary": {
     "title": "Resyst Labs LLM Benchmark Rankings",
     "formula": "Overall = average of measured major lanes: Full/Agentic, SWE MVP, and Hard Intelligence when a measured Hard Intelligence result is published, including diagnostic smoke slices",
@@ -20,6 +20,7 @@
     "Provider, runtime, suite version, cost, latency, and reliability metadata are exposed for auditability.",
     "Mixed-basis rows are labeled when measurements come from independently versioned benchmark runs.",
     "SWE rows use the software-engineering MVP suite and are distinct from SWE-bench Verified.",
+    "NVIDIA Nemotron 3 Ultra now includes a D6-only single-seed Hard Intelligence smoke run through OpenRouter extra-high reasoning; it affects overall score per current scoring policy while remaining a public diagnostic smoke slice.",
     "Arena replays publish board states, legal actions, events, and tactical telemetry while excluding raw model completions."
   ],
   "rows": [
@@ -952,12 +953,68 @@
         "Exact OpenRouter model: nvidia/nemotron-3-ultra-550b-a55b.",
         "Full lane uses the current full_suite_v3 run; suite metadata remains visible per row.",
         "SWE lane is software_engineering_mvp_v1 n=3, not the external SWE-bench Verified benchmark.",
-        "Low SWE rank is driven by patch formatting/application failures: no_patch_found=1, patch_rejected=7, tests_failed=3 across 24 SWE records."
+        "Low SWE rank is driven by patch formatting/application failures: no_patch_found=1, patch_rejected=7, tests_failed=3 across 24 SWE records.",
+        "Hard Intelligence D6-only smoke was run with OpenRouter extra-high reasoning and is included in the current overall formula.",
+        "The low Hard IQ result is driven mainly by the online-adaptation lane; one adaptation record reached length at the 32K output budget."
       ],
       "full_rank": 10,
       "swe_rank": 10,
-      "overall_score": 69.085,
-      "overall_rank": 11
+      "overall_score": 67.5758,
+      "overall_rank": 11,
+      "hard_intelligence": {
+        "suite": "hard_intelligence_v1.alpha · D6-only · 4 lanes · 1 seed · public diagnostic smoke · OpenRouter extra-high reasoning",
+        "coverage_label": "D6 smoke",
+        "diagnostic_score": 64.5573,
+        "official_score": null,
+        "official_eligible": false,
+        "overall_included": true,
+        "difficulty_coverage": [
+          "D6"
+        ],
+        "seed_count": 1,
+        "variant_count": 2,
+        "record_count": 8,
+        "cost": 0.1204668,
+        "cost_basis": "provider_reported_openrouter_usage_cost",
+        "provider_cost_missing": false,
+        "input_tokens": 3258,
+        "output_tokens": 32920,
+        "reasoning_tokens": 2598,
+        "runtime_seconds": 105.1934,
+        "api_status": {
+          "ok": 8
+        },
+        "finish_reasons": {
+          "['stop', 'stop']": 3,
+          "['stop', 'length']": 1,
+          "stop": 4
+        },
+        "output_budget_valid": true,
+        "request_max_tokens": 32000,
+        "reasoning_level": "extra-high",
+        "reasoning_mode": "OpenRouter reasoning",
+        "d6_diagnostic_score": 64.5573,
+        "lanes": {
+          "active_information_acquisition": 93.0833,
+          "online_adaptation_fast_learning": 8.75,
+          "evidence_driven_self_repair": 56.3958,
+          "authority_salience_constraint_integrity": 100.0
+        },
+        "failure_modes": {
+          "ignored_feedback": 1,
+          "case_7": 2,
+          "regressed_public_case": 2
+        },
+        "limitations": [
+          "public_fixture_only",
+          "d6_only",
+          "single_seed",
+          "incomplete_difficulty_curve",
+          "insufficient_seed_count",
+          "official_hidden_fixture_bank_not_enabled"
+        ]
+      },
+      "hard_rank": 10
     }
   ],
   "schema_type": "resyst_labs_benchmark_rankings"
