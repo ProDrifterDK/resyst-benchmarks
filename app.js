@@ -30,6 +30,19 @@ const shortDate = (iso) => {
 
 const sideValue = (map, side) => map?.[side] ?? 0;
 const modelPath = (row) => `models/${encodeURIComponent(row.id)}/`;
+const hardDifficultyCoverage = (row) => row.hard_intelligence?.difficulty_coverage ?? [];
+const hardOverallIncluded = (row) => Boolean(
+  row.hard_intelligence
+  && row.hard_intelligence.overall_included !== false
+  && hardDifficultyCoverage(row).includes('D1')
+  && hardDifficultyCoverage(row).includes('D6')
+  && Number(row.hard_intelligence.seed_count ?? 0) >= 5,
+);
+const hardCellAttrs = (row) => {
+  if (!row.hard_intelligence) return ' class="pending-score-cell" aria-label="Not measured"';
+  if (hardOverallIncluded(row)) return '';
+  return ' class="partial-score-cell" title="Partial Hard Intelligence diagnostic smoke; excluded from overall ranking"';
+};
 const prettyReason = (value = 'resolved') => String(value).replaceAll('_', ' ');
 
 function compactEntrant(value = '') {
@@ -155,7 +168,7 @@ function renderRanking(models) {
     const reliability = row.swe?.reliability ?? row.full?.reliability;
     const cost = (row.full?.cost ?? 0) + (row.swe?.cost ?? 0) + (row.hard_intelligence?.cost ?? 0);
     const hard = row.hard_intelligence;
-    const pendingHardAttrs = hard ? '' : ' class="pending-score-cell" aria-label="Not measured"';
+    const hardAttrs = hardCellAttrs(row);
     return `
       <tr>
         <td class="rank-cell">#${row.overall_rank}</td>
@@ -167,11 +180,11 @@ function renderRanking(models) {
         <td class="score-cell">${formatNumber(row.overall_score, 2)}</td>
         <td>${formatNumber(row.full?.final, 2)}</td>
         <td>${formatNumber(row.swe?.swe_score, 2)}</td>
-        <td${pendingHardAttrs}>${formatOptionalScore(hard?.diagnostic_score)}</td>
-        <td${pendingHardAttrs}>${formatOptionalScore(hard?.lanes?.active_information_acquisition)}</td>
-        <td${pendingHardAttrs}>${formatOptionalScore(hard?.lanes?.online_adaptation_fast_learning)}</td>
-        <td${pendingHardAttrs}>${formatOptionalScore(hard?.lanes?.evidence_driven_self_repair)}</td>
-        <td${pendingHardAttrs}>${formatOptionalScore(hard?.lanes?.authority_salience_constraint_integrity)}</td>
+        <td${hardAttrs}>${formatOptionalScore(hard?.diagnostic_score)}</td>
+        <td${hardAttrs}>${formatOptionalScore(hard?.lanes?.active_information_acquisition)}</td>
+        <td${hardAttrs}>${formatOptionalScore(hard?.lanes?.online_adaptation_fast_learning)}</td>
+        <td${hardAttrs}>${formatOptionalScore(hard?.lanes?.evidence_driven_self_repair)}</td>
+        <td${hardAttrs}>${formatOptionalScore(hard?.lanes?.authority_salience_constraint_integrity)}</td>
         <td>${formatCost(cost)}</td>
         <td>${formatNumber(reliability, 1)}%</td>
         <td><a class="row-action" href="${modelPath(row)}">Result</a></td>
