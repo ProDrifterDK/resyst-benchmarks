@@ -645,6 +645,184 @@ td {
   text-underline-offset: 0.18em;
 }
 
+.section-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.7rem;
+}
+
+.ranked-detail-page {
+  padding-bottom: clamp(3rem, 8vw, 7rem);
+}
+
+.ranking-hero-page {
+  min-height: min(720px, calc(100vh - 5rem));
+}
+
+.ranking-chart-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  gap: 1rem;
+  margin-top: clamp(1.5rem, 4vw, 3rem);
+}
+
+.ranking-chart-card {
+  overflow: hidden;
+  padding: clamp(1.1rem, 3vw, 1.6rem);
+  border-radius: 30px;
+}
+
+.ranking-chart-card:first-child {
+  grid-row: span 2;
+}
+
+.ranking-chart-head h2 {
+  font-size: clamp(1.9rem, 4vw, 3.4rem);
+  line-height: 0.94;
+}
+
+.ranking-chart-head p,
+.chart-note,
+.ranking-insight-card p,
+.reason-cell {
+  color: var(--paper-soft);
+  line-height: 1.65;
+}
+
+.bar-chart {
+  display: grid;
+  gap: 0.72rem;
+  margin-top: 1.2rem;
+}
+
+.bar-chart.compact {
+  gap: 0.56rem;
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: minmax(170px, 1fr) minmax(170px, 2.2fr) minmax(4.7rem, auto);
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.bar-row a {
+  color: #fff8eb;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.bar-row small {
+  grid-column: 2 / -1;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+}
+
+.bar-track {
+  height: 0.72rem;
+  overflow: hidden;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.bar-track i {
+  display: block;
+  width: var(--bar);
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--amber), var(--cyan));
+  box-shadow: 0 0 20px rgba(201, 168, 76, 0.3);
+}
+
+.cost-row .bar-track i {
+  background: linear-gradient(90deg, var(--violet), var(--amber));
+}
+
+.lane-compare-chart {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1.2rem;
+}
+
+.lane-compare-row {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.lane-compare-row > a {
+  color: #fff8eb;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.lane-compare-bars {
+  display: grid;
+  gap: 0.32rem;
+}
+
+.lane-bar {
+  display: block;
+  width: var(--lane);
+  min-width: 4.2rem;
+  padding: 0.28rem 0.5rem;
+  border-radius: 999px;
+  color: #050508;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.lane-bar.full { background: linear-gradient(90deg, var(--cyan), #baf7ff); }
+.lane-bar.swe { background: linear-gradient(90deg, var(--green), #dbffd8); }
+.lane-bar.hard { background: linear-gradient(90deg, var(--amber), var(--amber-2)); }
+.lane-bar.is-partial { outline: 1px dashed rgba(255, 248, 235, 0.78); outline-offset: 2px; }
+
+.ranking-insight-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: clamp(1.5rem, 4vw, 3rem);
+}
+
+.ranking-insight-card {
+  padding: 1.15rem;
+  border-radius: 26px;
+}
+
+.ranking-insight-card h2 {
+  font-size: clamp(1.25rem, 2vw, 1.7rem);
+  line-height: 1.02;
+}
+
+.ranking-page-table {
+  padding-top: clamp(3rem, 7vw, 5rem);
+}
+
+.ranking-explained-table table {
+  min-width: 1480px;
+}
+
+.ranking-explained-table td small {
+  display: inline-block;
+  margin-left: 0.22rem;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+
+.reason-cell {
+  min-width: 420px;
+  max-width: 560px;
+  font-size: 0.9rem;
+}
+
+.ranking-method-grid {
+  margin-top: clamp(1.5rem, 4vw, 3rem);
+}
+
 .arena-layout {
   display: grid;
   grid-template-columns: minmax(0, 0.95fr) minmax(360px, 1.05fr);
@@ -2991,6 +3169,8 @@ td {
   .result-stat-grid,
   .arena-rule-grid,
   .result-card-grid,
+  .ranking-chart-grid,
+  .ranking-insight-grid,
   .result-explainer,
   .match-replay-head,
   .replay-scoreboard,
@@ -3001,6 +3181,10 @@ td {
   .result-stat-grid,
   .arena-rule-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ranking-chart-card:first-child {
+    grid-row: auto;
   }
 }
 
@@ -3016,10 +3200,25 @@ td {
 
   .result-stat-grid,
   .arena-rule-grid,
+  .ranking-chart-grid,
+  .ranking-insight-grid,
   .match-metrics.compact,
   .match-switcher,
   .encounter-meta-grid {
     grid-template-columns: 1fr;
+  }
+
+  .section-actions {
+    justify-content: flex-start;
+  }
+
+  .bar-row {
+    grid-template-columns: 1fr;
+    gap: 0.38rem;
+  }
+
+  .bar-row small {
+    grid-column: auto;
   }
 
   .match-switcher,

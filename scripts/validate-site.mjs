@@ -133,8 +133,8 @@ await stat(path.join(root, 'dist/assets/icon-512.png'));
 const html = await readText('dist/index.html');
 assertSeoBasics('dist/index.html', html, 'https://benchmarks.resyst.cl/');
 for (const required of [
-  'styles.css?v=20260614-hard-intelligence-claude-opus48-d6',
-  'app.js?v=20260614-hard-intelligence-claude-opus48-d6',
+  'styles.css?v=20260614-ranking-page',
+  'app.js?v=20260614-ranking-page',
   'AI Model Benchmarks & Arena Replays | Resyst Labs',
   'Resyst Labs logo',
   'https://benchmarks.resyst.cl/',
@@ -143,6 +143,7 @@ for (const required of [
   'assets/ResystLabs-Logo.png',
   'data/model-comparison.json',
   'data/arena-snapshots.json',
+  'ranking/',
   'arena/',
   'Resyst Arena evaluates spatial strategy in deterministic turn-based games',
   'Local and API-backed systems share a single tournament view',
@@ -192,10 +193,42 @@ if (!manifest.icons?.some((icon) => icon.sizes === '192x192') || !manifest.icons
   throw new Error('web manifest must include 192x192 and 512x512 icons');
 }
 const sitemap = await readText('dist/sitemap.xml');
-for (const required of ['https://benchmarks.resyst.cl/', 'https://benchmarks.resyst.cl/arena/', 'xmlns:image=', '<image:loc>https://benchmarks.resyst.cl/og.png?v=20260613-link-preview</image:loc>']) {
+for (const required of ['https://benchmarks.resyst.cl/', 'https://benchmarks.resyst.cl/ranking/', 'https://benchmarks.resyst.cl/arena/', 'xmlns:image=', '<image:loc>https://benchmarks.resyst.cl/og.png?v=20260613-link-preview</image:loc>']) {
   if (!sitemap.includes(required)) throw new Error(`sitemap.xml missing SEO marker: ${required}`);
 }
 if (/<loc>http:\/\//.test(sitemap) || /<image:loc>http:\/\//.test(sitemap)) throw new Error('sitemap.xml canonical URL entries must use HTTPS only');
+
+const models = JSON.parse(await readText('src/data/model-comparison.json'));
+const arena = JSON.parse(await readText('src/data/arena-snapshots.json'));
+
+const rankingHtml = await readText('dist/ranking/index.html');
+assertSeoBasics('dist/ranking/index.html', rankingHtml, 'https://benchmarks.resyst.cl/ranking/');
+for (const required of [
+  'AI Model Ranking Explained | Resyst Labs',
+  'Why the ranking looks like this.',
+  'The public ranking is not a single vibe score',
+  'Overall ladder',
+  'Lane contrast',
+  'Measured cost context',
+  'Table with reasons, not just numbers.',
+  'Full / Agentic',
+  'SWE MVP',
+  'Hard Intelligence',
+  'Why the leader leads',
+  'How partial Hard Intelligence is handled',
+  'How to compare close rows',
+  'data/model-comparison.json',
+  'ItemList',
+  'Dataset',
+  'Step 3.7 Flash',
+  '68.06',
+  '88.22',
+]) {
+  if (!rankingHtml.includes(required)) throw new Error(`ranking page missing required content: ${required}`);
+}
+for (const row of models.rows.filter((entry) => Number.isFinite(entry.overall_rank))) {
+  if (!rankingHtml.includes(`../models/${row.id}/`)) throw new Error(`ranking page missing model detail link for ${row.id}`);
+}
 
 const arenaHtml = await readText('dist/arena/index.html');
 assertSeoBasics('dist/arena/index.html', arenaHtml, 'https://benchmarks.resyst.cl/arena/');
@@ -224,9 +257,6 @@ for (const cssFile of ['src/styles.css', 'dist/styles.css']) {
     throw new Error(`${cssFile} keeps the encounter selector sticky; it must scroll as normal page content`);
   }
 }
-
-const models = JSON.parse(await readText('src/data/model-comparison.json'));
-const arena = JSON.parse(await readText('src/data/arena-snapshots.json'));
 
 if (!Array.isArray(models.rows) || models.rows.length < 5) {
   throw new Error('model data must expose at least 5 ranked rows');

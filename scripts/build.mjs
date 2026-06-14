@@ -9,7 +9,7 @@ const site = 'https://benchmarks.resyst.cl/';
 const logoUrl = `${site}assets/ResystLabs-Logo.png`;
 const ogImageVersion = '20260613-link-preview';
 const ogImageUrl = `${site}og.png?v=${ogImageVersion}`;
-const assetVersion = '20260614-hard-intelligence-claude-opus48-d6';
+const assetVersion = '20260614-ranking-page';
 
 if (!existsSync(src)) {
   throw new Error('src directory is missing');
@@ -104,7 +104,7 @@ function header(prefix = '') {
         </span>
       </a>
       <nav aria-label="Primary navigation">
-        <a href="${prefix}#ranking">Ranking</a>
+        <a href="${prefix}ranking/">Ranking</a>
         <a href="${prefix}arena/">Arena</a>
         <a href="${prefix}#methodology">Methodology</a>
         <a href="${prefix}#evidence">Evidence</a>
@@ -353,13 +353,13 @@ async function writeModelPages() {
     const reliability = row.swe?.reliability ?? row.full?.reliability;
     const content = `<main class="detail-main model-detail" id="top">
       <section class="detail-hero section-shell">
-        <a class="back-link" href="../../#ranking">← Back to ranking</a>
+        <a class="back-link" href="../../ranking/">← Back to ranking</a>
         <p class="eyebrow">Model result · rank #${escapeHtml(row.overall_rank)}</p>
         <h1>${escapeHtml(row.label)}</h1>
         <p class="hero-lead">${escapeHtml(row.basis)}. Public result card with the model’s overall score, lane measurements, runtime/cost telemetry, and ranking formula.</p>
         <div class="detail-actions">
           <a class="button primary" href="../../data/model-comparison.json">Download public JSON</a>
-          <a class="button secondary" href="../../#ranking">Compare all models</a>
+          <a class="button secondary" href="../../ranking/">Compare all models</a>
         </div>
       </section>
 
@@ -432,7 +432,7 @@ async function writeModelPages() {
         webPageSchema({ title: modelTitle, description: modelDescription, url: `${site}${modelPath(row)}` }),
         breadcrumbSchema([
           { name: 'Resyst Labs Benchmarks', url: site },
-          { name: 'AI model ranking', url: `${site}#ranking` },
+          { name: 'AI model ranking', url: `${site}ranking/` },
           { name: row.label, url: `${site}${modelPath(row)}` },
         ]),
         modelDatasetSchema(row),
@@ -717,6 +717,267 @@ function overviewRankingRow(row) {
       </tr>`;
 }
 
+function rankingDatasetSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Dataset',
+    name: 'Resyst Labs AI model ranking explained',
+    description: 'Public AI model ranking with overall score, Full/Agentic benchmark, SWE MVP benchmark, Hard Intelligence diagnostics, runtime economics, and reliability context.',
+    url: `${site}ranking/`,
+    creator: organizationSchema(),
+    publisher: organizationSchema(),
+    license: `${site}#evidence`,
+    dateModified: dataDate,
+    keywords: ['AI benchmark ranking', 'LLM benchmark', 'software engineering benchmark', 'Hard Intelligence', 'agentic AI evaluation'],
+    measurementTechnique: ['lane-aware overall ranking', 'Full/Agentic benchmark', 'SWE MVP benchmark', 'Hard Intelligence public diagnostic', 'runtime cost telemetry'],
+    variableMeasured: ['overall score', 'Full / Agentic score', 'SWE MVP score', 'Hard Intelligence diagnostic score', 'measured cost', 'reliability'],
+    distribution: {
+      '@type': 'DataDownload',
+      encodingFormat: 'application/json',
+      contentUrl: `${site}data/model-comparison.json`,
+    },
+  };
+}
+
+function finiteScore(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+
+function laneScoreEntries(row) {
+  const entries = [
+    { key: 'full', label: 'Full / Agentic', value: finiteScore(row.full?.final), rank: row.full_rank },
+    { key: 'swe', label: 'SWE MVP', value: finiteScore(row.swe?.swe_score), rank: row.swe_rank },
+  ];
+  if (row.hard_intelligence && hardOverallIncluded(row)) {
+    entries.push({ key: 'hard', label: 'Hard Intelligence', value: finiteScore(row.hard_intelligence.diagnostic_score), rank: row.hard_rank });
+  }
+  return entries.filter((entry) => entry.value !== null);
+}
+
+function rankingReason(row) {
+  const entries = laneScoreEntries(row);
+  const strongest = [...entries].sort((a, b) => b.value - a.value)[0];
+  const limiter = [...entries].sort((a, b) => a.value - b.value)[0];
+  const strengths = [];
+  if (Number(row.full_rank) <= 3) strengths.push(`Full rank #${row.full_rank}`);
+  if (Number(row.swe_rank) <= 3) strengths.push(`SWE rank #${row.swe_rank}`);
+  if (Number(row.hard_rank) <= 3) strengths.push(`Hard Intelligence rank #${row.hard_rank}`);
+  const strengthText = strengths.length ? strengths.join(', ') : `${strongest?.label ?? 'best lane'} at ${fmt(strongest?.value)}`;
+  const limiterText = limiter ? `${limiter.label} at ${fmt(limiter.value)}` : 'pending lane coverage';
+  const hardText = row.hard_intelligence
+    ? (hardIsPartial(row)
+      ? `${hardCoverageLabel(row)} is visible so partial-coverage risk is not hidden.`
+      : 'D1-D6 Hard Intelligence coverage is complete enough for a ranking-grade diagnostic view.')
+    : 'Hard Intelligence is still blank, so the overall score currently averages Full and SWE only.';
+  return `Overall ${fmt(row.overall_score)} uses ${overallFormula(row)}. Strength signal: ${strengthText}. Main limiter: ${limiterText}. ${hardText}`;
+}
+
+function rankingBarRows(rows, getScore, getMeta = () => '') {
+  return rows.map((row) => {
+    const score = finiteScore(getScore(row));
+    if (score === null) return '';
+    const bar = Math.max(2, Math.min(100, score));
+    const meta = getMeta(row);
+    return `<div class="bar-row" style="--bar:${bar.toFixed(2)}%">
+      <a href="../${modelPath(row)}">${escapeHtml(row.label)}</a>
+      <div class="bar-track" aria-hidden="true"><i></i></div>
+      <strong>${fmt(score)}</strong>
+      ${meta ? `<small>${escapeHtml(meta)}</small>` : ''}
+    </div>`;
+  }).join('\n');
+}
+
+function rankingChartCard(title, subtitle, body, note = '') {
+  return `<article class="ranking-chart-card glass-panel">
+    <div class="ranking-chart-head">
+      <span class="panel-label">Chart</span>
+      <h2>${escapeHtml(title)}</h2>
+      <p>${escapeHtml(subtitle)}</p>
+    </div>
+    ${body}
+    ${note ? `<p class="chart-note">${escapeHtml(note)}</p>` : ''}
+  </article>`;
+}
+
+function laneComparisonRows(rows) {
+  return rows.map((row) => {
+    const full = finiteScore(row.full?.final);
+    const swe = finiteScore(row.swe?.swe_score);
+    const hard = finiteScore(row.hard_intelligence?.diagnostic_score);
+    const hardClass = hard !== null && hardIsPartial(row) ? ' is-partial' : '';
+    return `<div class="lane-compare-row">
+      <a href="../${modelPath(row)}">#${escapeHtml(row.overall_rank)} ${escapeHtml(row.label)}</a>
+      <div class="lane-compare-bars" aria-label="Lane scores for ${escapeHtml(row.label)}">
+        ${full === null ? '' : `<span class="lane-bar full" style="--lane:${Math.max(2, full).toFixed(2)}%"><i>Full ${fmt(full)}</i></span>`}
+        ${swe === null ? '' : `<span class="lane-bar swe" style="--lane:${Math.max(2, swe).toFixed(2)}%"><i>SWE ${fmt(swe)}</i></span>`}
+        ${hard === null ? '' : `<span class="lane-bar hard${hardClass}" style="--lane:${Math.max(2, hard).toFixed(2)}%"><i>Hard ${fmt(hard)}</i></span>`}
+      </div>
+    </div>`;
+  }).join('\n');
+}
+
+function costRows(rows) {
+  const maxCost = Math.max(...rows.map(totalMeasuredCost), 0.001);
+  return rows.map((row) => {
+    const cost = totalMeasuredCost(row);
+    const bar = Math.max(2, Math.min(100, (cost / maxCost) * 100));
+    return `<div class="bar-row cost-row" style="--bar:${bar.toFixed(2)}%">
+      <a href="../${modelPath(row)}">${escapeHtml(row.label)}</a>
+      <div class="bar-track" aria-hidden="true"><i></i></div>
+      <strong>${fmtCost(cost)}</strong>
+      <small>rank #${escapeHtml(row.overall_rank)}</small>
+    </div>`;
+  }).join('\n');
+}
+
+function rankingInsightCards() {
+  const leader = rankedRows[0];
+  const fullLeader = [...rankedRows].filter((row) => row.full).sort((a, b) => Number(a.full_rank ?? 999) - Number(b.full_rank ?? 999))[0];
+  const sweLeader = [...rankedRows].filter((row) => row.swe).sort((a, b) => Number(a.swe_rank ?? 999) - Number(b.swe_rank ?? 999))[0];
+  const hardLeader = [...rankedRows].filter((row) => row.hard_intelligence).sort((a, b) => Number(a.hard_rank ?? 999) - Number(b.hard_rank ?? 999))[0];
+  const hardDrag = [...rankedRows]
+    .filter((row) => row.hard_intelligence && row.full && row.swe)
+    .map((row) => ({ row, drag: ((Number(row.full.final) + Number(row.swe.swe_score)) / 2) - Number(row.hard_intelligence.diagnostic_score) }))
+    .sort((a, b) => b.drag - a.drag)[0];
+  const cards = [
+    ['Breadth wins the top spot', `${leader.label} leads because its measured lanes stay high together: overall ${fmt(leader.overall_score)}, Full ${fmt(leader.full?.final)}, SWE ${fmt(leader.swe?.swe_score)}, and Hard Intelligence ${fmt(leader.hard_intelligence?.diagnostic_score)}.`],
+    ['Full / Agentic alone does not decide', `${fullLeader.label} owns Full rank #${fullLeader.full_rank} at ${fmt(fullLeader.full?.final)}, but the overall formula still checks SWE and Hard Intelligence before ordering the table.`],
+    ['SWE is a separate capability signal', `${sweLeader.label} owns SWE rank #${sweLeader.swe_rank} at ${fmt(sweLeader.swe?.swe_score)}. That lane rewards practical implementation and review behavior rather than only general prompt competence.`],
+    ['Hard Intelligence reshapes the table', `${hardLeader.label} owns Hard Intelligence rank #${hardLeader.hard_rank} at ${fmt(hardLeader.hard_intelligence?.diagnostic_score)}. Entrants with partial D6 smoke coverage remain visibly labeled instead of being silently treated as complete.`],
+  ];
+  if (hardDrag) {
+    cards.push(['The clearest drag is visible', `${hardDrag.row.label} has a Full/SWE average near ${fmt((Number(hardDrag.row.full.final) + Number(hardDrag.row.swe.swe_score)) / 2)}, but Hard Intelligence is ${fmt(hardDrag.row.hard_intelligence.diagnostic_score)}, so the blended overall lands at ${fmt(hardDrag.row.overall_score)}.`]);
+  }
+  return cards.map(([title, text]) => `<article class="ranking-insight-card glass-panel"><h2>${escapeHtml(title)}</h2><p>${escapeHtml(text)}</p></article>`).join('\n');
+}
+
+function rankingDetailedTableRow(row) {
+  return `<tr>
+    <td class="rank-cell">#${escapeHtml(row.overall_rank)}</td>
+    <td class="model-cell"><a class="model-link" href="../${modelPath(row)}"><strong>${escapeHtml(row.label)}</strong></a></td>
+    <td class="score-cell">${fmt(row.overall_score)}</td>
+    <td>${fmt(row.full?.final)} <small>#${escapeHtml(row.full_rank ?? '—')}</small></td>
+    <td>${fmt(row.swe?.swe_score)} <small>#${escapeHtml(row.swe_rank ?? '—')}</small></td>
+    <td${hardCellAttrs(row)}>${fmtOptional(row.hard_intelligence?.diagnostic_score)}${row.hard_intelligence ? ` <small>#${escapeHtml(row.hard_rank ?? '—')}</small>` : ''}</td>
+    <td>${escapeHtml(overallFormula(row))}</td>
+    <td>${fmtCost(totalMeasuredCost(row))}</td>
+    <td class="reason-cell">${escapeHtml(rankingReason(row))}</td>
+  </tr>`;
+}
+
+async function writeRankingPage() {
+  const leader = rankedRows[0];
+  const hardMeasured = rankedRows.filter((row) => row.hard_intelligence).length;
+  const spread = Number(rankedRows[0]?.overall_score ?? 0) - Number(rankedRows.at(-1)?.overall_score ?? 0);
+  const chartRows = rankedRows;
+  const topLaneRows = rankedRows.slice(0, 8);
+  const content = `<main class="detail-main ranked-detail-page" id="top">
+    <section class="detail-hero section-shell ranking-hero-page">
+      <a class="back-link" href="../#ranking">← Overview</a>
+      <p class="eyebrow">Unified ranking · lane-aware explanation</p>
+      <h1>Why the ranking looks like this.</h1>
+      <p class="hero-lead">The public ranking is not a single vibe score. It orders measured entrants by a transparent overall formula while keeping Full / Agentic, SWE MVP, Hard Intelligence, cost, and reliability visible.</p>
+      <div class="detail-actions">
+        <a class="button primary" href="#ranking-table">Read the table</a>
+        <a class="button secondary" href="../data/model-comparison.json">Download public JSON</a>
+      </div>
+    </section>
+
+    <section class="section-shell result-stat-grid" aria-label="Ranking summary">
+      ${statCard('Ranked entrants', String(rankedRows.length), `${hardMeasured} with Hard Intelligence data`)}
+      ${statCard('Current leader', leader.label, `Overall ${fmt(leader.overall_score)}`)}
+      ${statCard('Score spread', fmt(spread), `#1 to #${rankedRows.at(-1)?.overall_rank ?? '—'}`)}
+      ${statCard('Formula', 'Lane mean', 'Full + SWE + published Hard Intelligence when measured')}
+      ${statCard('Data refresh', dataDateLabel, 'Static HTML plus public JSON')}
+    </section>
+
+    <section class="section-shell ranking-chart-grid" aria-label="Ranking charts">
+      ${rankingChartCard('Overall ladder', 'Every ranked entrant ordered by public overall score.', `<div class="bar-chart">${rankingBarRows(chartRows, (row) => row.overall_score, (row) => `rank #${row.overall_rank}`)}</div>`, 'Overall is a lane mean, not a hidden replacement for source measurements.')}
+      ${rankingChartCard('Lane contrast', 'Top eight entrants with Full, SWE, and Hard Intelligence shown side by side.', `<div class="lane-compare-chart">${laneComparisonRows(topLaneRows)}</div>`, 'Amber dotted Hard bars indicate partial diagnostic smoke coverage that is still included in the current public formula.')}
+      ${rankingChartCard('Measured cost context', 'Cost is shown because deployment economics matter, but it does not secretly rewrite capability scores.', `<div class="bar-chart compact">${costRows(chartRows)}</div>`, 'Very expensive rows are not punished twice; cost is visible telemetry and part of the public interpretation.')}
+    </section>
+
+    <section class="section-shell ranking-insight-grid" aria-label="Ranking explanation cards">
+      ${rankingInsightCards()}
+    </section>
+
+    <section id="ranking-table" class="section-shell ranking-section ranking-page-table" aria-labelledby="ranking-page-table-title">
+      <div class="section-kicker">Full ranking table</div>
+      <div class="section-head">
+        <div>
+          <h2 id="ranking-page-table-title">Table with reasons, not just numbers.</h2>
+          <p>Each row states the score formula, lane ranks, cost context, and the main reason the entrant lands at its current position.</p>
+        </div>
+        <a class="data-link" href="../data/model-comparison.json">Ranking data</a>
+      </div>
+      <div class="table-wrap glass-panel ranking-explained-table">
+        <table aria-label="Explained Resyst Labs model ranking">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Model</th>
+              <th>Overall</th>
+              <th>Full</th>
+              <th>SWE</th>
+              <th>Hard IQ</th>
+              <th>Formula</th>
+              <th>Cost</th>
+              <th>Why here</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rankedRows.map(rankingDetailedTableRow).join('\n')}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section-shell result-card-grid ranking-method-grid" aria-label="Ranking method explanation">
+      ${metricCard('Why the leader leads', 'Interpretation', [
+        ['Leader', leader.label],
+        ['Overall', fmt(leader.overall_score)],
+        ['Full', fmt(leader.full?.final)],
+        ['SWE', fmt(leader.swe?.swe_score)],
+        ['Hard IQ', fmt(leader.hard_intelligence?.diagnostic_score)],
+      ], 'The top rank belongs to the entrant with the strongest cross-lane balance under the current formula, not simply the best isolated lane score.')}
+      ${metricCard('How partial Hard Intelligence is handled', 'Coverage', [
+        ['Complete coverage target', 'D1-D6'],
+        ['Smoke coverage label', 'D6 smoke'],
+        ['Current policy', 'included when published'],
+        ['Official hidden score', 'disabled'],
+      ], 'D6-only smoke scores are visibly labeled, caveated, and still included in the current public overall formula when published for a model.')}
+      ${metricCard('How to compare close rows', 'Tie-break reading', [
+        ['Overall', 'first glance'],
+        ['Lane ranks', 'diagnosis'],
+        ['Cost', 'runtime context'],
+        ['Reliability', 'operational risk'],
+      ], 'Close overall scores should be read through the lane breakdown. A model can be strong for building software while weaker at active inquiry, or the reverse.')}
+    </section>
+  </main>`;
+  const outDir = path.join(dist, 'ranking');
+  await mkdir(outDir, { recursive: true });
+  const rankingTitle = 'AI Model Ranking Explained | Resyst Labs';
+  const rankingDescription = 'Explore the Resyst Labs AI model ranking with overall scores, lane charts, SWE results, Hard Intelligence diagnostics, cost, and reliability context.';
+  await writeFile(path.join(outDir, 'index.html'), pageShell({
+    title: rankingTitle,
+    description: rankingDescription,
+    canonicalPath: 'ranking/',
+    prefix: '../',
+    bodyClass: 'detail-page ranking-explained-page',
+    content,
+    structuredData: [
+      webPageSchema({ title: rankingTitle, description: rankingDescription, url: `${site}ranking/` }),
+      breadcrumbSchema([
+        { name: 'Resyst Labs Benchmarks', url: site },
+        { name: 'AI model ranking', url: `${site}ranking/` },
+      ]),
+      rankingDatasetSchema(),
+      rankingItemListSchema(),
+    ],
+  }));
+}
+
 function overviewEncounterCard(group, groupIndex) {
   const totalTurns = group.matches.reduce((sum, match) => sum + (Number(match.turns) || 0), 0);
   const seeds = [...new Set(group.matches.map((match) => match.seed).filter((seed) => seed !== undefined && seed !== null))];
@@ -820,12 +1081,14 @@ async function writeArenaPage() {
 }
 
 await writeModelPages();
+await writeRankingPage();
 await writeArenaPage();
 await hydrateOverviewHtml();
 
 const today = dataDate;
 const urls = [
   ['', '1.0'],
+  ['ranking/', '0.96'],
   ['arena/', '0.9'],
   ...rankedRows.map((row) => [modelPath(row), '0.72']),
 ];
