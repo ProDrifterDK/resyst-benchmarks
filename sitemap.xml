@@ -51,7 +51,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://benchmarks.resyst.cl/models/deepseek-v4-pro-direct/</loc>
+    <loc>https://benchmarks.resyst.cl/models/gemini-3.5-flash-openrouter/</loc>
     <lastmod>2026-06-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
@@ -61,7 +61,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://benchmarks.resyst.cl/models/gemini-3.5-flash-openrouter/</loc>
+    <loc>https://benchmarks.resyst.cl/models/deepseek-v4-pro-direct/</loc>
     <lastmod>2026-06-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
