@@ -1,18 +1,19 @@
 {
   "artifact_type": "resyst_labs_benchmark_rankings",
-  "source_artifact": "results/hard_intelligence_v1/minimax-m3-openrouter-xhigh-d6-s1-32k-20260614-061958-15da63b/summary.json",
-  "generated_at": "2026-06-14T17:23:36.827557+00:00",
-  "synced_at": "2026-06-14T17:23:36.827557+00:00",
+  "source_artifact": "results/hard_intelligence_v1/gpt-5.5-openai-codex-hermes-d6-s1-32k-20260614-180722-15da63b/summary.json",
+  "generated_at": "2026-06-14T18:16:09.376996+00:00",
+  "synced_at": "2026-06-14T18:16:09.376996+00:00",
   "summary": {
     "title": "Resyst Labs LLM Benchmark Rankings",
-    "formula": "Overall = average of benchmark-complete major lanes: Full/Agentic, SWE MVP, and Hard Intelligence D1-D6 when coverage is complete; partial smoke diagnostics are displayed but excluded",
-    "public_note": "Local and API-backed models share one tournament table. Blank Hard Intelligence cells mean unmeasured; dotted amber cells are partial smoke diagnostics excluded from overall until D1-D6 coverage is complete.",
+    "formula": "Overall = average of measured major lanes: Full/Agentic, SWE MVP, and Hard Intelligence when a measured Hard Intelligence result is published, including diagnostic smoke slices",
+    "public_note": "Local and API-backed models share one tournament table. Blank Hard Intelligence cells mean unmeasured; dotted amber cells are partial smoke diagnostics that still affect overall when published, with caveats shown.",
     "row_count": 11
   },
   "notes": [
     "Full/Agentic, SWE, and Hard Intelligence are separate benchmark lanes; overall uses the average of measured major lanes while preserving blank cells for unmeasured diagnostics.",
-    "MiniMax M3 OpenRouter now includes a D6-only single-seed Hard Intelligence smoke run; it is not directly comparable to complete D1-D6 runs for official ranking claims.",
-    "Partial D6-only Hard Intelligence smoke diagnostics are displayed as evidence but excluded from overall ranking until D1-D6 coverage and sufficient seeds exist.",
+    "Hard Intelligence measured results, including D6-only smoke slices, affect overall score once published; partial coverage remains visually labeled and caveated.",
+    "GPT-5.5 now includes a D6-only single-seed Hard Intelligence smoke run via Hermes openai-codex transport; its Full/SWE lanes remain from the existing GPT-5.5 comparison row, so the basis is mixed and explicitly labeled.",
+    "MiniMax M3 OpenRouter D6-only smoke now affects overall score per current scoring policy; it remains a public diagnostic smoke slice, not an official D1-D6 score.",
     "Hard Intelligence v1 is a public diagnostic suite, not an official hidden benchmark: official scores stay disabled until hidden fixture banks and official gates exist.",
     "Provider, runtime, suite version, cost, latency, reliability, and artifact references are exposed as metadata for auditability.",
     "Mixed-basis rows are labeled when measurements come from independently versioned benchmark runs.",
@@ -49,9 +50,106 @@
     "results/hard_intelligence_v1/deepseek-v4-flash-direct-d6-s5-32k-20260614-053153-15da63b/summary.json",
     "results/hard_intelligence_v1/deepseek-v4-flash-direct-d6-s5-32k-20260614-053153-15da63b/report.md",
     "results/hard_intelligence_v1/deepseek-v4-flash-direct-d1d6-s5-32k-20260614-053153-15da63b-hybrid/summary.json",
-    "results/hard_intelligence_v1/deepseek-v4-flash-direct-d1d6-s5-32k-20260614-053153-15da63b-hybrid/report.md"
+    "results/hard_intelligence_v1/deepseek-v4-flash-direct-d1d6-s5-32k-20260614-053153-15da63b-hybrid/report.md",
+    "results/hard_intelligence_v1/gpt-5.5-openai-codex-hermes-d6-s1-32k-20260614-180722-15da63b/summary.json",
+    "results/hard_intelligence_v1/gpt-5.5-openai-codex-hermes-d6-s1-32k-20260614-180722-15da63b/report.md",
+    "results/hard_intelligence_v1/gpt-5.5-openai-codex-hermes-d6-s1-32k-20260614-180722-15da63b/raw.jsonl"
   ],
   "rows": [
+    {
+      "id": "gpt-5.5-openrouter-xhigh",
+      "label": "GPT‑5.5",
+      "basis": "OpenRouter full/SWE · Hermes openai-codex Hard IQ",
+      "full": {
+        "suite": "Prior models use full_suite_v2 with v3 16K/32K native-tool patch; Qwen3.7 Max uses full_suite_v3.",
+        "artifact": "docs/results/updated-model-comparison-table-20260601.json",
+        "final": 85.76,
+        "capability": 91.71,
+        "agentic": 87.89,
+        "daily": 83.58,
+        "efficiency": 56.1,
+        "performance": 87.64,
+        "reliability": 100.0,
+        "pass_rate": 93.02,
+        "avg_s": 7.214,
+        "decode": 24.473,
+        "cost": 2.437015,
+        "cost_basis": "provider_reported",
+        "prompt_count": 43
+      },
+      "swe": {
+        "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
+        "artifact": "results/scored/20260602-155941-549430977Z-gpt55-swe-n3-scorer-v28-software_engineering_mvp.json",
+        "swe_score": 85.51,
+        "focused_final": 70.46,
+        "capability": 83.35,
+        "daily": 65.44,
+        "performance": 56.56,
+        "efficiency": 36.53,
+        "reliability": 100.0,
+        "cost": 1.63434,
+        "time_s": 1050.23,
+        "prompt_count": 24
+      },
+      "notes": [
+        "Hard Intelligence D6-only single-seed smoke was run through Hermes openai-codex OAuth transport and is included in the current overall formula.",
+        "Mixed basis: Full/Agentic and SWE use the existing GPT-5.5 OpenRouter artifacts, while Hard Intelligence uses Hermes openai-codex transport.",
+        "Provider cost/tokens/finish_reason are unavailable from the Hermes transport, so Hard Intelligence cost is not added to measured cost telemetry."
+      ],
+      "full_rank": 5,
+      "swe_rank": 5,
+      "overall_score": 88.2237,
+      "overall_rank": 1,
+      "hard_intelligence": {
+        "suite": "hard_intelligence_v1.alpha · D6-only · 4 lanes · 1 seed · public diagnostic smoke",
+        "artifact": "results/hard_intelligence_v1/gpt-5.5-openai-codex-hermes-d6-s1-32k-20260614-180722-15da63b/summary.json",
+        "report": "results/hard_intelligence_v1/gpt-5.5-openai-codex-hermes-d6-s1-32k-20260614-180722-15da63b/report.md",
+        "raw_artifact": "results/hard_intelligence_v1/gpt-5.5-openai-codex-hermes-d6-s1-32k-20260614-180722-15da63b/raw.jsonl",
+        "coverage_label": "D6 smoke",
+        "diagnostic_score": 93.401,
+        "official_score": null,
+        "official_eligible": false,
+        "overall_included": true,
+        "difficulty_coverage": [
+          "D6"
+        ],
+        "seed_count": 1,
+        "variant_count": 2,
+        "record_count": 8,
+        "cost": 0.0,
+        "cost_basis": "unavailable_hermes_openai_codex_oauth_transport_provider_cost_missing",
+        "provider_cost_missing": true,
+        "finish_reason_missing": true,
+        "input_tokens_estimated": 1314,
+        "output_tokens_estimated": 218,
+        "runtime_seconds": 107.0767,
+        "elapsed_seconds": 110.9238,
+        "api_status": {
+          "ok": 8
+        },
+        "output_budget_valid": true,
+        "request_max_tokens": 32000,
+        "transport": "Hermes AIAgent direct openai-codex OAuth transport",
+        "transport_note": "Provider token usage/cost and finish reasons unavailable through this transport; tokens are rough estimates.",
+        "lanes": {
+          "active_information_acquisition": 93.0833,
+          "online_adaptation_fast_learning": 98.125,
+          "evidence_driven_self_repair": 82.3958,
+          "authority_salience_constraint_integrity": 100.0
+        },
+        "failure_modes": {},
+        "limitations": [
+          "public_fixture_only",
+          "d6_only",
+          "single_seed",
+          "incomplete_difficulty_curve",
+          "insufficient_seed_count",
+          "official_hidden_fixture_bank_not_enabled",
+          "mixed_transport_basis"
+        ]
+      },
+      "hard_rank": 1
+    },
     {
       "id": "deepseek-v4-flash-direct",
       "label": "DeepSeek V4 Flash",
@@ -95,7 +193,7 @@
       "full_rank": 1,
       "swe_rank": 3,
       "overall_score": 86.7613,
-      "overall_rank": 1,
+      "overall_rank": 2,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · D1-D6 · 4 lanes · 5 seeds · public diagnostic",
         "artifact": "results/hard_intelligence_v1/deepseek-v4-flash-direct-d1d6-s5-32k-20260614-053153-15da63b-hybrid/summary.json",
@@ -139,7 +237,7 @@
           "official_hidden_fixture_bank_not_enabled"
         ]
       },
-      "hard_rank": 1
+      "hard_rank": 2
     },
     {
       "id": "qwen3.7-max-openrouter-xhigh",
@@ -180,97 +278,7 @@
       "full_rank": 9,
       "swe_rank": 1,
       "overall_score": 86.115,
-      "overall_rank": 2
-    },
-    {
-      "id": "minimax-m3-openrouter-xhigh",
-      "label": "MiniMax M3",
-      "basis": "OpenRouter · extra-high reasoning",
-      "full": {
-        "suite": "Prior models use full_suite_v2 with v3 16K/32K native-tool patch; Qwen3.7 Max uses full_suite_v3.",
-        "artifact": "docs/results/updated-model-comparison-table-20260601.json",
-        "final": 85.33,
-        "capability": 89.6,
-        "agentic": 81.72,
-        "daily": 83.48,
-        "efficiency": 82.14,
-        "performance": 74.91,
-        "reliability": 100.0,
-        "pass_rate": 86.05,
-        "avg_s": 13.764,
-        "decode": 24.334,
-        "cost": 0.108666,
-        "cost_basis": "provider_reported",
-        "prompt_count": 43
-      },
-      "swe": {
-        "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
-        "artifact": "results/scored/20260602-155940-644318161Z-minimax-m3-openrouter-xhigh-swe-n3-scorer-v28-software_engineering_mvp.json",
-        "swe_score": 86.88,
-        "focused_final": 77.11,
-        "capability": 86.15,
-        "daily": 73.36,
-        "performance": 55.88,
-        "efficiency": 71.7,
-        "reliability": 100.0,
-        "cost": 0.047882,
-        "time_s": 1116.23,
-        "prompt_count": 24
-      },
-      "notes": [
-        "Hard Intelligence D6-only single-seed smoke is published for evidence, but excluded from overall ranking until D1-D6 coverage is complete.",
-        "MiniMax M3 showed strong online adaptation on this D6 smoke slice, but active inquiry failed the rename metamorphic variant and should be rerun with more seeds before publication-grade claims."
-      ],
-      "full_rank": 6,
-      "swe_rank": 4,
-      "overall_score": 86.105,
-      "overall_rank": 3,
-      "hard_intelligence": {
-        "suite": "hard_intelligence_v1.alpha · D6-only · 4 lanes · 1 seed · public diagnostic smoke",
-        "artifact": "results/hard_intelligence_v1/minimax-m3-openrouter-xhigh-d6-s1-32k-20260614-061958-15da63b/summary.json",
-        "report": "results/hard_intelligence_v1/minimax-m3-openrouter-xhigh-d6-s1-32k-20260614-061958-15da63b/report.md",
-        "raw_artifact": "results/hard_intelligence_v1/minimax-m3-openrouter-xhigh-d6-s1-32k-20260614-061958-15da63b/raw.jsonl",
-        "coverage_label": "D6 smoke",
-        "diagnostic_score": 66.7708,
-        "official_score": null,
-        "official_eligible": false,
-        "overall_included": false,
-        "difficulty_coverage": [
-          "D6"
-        ],
-        "seed_count": 1,
-        "variant_count": 2,
-        "record_count": 8,
-        "cost": 0.0258219,
-        "cost_basis": "estimated_from_openrouter_pricing_20260614_provider_cost_recorded_zero",
-        "input_tokens": 4793,
-        "output_tokens": 20320,
-        "runtime_seconds": 356.22,
-        "api_status": {
-          "ok": 8
-        },
-        "output_budget_valid": true,
-        "request_max_tokens": 32000,
-        "d6_diagnostic_score": 66.7708,
-        "lanes": {
-          "active_information_acquisition": 17.5,
-          "online_adaptation_fast_learning": 97.5,
-          "evidence_driven_self_repair": 82.0833,
-          "authority_salience_constraint_integrity": 70.0
-        },
-        "failure_modes": {
-          "blind_false_premise_agreement": 1
-        },
-        "limitations": [
-          "public_fixture_only",
-          "d6_only",
-          "single_seed",
-          "incomplete_difficulty_curve",
-          "insufficient_seed_count",
-          "official_hidden_fixture_bank_not_enabled"
-        ]
-      },
-      "hard_rank": null
+      "overall_rank": 3
     },
     {
       "id": "claude-opus-4.8-openrouter-xhigh",
@@ -356,47 +364,6 @@
       "overall_rank": 5
     },
     {
-      "id": "gpt-5.5-openrouter-xhigh",
-      "label": "GPT‑5.5",
-      "basis": "OpenRouter · extra-high reasoning",
-      "full": {
-        "suite": "Prior models use full_suite_v2 with v3 16K/32K native-tool patch; Qwen3.7 Max uses full_suite_v3.",
-        "artifact": "docs/results/updated-model-comparison-table-20260601.json",
-        "final": 85.76,
-        "capability": 91.71,
-        "agentic": 87.89,
-        "daily": 83.58,
-        "efficiency": 56.1,
-        "performance": 87.64,
-        "reliability": 100.0,
-        "pass_rate": 93.02,
-        "avg_s": 7.214,
-        "decode": 24.473,
-        "cost": 2.437015,
-        "cost_basis": "provider_reported",
-        "prompt_count": 43
-      },
-      "swe": {
-        "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
-        "artifact": "results/scored/20260602-155941-549430977Z-gpt55-swe-n3-scorer-v28-software_engineering_mvp.json",
-        "swe_score": 85.51,
-        "focused_final": 70.46,
-        "capability": 83.35,
-        "daily": 65.44,
-        "performance": 56.56,
-        "efficiency": 36.53,
-        "reliability": 100.0,
-        "cost": 1.63434,
-        "time_s": 1050.23,
-        "prompt_count": 24
-      },
-      "notes": [],
-      "full_rank": 5,
-      "swe_rank": 5,
-      "overall_score": 85.635,
-      "overall_rank": 6
-    },
-    {
       "id": "gemini-3.5-flash-openrouter",
       "label": "Gemini 3.5 Flash",
       "basis": "OpenRouter · google/gemini-3.5-flash",
@@ -436,7 +403,97 @@
       "full_rank": 3,
       "swe_rank": 8,
       "overall_score": 81.19,
-      "overall_rank": 7
+      "overall_rank": 6
+    },
+    {
+      "id": "minimax-m3-openrouter-xhigh",
+      "label": "MiniMax M3",
+      "basis": "OpenRouter · extra-high reasoning",
+      "full": {
+        "suite": "Prior models use full_suite_v2 with v3 16K/32K native-tool patch; Qwen3.7 Max uses full_suite_v3.",
+        "artifact": "docs/results/updated-model-comparison-table-20260601.json",
+        "final": 85.33,
+        "capability": 89.6,
+        "agentic": 81.72,
+        "daily": 83.48,
+        "efficiency": 82.14,
+        "performance": 74.91,
+        "reliability": 100.0,
+        "pass_rate": 86.05,
+        "avg_s": 13.764,
+        "decode": 24.334,
+        "cost": 0.108666,
+        "cost_basis": "provider_reported",
+        "prompt_count": 43
+      },
+      "swe": {
+        "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
+        "artifact": "results/scored/20260602-155940-644318161Z-minimax-m3-openrouter-xhigh-swe-n3-scorer-v28-software_engineering_mvp.json",
+        "swe_score": 86.88,
+        "focused_final": 77.11,
+        "capability": 86.15,
+        "daily": 73.36,
+        "performance": 55.88,
+        "efficiency": 71.7,
+        "reliability": 100.0,
+        "cost": 0.047882,
+        "time_s": 1116.23,
+        "prompt_count": 24
+      },
+      "notes": [
+        "Hard Intelligence D6-only single-seed smoke is included in the current overall formula but remains partial diagnostic evidence, not an official D1-D6 score.",
+        "MiniMax M3 showed strong online adaptation on this D6 smoke slice, but active inquiry failed the rename metamorphic variant and should be rerun with more seeds before publication-grade claims."
+      ],
+      "full_rank": 6,
+      "swe_rank": 4,
+      "overall_score": 79.6603,
+      "overall_rank": 7,
+      "hard_intelligence": {
+        "suite": "hard_intelligence_v1.alpha · D6-only · 4 lanes · 1 seed · public diagnostic smoke",
+        "artifact": "results/hard_intelligence_v1/minimax-m3-openrouter-xhigh-d6-s1-32k-20260614-061958-15da63b/summary.json",
+        "report": "results/hard_intelligence_v1/minimax-m3-openrouter-xhigh-d6-s1-32k-20260614-061958-15da63b/report.md",
+        "raw_artifact": "results/hard_intelligence_v1/minimax-m3-openrouter-xhigh-d6-s1-32k-20260614-061958-15da63b/raw.jsonl",
+        "coverage_label": "D6 smoke",
+        "diagnostic_score": 66.7708,
+        "official_score": null,
+        "official_eligible": false,
+        "overall_included": true,
+        "difficulty_coverage": [
+          "D6"
+        ],
+        "seed_count": 1,
+        "variant_count": 2,
+        "record_count": 8,
+        "cost": 0.0258219,
+        "cost_basis": "estimated_from_openrouter_pricing_20260614_provider_cost_recorded_zero",
+        "input_tokens": 4793,
+        "output_tokens": 20320,
+        "runtime_seconds": 356.22,
+        "api_status": {
+          "ok": 8
+        },
+        "output_budget_valid": true,
+        "request_max_tokens": 32000,
+        "d6_diagnostic_score": 66.7708,
+        "lanes": {
+          "active_information_acquisition": 17.5,
+          "online_adaptation_fast_learning": 97.5,
+          "evidence_driven_self_repair": 82.0833,
+          "authority_salience_constraint_integrity": 70.0
+        },
+        "failure_modes": {
+          "blind_false_premise_agreement": 1
+        },
+        "limitations": [
+          "public_fixture_only",
+          "d6_only",
+          "single_seed",
+          "incomplete_difficulty_curve",
+          "insufficient_seed_count",
+          "official_hidden_fixture_bank_not_enabled"
+        ]
+      },
+      "hard_rank": 3
     },
     {
       "id": "claude-fable-5-openrouter-xhigh",
@@ -660,6 +717,9 @@
   "evidence_artifacts": [
     "results/hard_intelligence_v1/minimax-m3-openrouter-xhigh-d6-s1-32k-20260614-061958-15da63b/summary.json",
     "results/hard_intelligence_v1/minimax-m3-openrouter-xhigh-d6-s1-32k-20260614-061958-15da63b/report.md",
-    "results/hard_intelligence_v1/minimax-m3-openrouter-xhigh-d6-s1-32k-20260614-061958-15da63b/raw.jsonl"
+    "results/hard_intelligence_v1/minimax-m3-openrouter-xhigh-d6-s1-32k-20260614-061958-15da63b/raw.jsonl",
+    "results/hard_intelligence_v1/gpt-5.5-openai-codex-hermes-d6-s1-32k-20260614-180722-15da63b/summary.json",
+    "results/hard_intelligence_v1/gpt-5.5-openai-codex-hermes-d6-s1-32k-20260614-180722-15da63b/report.md",
+    "results/hard_intelligence_v1/gpt-5.5-openai-codex-hermes-d6-s1-32k-20260614-180722-15da63b/raw.jsonl"
   ]
 }
