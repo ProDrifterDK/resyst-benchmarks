@@ -235,7 +235,7 @@ if (!models.rows.every((row) => row.label && row.basis && Number.isFinite(row.ov
   throw new Error('each model row needs public label, basis and rank metadata');
 }
 const hardLaneKeys = ['active_information_acquisition', 'online_adaptation_fast_learning', 'evidence_driven_self_repair', 'authority_salience_constraint_integrity'];
-const hardMeasuredIds = ['gpt-5.5-openrouter-xhigh', 'gemini-3.5-flash-openrouter', 'claude-opus-4.8-openrouter-xhigh', 'deepseek-v4-pro-direct', 'deepseek-v4-flash-direct', 'minimax-m3-direct-anthropic', 'qwen3.7-max-openrouter-xhigh', 'minimax-m3-openrouter-xhigh', 'kimi-k2.7-code-openrouter-xhigh', 'nemotron-3-ultra-openrouter-xhigh'];
+const hardMeasuredIds = ['gpt-5.5-openrouter-xhigh', 'gemini-3.5-flash-openrouter', 'claude-opus-4.8-openrouter-xhigh', 'deepseek-v4-pro-direct', 'deepseek-v4-flash-direct', 'minimax-m3-direct-anthropic', 'qwen3.7-max-openrouter-xhigh', 'minimax-m3-openrouter-xhigh', 'kimi-k2.7-code-openrouter-xhigh', 'nemotron-3-ultra-openrouter-xhigh', 'step-3.7-flash-openrouter-xhigh'];
 const expectedHard = {
   'gpt-5.5-openrouter-xhigh': {coverage: 'D6', seedCount: 1, score: 93.401, rank: 1},
   'gemini-3.5-flash-openrouter': {coverage: 'D6', seedCount: 1, score: 87.75, rank: 2, requestMaxTokens: 32000, reasoningLevel: 'extra-high'},
@@ -247,6 +247,7 @@ const expectedHard = {
   'minimax-m3-openrouter-xhigh': {coverage: 'D6', seedCount: 1, score: 66.7708, rank: 8},
   'kimi-k2.7-code-openrouter-xhigh': {coverage: 'D6', seedCount: 1, score: 66.4583, rank: 9, requestMaxTokens: 32000, reasoningLevel: 'extra-high'},
   'nemotron-3-ultra-openrouter-xhigh': {coverage: 'D6', seedCount: 1, score: 64.5573, rank: 10, requestMaxTokens: 32000, reasoningLevel: 'extra-high'},
+  'step-3.7-flash-openrouter-xhigh': {coverage: 'D6', seedCount: 1, score: 33.9896, rank: 11, requestMaxTokens: 32000, reasoningLevel: 'extra-high'},
 };
 for (const id of hardMeasuredIds) {
   const row = models.rows.find((entry) => entry.id === id);
@@ -305,6 +306,10 @@ if (kimiK27?.overall_rank !== 10 || Math.abs(Number(kimiK27?.overall_score) - 71
 const nemotron3Ultra = models.rows.find((row) => row.id === 'nemotron-3-ultra-openrouter-xhigh');
 if (nemotron3Ultra?.overall_rank !== 11 || Math.abs(Number(nemotron3Ultra?.overall_score) - 67.5758) > 0.0001) {
   throw new Error('NVIDIA Nemotron 3 Ultra overall must include the published xhigh Hard Intelligence D6 smoke result and rank #11');
+}
+const step37Flash = models.rows.find((row) => row.id === 'step-3.7-flash-openrouter-xhigh');
+if (step37Flash?.overall_rank !== 12 || Math.abs(Number(step37Flash?.overall_score) - 33.9896) > 0.0001) {
+  throw new Error('Step 3.7 Flash overall must include the published xhigh Hard Intelligence D6 smoke result and rank #12');
 }
 for (const row of models.rows.filter((entry) => !hardMeasuredIds.includes(entry.id))) {
   if (row.hard_intelligence) throw new Error(`${row.id} must keep Hard Intelligence blank until measured`);
