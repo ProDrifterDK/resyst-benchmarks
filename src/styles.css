@@ -453,7 +453,7 @@ h2 em {
 
 .signal-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
   padding-bottom: clamp(4rem, 8vw, 7rem);
 }
@@ -583,7 +583,7 @@ h2 em {
 
 table {
   width: 100%;
-  min-width: 1080px;
+  min-width: 1540px;
   border-collapse: collapse;
 }
 
@@ -632,6 +632,11 @@ td {
 
 .score-cell {
   font-family: var(--mono);
+}
+
+.pending-score-cell {
+  min-width: 4.5rem;
+  color: transparent;
 }
 
 .arena-layout {

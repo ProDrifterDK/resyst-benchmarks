@@ -12,6 +12,11 @@ const formatNumber = (value, digits = 1) => {
   return Number(value).toFixed(digits);
 };
 
+const formatOptionalScore = (value, digits = 2) => {
+  if (value === undefined || value === null || Number.isNaN(Number(value))) return '';
+  return Number(value).toFixed(digits);
+};
+
 const formatCost = (value) => {
   if (value === undefined || value === null || Number.isNaN(Number(value))) return '—';
   if (Number(value) === 0) return '$0';
@@ -148,7 +153,9 @@ function renderRanking(models) {
 
   body.innerHTML = rows.map((row) => {
     const reliability = row.swe?.reliability ?? row.full?.reliability;
-    const cost = (row.full?.cost ?? 0) + (row.swe?.cost ?? 0);
+    const cost = (row.full?.cost ?? 0) + (row.swe?.cost ?? 0) + (row.hard_intelligence?.cost ?? 0);
+    const hard = row.hard_intelligence;
+    const pendingHardAttrs = hard ? '' : ' class="pending-score-cell" aria-label="Not measured"';
     return `
       <tr>
         <td class="rank-cell">#${row.overall_rank}</td>
@@ -160,6 +167,11 @@ function renderRanking(models) {
         <td class="score-cell">${formatNumber(row.overall_score, 2)}</td>
         <td>${formatNumber(row.full?.final, 2)}</td>
         <td>${formatNumber(row.swe?.swe_score, 2)}</td>
+        <td${pendingHardAttrs}>${formatOptionalScore(hard?.diagnostic_score)}</td>
+        <td${pendingHardAttrs}>${formatOptionalScore(hard?.lanes?.active_information_acquisition)}</td>
+        <td${pendingHardAttrs}>${formatOptionalScore(hard?.lanes?.online_adaptation_fast_learning)}</td>
+        <td${pendingHardAttrs}>${formatOptionalScore(hard?.lanes?.evidence_driven_self_repair)}</td>
+        <td${pendingHardAttrs}>${formatOptionalScore(hard?.lanes?.authority_salience_constraint_integrity)}</td>
         <td>${formatCost(cost)}</td>
         <td>${formatNumber(reliability, 1)}%</td>
         <td><a class="row-action" href="${modelPath(row)}">Result</a></td>

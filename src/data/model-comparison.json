@@ -1,18 +1,19 @@
 {
   "artifact_type": "resyst_labs_benchmark_rankings",
-  "source_artifact": "docs/results/updated-model-comparison-table-20260612-kimi-k27-code.json",
-  "generated_at": "2026-06-12T21:57:03.236011+00:00",
-  "synced_at": "2026-06-12T21:57:03.236011+00:00",
+  "source_artifact": "results/hard_intelligence_v1/deepseek-v4-flash-direct-d1d6-s5-32k-20260614-053153-15da63b-hybrid/summary.json",
+  "generated_at": "2026-06-14T05:59:35.824216+00:00",
+  "synced_at": "2026-06-14T05:59:35.824216+00:00",
   "summary": {
     "title": "Resyst Labs LLM Benchmark Rankings",
-    "formula": "Overall = 50% Full/Agentic Final + 50% SWE MVP for models with both lanes measured",
-    "public_note": "Local and API-backed models share one tournament table. Runtime/provider/cost/resource metadata remain visible so the comparison stays honest.",
+    "formula": "Overall = average of measured major lanes: Full/Agentic, SWE MVP, and Hard Intelligence D1-D6 when available",
+    "public_note": "Local and API-backed models share one tournament table. Blank Hard Intelligence cells mean that entrant has not completed the D1-D6 diagnostic yet.",
     "row_count": 11
   },
   "notes": [
-    "Full/Agentic and SWE are separate benchmark lanes; the overall score uses an explicit 50/50 formula when both lanes are available.",
+    "Full/Agentic, SWE, and Hard Intelligence are separate benchmark lanes; overall uses the average of measured major lanes while preserving blank cells for unmeasured diagnostics.",
+    "Hard Intelligence v1 is a public diagnostic suite, not an official hidden benchmark: official scores stay disabled until hidden fixture banks and official gates exist.",
     "Provider, runtime, suite version, cost, latency, reliability, and artifact references are exposed as metadata for auditability.",
-    "Mixed-basis rows are labeled when their Full/Agentic and SWE measurements come from independently versioned benchmark runs.",
+    "Mixed-basis rows are labeled when measurements come from independently versioned benchmark runs.",
     "SWE rows use the software-engineering MVP suite and are distinct from SWE-bench Verified.",
     "Arena replays publish board states, legal actions, events, and tactical telemetry while excluding raw model completions."
   ],
@@ -42,7 +43,11 @@
     "results/reports/20260612-213040-480906794Z-benchmark_core_v1.md",
     "results/scored/20260612-213947-405764714Z-software_engineering_mvp.json",
     "results/raw/20260612-213947-405764714Z-software_engineering_mvp.jsonl",
-    "results/reports/20260612-213947-405764714Z-software_engineering_mvp.md"
+    "results/reports/20260612-213947-405764714Z-software_engineering_mvp.md",
+    "results/hard_intelligence_v1/deepseek-v4-flash-direct-d6-s5-32k-20260614-053153-15da63b/summary.json",
+    "results/hard_intelligence_v1/deepseek-v4-flash-direct-d6-s5-32k-20260614-053153-15da63b/report.md",
+    "results/hard_intelligence_v1/deepseek-v4-flash-direct-d1d6-s5-32k-20260614-053153-15da63b-hybrid/summary.json",
+    "results/hard_intelligence_v1/deepseek-v4-flash-direct-d1d6-s5-32k-20260614-053153-15da63b-hybrid/report.md"
   ],
   "rows": [
     {
@@ -81,11 +86,58 @@
         "time_s": 198.43,
         "prompt_count": 24
       },
-      "notes": [],
+      "notes": [
+        "Hard Intelligence D1-D6 is public diagnostic coverage; official score is intentionally blank until hidden gates exist.",
+        "D6 stress band lowered the DeepSeek V4 Flash diagnostic score to 70.14 in the D6-only slice; combined D1-D6 diagnostic is 77.53."
+      ],
       "full_rank": 1,
       "swe_rank": 3,
-      "overall_score": 91.375,
-      "overall_rank": 1
+      "overall_score": 86.7613,
+      "overall_rank": 1,
+      "hard_intelligence": {
+        "suite": "hard_intelligence_v1.alpha · D1-D6 · 4 lanes · 5 seeds · public diagnostic",
+        "artifact": "results/hard_intelligence_v1/deepseek-v4-flash-direct-d1d6-s5-32k-20260614-053153-15da63b-hybrid/summary.json",
+        "report": "results/hard_intelligence_v1/deepseek-v4-flash-direct-d1d6-s5-32k-20260614-053153-15da63b-hybrid/report.md",
+        "raw_artifact": "results/hard_intelligence_v1/deepseek-v4-flash-direct-d1d6-s5-32k-20260614-053153-15da63b-hybrid/raw.jsonl",
+        "diagnostic_score": 77.5339,
+        "official_score": null,
+        "official_eligible": false,
+        "difficulty_coverage": [
+          "D1",
+          "D2",
+          "D3",
+          "D4",
+          "D5",
+          "D6"
+        ],
+        "seed_count": 5,
+        "variant_count": 2,
+        "record_count": 240,
+        "cost": 0.13859804,
+        "input_tokens": 91608,
+        "output_tokens": 449189,
+        "api_status": {
+          "ok": 240
+        },
+        "output_budget_valid": true,
+        "d6_diagnostic_score": 70.1423,
+        "lanes": {
+          "active_information_acquisition": 88.7031,
+          "online_adaptation_fast_learning": 58.4333,
+          "evidence_driven_self_repair": 83.3239,
+          "authority_salience_constraint_integrity": 79.6754
+        },
+        "failure_modes": {
+          "prediction_explanation_mismatch": 10,
+          "blind_false_premise_agreement": 8,
+          "missing_artifact_type": 1
+        },
+        "limitations": [
+          "public_fixture_only",
+          "official_hidden_fixture_bank_not_enabled"
+        ]
+      },
+      "hard_rank": 1
     },
     {
       "id": "qwen3.7-max-openrouter-xhigh",

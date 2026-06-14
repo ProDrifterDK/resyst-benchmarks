@@ -141,6 +141,7 @@ for (const required of [
   'arena/',
   'Resyst Arena evaluates spatial strategy in deterministic turn-based games',
   'Local and API-backed systems share a single tournament view',
+  'Hard Intelligence',
   'Scores are claims with receipts',
   'Public by design. Auditable by default.',
   'ItemList',
@@ -228,6 +229,17 @@ if (!Array.isArray(models.rows) || models.rows.length < 5) {
 if (!models.rows.every((row) => row.label && row.basis && Number.isFinite(row.overall_rank ?? 999))) {
   throw new Error('each model row needs public label, basis and rank metadata');
 }
+const deepseekFlash = models.rows.find((row) => row.id === 'deepseek-v4-flash-direct');
+if (!deepseekFlash?.hard_intelligence?.diagnostic_score) {
+  throw new Error('DeepSeek V4 Flash must expose Hard Intelligence D1-D6 diagnostic data');
+}
+const hardScores = deepseekFlash.hard_intelligence.lanes ?? {};
+for (const key of ['active_information_acquisition', 'online_adaptation_fast_learning', 'evidence_driven_self_repair', 'authority_salience_constraint_integrity']) {
+  if (!Number.isFinite(Number(hardScores[key]))) throw new Error(`DeepSeek V4 Flash missing hard-intelligence lane: ${key}`);
+}
+for (const row of models.rows.filter((entry) => entry.id !== 'deepseek-v4-flash-direct')) {
+  if (row.hard_intelligence) throw new Error(`${row.id} must keep Hard Intelligence blank until measured`);
+}
 
 const rankedRows = models.rows.filter((row) => Number.isFinite(row.overall_rank));
 for (const row of rankedRows) {
@@ -244,13 +256,13 @@ for (const row of rankedRows) {
     'Full / Agentic benchmark',
     'Software engineering MVP',
     'Runtime economics',
-    'The overall score is calculated from the Full/Agentic and SWE lanes',
+    'The overall score averages measured major lanes',
     '../../assets/ResystLabs-Logo.png',
   ]) {
     if (!content.includes(required)) throw new Error(`${modelPage} missing required self-contained content: ${required}`);
   }
   const text = visibleText(content);
-  for (const label of ['Overall score', 'Full / Agentic', 'SWE MVP', 'Measured cost', 'Runtime economics']) {
+  for (const label of ['Overall score', 'Full / Agentic', 'SWE MVP', 'Hard Intelligence', 'Measured cost', 'Runtime economics']) {
     if (!text.includes(label)) throw new Error(`${modelPage} missing visible metric label: ${label}`);
   }
 }

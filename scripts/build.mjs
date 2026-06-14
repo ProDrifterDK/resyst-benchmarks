@@ -32,6 +32,7 @@ const escapeHtml = (value = '') => String(value)
 
 const slug = (value = '') => String(value).toLowerCase().replace(/[^a-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '');
 const fmt = (value, digits = 2) => Number.isFinite(Number(value)) ? Number(value).toFixed(digits) : '—';
+const fmtOptional = (value, digits = 2) => Number.isFinite(Number(value)) ? Number(value).toFixed(digits) : '';
 const fmtOne = (value) => fmt(value, 1);
 const fmtCost = (value) => {
   if (!Number.isFinite(Number(value))) return '—';
@@ -41,6 +42,11 @@ const fmtCost = (value) => {
 const sideValue = (map, side) => map?.[side] ?? 0;
 const prettyReason = (value = 'resolved') => String(value).replaceAll('_', ' ');
 const modelPath = (row) => `models/${slug(row.id)}/`;
+const hardLane = (row, key) => row.hard_intelligence?.lanes?.[key];
+const totalMeasuredCost = (row) => (row.full?.cost ?? 0) + (row.swe?.cost ?? 0) + (row.hard_intelligence?.cost ?? 0);
+const overallFormula = (row) => row.hard_intelligence
+  ? 'mean(Full, SWE, Hard Intelligence)'
+  : 'mean(Full, SWE; Hard Intelligence pending)';
 
 const rankedRows = [...models.rows]
   .filter((row) => Number.isFinite(row.overall_rank))
@@ -205,7 +211,7 @@ function modelDatasetSchema(row) {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
     name: `${row.label} AI benchmark result`,
-    description: `${row.label} benchmark result from Resyst Labs, including overall score, Full/Agentic score, SWE score, runtime cost, and reliability telemetry.`,
+    description: `${row.label} benchmark result from Resyst Labs, including overall score, Full/Agentic score, SWE score, Hard Intelligence diagnostics, runtime cost, and reliability telemetry.`,
     url: modelUrl,
     identifier: row.id,
     creator: organizationSchema(),
@@ -218,6 +224,7 @@ function modelDatasetSchema(row) {
       { '@type': 'PropertyValue', name: 'Overall score', value: fmt(row.overall_score) },
       { '@type': 'PropertyValue', name: 'Full / Agentic score', value: fmt(row.full?.final) },
       { '@type': 'PropertyValue', name: 'SWE MVP score', value: fmt(row.swe?.swe_score) },
+      { '@type': 'PropertyValue', name: 'Hard Intelligence diagnostic', value: fmt(row.hard_intelligence?.diagnostic_score) },
       { '@type': 'PropertyValue', name: 'Reliability', value: `${fmtOne(row.swe?.reliability ?? row.full?.reliability)}%` },
     ],
     distribution: {
@@ -282,6 +289,11 @@ function buildModelInterpretation(row) {
   } else {
     parts.push('The result is best read as a balanced benchmark entry: one overall score plus the lane measurements that produced it.');
   }
+  if (row.hard_intelligence) {
+    parts.push(`Hard Intelligence D1-D6 diagnostic score is ${fmt(row.hard_intelligence.diagnostic_score)}, with D6-only stress at ${fmt(row.hard_intelligence.d6_diagnostic_score)}.`);
+  } else {
+    parts.push('Hard Intelligence cells remain blank until the entrant completes the D1-D6 diagnostic lane.');
+  }
   if (row.notes?.length) parts.push(row.notes.join(' '));
   return parts.join(' ');
 }
@@ -290,7 +302,8 @@ async function writeModelPages() {
   for (const row of rankedRows) {
     const fullCost = Number(row.full?.cost ?? 0);
     const sweCost = Number(row.swe?.cost ?? 0);
-    const totalCost = fullCost + sweCost;
+    const hardCost = row.hard_intelligence?.cost;
+    const totalCost = totalMeasuredCost(row);
     const reliability = row.swe?.reliability ?? row.full?.reliability;
     const content = `<main class="detail-main model-detail" id="top">
       <section class="detail-hero section-shell">
@@ -308,15 +321,16 @@ async function writeModelPages() {
         ${statCard('Overall score', fmt(row.overall_score), `Rank #${row.overall_rank}`)}
         ${statCard('Full / Agentic', fmt(row.full?.final), `Full rank #${row.full_rank ?? '—'}`)}
         ${statCard('SWE MVP', fmt(row.swe?.swe_score), `SWE rank #${row.swe_rank ?? '—'}`)}
+        ${statCard('Hard Intelligence', fmt(row.hard_intelligence?.diagnostic_score), row.hard_intelligence ? `Hard rank #${row.hard_rank ?? '—'}` : 'D1-D6 pending')}
         ${statCard('Measured cost', fmtCost(totalCost), `${fmtOne(reliability)}% reliability`)}
       </section>
 
       <section class="section-shell result-card-grid" aria-label="Result cards">
         ${metricCard('All-around publication view', 'Overall', [
           ['Score', fmt(row.overall_score)],
-          ['Formula', '50% Full + 50% SWE'],
+          ['Formula', overallFormula(row)],
           ['Basis', row.basis],
-        ], 'The overall score is calculated from the Full/Agentic and SWE lanes, keeping the aggregate comparable while preserving the measurements behind it.')}
+        ], 'The overall score averages measured major lanes, keeping blank Hard Intelligence cells visible for entrants that have not completed that diagnostic yet.')}
         ${metricCard('Full / Agentic benchmark', 'Lane 01', [
           ['Final', fmt(row.full?.final)],
           ['Capability', fmt(row.full?.capability)],
@@ -331,11 +345,19 @@ async function writeModelPages() {
           ['Daily driver', fmt(row.swe?.daily)],
           ['Prompts', String(row.swe?.prompt_count ?? '—')],
         ], 'This lane is closer to implementation usefulness: source handling, architecture cleanliness, and deliverable quality.')}
+        ${metricCard('Hard Intelligence diagnostic', 'Lane 03', [
+          ['D1-D6 diagnostic', fmt(row.hard_intelligence?.diagnostic_score)],
+          ['Active inquiry', fmt(hardLane(row, 'active_information_acquisition'))],
+          ['Online adaptation', fmt(hardLane(row, 'online_adaptation_fast_learning'))],
+          ['Self-repair', fmt(hardLane(row, 'evidence_driven_self_repair'))],
+          ['Authority integrity', fmt(hardLane(row, 'authority_salience_constraint_integrity'))],
+        ], row.hard_intelligence ? 'Public fixtures measure active inquiry, fast learning, repair, and authority integrity. Official hidden scoring remains disabled.' : 'Blank values mean the entrant has not completed Hard Intelligence D1-D6 yet.')}
         ${metricCard('Runtime economics', 'Telemetry', [
           ['Full cost', fmtCost(fullCost)],
           ['SWE cost', fmtCost(sweCost)],
+          ['Hard cost', fmtCost(hardCost)],
           ['Full avg seconds', fmt(row.full?.avg_s)],
-          ['SWE time', `${fmt(row.swe?.time_s)}s`],
+          ['Hard records', String(row.hard_intelligence?.record_count ?? '—')],
           ['Decode', row.full?.decode ? fmt(row.full.decode) : '—'],
         ], 'Cost, time, and runtime basis are telemetry. They explain tradeoffs; they do not secretly overwrite the capability scores.')}
       </section>
@@ -352,7 +374,7 @@ async function writeModelPages() {
     const outDir = path.join(dist, modelPath(row));
     await mkdir(outDir, { recursive: true });
     const modelTitle = `${row.label} Benchmark Result | Resyst Labs`;
-    const modelDescription = `Compare ${row.label} across Resyst Labs AI benchmark scores: overall rank, Full/Agentic result, SWE MVP score, cost, and reliability telemetry.`;
+    const modelDescription = `Compare ${row.label}: overall rank, Full/Agentic, SWE MVP, Hard Intelligence, cost, reliability, and public Resyst Labs benchmark evidence.`;
     await writeFile(path.join(outDir, 'index.html'), pageShell({
       title: modelTitle,
       description: modelDescription,
@@ -626,7 +648,9 @@ function overviewPodiumCard(row) {
 
 function overviewRankingRow(row) {
   const reliability = row.swe?.reliability ?? row.full?.reliability;
-  const cost = (row.full?.cost ?? 0) + (row.swe?.cost ?? 0);
+  const cost = totalMeasuredCost(row);
+  const hard = row.hard_intelligence;
+  const pendingHardAttrs = hard ? '' : ' class="pending-score-cell" aria-label="Not measured"';
   return `<tr>
         <td class="rank-cell">#${escapeHtml(row.overall_rank)}</td>
         <td class="model-cell">
@@ -637,6 +661,11 @@ function overviewRankingRow(row) {
         <td class="score-cell">${fmt(row.overall_score)}</td>
         <td>${fmt(row.full?.final)}</td>
         <td>${fmt(row.swe?.swe_score)}</td>
+        <td${pendingHardAttrs}>${fmtOptional(hard?.diagnostic_score)}</td>
+        <td${pendingHardAttrs}>${fmtOptional(hard?.lanes?.active_information_acquisition)}</td>
+        <td${pendingHardAttrs}>${fmtOptional(hard?.lanes?.online_adaptation_fast_learning)}</td>
+        <td${pendingHardAttrs}>${fmtOptional(hard?.lanes?.evidence_driven_self_repair)}</td>
+        <td${pendingHardAttrs}>${fmtOptional(hard?.lanes?.authority_salience_constraint_integrity)}</td>
         <td>${fmtCost(cost)}</td>
         <td>${fmtOne(reliability)}%</td>
         <td><a class="row-action" href="${modelPath(row)}">Result</a></td>
