@@ -121,7 +121,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://benchmarks.resyst.cl/models/nemotron-3-ultra-openrouter-xhigh/</loc>
+    <loc>https://benchmarks.resyst.cl/models/step-3.7-flash-openrouter-xhigh/</loc>
     <lastmod>2026-06-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
@@ -131,7 +131,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://benchmarks.resyst.cl/models/step-3.7-flash-openrouter-xhigh/</loc>
+    <loc>https://benchmarks.resyst.cl/models/nemotron-3-ultra-openrouter-xhigh/</loc>
     <lastmod>2026-06-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-14T22:43:33Z",
-  "synced_at": "2026-06-14T22:43:33Z",
+  "generated_at": "2026-06-14T23:25:21Z",
+  "synced_at": "2026-06-14T23:25:21Z",
   "summary": {
     "title": "Resyst Labs LLM Benchmark Rankings",
     "formula": "Overall = average of measured major lanes: Full/Agentic, SWE MVP, and Hard Intelligence when a measured Hard Intelligence result is published, including diagnostic smoke slices",
@@ -20,7 +20,7 @@
     "Provider, runtime, suite version, cost, latency, and reliability metadata are exposed for auditability.",
     "Mixed-basis rows are labeled when measurements come from independently versioned benchmark runs.",
     "SWE rows use the software-engineering MVP suite and are distinct from SWE-bench Verified.",
-    "Step 3.7 Flash now includes a D6-only single-seed Hard Intelligence smoke run through OpenRouter extra-high reasoning; it affects overall score per current scoring policy while remaining a public diagnostic smoke slice.",
+    "Step 3.7 Flash now includes Full/Agentic, SWE MVP, and D6-only Hard Intelligence measurements through OpenRouter extra-high reasoning; its overall score is now a three-lane average.",
     "NVIDIA Nemotron 3 Ultra now includes a D6-only single-seed Hard Intelligence smoke run through OpenRouter extra-high reasoning; it affects overall score per current scoring policy while remaining a public diagnostic smoke slice.",
     "Arena replays publish board states, legal actions, events, and tactical telemetry while excluding raw model completions."
   ],
@@ -63,7 +63,7 @@
         "Mixed basis: Full/Agentic and SWE use prior GPT-5.5 OpenRouter benchmark runs, while Hard Intelligence uses an OpenAI Codex-compatible API transport.",
         "Provider token usage, finish reason, and cost were not available from that transport, so Hard Intelligence cost is not added to measured cost telemetry."
       ],
-      "full_rank": 5,
+      "full_rank": 6,
       "swe_rank": 5,
       "overall_score": 88.2237,
       "overall_rank": 1,
@@ -234,7 +234,7 @@
       "notes": [
         "Hard Intelligence coverage is a D6-only public diagnostic smoke slice; Full/Agentic and SWE remain the broader published lanes."
       ],
-      "full_rank": 8,
+      "full_rank": 9,
       "swe_rank": 2,
       "overall_score": 84.4533,
       "overall_rank": 3,
@@ -328,8 +328,8 @@
       "notes": [
         "Hard Intelligence coverage is a D6-only public diagnostic smoke slice run with OpenRouter extra-high reasoning; Full/Agentic and SWE remain the broader published lanes."
       ],
-      "full_rank": 3,
-      "swe_rank": 8,
+      "full_rank": 4,
+      "swe_rank": 9,
       "overall_score": 83.3767,
       "overall_rank": 4,
       "hard_intelligence": {
@@ -421,7 +421,7 @@
         "Mixed effort basis: Full/Agentic and SWE use prior DeepSeek V4 Pro direct benchmark runs, while Hard Intelligence uses the new maximum-reasoning D6 smoke run."
       ],
       "full_rank": 2,
-      "swe_rank": 7,
+      "swe_rank": 8,
       "overall_score": 83.365,
       "overall_rank": 5,
       "hard_intelligence": {
@@ -509,7 +509,7 @@
       "notes": [
         "Hard Intelligence coverage is a D6-only public diagnostic smoke slice; Full/Agentic and SWE remain the broader published lanes."
       ],
-      "full_rank": 9,
+      "full_rank": 10,
       "swe_rank": 1,
       "overall_score": 80.7086,
       "overall_rank": 6,
@@ -602,7 +602,7 @@
         "Hard Intelligence D6-only single-seed smoke is included in the current overall formula but remains partial diagnostic evidence, not an official D1-D6 score.",
         "MiniMax M3 showed strong online adaptation on this D6 smoke slice, but active inquiry failed the rename metamorphic variant and should be rerun with more seeds before publication-grade claims."
       ],
-      "full_rank": 6,
+      "full_rank": 7,
       "swe_rank": 4,
       "overall_score": 79.6603,
       "overall_rank": 7,
@@ -700,7 +700,7 @@
       "notes": [
         "Exact OpenRouter model: anthropic/claude-fable-5."
       ],
-      "full_rank": 11,
+      "full_rank": 12,
       "swe_rank": 6,
       "overall_score": 79.22,
       "overall_rank": 8
@@ -751,8 +751,8 @@
       "notes": [
         "MiniMax Direct Plus combines independently measured Full and SWE lanes; suite metadata remains visible per lane."
       ],
-      "full_rank": 7,
-      "swe_rank": 9,
+      "full_rank": 8,
+      "swe_rank": 10,
       "overall_score": 74.629,
       "overall_rank": 9,
       "hard_intelligence": {
@@ -849,8 +849,8 @@
         "Kimi remains a mixed-lane profile in interpretation: Full/Agentic is strong, SWE patch delivery is weak, and Hard Intelligence is a partial D6 diagnostic smoke slice."
       ],
       "overall_score": 71.0061,
-      "full_rank": 4,
-      "swe_rank": 11,
+      "full_rank": 5,
+      "swe_rank": 12,
       "overall_rank": 10,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · D6-only · 4 lanes · 1 seed · public diagnostic smoke · OpenRouter extra-high reasoning",
@@ -905,126 +905,13 @@
       "hard_rank": 9
     },
     {
-      "id": "nemotron-3-ultra-openrouter-xhigh",
-      "label": "NVIDIA Nemotron 3 Ultra",
-      "basis": "OpenRouter · nvidia/nemotron-3-ultra-550b-a55b · extra-high reasoning",
-      "full": {
-        "suite": "full_suite_v3 · benchmark_core_v1 · scorer_v2.8_gemini35_swe_aliases",
-        "final": 79.54,
-        "capability": 95.29,
-        "agentic": 92.57,
-        "daily": 73.49,
-        "efficiency": 60.02,
-        "performance": 52.5,
-        "reliability": 100.0,
-        "pass_rate": 93.02,
-        "avg_s": 68.938,
-        "decode": 5.735,
-        "cost": 0.312325,
-        "cost_basis": "provider_reported_openrouter_upstream_cost",
-        "prompt_count": 43,
-        "total_time_s": 2964.34,
-        "provider_token_usage": {
-          "prompt_tokens": 547025,
-          "output_tokens": 15928,
-          "reasoning_tokens": 10899
-        }
-      },
-      "swe": {
-        "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
-        "swe_score": 58.63,
-        "focused_final": 60.73,
-        "capability": 58.63,
-        "daily": 60.63,
-        "performance": 52.5,
-        "efficiency": 69.03,
-        "reliability": 100.0,
-        "cost": 0.056355,
-        "cost_basis": "provider_reported_openrouter_upstream_cost",
-        "time_s": 2234.05,
-        "prompt_count": 24,
-        "pass_rate": 50.0,
-        "provider_token_usage": {
-          "prompt_tokens": 8067,
-          "output_tokens": 21027,
-          "reasoning_tokens": 14712
-        }
-      },
-      "notes": [
-        "Exact OpenRouter model: nvidia/nemotron-3-ultra-550b-a55b.",
-        "Full lane uses the current full_suite_v3 run; suite metadata remains visible per row.",
-        "SWE lane is software_engineering_mvp_v1 n=3, not the external SWE-bench Verified benchmark.",
-        "Low SWE rank is driven by patch formatting/application failures: no_patch_found=1, patch_rejected=7, tests_failed=3 across 24 SWE records.",
-        "Hard Intelligence D6-only smoke was run with OpenRouter extra-high reasoning and is included in the current overall formula.",
-        "The low Hard IQ result is driven mainly by the online-adaptation lane; one adaptation record reached length at the 32K output budget."
-      ],
-      "full_rank": 10,
-      "swe_rank": 10,
-      "overall_score": 67.5758,
-      "overall_rank": 11,
-      "hard_intelligence": {
-        "suite": "hard_intelligence_v1.alpha · D6-only · 4 lanes · 1 seed · public diagnostic smoke · OpenRouter extra-high reasoning",
-        "coverage_label": "D6 smoke",
-        "diagnostic_score": 64.5573,
-        "official_score": null,
-        "official_eligible": false,
-        "overall_included": true,
-        "difficulty_coverage": [
-          "D6"
-        ],
-        "seed_count": 1,
-        "variant_count": 2,
-        "record_count": 8,
-        "cost": 0.1204668,
-        "cost_basis": "provider_reported_openrouter_usage_cost",
-        "provider_cost_missing": false,
-        "input_tokens": 3258,
-        "output_tokens": 32920,
-        "reasoning_tokens": 2598,
-        "runtime_seconds": 105.1934,
-        "api_status": {
-          "ok": 8
-        },
-        "finish_reasons": {
-          "['stop', 'stop']": 3,
-          "['stop', 'length']": 1,
-          "stop": 4
-        },
-        "output_budget_valid": true,
-        "request_max_tokens": 32000,
-        "reasoning_level": "extra-high",
-        "reasoning_mode": "OpenRouter reasoning",
-        "d6_diagnostic_score": 64.5573,
-        "lanes": {
-          "active_information_acquisition": 93.0833,
-          "online_adaptation_fast_learning": 8.75,
-          "evidence_driven_self_repair": 56.3958,
-          "authority_salience_constraint_integrity": 100.0
-        },
-        "failure_modes": {
-          "ignored_feedback": 1,
-          "case_7": 2,
-          "regressed_public_case": 2
-        },
-        "limitations": [
-          "public_fixture_only",
-          "d6_only",
-          "single_seed",
-          "incomplete_difficulty_curve",
-          "insufficient_seed_count",
-          "official_hidden_fixture_bank_not_enabled"
-        ]
-      },
-      "hard_rank": 10
-    },
-    {
       "id": "step-3.7-flash-openrouter-xhigh",
       "label": "Step 3.7 Flash",
-      "basis": "OpenRouter · stepfun/step-3.7-flash · extra-high reasoning",
+      "basis": "OpenRouter · stepfun/step-3.7-flash · extra-high reasoning · Full + SWE + Hard measured",
       "notes": [
-        "Hard Intelligence D6-only smoke was run through OpenRouter extra-high reasoning and is included in the current overall formula.",
-        "Only Hard Intelligence is measured for Step 3.7 Flash so far; Full/Agentic and SWE MVP remain blank until run.",
-        "The low Hard IQ result is driven mainly by active inquiry, authority-integrity failures, and a length-truncated inquiry loop despite a 32K output budget."
+        "Step 3.7 Flash now has all three measured lanes: Full/Agentic, SWE MVP, and Hard Intelligence D6.",
+        "Full/Agentic was strong and SWE MVP was competitive; the D6 Hard Intelligence diagnostic remains the limiting lane in the blended overall score.",
+        "The Hard Intelligence score is mainly dragged down by active inquiry and authority-integrity failures despite strong online adaptation."
       ],
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · D6-only · 4 lanes · 1 seed · public diagnostic smoke · OpenRouter extra-high reasoning",
@@ -1089,8 +976,172 @@
         ]
       },
       "hard_rank": 11,
-      "overall_score": 33.9896,
-      "overall_rank": 12
+      "overall_score": 68.0565,
+      "overall_rank": 11,
+      "full": {
+        "suite": "benchmark_core_v1 · full_suite_v3 · 43 prompts",
+        "final": 89.79,
+        "capability": 89.97,
+        "agentic": 84.11,
+        "daily": 89.53,
+        "efficiency": 89.38,
+        "performance": 87.67,
+        "reliability": 99.53,
+        "pass_rate": 88.37,
+        "avg_s": 7.196,
+        "decode": 104.685,
+        "cost": 0.118745,
+        "cost_basis": "provider_reported_openrouter_usage_cost",
+        "prompt_count": 43,
+        "total_time_s": 309.44,
+        "provider_token_usage": {
+          "prompt_tokens": 495018,
+          "output_tokens": 33118,
+          "reasoning_tokens": 0
+        }
+      },
+      "swe": {
+        "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
+        "swe_score": 80.39,
+        "focused_final": 71.22,
+        "capability": 80.39,
+        "daily": 67.4,
+        "performance": 54.51,
+        "efficiency": 55.82,
+        "reliability": 100.0,
+        "cost": 0.259602,
+        "cost_basis": "provider_reported_openrouter_usage_cost",
+        "time_s": 1247.05,
+        "prompt_count": 24,
+        "pass_rate": 75.0,
+        "provider_token_usage": {
+          "prompt_tokens": 8094,
+          "output_tokens": 224369,
+          "reasoning_tokens": 0
+        },
+        "task_type_scores": {
+          "multi_file_patch": 100.0,
+          "component_creation": 70.52,
+          "software_audit_review": 60.0,
+          "edge_case_discovery": 91.25,
+          "security_supply_chain": 90.83
+        }
+      },
+      "full_rank": 3,
+      "swe_rank": 7
+    },
+    {
+      "id": "nemotron-3-ultra-openrouter-xhigh",
+      "label": "NVIDIA Nemotron 3 Ultra",
+      "basis": "OpenRouter · nvidia/nemotron-3-ultra-550b-a55b · extra-high reasoning",
+      "full": {
+        "suite": "full_suite_v3 · benchmark_core_v1 · scorer_v2.8_gemini35_swe_aliases",
+        "final": 79.54,
+        "capability": 95.29,
+        "agentic": 92.57,
+        "daily": 73.49,
+        "efficiency": 60.02,
+        "performance": 52.5,
+        "reliability": 100.0,
+        "pass_rate": 93.02,
+        "avg_s": 68.938,
+        "decode": 5.735,
+        "cost": 0.312325,
+        "cost_basis": "provider_reported_openrouter_upstream_cost",
+        "prompt_count": 43,
+        "total_time_s": 2964.34,
+        "provider_token_usage": {
+          "prompt_tokens": 547025,
+          "output_tokens": 15928,
+          "reasoning_tokens": 10899
+        }
+      },
+      "swe": {
+        "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
+        "swe_score": 58.63,
+        "focused_final": 60.73,
+        "capability": 58.63,
+        "daily": 60.63,
+        "performance": 52.5,
+        "efficiency": 69.03,
+        "reliability": 100.0,
+        "cost": 0.056355,
+        "cost_basis": "provider_reported_openrouter_upstream_cost",
+        "time_s": 2234.05,
+        "prompt_count": 24,
+        "pass_rate": 50.0,
+        "provider_token_usage": {
+          "prompt_tokens": 8067,
+          "output_tokens": 21027,
+          "reasoning_tokens": 14712
+        }
+      },
+      "notes": [
+        "Exact OpenRouter model: nvidia/nemotron-3-ultra-550b-a55b.",
+        "Full lane uses the current full_suite_v3 run; suite metadata remains visible per row.",
+        "SWE lane is software_engineering_mvp_v1 n=3, not the external SWE-bench Verified benchmark.",
+        "Low SWE rank is driven by patch formatting/application failures: no_patch_found=1, patch_rejected=7, tests_failed=3 across 24 SWE records.",
+        "Hard Intelligence D6-only smoke was run with OpenRouter extra-high reasoning and is included in the current overall formula.",
+        "The low Hard IQ result is driven mainly by the online-adaptation lane; one adaptation record reached length at the 32K output budget."
+      ],
+      "full_rank": 11,
+      "swe_rank": 11,
+      "overall_score": 67.5758,
+      "overall_rank": 12,
+      "hard_intelligence": {
+        "suite": "hard_intelligence_v1.alpha · D6-only · 4 lanes · 1 seed · public diagnostic smoke · OpenRouter extra-high reasoning",
+        "coverage_label": "D6 smoke",
+        "diagnostic_score": 64.5573,
+        "official_score": null,
+        "official_eligible": false,
+        "overall_included": true,
+        "difficulty_coverage": [
+          "D6"
+        ],
+        "seed_count": 1,
+        "variant_count": 2,
+        "record_count": 8,
+        "cost": 0.1204668,
+        "cost_basis": "provider_reported_openrouter_usage_cost",
+        "provider_cost_missing": false,
+        "input_tokens": 3258,
+        "output_tokens": 32920,
+        "reasoning_tokens": 2598,
+        "runtime_seconds": 105.1934,
+        "api_status": {
+          "ok": 8
+        },
+        "finish_reasons": {
+          "['stop', 'stop']": 3,
+          "['stop', 'length']": 1,
+          "stop": 4
+        },
+        "output_budget_valid": true,
+        "request_max_tokens": 32000,
+        "reasoning_level": "extra-high",
+        "reasoning_mode": "OpenRouter reasoning",
+        "d6_diagnostic_score": 64.5573,
+        "lanes": {
+          "active_information_acquisition": 93.0833,
+          "online_adaptation_fast_learning": 8.75,
+          "evidence_driven_self_repair": 56.3958,
+          "authority_salience_constraint_integrity": 100.0
+        },
+        "failure_modes": {
+          "ignored_feedback": 1,
+          "case_7": 2,
+          "regressed_public_case": 2
+        },
+        "limitations": [
+          "public_fixture_only",
+          "d6_only",
+          "single_seed",
+          "incomplete_difficulty_curve",
+          "insufficient_seed_count",
+          "official_hidden_fixture_bank_not_enabled"
+        ]
+      },
+      "hard_rank": 10
     }
   ],
   "schema_type": "resyst_labs_benchmark_rankings"
