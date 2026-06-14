@@ -9,7 +9,7 @@ const site = 'https://benchmarks.resyst.cl/';
 const logoUrl = `${site}assets/ResystLabs-Logo.png`;
 const ogImageVersion = '20260613-link-preview';
 const ogImageUrl = `${site}og.png?v=${ogImageVersion}`;
-const assetVersion = '20260614-hard-intelligence-minimax-d6';
+const assetVersion = '20260614-hard-intelligence-gpt55-codex-d6';
 
 if (!existsSync(src)) {
   throw new Error('src directory is missing');
@@ -44,24 +44,29 @@ const prettyReason = (value = 'resolved') => String(value).replaceAll('_', ' ');
 const modelPath = (row) => `models/${slug(row.id)}/`;
 const hardLane = (row, key) => row.hard_intelligence?.lanes?.[key];
 const hardDifficultyCoverage = (row) => row.hard_intelligence?.difficulty_coverage ?? [];
+const hardIsCompleteCoverage = (row) => {
+  const coverage = hardDifficultyCoverage(row);
+  return ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'].every((difficulty) => coverage.includes(difficulty))
+    && Number(row.hard_intelligence?.seed_count ?? 0) >= 5;
+};
 const hardOverallIncluded = (row) => Boolean(
   row.hard_intelligence
-  && row.hard_intelligence.overall_included !== false
-  && hardDifficultyCoverage(row).includes('D1')
-  && hardDifficultyCoverage(row).includes('D6')
-  && Number(row.hard_intelligence.seed_count ?? 0) >= 5,
+  && row.hard_intelligence.overall_included !== false,
 );
+const hardIsPartial = (row) => Boolean(row.hard_intelligence && !hardIsCompleteCoverage(row));
 const hardCoverageLabel = (row) => row.hard_intelligence?.coverage_label
-  ?? (hardOverallIncluded(row) ? 'D1-D6 diagnostic' : 'Diagnostic smoke');
+  ?? (hardIsCompleteCoverage(row) ? 'D1-D6 diagnostic' : 'Diagnostic smoke');
 const hardStatSubline = (row) => {
   if (!row.hard_intelligence) return 'D1-D6 pending';
-  if (hardOverallIncluded(row)) return `Hard rank #${row.hard_rank ?? '—'}`;
-  return `${hardCoverageLabel(row)} · excluded from overall`;
+  if (!hardOverallIncluded(row)) return `${hardCoverageLabel(row)} · excluded from overall`;
+  if (hardIsPartial(row)) return `${hardCoverageLabel(row)} · overall included`;
+  return `Hard rank #${row.hard_rank ?? '—'}`;
 };
 const hardCellAttrs = (row) => {
   if (!row.hard_intelligence) return ' class="pending-score-cell" aria-label="Not measured"';
-  if (hardOverallIncluded(row)) return '';
-  return ' class="partial-score-cell" title="Partial Hard Intelligence diagnostic smoke; excluded from overall ranking"';
+  if (!hardOverallIncluded(row)) return ' class="partial-score-cell" title="Partial Hard Intelligence diagnostic smoke; excluded from overall ranking"';
+  if (hardIsPartial(row)) return ' class="partial-score-cell" title="Partial Hard Intelligence diagnostic smoke; included in overall ranking"';
+  return '';
 };
 const totalMeasuredCost = (row) => (row.full?.cost ?? 0) + (row.swe?.cost ?? 0) + (row.hard_intelligence?.cost ?? 0);
 const overallFormula = (row) => {
@@ -70,13 +75,16 @@ const overallFormula = (row) => {
   return 'mean(Full, SWE; Hard Intelligence pending)';
 };
 const overallFormulaCopy = (row) => {
+  if (hardOverallIncluded(row) && hardIsPartial(row)) {
+    return 'The overall score includes this published partial Hard Intelligence smoke slice together with Full/Agentic and SWE; the partial coverage caveat remains visible.';
+  }
   if (hardOverallIncluded(row)) {
-    return 'The overall score averages benchmark-complete major lanes while keeping the source measurements visible.';
+    return 'The overall score averages measured major lanes while keeping the source measurements visible.';
   }
   if (row.hard_intelligence) {
-    return 'The overall score keeps this partial Hard Intelligence smoke visible but excludes it from ranking until D1-D6 coverage is complete.';
+    return 'The overall score keeps this partial Hard Intelligence smoke visible but excludes it from ranking by explicit metadata.';
   }
-  return 'The overall score averages measured benchmark-complete lanes, keeping blank Hard Intelligence cells visible for entrants that have not completed that diagnostic yet.';
+  return 'The overall score averages measured lanes, keeping blank Hard Intelligence cells visible for entrants that have not completed that diagnostic yet.';
 };
 
 const rankedRows = [...models.rows]
@@ -321,11 +329,13 @@ function buildModelInterpretation(row) {
     parts.push('The result is best read as a balanced benchmark entry: one overall score plus the lane measurements that produced it.');
   }
   if (row.hard_intelligence) {
-    if (hardOverallIncluded(row)) {
+    const coverage = hardDifficultyCoverage(row).join(', ') || 'partial coverage';
+    if (hardOverallIncluded(row) && hardIsPartial(row)) {
+      parts.push(`Hard Intelligence ${hardCoverageLabel(row)} score is ${fmt(row.hard_intelligence.diagnostic_score)} over ${coverage} with ${row.hard_intelligence.seed_count ?? '—'} seed; this published diagnostic smoke slice is included in the overall score, while the partial-coverage caveat remains visible.`);
+    } else if (hardOverallIncluded(row)) {
       parts.push(`Hard Intelligence D1-D6 diagnostic score is ${fmt(row.hard_intelligence.diagnostic_score)}, with D6-only stress at ${fmt(row.hard_intelligence.d6_diagnostic_score)}.`);
     } else {
-      const coverage = hardDifficultyCoverage(row).join(', ') || 'partial coverage';
-      parts.push(`Hard Intelligence ${hardCoverageLabel(row)} score is ${fmt(row.hard_intelligence.diagnostic_score)} over ${coverage} with ${row.hard_intelligence.seed_count ?? '—'} seed; it is displayed as diagnostic evidence but excluded from the overall ranking until D1-D6 coverage is complete.`);
+      parts.push(`Hard Intelligence ${hardCoverageLabel(row)} score is ${fmt(row.hard_intelligence.diagnostic_score)} over ${coverage} with ${row.hard_intelligence.seed_count ?? '—'} seed; it is displayed as diagnostic evidence but excluded from the overall ranking by explicit metadata.`);
     }
   } else {
     parts.push('Hard Intelligence cells remain blank until the entrant completes the D1-D6 diagnostic lane.');
@@ -387,7 +397,7 @@ async function writeModelPages() {
           ['Online adaptation', fmt(hardLane(row, 'online_adaptation_fast_learning'))],
           ['Self-repair', fmt(hardLane(row, 'evidence_driven_self_repair'))],
           ['Authority integrity', fmt(hardLane(row, 'authority_salience_constraint_integrity'))],
-        ], row.hard_intelligence ? (hardOverallIncluded(row) ? 'Public fixtures measure active inquiry, fast learning, repair, and authority integrity. Official hidden scoring remains disabled.' : 'Partial smoke result: useful evidence for D6 stress, but not a D1-D6 ranking-complete Hard Intelligence score yet.') : 'Blank values mean the entrant has not completed Hard Intelligence D1-D6 yet.')}
+        ], row.hard_intelligence ? (hardOverallIncluded(row) ? (hardIsPartial(row) ? 'Partial smoke result: useful evidence for D6 stress and included in the current overall formula, but not a D1-D6 ranking-complete Hard Intelligence score yet.' : 'Public fixtures measure active inquiry, fast learning, repair, and authority integrity. Official hidden scoring remains disabled.') : 'Partial smoke result: useful evidence for D6 stress, but excluded from overall by explicit metadata.') : 'Blank values mean the entrant has not completed Hard Intelligence D1-D6 yet.')}
         ${metricCard('Runtime economics', 'Telemetry', [
           ['Full cost', fmtCost(fullCost)],
           ['SWE cost', fmtCost(sweCost)],
