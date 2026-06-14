@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-06-14T22:21:16Z",
-  "synced_at": "2026-06-14T22:21:16Z",
+  "generated_at": "2026-06-14T22:43:33Z",
+  "synced_at": "2026-06-14T22:43:33Z",
   "summary": {
     "title": "Resyst Labs LLM Benchmark Rankings",
     "formula": "Overall = average of measured major lanes: Full/Agentic, SWE MVP, and Hard Intelligence when a measured Hard Intelligence result is published, including diagnostic smoke slices",
     "public_note": "Local and API-backed models share one tournament table. Blank Hard Intelligence cells mean unmeasured; dotted amber cells are partial smoke diagnostics that still affect overall when published, with caveats shown.",
-    "row_count": 11
+    "row_count": 12
   },
   "notes": [
     "Full/Agentic, SWE, and Hard Intelligence are separate benchmark lanes; overall uses the average of measured major lanes while preserving blank cells for unmeasured diagnostics.",
@@ -20,6 +20,7 @@
     "Provider, runtime, suite version, cost, latency, and reliability metadata are exposed for auditability.",
     "Mixed-basis rows are labeled when measurements come from independently versioned benchmark runs.",
     "SWE rows use the software-engineering MVP suite and are distinct from SWE-bench Verified.",
+    "Step 3.7 Flash now includes a D6-only single-seed Hard Intelligence smoke run through OpenRouter extra-high reasoning; it affects overall score per current scoring policy while remaining a public diagnostic smoke slice.",
     "NVIDIA Nemotron 3 Ultra now includes a D6-only single-seed Hard Intelligence smoke run through OpenRouter extra-high reasoning; it affects overall score per current scoring policy while remaining a public diagnostic smoke slice.",
     "Arena replays publish board states, legal actions, events, and tactical telemetry while excluding raw model completions."
   ],
@@ -1015,6 +1016,81 @@
         ]
       },
       "hard_rank": 10
+    },
+    {
+      "id": "step-3.7-flash-openrouter-xhigh",
+      "label": "Step 3.7 Flash",
+      "basis": "OpenRouter · stepfun/step-3.7-flash · extra-high reasoning",
+      "notes": [
+        "Hard Intelligence D6-only smoke was run through OpenRouter extra-high reasoning and is included in the current overall formula.",
+        "Only Hard Intelligence is measured for Step 3.7 Flash so far; Full/Agentic and SWE MVP remain blank until run.",
+        "The low Hard IQ result is driven mainly by active inquiry, authority-integrity failures, and a length-truncated inquiry loop despite a 32K output budget."
+      ],
+      "hard_intelligence": {
+        "suite": "hard_intelligence_v1.alpha · D6-only · 4 lanes · 1 seed · public diagnostic smoke · OpenRouter extra-high reasoning",
+        "coverage_label": "D6 smoke",
+        "diagnostic_score": 33.9896,
+        "official_score": null,
+        "official_eligible": false,
+        "overall_included": true,
+        "difficulty_coverage": [
+          "D6"
+        ],
+        "seed_count": 1,
+        "variant_count": 2,
+        "record_count": 8,
+        "cost": 0.11551695,
+        "cost_basis": "provider_reported_openrouter_usage_cost",
+        "provider_cost_missing": false,
+        "input_tokens": 3131,
+        "output_tokens": 99905,
+        "reasoning_tokens": 0,
+        "reasoning_tokens_note": "OpenRouter/StepFun reported zero provider reasoning tokens while returning reasoning content.",
+        "runtime_seconds": 526.0508,
+        "api_status": {
+          "ok": 8
+        },
+        "finish_reasons": {
+          "['stop', 'stop']": 3,
+          "['length', 'length']": 1,
+          "stop": 4
+        },
+        "output_budget_valid": true,
+        "request_max_tokens": 32000,
+        "reasoning_level": "extra-high",
+        "reasoning_mode": "OpenRouter reasoning",
+        "d6_diagnostic_score": 33.9896,
+        "lanes": {
+          "active_information_acquisition": 17.5,
+          "online_adaptation_fast_learning": 80.0,
+          "evidence_driven_self_repair": 29.4583,
+          "authority_salience_constraint_integrity": 9.0
+        },
+        "failure_modes": {
+          "premature_guess_without_evidence": 2,
+          "prediction_explanation_mismatch": 1,
+          "case_10": 1,
+          "case_12": 1,
+          "case_14": 1,
+          "case_15": 1,
+          "case_18": 1,
+          "case_7": 1,
+          "case_9": 1,
+          "regressed_public_case": 1,
+          "ignored_all_retrieved_evidence": 2
+        },
+        "limitations": [
+          "public_fixture_only",
+          "d6_only",
+          "single_seed",
+          "incomplete_difficulty_curve",
+          "insufficient_seed_count",
+          "official_hidden_fixture_bank_not_enabled"
+        ]
+      },
+      "hard_rank": 11,
+      "overall_score": 33.9896,
+      "overall_rank": 12
     }
   ],
   "schema_type": "resyst_labs_benchmark_rankings"

@@ -130,4 +130,14 @@
       <image:title>Resyst Labs Benchmarks</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://benchmarks.resyst.cl/models/step-3.7-flash-openrouter-xhigh/</loc>
+    <lastmod>2026-06-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
+    <image:image>
+      <image:loc>https://benchmarks.resyst.cl/og.png?v=20260613-link-preview</image:loc>
+      <image:title>Resyst Labs Benchmarks</image:title>
+    </image:image>
+  </url>
 </urlset>
