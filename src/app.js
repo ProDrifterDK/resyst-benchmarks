@@ -134,7 +134,7 @@ function renderHero(models, arena) {
     .sort((a, b) => a.overall_rank - b.overall_rank);
   const leader = rows[0];
 
-  document.querySelector('#leader-name').textContent = leader?.label ?? 'Pending artifact';
+  document.querySelector('#leader-name').textContent = leader?.label ?? 'Pending data';
   document.querySelector('#leader-score').textContent = leader
     ? `Overall ${formatNumber(leader.overall_score, 2)} · ${leader.basis}`
     : 'No ranked data loaded';
@@ -178,7 +178,6 @@ function renderRanking(models) {
         <td class="rank-cell">#${row.overall_rank}</td>
         <td class="model-cell">
           <a class="model-link" href="${modelPath(row)}"><strong>${escapeHtml(row.label)}</strong></a>
-          <span>${escapeHtml(row.id)}</span>
         </td>
         <td>${escapeHtml(row.basis)}</td>
         <td class="score-cell">${formatNumber(row.overall_score, 2)}</td>
@@ -249,5 +248,5 @@ async function main() {
 main().catch((error) => {
   console.error(error);
   document.querySelector('#leader-name').textContent = 'Data unavailable';
-  document.querySelector('#leader-score').textContent = 'The public artifact could not be loaded.';
+  document.querySelector('#leader-score').textContent = 'The public data file could not be loaded.';
 });

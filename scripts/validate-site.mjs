@@ -20,8 +20,13 @@ const forbidden = [
   ['internal page-architecture rationale', /ranking surface|home page|main ranking/i],
   ['non-self-contained page reference', /\bthis page\b|\bthis row\b/i],
   ['raw private trace wording', /private model text traces/i],
-  ['internal run flag', /exclude=false|reasoning effort xhigh/i],
+  ['internal run flag', /exclude=false|reasoning effort xhigh|xhigh text-actions|xhigh reasoning|SWE xhigh|reasoning_effort|max\/xhigh/i],
   ['historical-row implementation note', /older rows|existing .*baseline/i],
+  ['internal agent/runtime label', /Hermes|openai-codex|AIAgent|OAuth/i],
+  ['local/private path', /\/home\/|prodrifterdk|\.hermes|local-llm-bench/i],
+  ['unpublished result path', /results\/|docs\/results|raw_artifact|source_artifact|generated_from|evidence_artifacts|raw\.jsonl|summary\.json|report\.md/i],
+  ['non-public artifact wording', /artifact|public artifacts|data artifacts|artifact references|Synchronizing benchmark artifact|Pending artifact|public artifact could not be loaded/i],
+  ['provider marketing shorthand without explanation', /Think Max/i],
 ];
 
 async function readText(file) {
@@ -128,8 +133,8 @@ await stat(path.join(root, 'dist/assets/icon-512.png'));
 const html = await readText('dist/index.html');
 assertSeoBasics('dist/index.html', html, 'https://benchmarks.resyst.cl/');
 for (const required of [
-  'styles.css?v=20260614-hard-intelligence-kimi-k27-d6-xhigh',
-  'app.js?v=20260614-hard-intelligence-kimi-k27-d6-xhigh',
+  'styles.css?v=20260614-public-context-audit',
+  'app.js?v=20260614-public-context-audit',
   'AI Model Benchmarks & Arena Replays | Resyst Labs',
   'Resyst Labs logo',
   'https://benchmarks.resyst.cl/',
@@ -156,7 +161,7 @@ const sectionChecks = [
   ['#ranking', 'One table, visible tradeoffs.'],
   ['#arena', 'Resyst Arena evaluates spatial strategy'],
   ['#methodology', 'Separate lanes'],
-  ['#evidence', 'versioned data artifacts'],
+  ['#evidence', 'versioned data files'],
 ];
 for (const [, expected] of sectionChecks) {
   if (!html.includes(expected)) throw new Error(`index.html section missing context phrase: ${expected}`);
@@ -233,10 +238,10 @@ const hardLaneKeys = ['active_information_acquisition', 'online_adaptation_fast_
 const hardMeasuredIds = ['gpt-5.5-openrouter-xhigh', 'deepseek-v4-pro-direct', 'deepseek-v4-flash-direct', 'minimax-m3-openrouter-xhigh', 'kimi-k2.7-code-openrouter-xhigh'];
 const expectedHard = {
   'gpt-5.5-openrouter-xhigh': {coverage: 'D6', seedCount: 1, score: 93.401, rank: 1},
-  'deepseek-v4-pro-direct': {coverage: 'D6', seedCount: 1, score: 78.375, rank: 2, requestMaxTokens: 32000, reasoningEffort: 'max'},
+  'deepseek-v4-pro-direct': {coverage: 'D6', seedCount: 1, score: 78.375, rank: 2, requestMaxTokens: 32000, reasoningLevel: 'maximum'},
   'deepseek-v4-flash-direct': {coverage: 'D1,D2,D3,D4,D5,D6', seedCount: 5, score: 77.5339, rank: 3},
   'minimax-m3-openrouter-xhigh': {coverage: 'D6', seedCount: 1, score: 66.7708, rank: 4},
-  'kimi-k2.7-code-openrouter-xhigh': {coverage: 'D6', seedCount: 1, score: 66.4583, rank: 5, requestMaxTokens: 32000, reasoningEffort: 'xhigh'},
+  'kimi-k2.7-code-openrouter-xhigh': {coverage: 'D6', seedCount: 1, score: 66.4583, rank: 5, requestMaxTokens: 32000, reasoningLevel: 'extra-high'},
 };
 for (const id of hardMeasuredIds) {
   const row = models.rows.find((entry) => entry.id === id);
@@ -253,7 +258,7 @@ for (const id of hardMeasuredIds) {
   }
   if (Number(row.hard_intelligence.seed_count ?? 0) !== expected.seedCount) throw new Error(`${id} seed_count mismatch`);
   if (expected.requestMaxTokens && Number(row.hard_intelligence.request_max_tokens ?? 0) !== expected.requestMaxTokens) throw new Error(`${id} request_max_tokens mismatch`);
-  if (expected.reasoningEffort && row.hard_intelligence.reasoning_effort !== expected.reasoningEffort) throw new Error(`${id} reasoning_effort mismatch`);
+  if (expected.reasoningLevel && row.hard_intelligence.reasoning_level !== expected.reasoningLevel) throw new Error(`${id} reasoning_level mismatch`);
   if (Number(row.hard_rank ?? 0) !== expected.rank) throw new Error(`${id} hard_rank mismatch`);
   const hardScores = row.hard_intelligence.lanes ?? {};
   for (const key of hardLaneKeys) {
@@ -309,18 +314,18 @@ for (const row of rankedRows) {
 if (!Array.isArray(arena.matches) || arena.matches.length < 1) {
   throw new Error('arena data must expose at least one match');
 }
-if (!arena.matches.every((match) => match.entrants?.A && match.entrants?.B && match.winner_label && match.artifacts?.public_replay)) {
+if (!arena.matches.every((match) => match.entrants?.A && match.entrants?.B && match.winner_label && match.replay_files?.public_replay)) {
   throw new Error('each arena match needs entrants, winner label, and public replay metadata');
 }
 for (const match of arena.matches) {
-  const replayFile = `src/${match.artifacts.public_replay}`;
+  const replayFile = `src/${match.replay_files.public_replay}`;
   const replayText = await readText(replayFile);
   if (/prompt_snapshot|\bprompt\b|completion|messages/i.test(replayText)) {
     throw new Error(`${replayFile} contains prompt/model-text fields; public replays must stay sanitized`);
   }
   const replay = JSON.parse(replayText);
   if (!Array.isArray(replay.frames) || replay.frames.length < 1) throw new Error(`${replayFile} has no replay frames`);
-  await stat(path.join(root, 'dist', match.artifacts.public_replay));
+  await stat(path.join(root, 'dist', match.replay_files.public_replay));
 }
 
 console.log(`site contract ok: ${rankedRows.length} model pages, ${arena.matches.length} arena replays, self-contained copy verified, official logo present`);

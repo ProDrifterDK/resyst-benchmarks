@@ -9,7 +9,7 @@ const site = 'https://benchmarks.resyst.cl/';
 const logoUrl = `${site}assets/ResystLabs-Logo.png`;
 const ogImageVersion = '20260613-link-preview';
 const ogImageUrl = `${site}og.png?v=${ogImageVersion}`;
-const assetVersion = '20260614-hard-intelligence-kimi-k27-d6-xhigh';
+const assetVersion = '20260614-public-context-audit';
 
 if (!existsSync(src)) {
   throw new Error('src directory is missing');
@@ -358,7 +358,7 @@ async function writeModelPages() {
         <h1>${escapeHtml(row.label)}</h1>
         <p class="hero-lead">${escapeHtml(row.basis)}. Public result card with the model’s overall score, lane measurements, runtime/cost telemetry, and ranking formula.</p>
         <div class="detail-actions">
-          <a class="button primary" href="../../data/model-comparison.json">Download source JSON</a>
+          <a class="button primary" href="../../data/model-comparison.json">Download public JSON</a>
           <a class="button secondary" href="../../#ranking">Compare all models</a>
         </div>
       </section>
@@ -551,7 +551,7 @@ function combatantPanel(match, side) {
       <span class="side-token">${side}</span>
       <div>
         <strong>${escapeHtml(compactEntrant(entrant))}</strong>
-        <small>${escapeHtml(entrant)}</small>
+        <small>Side ${escapeHtml(side)}</small>
       </div>
     </div>
     <div class="vital-stack">
@@ -576,14 +576,14 @@ function combatantPanel(match, side) {
 }
 
 function matchCard(match) {
-  const replay = match.artifacts?.public_replay ?? '';
-  const title = match.title ?? `${match.entrants?.A} vs ${match.entrants?.B}`;
+  const replay = match.replay_files?.public_replay ?? '';
+  const title = match.title ?? `${compactEntrant(match.entrants?.A)} vs ${compactEntrant(match.entrants?.B)}`;
   return `<article id="${escapeHtml(match.id)}" class="match-replay glass-panel" data-replay-src="../${escapeHtml(replay)}">
     <div class="match-replay-head">
       <div class="match-title-block">
         <span class="match-label">Seed ${escapeHtml(match.seed ?? 'fixed')} · ${escapeHtml(match.mode ?? 'duel')} · ${escapeHtml(match.turns)} turns</span>
         <h2>${escapeHtml(compactEntrant(match.entrants?.A))} <span class="versus-inline">vs</span> ${escapeHtml(compactEntrant(match.entrants?.B))}</h2>
-        <p class="entrant-ids"><span>A:</span> ${escapeHtml(match.entrants?.A)} <span>B:</span> ${escapeHtml(match.entrants?.B)}</p>
+        <p class="entrant-ids"><span>A:</span> ${escapeHtml(compactEntrant(match.entrants?.A))} <span>B:</span> ${escapeHtml(compactEntrant(match.entrants?.B))}</p>
       </div>
       <aside class="winner-card" aria-label="Match winner">
         <span>Winner</span>
@@ -701,7 +701,6 @@ function overviewRankingRow(row) {
         <td class="rank-cell">#${escapeHtml(row.overall_rank)}</td>
         <td class="model-cell">
           <a class="model-link" href="${modelPath(row)}"><strong>${escapeHtml(row.label)}</strong></a>
-          <span>${escapeHtml(row.id)}</span>
         </td>
         <td>${escapeHtml(row.basis)}</td>
         <td class="score-cell">${fmt(row.overall_score)}</td>
@@ -754,8 +753,8 @@ async function hydrateOverviewHtml() {
   const encounterGroups = buildEncounterGroups(arena.matches ?? []).slice(0, 3);
   let html = await readFile(indexPath, 'utf8');
   html = html
-    .replace('<strong id="leader-name">Loading…</strong>', `<strong id="leader-name">${escapeHtml(leader?.label ?? 'Pending artifact')}</strong>`)
-    .replace('<small id="leader-score">Synchronizing benchmark artifact</small>', `<small id="leader-score">${leader ? `Overall ${fmt(leader.overall_score)} · ${escapeHtml(leader.basis)}` : 'No ranked data loaded'}</small>`)
+    .replace('<strong id="leader-name">Loading…</strong>', `<strong id="leader-name">${escapeHtml(leader?.label ?? 'Pending data')}</strong>`)
+    .replace('<small id="leader-score">Loading benchmark data</small>', `<small id="leader-score">${leader ? `Overall ${fmt(leader.overall_score)} · ${escapeHtml(leader.basis)}` : 'No ranked data loaded'}</small>`)
     .replace('<span id="model-count">—</span>', `<span id="model-count">${rankedRows.length}</span>`)
     .replace('<span id="arena-count">—</span>', `<span id="arena-count">${arena.matches?.length ?? 0}</span>`)
     .replace('<span id="data-date">—</span>', `<span id="data-date">${escapeHtml(dataDateLabel)}</span>`)
