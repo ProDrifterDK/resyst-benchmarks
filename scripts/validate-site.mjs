@@ -235,16 +235,17 @@ if (!models.rows.every((row) => row.label && row.basis && Number.isFinite(row.ov
   throw new Error('each model row needs public label, basis and rank metadata');
 }
 const hardLaneKeys = ['active_information_acquisition', 'online_adaptation_fast_learning', 'evidence_driven_self_repair', 'authority_salience_constraint_integrity'];
-const hardMeasuredIds = ['gpt-5.5-openrouter-xhigh', 'gemini-3.5-flash-openrouter', 'claude-opus-4.8-openrouter-xhigh', 'deepseek-v4-pro-direct', 'deepseek-v4-flash-direct', 'qwen3.7-max-openrouter-xhigh', 'minimax-m3-openrouter-xhigh', 'kimi-k2.7-code-openrouter-xhigh'];
+const hardMeasuredIds = ['gpt-5.5-openrouter-xhigh', 'gemini-3.5-flash-openrouter', 'claude-opus-4.8-openrouter-xhigh', 'deepseek-v4-pro-direct', 'deepseek-v4-flash-direct', 'minimax-m3-direct-anthropic', 'qwen3.7-max-openrouter-xhigh', 'minimax-m3-openrouter-xhigh', 'kimi-k2.7-code-openrouter-xhigh'];
 const expectedHard = {
   'gpt-5.5-openrouter-xhigh': {coverage: 'D6', seedCount: 1, score: 93.401, rank: 1},
   'gemini-3.5-flash-openrouter': {coverage: 'D6', seedCount: 1, score: 87.75, rank: 2, requestMaxTokens: 32000, reasoningLevel: 'extra-high'},
   'claude-opus-4.8-openrouter-xhigh': {coverage: 'D6', seedCount: 1, score: 81.3698, rank: 3, requestMaxTokens: 32000, reasoningLevel: 'extra-high'},
   'deepseek-v4-pro-direct': {coverage: 'D6', seedCount: 1, score: 78.375, rank: 4, requestMaxTokens: 32000, reasoningLevel: 'maximum'},
   'deepseek-v4-flash-direct': {coverage: 'D1,D2,D3,D4,D5,D6', seedCount: 5, score: 77.5339, rank: 5},
-  'qwen3.7-max-openrouter-xhigh': {coverage: 'D6', seedCount: 1, score: 69.8958, rank: 6, requestMaxTokens: 32000, reasoningLevel: 'extra-high'},
-  'minimax-m3-openrouter-xhigh': {coverage: 'D6', seedCount: 1, score: 66.7708, rank: 7},
-  'kimi-k2.7-code-openrouter-xhigh': {coverage: 'D6', seedCount: 1, score: 66.4583, rank: 8, requestMaxTokens: 32000, reasoningLevel: 'extra-high'},
+  'minimax-m3-direct-anthropic': {coverage: 'D6', seedCount: 1, score: 71.7969, rank: 6, requestMaxTokens: 32000, reasoningLevel: 'extra-high'},
+  'qwen3.7-max-openrouter-xhigh': {coverage: 'D6', seedCount: 1, score: 69.8958, rank: 7, requestMaxTokens: 32000, reasoningLevel: 'extra-high'},
+  'minimax-m3-openrouter-xhigh': {coverage: 'D6', seedCount: 1, score: 66.7708, rank: 8},
+  'kimi-k2.7-code-openrouter-xhigh': {coverage: 'D6', seedCount: 1, score: 66.4583, rank: 9, requestMaxTokens: 32000, reasoningLevel: 'extra-high'},
 };
 for (const id of hardMeasuredIds) {
   const row = models.rows.find((entry) => entry.id === id);
@@ -291,6 +292,10 @@ if (qwen37?.overall_rank !== 6 || Math.abs(Number(qwen37?.overall_score) - 80.70
 const minimaxM3 = models.rows.find((row) => row.id === 'minimax-m3-openrouter-xhigh');
 if (minimaxM3?.overall_rank !== 7 || Math.abs(Number(minimaxM3?.overall_score) - 79.6603) > 0.0001) {
   throw new Error('MiniMax M3 overall must include the published Hard Intelligence D6 smoke result and rank #7');
+}
+const minimaxDirect = models.rows.find((row) => row.id === 'minimax-m3-direct-anthropic');
+if (minimaxDirect?.overall_rank !== 9 || Math.abs(Number(minimaxDirect?.overall_score) - 74.629) > 0.0001) {
+  throw new Error('MiniMax M3 Direct Plus overall must include the published direct-API Hard Intelligence D6 smoke result and rank #9');
 }
 const kimiK27 = models.rows.find((row) => row.id === 'kimi-k2.7-code-openrouter-xhigh');
 if (kimiK27?.overall_rank !== 10 || Math.abs(Number(kimiK27?.overall_score) - 71.0061) > 0.0001) {
