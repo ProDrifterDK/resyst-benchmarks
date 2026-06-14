@@ -34,7 +34,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Resyst Labs Benchmarks: independent AI model rankings and Arena evidence" />
     <meta property="og:site_name" content="Resyst Labs Benchmarks" />
-    <link rel="stylesheet" href="styles.css?v=20260614-hard-intelligence-claude-opus48-d6" />
+    <link rel="stylesheet" href="styles.css?v=20260614-ranking-page" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -179,7 +179,7 @@
         </span>
       </a>
       <nav aria-label="Primary navigation">
-        <a href="#ranking">Ranking</a>
+        <a href="ranking/">Ranking</a>
         <a href="arena/">Arena</a>
         <a href="#methodology">Methodology</a>
         <a href="#evidence">Evidence</a>
@@ -197,7 +197,7 @@
             Resyst Labs Benchmarks is a public evidence surface for comparing AI systems across agentic reasoning, software engineering, reliability, runtime economics, and Resyst Arena duels.
           </p>
           <div class="hero-actions">
-            <a class="button primary" href="#ranking">Explore the ranking</a>
+            <a class="button primary" href="ranking/">Explore the ranking</a>
             <a class="button secondary" href="arena/">Enter Resyst Arena</a>
           </div>
         </div>
@@ -262,7 +262,10 @@
               Local and API-backed systems share a single tournament view. Provider, runtime, cost, latency, reliability, and lane basis remain visible so comparisons stay honest.
             </p>
           </div>
-          <a class="data-link" href="data/model-comparison.json">Download ranking JSON</a>
+          <div class="section-actions">
+            <a class="data-link" href="ranking/">Open ranking explainer</a>
+            <a class="data-link" href="data/model-comparison.json">Download ranking JSON</a>
+          </div>
         </div>
 
         <div id="podium" class="podium" aria-label="Top ranked models">
@@ -684,6 +687,6 @@
         Resyst Labs Benchmarks requires JavaScript to render the live ranking table from the public JSON data files. The data files remain available at data/model-comparison.json and data/arena-snapshots.json.
       </div>
     </noscript>
-    <script type="module" src="app.js?v=20260614-hard-intelligence-claude-opus48-d6"></script>
+    <script type="module" src="app.js?v=20260614-ranking-page"></script>
   </body>
 </html>
