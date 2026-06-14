@@ -1,11 +1,8 @@
 {
-  "artifact_type": "resyst_labs_arena_snapshots",
   "matches": [
     {
-      "artifacts": {
-        "public_replay": "data/replays/resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941.json",
-        "replay": "results/arena/20260612-233941Z-arena-deepseek-direct-xhigh-vs-kimi-k27-xhigh-seed1624448256/tournament.json",
-        "summary": "results/arena/20260612-233941Z-arena-deepseek-direct-xhigh-vs-kimi-k27-xhigh-seed1624448256/tournament.md"
+      "replay_files": {
+        "public_replay": "data/replays/resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941.json"
       },
       "core_damage_dealt": {
         "A": 1,
@@ -17,8 +14,8 @@
       },
       "date_label": "20260612",
       "entrants": {
-        "A": "deepseek-v4-flash-direct-xhigh",
-        "B": "kimi-k2.7-code-openrouter-xhigh"
+        "A": "DeepSeek V4 Flash",
+        "B": "Kimi K2.7 Code"
       },
       "final_score": {
         "A": 0.0,
@@ -29,7 +26,7 @@
         "A": 0,
         "B": 0
       },
-      "lane": "xhigh text-actions",
+      "lane": "extra-high reasoning text actions",
       "max_turns": 60,
       "mode": "duel",
       "random_positions": false,
@@ -37,9 +34,9 @@
         "A": 23,
         "B": 17
       },
-      "runtime_note": "Both entrants used max/xhigh reasoning. Kimi routed through OpenRouter; DeepSeek V4 Flash used the direct DeepSeek provider. Battle score excludes latency/tokens/cost.",
+      "runtime_note": "Both entrants used the highest available reasoning setting. Kimi routed through OpenRouter; DeepSeek V4 Flash used the direct DeepSeek provider. Battle score excludes latency, token usage, and cost.",
       "runtime_telemetry": {
-        "deepseek-v4-flash-direct-xhigh": {
+        "DeepSeek V4 Flash": {
           "api_errors": 0,
           "api_ok": 30,
           "api_turns": 30,
@@ -54,7 +51,7 @@
           "reasoning_tokens": 78265,
           "total_tokens": 407434
         },
-        "kimi-k2.7-code-openrouter-xhigh": {
+        "Kimi K2.7 Code": {
           "api_errors": 6,
           "api_ok": 24,
           "api_turns": 30,
@@ -73,7 +70,7 @@
         }
       },
       "seed": 361605864,
-      "series_id": "resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-seed1624448256",
+      "series_id": "deepseek-v4-flash-vs-kimi-k2.7-code-series-1",
       "series_result": "Kimi K2.7 Code won the side-swapped best-of-3 in two rounds (2-0).",
       "spatial_efficiency": {
         "A": {
@@ -137,18 +134,16 @@
           "B": 5
         }
       },
-      "title": "deepseek-v4-flash-direct-xhigh vs kimi-k2.7-code-openrouter-xhigh",
+      "title": "DeepSeek V4 Flash vs Kimi K2.7 Code",
       "tournament_seed": 1624448256,
       "turns": 60,
       "winner": "B",
-      "winner_label": "kimi-k2.7-code-openrouter-xhigh",
+      "winner_label": "Kimi K2.7 Code",
       "winner_reason": "adjudication"
     },
     {
-      "artifacts": {
-        "public_replay": "data/replays/resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round2-seed361605864-max60-20260612-233941.json",
-        "replay": "results/arena/20260612-233941Z-arena-deepseek-direct-xhigh-vs-kimi-k27-xhigh-seed1624448256/tournament.json",
-        "summary": "results/arena/20260612-233941Z-arena-deepseek-direct-xhigh-vs-kimi-k27-xhigh-seed1624448256/tournament.md"
+      "replay_files": {
+        "public_replay": "data/replays/resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round2-seed361605864-max60-20260612-233941.json"
       },
       "core_damage_dealt": {
         "A": 5,
@@ -160,8 +155,8 @@
       },
       "date_label": "20260612",
       "entrants": {
-        "A": "kimi-k2.7-code-openrouter-xhigh",
-        "B": "deepseek-v4-flash-direct-xhigh"
+        "A": "Kimi K2.7 Code",
+        "B": "DeepSeek V4 Flash"
       },
       "final_score": {
         "A": 1.0,
@@ -172,7 +167,7 @@
         "A": 0,
         "B": 0
       },
-      "lane": "xhigh text-actions",
+      "lane": "extra-high reasoning text actions",
       "max_turns": 60,
       "mode": "duel",
       "random_positions": false,
@@ -180,9 +175,9 @@
         "A": 22,
         "B": 18
       },
-      "runtime_note": "Both entrants used max/xhigh reasoning. Kimi routed through OpenRouter; DeepSeek V4 Flash used the direct DeepSeek provider. Battle score excludes latency/tokens/cost.",
+      "runtime_note": "Both entrants used the highest available reasoning setting. Kimi routed through OpenRouter; DeepSeek V4 Flash used the direct DeepSeek provider. Battle score excludes latency, token usage, and cost.",
       "runtime_telemetry": {
-        "deepseek-v4-flash-direct-xhigh": {
+        "DeepSeek V4 Flash": {
           "api_errors": 0,
           "api_ok": 30,
           "api_turns": 30,
@@ -197,7 +192,7 @@
           "reasoning_tokens": 75720,
           "total_tokens": 421879
         },
-        "kimi-k2.7-code-openrouter-xhigh": {
+        "Kimi K2.7 Code": {
           "api_errors": 8,
           "api_ok": 22,
           "api_turns": 30,
@@ -216,7 +211,7 @@
         }
       },
       "seed": 361605864,
-      "series_id": "resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-seed1624448256",
+      "series_id": "deepseek-v4-flash-vs-kimi-k2.7-code-series-1",
       "series_result": "Kimi K2.7 Code won the side-swapped best-of-3 in two rounds (2-0).",
       "spatial_efficiency": {
         "A": {
@@ -280,18 +275,16 @@
           "B": 8
         }
       },
-      "title": "kimi-k2.7-code-openrouter-xhigh vs deepseek-v4-flash-direct-xhigh",
+      "title": "Kimi K2.7 Code vs DeepSeek V4 Flash",
       "tournament_seed": 1624448256,
       "turns": 60,
       "winner": "A",
-      "winner_label": "kimi-k2.7-code-openrouter-xhigh",
+      "winner_label": "Kimi K2.7 Code",
       "winner_reason": "adjudication"
     },
     {
-      "artifacts": {
-        "public_replay": "data/replays/resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824.json",
-        "replay": "results/raw/resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824.json",
-        "summary": "results/reports/resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824-summary.json"
+      "replay_files": {
+        "public_replay": "data/replays/resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824.json"
       },
       "core_damage_dealt": {
         "A": 30,
@@ -393,10 +386,8 @@
       "winner_reason": "core_destroyed"
     },
     {
-      "artifacts": {
-        "public_replay": "data/replays/resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210.json",
-        "replay": "results/raw/resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210.json",
-        "summary": "results/reports/resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210-summary.json"
+      "replay_files": {
+        "public_replay": "data/replays/resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210.json"
       },
       "core_damage_dealt": {
         "A": 11,
@@ -498,10 +489,8 @@
       "winner_reason": "adjudication"
     },
     {
-      "artifacts": {
-        "public_replay": "data/replays/resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107.json",
-        "replay": "results/raw/resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107.json",
-        "summary": ""
+      "replay_files": {
+        "public_replay": "data/replays/resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107.json"
       },
       "core_damage_dealt": {
         "A": 1,
@@ -545,8 +534,9 @@
   ],
   "summary": {
     "description": "A deterministic turn-based duel benchmark for strategic LLM behavior. Battle outcome is separate from latency, tokens and cost telemetry.",
-    "methodology_note": "Single matches are evidence artifacts, not final model rankings. Strong claims require side-swapped repeated seed series.",
+    "methodology_note": "Single matches are evidence records, not final model rankings. Strong claims require side-swapped repeated seed series.",
     "title": "Resyst Arena"
   },
-  "synced_at": "2026-06-13T01:44:54.698989+00:00"
+  "synced_at": "2026-06-13T01:44:54.698989+00:00",
+  "schema_type": "resyst_labs_arena_snapshots"
 }

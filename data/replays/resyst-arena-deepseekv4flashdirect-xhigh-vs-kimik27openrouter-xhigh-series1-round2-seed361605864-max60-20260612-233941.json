@@ -1,8 +1,7 @@
 {
-  "artifact_type": "resyst_arena_public_replay",
   "config": {
     "action_protocol": "action_ids_v1",
-    "arena_lane": "xhigh text-actions",
+    "arena_lane": "extra-high reasoning text actions",
     "max_turns": 60,
     "mode": "duel",
     "random_positions": false,
@@ -16174,5 +16173,6 @@
   "title": "kimi-k2.7-code-openrouter-xhigh vs deepseek-v4-flash-direct-xhigh",
   "winner": "A",
   "winner_label": "kimi-k2.7-code-openrouter-xhigh",
-  "winner_reason": "adjudication"
+  "winner_reason": "adjudication",
+  "schema_type": "resyst_arena_public_replay"
 }
