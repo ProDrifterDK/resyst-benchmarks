@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-14T19:42:02.553741+00:00",
-  "synced_at": "2026-06-14T19:42:02.553741+00:00",
+  "generated_at": "2026-06-14T20:52:40.636558+00:00",
+  "synced_at": "2026-06-14T20:52:40.636558+00:00",
   "summary": {
     "title": "Resyst Labs LLM Benchmark Rankings",
     "formula": "Overall = average of measured major lanes: Full/Agentic, SWE MVP, and Hard Intelligence when a measured Hard Intelligence result is published, including diagnostic smoke slices",
@@ -9,6 +9,7 @@
   },
   "notes": [
     "Full/Agentic, SWE, and Hard Intelligence are separate benchmark lanes; overall uses the average of measured major lanes while preserving blank cells for unmeasured diagnostics.",
+    "Gemini 3.5 Flash now includes a D6-only single-seed Hard Intelligence smoke run through OpenRouter extra-high reasoning; it affects overall score per current scoring policy while remaining a public diagnostic smoke slice.",
     "Kimi K2.7 Code now includes a D6-only single-seed Hard Intelligence smoke run through OpenRouter extra-high reasoning; it affects overall score per current scoring policy while remaining a public diagnostic smoke slice.",
     "DeepSeek V4 Pro direct now includes a D6-only single-seed Hard Intelligence smoke run using DeepSeek maximum reasoning; it affects overall score per current scoring policy while remaining a public diagnostic smoke slice.",
     "Hard Intelligence measured results, including D6-only smoke slices, affect overall score once published; partial coverage remains visually labeled and caveated.",
@@ -192,7 +193,7 @@
           "official_hidden_fixture_bank_not_enabled"
         ]
       },
-      "hard_rank": 4
+      "hard_rank": 5
     },
     {
       "id": "claude-opus-4.8-openrouter-xhigh",
@@ -285,7 +286,7 @@
           "official_hidden_fixture_bank_not_enabled"
         ]
       },
-      "hard_rank": 2
+      "hard_rank": 3
     },
     {
       "id": "deepseek-v4-pro-direct",
@@ -328,7 +329,7 @@
       "full_rank": 2,
       "swe_rank": 7,
       "overall_score": 83.365,
-      "overall_rank": 4,
+      "overall_rank": 5,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · D6-only · 4 lanes · 1 seed · public diagnostic smoke · DeepSeek maximum reasoning",
         "coverage_label": "D6 smoke",
@@ -376,12 +377,12 @@
           "mixed_effort_basis"
         ]
       },
-      "hard_rank": 3
+      "hard_rank": 4
     },
     {
       "id": "gemini-3.5-flash-openrouter",
       "label": "Gemini 3.5 Flash",
-      "basis": "OpenRouter · google/gemini-3.5-flash",
+      "basis": "OpenRouter · extra-high reasoning · D6 smoke Hard IQ",
       "full": {
         "suite": "full_suite_v3 · scorer_v2.8_gemini35_swe_aliases",
         "final": 88.79,
@@ -412,11 +413,62 @@
         "time_s": 290.68,
         "prompt_count": 24
       },
-      "notes": [],
+      "notes": [
+        "Hard Intelligence coverage is a D6-only public diagnostic smoke slice run with OpenRouter extra-high reasoning; Full/Agentic and SWE remain the broader published lanes."
+      ],
       "full_rank": 3,
       "swe_rank": 8,
-      "overall_score": 81.19,
-      "overall_rank": 5
+      "overall_score": 83.3767,
+      "overall_rank": 4,
+      "hard_intelligence": {
+        "suite": "hard_intelligence_v1.alpha · D6-only · 4 lanes · 1 seed · public diagnostic smoke · OpenRouter extra-high reasoning",
+        "coverage_label": "D6 smoke",
+        "diagnostic_score": 87.75,
+        "official_score": null,
+        "official_eligible": false,
+        "overall_included": true,
+        "difficulty_coverage": [
+          "D6"
+        ],
+        "seed_count": 1,
+        "variant_count": 2,
+        "record_count": 8,
+        "cost": 0.1439445,
+        "cost_basis": "provider_reported_openrouter_usage_cost",
+        "provider_cost_missing": false,
+        "input_tokens": 2993,
+        "output_tokens": 15495,
+        "reasoning_tokens": 14286,
+        "runtime_seconds": 83.2915,
+        "api_status": {
+          "ok": 8
+        },
+        "finish_reasons": {
+          "['stop', 'stop']": 4,
+          "stop": 4
+        },
+        "output_budget_valid": true,
+        "request_max_tokens": 32000,
+        "reasoning_level": "extra-high",
+        "reasoning_mode": "OpenRouter reasoning",
+        "d6_diagnostic_score": 87.75,
+        "lanes": {
+          "active_information_acquisition": 81.4167,
+          "online_adaptation_fast_learning": 97.5,
+          "evidence_driven_self_repair": 82.0833,
+          "authority_salience_constraint_integrity": 90.0
+        },
+        "failure_modes": {},
+        "limitations": [
+          "public_fixture_only",
+          "d6_only",
+          "single_seed",
+          "incomplete_difficulty_curve",
+          "insufficient_seed_count",
+          "official_hidden_fixture_bank_not_enabled"
+        ]
+      },
+      "hard_rank": 2
     },
     {
       "id": "qwen3.7-max-openrouter-xhigh",
@@ -508,7 +560,7 @@
           "official_hidden_fixture_bank_not_enabled"
         ]
       },
-      "hard_rank": 5
+      "hard_rank": 6
     },
     {
       "id": "minimax-m3-openrouter-xhigh",
@@ -593,7 +645,7 @@
           "official_hidden_fixture_bank_not_enabled"
         ]
       },
-      "hard_rank": 6
+      "hard_rank": 7
     },
     {
       "id": "claude-fable-5-openrouter-xhigh",
@@ -795,7 +847,7 @@
           "official_hidden_fixture_bank_not_enabled"
         ]
       },
-      "hard_rank": 7
+      "hard_rank": 8
     },
     {
       "id": "nemotron-3-ultra-openrouter-xhigh",
