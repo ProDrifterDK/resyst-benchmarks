@@ -751,6 +751,23 @@ td {
   align-items: center;
 }
 
+.bar-row-model {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.bar-row-model .model-badge-list {
+  margin-top: 0;
+}
+
+.bar-row-model .model-badge {
+  padding: 0.12rem 0.42rem;
+  font-size: 0.58rem;
+}
+
 .bar-row a {
   color: #fff8eb;
   font-weight: 800;
