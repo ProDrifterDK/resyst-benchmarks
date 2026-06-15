@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-15T04:32:14Z",
+  "generated_at": "2026-06-15T05:48:49Z",
   "synced_at": "2026-06-15T04:32:14Z",
   "summary": {
     "title": "Resyst Labs LLM Benchmark Rankings",
@@ -90,7 +90,7 @@
     {
       "id": "deepseek-v4-flash-direct",
       "label": "DeepSeek V4 Flash",
-      "basis": "DeepSeek direct API",
+      "basis": "DeepSeek direct API · refreshed Hard Intelligence telemetry",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · rubric-calibrated-e55eb55",
         "final": 95.8,
@@ -132,30 +132,36 @@
       ],
       "full_rank": 1,
       "swe_rank": 3,
-      "overall_score": 86.7613,
+      "overall_score": 86.0768,
       "overall_rank": 2,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
-        "diagnostic_score": 77.5339,
+        "diagnostic_score": 75.4803,
         "record_count": 240,
-        "cost": 0.13859804,
-        "input_tokens": 91608,
-        "output_tokens": 449189,
+        "cost": 0.20366304,
+        "input_tokens": 120318,
+        "output_tokens": 25830,
         "api_status": {
           "ok": 240
         },
         "output_budget_valid": true,
         "lanes": {
-          "active_information_acquisition": 88.7031,
-          "online_adaptation_fast_learning": 58.4333,
-          "evidence_driven_self_repair": 83.3239,
-          "authority_salience_constraint_integrity": 79.6754
+          "active_information_acquisition": 80.7354,
+          "online_adaptation_fast_learning": 81.7014,
+          "evidence_driven_self_repair": 73.2767,
+          "authority_salience_constraint_integrity": 66.2077
         },
         "failure_modes": {
-          "prediction_explanation_mismatch": 10,
-          "blind_false_premise_agreement": 8,
-          "missing_required_type_field": 1
-        }
+          "prediction_explanation_mismatch": 11,
+          "blind_false_premise_agreement": 7,
+          "ignored_all_retrieved_evidence": 4,
+          "case_10": 1,
+          "case_7": 1,
+          "case_9": 1,
+          "regressed_public_case": 1
+        },
+        "reasoning_tokens": 641379,
+        "runtime_seconds": 6641.6749
       },
       "hard_rank": 5
     },

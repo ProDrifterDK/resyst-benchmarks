@@ -316,7 +316,7 @@ const expectedHard = {
   'gemini-3.5-flash-openrouter': {score: 87.75, rank: 2},
   'claude-opus-4.8-openrouter-xhigh': {score: 81.3698, rank: 3},
   'deepseek-v4-pro-direct': {score: 78.375, rank: 4},
-  'deepseek-v4-flash-direct': {score: 77.5339, rank: 5},
+  'deepseek-v4-flash-direct': {score: 75.4803, rank: 5},
   'minimax-m3-direct-anthropic': {score: 71.7969, rank: 6},
   'qwen3.7-max-openrouter-xhigh': {score: 69.8958, rank: 7},
   'minimax-m3-openrouter-xhigh': {score: 66.7708, rank: 8},
@@ -352,6 +352,10 @@ if (claudeOpus48?.overall_rank !== 3 || Math.abs(Number(claudeOpus48?.overall_sc
 const gemini35 = models.rows.find((row) => row.id === 'gemini-3.5-flash-openrouter');
 if (gemini35?.overall_rank !== 4 || Math.abs(Number(gemini35?.overall_score) - 83.3767) > 0.0001) {
   throw new Error('Gemini 3.5 Flash overall must include the published Hard Intelligence result and rank #4');
+}
+const deepseekFlash = models.rows.find((row) => row.id === 'deepseek-v4-flash-direct');
+if (deepseekFlash?.overall_rank !== 2 || Math.abs(Number(deepseekFlash?.overall_score) - 86.0768) > 0.0001) {
+  throw new Error('DeepSeek V4 Flash overall must include the max-thinking Hard Intelligence rerun and rank #2');
 }
 const deepseekPro = models.rows.find((row) => row.id === 'deepseek-v4-pro-direct');
 if (deepseekPro?.overall_rank !== 5 || Math.abs(Number(deepseekPro?.overall_score) - 83.365) > 0.0001) {
@@ -410,8 +414,8 @@ if (gpt55Telemetry?.tokens.status !== 'complete' || gpt55Telemetry.tokens.lanes.
   throw new Error('GPT-5.5 token telemetry must be complete after recovered Full/SWE token totals are recorded');
 }
 const deepseekFlashTelemetry = publicRows.find((row) => row.id === 'deepseek-v4-flash-direct')?.telemetry;
-if (deepseekFlashTelemetry?.runtime.status !== 'limited' || deepseekFlashTelemetry.runtime.lanes.hard.status !== 'missing') {
-  throw new Error('DeepSeek V4 Flash runtime telemetry must remain limited until Hard Intelligence runtime is recovered or rerun');
+if (deepseekFlashTelemetry?.tokens.status !== 'complete' || deepseekFlashTelemetry.runtime.status !== 'complete' || deepseekFlashTelemetry.runtime.lanes.hard.status !== 'recorded') {
+  throw new Error('DeepSeek V4 Flash token/runtime telemetry must be complete after the max-thinking Hard Intelligence rerun');
 }
 if (publicRows.find((row) => row.id === 'step-3.7-flash-openrouter-xhigh')?.telemetry.tokens.status !== 'complete') throw new Error('Step 3.7 token telemetry should be complete after provider token usage normalization');
 for (const row of rankedRows) {
