@@ -62,6 +62,7 @@
       "swe_rank": 5,
       "overall_score": 88.2237,
       "overall_rank": 1,
+      "token_p90_per_scored_item": 14960.73,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 93.401,
@@ -134,6 +135,7 @@
       "swe_rank": 3,
       "overall_score": 86.0768,
       "overall_rank": 2,
+      "token_p90_per_scored_item": 9278.0,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 75.4803,
@@ -211,6 +213,7 @@
       "swe_rank": 2,
       "overall_score": 84.4533,
       "overall_rank": 3,
+      "token_p90_per_scored_item": 30841.0,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 81.3698,
@@ -291,6 +294,7 @@
       "swe_rank": 9,
       "overall_score": 83.3767,
       "overall_rank": 4,
+      "token_p90_per_scored_item": 15620.0,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 87.75,
@@ -368,6 +372,7 @@
       "swe_rank": 8,
       "overall_score": 83.365,
       "overall_rank": 5,
+      "token_p90_per_scored_item": 22805.69,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 78.375,
@@ -443,6 +448,7 @@
       "swe_rank": 1,
       "overall_score": 80.7086,
       "overall_rank": 6,
+      "token_p90_per_scored_item": 17071.0,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 69.8958,
@@ -521,6 +527,7 @@
       "swe_rank": 4,
       "overall_score": 79.6603,
       "overall_rank": 7,
+      "token_p90_per_scored_item": 17299.54,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 66.7708,
@@ -599,7 +606,8 @@
       "full_rank": 13,
       "swe_rank": 6,
       "overall_score": 79.22,
-      "overall_rank": 8
+      "overall_rank": 8,
+      "token_p90_per_scored_item": 31166.24
     },
     {
       "id": "minimax-m3-direct-anthropic",
@@ -654,6 +662,7 @@
       "swe_rank": 10,
       "overall_score": 74.629,
       "overall_rank": 9,
+      "token_p90_per_scored_item": 12788.0,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 71.7969,
@@ -734,6 +743,7 @@
       "full_rank": 5,
       "swe_rank": 12,
       "overall_rank": 10,
+      "token_p90_per_scored_item": 15362.09,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 66.4583,
@@ -818,6 +828,7 @@
       "hard_rank": 12,
       "overall_score": 68.0565,
       "overall_rank": 11,
+      "token_p90_per_scored_item": 32369.0,
       "full": {
         "suite": "benchmark_core_v1 · full_suite_v3 · 43 prompts",
         "final": 89.79,
@@ -923,6 +934,7 @@
       "swe_rank": 11,
       "overall_score": 67.5758,
       "overall_rank": 12,
+      "token_p90_per_scored_item": 17722.49,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 64.5573,
@@ -1077,7 +1089,8 @@
       "full_rank": 11,
       "swe_rank": 13,
       "hard_rank": 11,
-      "overall_rank": 13
+      "overall_rank": 13,
+      "token_p90_per_scored_item": 26798.0
     }
   ],
   "schema_type": "resyst_labs_benchmark_rankings"

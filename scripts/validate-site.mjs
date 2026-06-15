@@ -219,6 +219,9 @@ for (const required of [
   '#1 - GPT 5.5',
   '#2 - DS-V4-flash',
   'scatter-hover-card',
+  'Tokens total:',
+  'Mean / item:',
+  'P90 / item:',
   'Lane contrast',
   'Measured cost context',
   'Lane balance pressure',
@@ -244,15 +247,17 @@ for (const row of models.rows.filter((entry) => Number.isFinite(entry.overall_ra
 const rankedCount = models.rows.filter((entry) => Number.isFinite(entry.overall_rank)).length;
 const namedScatterLabels = (rankingHtml.match(/scatter-rank-label with-name/g) ?? []).length;
 const compactScatterLabels = (rankingHtml.match(/scatter-rank-label compact/g) ?? []).length;
-const hoverCards = (rankingHtml.match(/scatter-hover-card/g) ?? []).length;
+const hoverCards = (rankingHtml.match(/class="scatter-hover-card/g) ?? []).length;
 const tooltipLayers = (rankingHtml.match(/class="scatter-tooltip-layer"/g) ?? []).length;
 const hoverLayerRules = (rankingHtml.match(/:hover ~ \.scatter-tooltip-layer/g) ?? []).length;
+const hoverHasRules = (rankingHtml.match(/:has\(\.scatter-point:hover\) ~ \.scatter-tooltip-layer/g) ?? []).length;
 const scatterChartBlocks = rankingHtml.match(/<svg class="scatter-chart"[\s\S]*?<\/svg>/g) ?? [];
 if (namedScatterLabels !== rankedCount * 2) throw new Error(`expected inline short names only on Cost and Runtime scatter plots; saw ${namedScatterLabels}`);
 if (compactScatterLabels !== rankedCount) throw new Error(`expected compact rank-only labels on Recorded tokens/item × cost; saw ${compactScatterLabels}`);
 if (hoverCards !== rankedCount * 3) throw new Error(`expected hover cards for every scatter point; saw ${hoverCards}`);
 if (tooltipLayers !== 3) throw new Error(`expected one final tooltip layer per scatter plot; saw ${tooltipLayers}`);
 if (hoverLayerRules !== rankedCount * 3) throw new Error(`expected hover/focus rules targeting final tooltip layers; saw ${hoverLayerRules}`);
+if (hoverHasRules !== rankedCount * 3) throw new Error(`expected SVG child-hover rules targeting final tooltip layers; saw ${hoverHasRules}`);
 for (const [index, chart] of scatterChartBlocks.entries()) {
   if (chart.lastIndexOf('scatter-tooltip-layer') < chart.lastIndexOf('scatter-point')) {
     throw new Error(`scatter chart ${index + 1} renders tooltip layer before points, which lets points cover tooltips`);
@@ -407,6 +412,8 @@ for (const row of publicRows) {
     if (!Number.isFinite(Number(telemetry[group]?.coverage_pct))) throw new Error(`${row.id} missing ${group} coverage percentage`);
     if (!telemetry[group]?.lanes?.full || !telemetry[group]?.lanes?.swe || !telemetry[group]?.lanes?.hard) throw new Error(`${row.id} missing ${group} lane breakdown`);
   }
+  if (!Number.isFinite(Number(telemetry.tokens?.mean_per_scored_item))) throw new Error(`${row.id} missing token mean per scored item`);
+  if (!Number.isFinite(Number(telemetry.tokens?.p90_per_scored_item))) throw new Error(`${row.id} missing token P90 per scored item`);
   if (Number(row.overall_score) !== Number(models.rows.find((source) => source.id === row.id)?.overall_score)) throw new Error(`${row.id} public telemetry rewrite changed overall score`);
 }
 const gpt55Telemetry = publicRows.find((row) => row.id === 'gpt-5.5-openrouter-xhigh')?.telemetry;

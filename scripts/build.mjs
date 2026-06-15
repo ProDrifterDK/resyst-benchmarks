@@ -945,6 +945,8 @@ function publicTelemetry(row) {
   const scoredItems = Object.values(lanes).reduce((sum, lane) => sum + Math.max(lane.tokens.item_count, lane.runtime.item_count), 0);
   const tokenTotal = Object.values(lanes).reduce((sum, lane) => sum + metricValue(lane.tokens.recorded_total), 0);
   const tokenCoveredItems = Object.values(lanes).reduce((sum, lane) => lane.tokens.recorded_total !== null ? sum + lane.tokens.item_count : sum, 0);
+  const tokenMean = scoredItems > 0 ? roundMetric(tokenTotal / scoredItems, 2) : null;
+  const tokenP90 = firstFiniteMetric(row.token_p90_per_scored_item, row.tokens_p90_per_scored_item);
   const runtimeSeconds = Object.values(lanes).reduce((sum, lane) => sum + metricValue(lane.runtime.recorded_seconds), 0);
   const runtimeCoveredItems = Object.values(lanes).reduce((sum, lane) => lane.runtime.recorded_seconds !== null ? sum + lane.runtime.item_count : sum, 0);
   const tokenCoveragePct = scoredItems > 0 ? (tokenCoveredItems / scoredItems) * 100 : 0;
@@ -956,12 +958,14 @@ function publicTelemetry(row) {
     cost_per_scored_item: scoredItems > 0 ? roundMetric(cost / scoredItems, 6) : null,
     avgSeconds: runtimeCoveredItems > 0 ? roundMetric(runtimeSeconds / runtimeCoveredItems, 4) : null,
     tokenVolume: tokenTotal,
-    tokenPerScoredItem: scoredItems > 0 ? roundMetric(tokenTotal / scoredItems, 2) : null,
+    tokenPerScoredItem: tokenMean,
     overall: metricValue(row.overall_score),
     scored_items: scoredItems,
     tokens: {
       recorded_total: tokenTotal,
-      per_scored_item_recorded: scoredItems > 0 ? roundMetric(tokenTotal / scoredItems, 2) : null,
+      per_scored_item_recorded: tokenMean,
+      mean_per_scored_item: tokenMean,
+      p90_per_scored_item: tokenP90 === null ? null : roundMetric(tokenP90, 2),
       per_covered_item: tokenCoveredItems > 0 ? roundMetric(tokenTotal / tokenCoveredItems, 2) : null,
       covered_items: tokenCoveredItems,
       coverage_pct: roundMetric(tokenCoveragePct, 2),
@@ -1016,8 +1020,8 @@ function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX
   const xFor = (value) => margin.left + ((value - xMin) / xRange) * plotWidth;
   const yFor = (value) => margin.top + ((yMax - value) / yRange) * plotHeight;
   const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
-  const tooltipWidth = 202;
-  const tooltipHeight = 92;
+  const tooltipWidth = 230;
+  const tooltipHeight = 142;
   const tooltipFor = (cx, cy) => {
     const preferRight = cx + tooltipWidth + 18 <= width - margin.right;
     const x = preferRight ? cx + 16 : cx - tooltipWidth - 16;
@@ -1090,10 +1094,10 @@ function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX
           return { point, cx, cy, rank, shortLabel, inlineLabel, labelPosition, tooltip, linkId, tooltipId, extra: point.extra ?? [], className: point.className ?? '' };
         });
         const hoverRules = pointViews
-          .map(({ linkId, tooltipId }) => `#${linkId}:hover ~ .scatter-tooltip-layer #${tooltipId}, #${linkId}:focus ~ .scatter-tooltip-layer #${tooltipId}, #${linkId}:focus-visible ~ .scatter-tooltip-layer #${tooltipId} { opacity: 1; }`)
+          .map(({ linkId, tooltipId }) => `#${linkId}:hover ~ .scatter-tooltip-layer #${tooltipId}, #${linkId}:has(.scatter-point:hover) ~ .scatter-tooltip-layer #${tooltipId}, #${linkId}:focus ~ .scatter-tooltip-layer #${tooltipId}, #${linkId}:focus-visible ~ .scatter-tooltip-layer #${tooltipId} { opacity: 1; }`)
           .join('\n');
         return `${hoverRules ? `<style>${hoverRules}</style>` : ''}
-      ${pointViews.map(({ point, cx, cy, rank, shortLabel, inlineLabel, labelPosition, linkId, className }) => `<a id="${linkId}" class="scatter-link" href="../${modelPath(point.row)}" aria-label="Open ${escapeHtml(point.row.label)} result">
+      ${pointViews.map(({ point, cx, cy, rank, shortLabel, inlineLabel, labelPosition, linkId, tooltipId, className }) => `<a id="${linkId}" class="scatter-link" data-tooltip-target="${tooltipId}" href="../${modelPath(point.row)}" aria-label="Open ${escapeHtml(point.row.label)} result">
           <circle class="scatter-point ${Number(point.row.overall_rank) <= 3 ? 'leader' : ''} ${escapeHtml(className)}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="7"><title>${escapeHtml(rank)} - ${escapeHtml(shortLabel)} · ${escapeHtml(point.row.label)} · ${escapeHtml(xLabel)} ${escapeHtml(formatX(point.x))} · ${escapeHtml(yLabel)} ${escapeHtml(formatY(point.y))}</title></circle>
           <text class="scatter-rank-label ${showInlineNames ? 'with-name' : 'compact'}" x="${labelPosition.x.toFixed(1)}" y="${labelPosition.y.toFixed(1)}" text-anchor="${labelPosition.anchor}">${escapeHtml(inlineLabel)}</text>
         </a>`).join('\n')}
@@ -1106,11 +1110,34 @@ function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX
           <text class="scatter-tooltip-subtitle" x="12" y="36">${escapeHtml(point.row.label)}</text>
           <text class="scatter-tooltip-metric" x="12" y="53">${escapeHtml(xLabel)}: ${escapeHtml(formatX(point.x))}</text>
           <text class="scatter-tooltip-metric" x="12" y="67">${escapeHtml(yLabel)}: ${escapeHtml(formatY(point.y))}</text>
-          ${(extra ?? []).slice(0, 1).map((line) => `<text class="scatter-tooltip-note" x="12" y="82">${escapeHtml(line)}</text>`).join('')}
+          ${(extra ?? []).slice(0, 4).map((line, lineIndex) => `<text class="scatter-tooltip-note" x="12" y="${82 + lineIndex * 14}">${escapeHtml(line)}</text>`).join('')}
         </g>`).join('\n')}
       </g>`;
       })()}
     </svg>
+    <script>
+      (() => {
+        const svg = document.currentScript?.previousElementSibling;
+        if (!svg) return;
+        const hideAll = () => svg.querySelectorAll('.scatter-hover-card.is-visible').forEach((card) => card.classList.remove('is-visible'));
+        svg.querySelectorAll('.scatter-link[data-tooltip-target]').forEach((link) => {
+          const card = svg.querySelector('#' + link.dataset.tooltipTarget);
+          if (!card) return;
+          const show = () => {
+            hideAll();
+            card.classList.add('is-visible');
+          };
+          const hide = (event) => {
+            if (event?.relatedTarget && link.contains(event.relatedTarget)) return;
+            card.classList.remove('is-visible');
+          };
+          link.addEventListener('pointerover', show);
+          link.addEventListener('pointerout', hide);
+          link.addEventListener('focus', show);
+          link.addEventListener('blur', hide);
+        });
+      })();
+    </script>
   </figure>`;
 }
 
@@ -1119,6 +1146,15 @@ function tradeoffScatterMaps(rows) {
   const getTelemetry = (row) => telemetry.get(row.id) ?? row.telemetry ?? publicTelemetry(row);
   const telemetryClass = (status) => status === 'complete' ? '' : status === 'limited' ? 'telemetry-limited' : 'telemetry-missing';
   const coverageLine = (label, coveragePct) => `${label} coverage: ${fmt(coveragePct, 0)}%`;
+  const tokenBreakdownLines = (row) => {
+    const tokens = getTelemetry(row).tokens;
+    return [
+      `Tokens total: ${fmtCompactNumber(tokens.recorded_total)}`,
+      `Mean / item: ${fmtCompactNumber(tokens.mean_per_scored_item ?? tokens.per_scored_item_recorded)}`,
+      `P90 / item: ${tokens.p90_per_scored_item === null ? '—' : fmtCompactNumber(tokens.p90_per_scored_item)}`,
+      coverageLine('Token', tokens.coverage_pct),
+    ];
+  };
   return `<div class="tradeoff-scatter-grid">
     ${scatterPlotPanel({
       title: 'Cost × overall',
@@ -1154,7 +1190,7 @@ function tradeoffScatterMaps(rows) {
       formatX: fmtCompactNumber,
       formatY: fmtCost,
       pointClass: (row) => telemetryClass(getTelemetry(row).tokens.status),
-      tooltipExtra: (row) => [coverageLine('Token', getTelemetry(row).tokens.coverage_pct)],
+      tooltipExtra: tokenBreakdownLines,
     })}
   </div>`;
 }
