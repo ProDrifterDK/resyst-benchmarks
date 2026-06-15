@@ -854,7 +854,8 @@ td {
 .scatter-rank-label,
 .scatter-tooltip-title,
 .scatter-tooltip-subtitle,
-.scatter-tooltip-metric {
+.scatter-tooltip-metric,
+.scatter-tooltip-note {
   fill: var(--paper-soft);
   font-family: var(--mono);
   font-size: 0.68rem;
@@ -909,6 +910,12 @@ td {
   font-weight: 800;
 }
 
+.scatter-tooltip-note {
+  fill: rgba(255, 248, 235, 0.72);
+  font-size: 0.52rem;
+  font-weight: 700;
+}
+
 .scatter-point {
   fill: var(--cyan);
   stroke: #050508;
@@ -918,6 +925,16 @@ td {
 
 .scatter-point.leader {
   fill: var(--amber-2);
+}
+
+.scatter-point.telemetry-limited {
+  fill-opacity: 0.62;
+  stroke-dasharray: 4 3;
+}
+
+.scatter-point.telemetry-missing {
+  fill-opacity: 0.36;
+  stroke-dasharray: 2 4;
 }
 
 .scatter-chart .scatter-link:focus-visible .scatter-point,

@@ -9,7 +9,7 @@ const site = 'https://benchmarks.resyst.cl/';
 const logoUrl = `${site}assets/ResystLabs-Logo.png`;
 const ogImageVersion = '20260613-link-preview';
 const ogImageUrl = `${site}og.png?v=${ogImageVersion}`;
-const assetVersion = '20260615-ranking-scatter-tooltip-layer';
+const assetVersion = '20260615-telemetry-normalization';
 
 if (!existsSync(src)) {
   throw new Error('src directory is missing');
@@ -87,6 +87,11 @@ const overallFormulaCopy = (row) => {
   }
   return 'The overall score averages measured lanes and keeps blank cells visible for lanes that are not yet measured.';
 };
+
+models.rows = models.rows.map((row) => ({
+  ...row,
+  telemetry: publicTelemetry(row),
+}));
 
 const rankedRows = [...models.rows]
   .filter((row) => Number.isFinite(row.overall_rank))
@@ -342,11 +347,9 @@ function buildModelInterpretation(row) {
 
 async function writeModelPages() {
   for (const row of rankedRows) {
-    const fullCost = Number(row.full?.cost ?? 0);
-    const sweCost = Number(row.swe?.cost ?? 0);
-    const hardCost = row.hard_intelligence?.cost;
     const totalCost = totalMeasuredCost(row);
     const reliability = row.swe?.reliability ?? row.full?.reliability;
+    const telemetry = row.telemetry ?? publicTelemetry(row);
     const content = `<main class="detail-main model-detail" id="top">
       <section class="detail-hero section-shell">
         <a class="back-link" href="../../ranking/">← Back to ranking</a>
@@ -395,13 +398,13 @@ async function writeModelPages() {
           ['Authority integrity', fmt(hardLane(row, 'authority_salience_constraint_integrity'))],
         ], row.hard_intelligence ? 'Hard Intelligence measures active inquiry, online adaptation, evidence-driven self-repair, and authority/salience integrity.' : 'Blank values mean this lane has not been measured for the entrant yet.')}
         ${metricCard('Runtime economics', 'Telemetry', [
-          ['Full cost', fmtCost(fullCost)],
-          ['SWE cost', fmtCost(sweCost)],
-          ['Hard cost', fmtCost(hardCost)],
-          ['Full avg seconds', fmt(row.full?.avg_s)],
-          ['Hard records', String(row.hard_intelligence?.record_count ?? '—')],
-          ['Decode', row.full?.decode ? fmt(row.full.decode) : '—'],
-        ], 'Cost, time, and runtime basis are telemetry. They explain tradeoffs; they do not secretly overwrite the capability scores.')}
+          ['Total cost', fmtCost(totalCost)],
+          ['Cost / scored item', fmtCost(telemetry.cost_per_scored_item)],
+          ['Seconds / timed item', telemetry.runtime.seconds_per_timed_item === null ? '—' : `${fmt(telemetry.runtime.seconds_per_timed_item)}s`],
+          ['Runtime coverage', `${fmtOne(telemetry.runtime.coverage_pct)}%`],
+          ['Recorded tokens / item', telemetry.tokens.per_scored_item_recorded === null ? '—' : fmtCompactNumber(telemetry.tokens.per_scored_item_recorded)],
+          ['Token coverage', `${fmtOne(telemetry.tokens.coverage_pct)}%`],
+        ], 'Cost, time, and token basis are normalized telemetry. They explain tradeoffs; they do not overwrite the capability score yet.')}
       </section>
 
       <section class="section-shell result-explainer glass-panel">
@@ -800,6 +803,11 @@ function metricValue(value) {
   return Number.isFinite(number) ? number : 0;
 }
 
+function finiteMetric(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+
 function firstMetric(...values) {
   for (const value of values) {
     const number = Number(value);
@@ -808,25 +816,151 @@ function firstMetric(...values) {
   return 0;
 }
 
-function laneTokens(lane, inputKey = 'prompt_tokens') {
-  if (!lane) return 0;
-  const direct = metricValue(lane[inputKey]) + metricValue(lane.output_tokens) + metricValue(lane.reasoning_tokens);
-  return direct || metricValue(lane.provider_tokens_total_for_quota);
+function firstFiniteMetric(...values) {
+  for (const value of values) {
+    const number = Number(value);
+    if (Number.isFinite(number)) return number;
+  }
+  return null;
+}
+
+function roundMetric(value, digits = 4) {
+  if (!Number.isFinite(Number(value))) return null;
+  const factor = 10 ** digits;
+  return Math.round(Number(value) * factor) / factor;
+}
+
+function tokenUsageTotal(usage) {
+  if (!usage || typeof usage !== 'object') return 0;
+  return Object.entries(usage).reduce((sum, [key, value]) => {
+    if (value && typeof value === 'object') return sum + tokenUsageTotal(value);
+    if (!/tokens?$/i.test(key)) return sum;
+    const number = Number(value);
+    return Number.isFinite(number) ? sum + number : sum;
+  }, 0);
+}
+
+function laneItemCount(lane) {
+  return metricValue(lane?.prompt_count ?? lane?.record_count);
+}
+
+function laneTokenTelemetry(lane) {
+  const itemCount = laneItemCount(lane);
+  if (!lane) {
+    return { item_count: 0, recorded_total: null, per_item_recorded: null, status: 'not_run', basis: 'not_run' };
+  }
+  const directInput = firstFiniteMetric(lane.prompt_tokens, lane.input_tokens);
+  const estimatedInput = firstFiniteMetric(lane.input_tokens_estimated);
+  const directOutput = firstFiniteMetric(lane.output_tokens);
+  const estimatedOutput = firstFiniteMetric(lane.output_tokens_estimated);
+  const directReasoning = firstFiniteMetric(lane.reasoning_tokens);
+  const estimatedReasoning = firstFiniteMetric(lane.reasoning_tokens_estimate, lane.reasoning_tokens_estimated);
+  const measuredDirect = [directInput, directOutput, directReasoning].filter((value) => value !== null).reduce((sum, value) => sum + value, 0);
+  const estimatedDirect = [directInput ?? estimatedInput, directOutput ?? estimatedOutput, directReasoning ?? estimatedReasoning].filter((value) => value !== null).reduce((sum, value) => sum + value, 0);
+  const quotaTotal = finiteMetric(lane.provider_tokens_total_for_quota);
+  const providerUsage = tokenUsageTotal(lane.provider_token_usage);
+  const costTotal = finiteMetric(lane.total_tokens_for_cost);
+  let recordedTotal = null;
+  let basis = 'missing';
+  let confidence = 'missing';
+  if (quotaTotal !== null && quotaTotal > 0) {
+    recordedTotal = quotaTotal;
+    basis = 'quota_total';
+    confidence = 'recorded';
+  } else if (measuredDirect > 0) {
+    recordedTotal = measuredDirect;
+    basis = 'direct_fields';
+    confidence = 'recorded';
+  } else if (providerUsage > 0) {
+    recordedTotal = providerUsage;
+    basis = 'provider_usage';
+    confidence = 'recorded';
+  } else if (costTotal !== null && costTotal > 0) {
+    recordedTotal = costTotal;
+    basis = 'cost_token_total';
+    confidence = 'recorded';
+  } else if (estimatedDirect > 0) {
+    recordedTotal = estimatedDirect;
+    basis = 'estimated_fields';
+    confidence = 'estimated';
+  }
+  const hasTokens = recordedTotal !== null;
+  return {
+    item_count: itemCount,
+    recorded_total: hasTokens ? roundMetric(recordedTotal, 0) : null,
+    per_item_recorded: hasTokens && itemCount > 0 ? roundMetric(recordedTotal / itemCount, 2) : null,
+    status: hasTokens ? confidence : itemCount > 0 ? 'missing' : 'not_run',
+    basis,
+  };
+}
+
+function laneRuntimeTelemetry(lane) {
+  const itemCount = laneItemCount(lane);
+  if (!lane) {
+    return { item_count: 0, recorded_seconds: null, seconds_per_item: null, status: 'not_run', basis: 'not_run' };
+  }
+  const directTotal = firstFiniteMetric(lane.total_time_s, lane.time_s, lane.runtime_seconds, lane.elapsed_seconds);
+  const avgSeconds = firstFiniteMetric(lane.avg_s);
+  const recordedSeconds = directTotal ?? (avgSeconds !== null && itemCount > 0 ? avgSeconds * itemCount : null);
+  const hasRuntime = recordedSeconds !== null && itemCount > 0;
+  return {
+    item_count: itemCount,
+    recorded_seconds: hasRuntime ? roundMetric(recordedSeconds, 4) : null,
+    seconds_per_item: hasRuntime ? roundMetric(recordedSeconds / itemCount, 4) : null,
+    status: hasRuntime ? 'recorded' : itemCount > 0 ? 'missing' : 'not_run',
+    basis: directTotal !== null ? 'total_seconds' : avgSeconds !== null ? 'average_seconds' : itemCount > 0 ? 'missing' : 'not_run',
+  };
+}
+
+function coverageStatus(covered, total) {
+  if (total <= 0) return 'missing';
+  const pct = (covered / total) * 100;
+  if (pct >= 99.5) return 'complete';
+  if (pct > 0) return 'limited';
+  return 'missing';
 }
 
 function publicTelemetry(row) {
-  const hard = row.hard_intelligence ?? {};
-  const hardInput = firstMetric(hard.input_tokens, hard.input_tokens_estimated);
-  const hardOutput = firstMetric(hard.output_tokens, hard.output_tokens_estimated);
-  const hardReasoning = firstMetric(hard.reasoning_tokens, hard.reasoning_tokens_estimate);
-  const totalTime = metricValue(row.full?.total_time_s) + metricValue(row.swe?.time_s) + firstMetric(hard.runtime_seconds, hard.elapsed_seconds);
-  const itemCount = metricValue(row.full?.prompt_count) + metricValue(row.swe?.prompt_count) + metricValue(hard.record_count);
-  const tokenVolume = laneTokens(row.full) + laneTokens(row.swe) + hardInput + hardOutput + hardReasoning;
+  const lanes = {
+    full: { tokens: laneTokenTelemetry(row.full), runtime: laneRuntimeTelemetry(row.full) },
+    swe: { tokens: laneTokenTelemetry(row.swe), runtime: laneRuntimeTelemetry(row.swe) },
+    hard: { tokens: laneTokenTelemetry(row.hard_intelligence), runtime: laneRuntimeTelemetry(row.hard_intelligence) },
+  };
+  const scoredItems = Object.values(lanes).reduce((sum, lane) => sum + Math.max(lane.tokens.item_count, lane.runtime.item_count), 0);
+  const tokenTotal = Object.values(lanes).reduce((sum, lane) => sum + metricValue(lane.tokens.recorded_total), 0);
+  const tokenCoveredItems = Object.values(lanes).reduce((sum, lane) => lane.tokens.recorded_total !== null ? sum + lane.tokens.item_count : sum, 0);
+  const runtimeSeconds = Object.values(lanes).reduce((sum, lane) => sum + metricValue(lane.runtime.recorded_seconds), 0);
+  const runtimeCoveredItems = Object.values(lanes).reduce((sum, lane) => lane.runtime.recorded_seconds !== null ? sum + lane.runtime.item_count : sum, 0);
+  const tokenCoveragePct = scoredItems > 0 ? (tokenCoveredItems / scoredItems) * 100 : 0;
+  const runtimeCoveragePct = scoredItems > 0 ? (runtimeCoveredItems / scoredItems) * 100 : 0;
+  const cost = totalMeasuredCost(row);
   return {
-    cost: totalMeasuredCost(row),
-    avgSeconds: itemCount > 0 ? totalTime / itemCount : 0,
-    tokenVolume,
+    scoring_role: 'telemetry_only',
+    cost,
+    cost_per_scored_item: scoredItems > 0 ? roundMetric(cost / scoredItems, 6) : null,
+    avgSeconds: runtimeCoveredItems > 0 ? roundMetric(runtimeSeconds / runtimeCoveredItems, 4) : null,
+    tokenVolume: tokenTotal,
+    tokenPerScoredItem: scoredItems > 0 ? roundMetric(tokenTotal / scoredItems, 2) : null,
     overall: metricValue(row.overall_score),
+    scored_items: scoredItems,
+    tokens: {
+      recorded_total: tokenTotal,
+      per_scored_item_recorded: scoredItems > 0 ? roundMetric(tokenTotal / scoredItems, 2) : null,
+      per_covered_item: tokenCoveredItems > 0 ? roundMetric(tokenTotal / tokenCoveredItems, 2) : null,
+      covered_items: tokenCoveredItems,
+      coverage_pct: roundMetric(tokenCoveragePct, 2),
+      status: coverageStatus(tokenCoveredItems, scoredItems),
+      lanes: Object.fromEntries(Object.entries(lanes).map(([key, lane]) => [key, lane.tokens])),
+    },
+    runtime: {
+      recorded_seconds: roundMetric(runtimeSeconds, 4),
+      seconds_per_timed_item: runtimeCoveredItems > 0 ? roundMetric(runtimeSeconds / runtimeCoveredItems, 4) : null,
+      seconds_per_scored_item_recorded: scoredItems > 0 ? roundMetric(runtimeSeconds / scoredItems, 4) : null,
+      covered_items: runtimeCoveredItems,
+      coverage_pct: roundMetric(runtimeCoveragePct, 2),
+      status: coverageStatus(runtimeCoveredItems, scoredItems),
+      lanes: Object.fromEntries(Object.entries(lanes).map(([key, lane]) => [key, lane.runtime])),
+    },
   };
 }
 
@@ -840,9 +974,9 @@ function fmtCompactNumber(value) {
   return number.toFixed(2);
 }
 
-function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX = fmtCompactNumber, formatY = fmtCompactNumber, showInlineNames = false }) {
+function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX = fmtCompactNumber, formatY = fmtCompactNumber, showInlineNames = false, pointClass = () => '', tooltipExtra = () => [] }) {
   const points = rows
-    .map((row) => ({ row, x: Number(xValue(row)), y: Number(yValue(row)) }))
+    .map((row) => ({ row, x: Number(xValue(row)), y: Number(yValue(row)), className: pointClass(row), extra: tooltipExtra(row) }))
     .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
   const width = 520;
   const height = 360;
@@ -867,7 +1001,7 @@ function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX
   const yFor = (value) => margin.top + ((yMax - value) / yRange) * plotHeight;
   const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
   const tooltipWidth = 202;
-  const tooltipHeight = 76;
+  const tooltipHeight = 92;
   const tooltipFor = (cx, cy) => {
     const preferRight = cx + tooltipWidth + 18 <= width - margin.right;
     const x = preferRight ? cx + 16 : cx - tooltipWidth - 16;
@@ -937,25 +1071,26 @@ function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX
           const tooltip = tooltipFor(cx, cy);
           const linkId = `scatter-link-${safeId}-${pointIndex}`;
           const tooltipId = `scatter-tooltip-${safeId}-${pointIndex}`;
-          return { point, cx, cy, rank, shortLabel, inlineLabel, labelPosition, tooltip, linkId, tooltipId };
+          return { point, cx, cy, rank, shortLabel, inlineLabel, labelPosition, tooltip, linkId, tooltipId, extra: point.extra ?? [], className: point.className ?? '' };
         });
         const hoverRules = pointViews
           .map(({ linkId, tooltipId }) => `#${linkId}:hover ~ .scatter-tooltip-layer #${tooltipId}, #${linkId}:focus ~ .scatter-tooltip-layer #${tooltipId}, #${linkId}:focus-visible ~ .scatter-tooltip-layer #${tooltipId} { opacity: 1; }`)
           .join('\n');
         return `${hoverRules ? `<style>${hoverRules}</style>` : ''}
-      ${pointViews.map(({ point, cx, cy, rank, shortLabel, inlineLabel, labelPosition, linkId }) => `<a id="${linkId}" class="scatter-link" href="../${modelPath(point.row)}" aria-label="Open ${escapeHtml(point.row.label)} result">
-          <circle class="scatter-point ${Number(point.row.overall_rank) <= 3 ? 'leader' : ''}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="7"><title>${escapeHtml(rank)} - ${escapeHtml(shortLabel)} · ${escapeHtml(point.row.label)} · ${escapeHtml(xLabel)} ${escapeHtml(formatX(point.x))} · ${escapeHtml(yLabel)} ${escapeHtml(formatY(point.y))}</title></circle>
+      ${pointViews.map(({ point, cx, cy, rank, shortLabel, inlineLabel, labelPosition, linkId, className }) => `<a id="${linkId}" class="scatter-link" href="../${modelPath(point.row)}" aria-label="Open ${escapeHtml(point.row.label)} result">
+          <circle class="scatter-point ${Number(point.row.overall_rank) <= 3 ? 'leader' : ''} ${escapeHtml(className)}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="7"><title>${escapeHtml(rank)} - ${escapeHtml(shortLabel)} · ${escapeHtml(point.row.label)} · ${escapeHtml(xLabel)} ${escapeHtml(formatX(point.x))} · ${escapeHtml(yLabel)} ${escapeHtml(formatY(point.y))}</title></circle>
           <text class="scatter-rank-label ${showInlineNames ? 'with-name' : 'compact'}" x="${labelPosition.x.toFixed(1)}" y="${labelPosition.y.toFixed(1)}" text-anchor="${labelPosition.anchor}">${escapeHtml(inlineLabel)}</text>
         </a>`).join('\n')}
       <text class="axis-title scatter-x-title" x="${margin.left + plotWidth / 2}" y="${height - 18}" text-anchor="middle">${escapeHtml(xLabel)}</text>
       <text class="axis-title scatter-y-title" x="20" y="${margin.top + plotHeight / 2}" transform="rotate(-90 20 ${margin.top + plotHeight / 2})" text-anchor="middle">${escapeHtml(yLabel)}</text>
       <g class="scatter-tooltip-layer" aria-hidden="true">
-        ${pointViews.map(({ point, rank, shortLabel, tooltip, tooltipId }) => `<g id="${tooltipId}" class="scatter-hover-card" transform="translate(${tooltip.x.toFixed(1)} ${tooltip.y.toFixed(1)})">
+        ${pointViews.map(({ point, rank, shortLabel, tooltip, tooltipId, extra }) => `<g id="${tooltipId}" class="scatter-hover-card" transform="translate(${tooltip.x.toFixed(1)} ${tooltip.y.toFixed(1)})">
           <rect class="scatter-tooltip-box" width="${tooltipWidth}" height="${tooltipHeight}" rx="12"></rect>
           <text class="scatter-tooltip-title" x="12" y="19">${escapeHtml(rank)} - ${escapeHtml(shortLabel)}</text>
           <text class="scatter-tooltip-subtitle" x="12" y="36">${escapeHtml(point.row.label)}</text>
           <text class="scatter-tooltip-metric" x="12" y="53">${escapeHtml(xLabel)}: ${escapeHtml(formatX(point.x))}</text>
           <text class="scatter-tooltip-metric" x="12" y="67">${escapeHtml(yLabel)}: ${escapeHtml(formatY(point.y))}</text>
+          ${(extra ?? []).slice(0, 1).map((line) => `<text class="scatter-tooltip-note" x="12" y="82">${escapeHtml(line)}</text>`).join('')}
         </g>`).join('\n')}
       </g>`;
       })()}
@@ -964,8 +1099,10 @@ function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX
 }
 
 function tradeoffScatterMaps(rows) {
-  const telemetry = new Map(rows.map((row) => [row.id, publicTelemetry(row)]));
-  const getTelemetry = (row) => telemetry.get(row.id) ?? publicTelemetry(row);
+  const telemetry = new Map(rows.map((row) => [row.id, row.telemetry ?? publicTelemetry(row)]));
+  const getTelemetry = (row) => telemetry.get(row.id) ?? row.telemetry ?? publicTelemetry(row);
+  const telemetryClass = (status) => status === 'complete' ? '' : status === 'limited' ? 'telemetry-limited' : 'telemetry-missing';
+  const coverageLine = (label, coveragePct) => `${label} coverage: ${fmt(coveragePct, 0)}%`;
   return `<div class="tradeoff-scatter-grid">
     ${scatterPlotPanel({
       title: 'Cost × overall',
@@ -980,24 +1117,28 @@ function tradeoffScatterMaps(rows) {
     })}
     ${scatterPlotPanel({
       title: 'Runtime × overall',
-      xLabel: 'Avg seconds per item',
+      xLabel: 'Seconds / timed item',
       yLabel: 'Overall score',
       rows,
-      xValue: (row) => getTelemetry(row).avgSeconds,
+      xValue: (row) => getTelemetry(row).runtime.seconds_per_timed_item,
       yValue: (row) => getTelemetry(row).overall,
       formatX: (value) => `${fmtCompactNumber(value)}s`,
       formatY: (value) => fmt(value, 1),
       showInlineNames: true,
+      pointClass: (row) => telemetryClass(getTelemetry(row).runtime.status),
+      tooltipExtra: (row) => [coverageLine('Runtime', getTelemetry(row).runtime.coverage_pct)],
     })}
     ${scatterPlotPanel({
-      title: 'Tokens × cost',
-      xLabel: 'Public token volume',
+      title: 'Recorded tokens/item × cost',
+      xLabel: 'Recorded tokens / scored item',
       yLabel: 'Measured cost',
       rows,
-      xValue: (row) => getTelemetry(row).tokenVolume,
+      xValue: (row) => getTelemetry(row).tokens.per_scored_item_recorded,
       yValue: (row) => getTelemetry(row).cost,
       formatX: fmtCompactNumber,
       formatY: fmtCost,
+      pointClass: (row) => telemetryClass(getTelemetry(row).tokens.status),
+      tooltipExtra: (row) => [coverageLine('Token', getTelemetry(row).tokens.coverage_pct)],
     })}
   </div>`;
 }
@@ -1079,6 +1220,7 @@ function rankingInsightCards() {
 }
 
 function rankingDetailedTableRow(row) {
+  const telemetry = row.telemetry ?? publicTelemetry(row);
   return `<tr>
     <td class="rank-cell">#${escapeHtml(row.overall_rank)}</td>
     <td class="model-cell"><a class="model-link" href="../${modelPath(row)}"><strong>${escapeHtml(row.label)}</strong></a></td>
@@ -1087,7 +1229,7 @@ function rankingDetailedTableRow(row) {
     <td>${fmt(row.swe?.swe_score)} <small>#${escapeHtml(row.swe_rank ?? '—')}</small></td>
     <td${hardCellAttrs(row)}>${fmtOptional(row.hard_intelligence?.diagnostic_score)}${row.hard_intelligence ? ` <small>#${escapeHtml(row.hard_rank ?? '—')}</small>` : ''}</td>
     <td>${escapeHtml(overallFormula(row))}</td>
-    <td>${fmtCost(totalMeasuredCost(row))}</td>
+    <td>${fmtCost(totalMeasuredCost(row))} <small>${telemetry.runtime.seconds_per_timed_item === null ? 'runtime —' : `${fmt(telemetry.runtime.seconds_per_timed_item)}s/item`} · tokens ${telemetry.tokens.status}</small></td>
     <td class="reason-cell">${escapeHtml(rankingReason(row))}</td>
   </tr>`;
 }
@@ -1120,7 +1262,7 @@ async function writeRankingPage() {
 
     <section class="section-shell ranking-chart-grid" aria-label="Ranking charts">
       ${rankingChartCard('Overall ladder', 'Every ranked entrant ordered by public overall score.', `<div class="bar-chart">${rankingBarRows(chartRows, (row) => row.overall_score, (row) => `rank #${row.overall_rank}`)}</div>`, 'Overall is a lane mean, not a hidden replacement for source measurements.')}
-      ${rankingChartCard('Tradeoff scatter maps', 'Each point is one tested model at the intersection of two public telemetry axes.', tradeoffScatterMaps(chartRows), 'Use these maps to read quality versus cost, speed, and token volume. Upper-left is usually the best region for score tradeoffs; lower-left is best for token/cost efficiency.', 'axis-chart-card')}
+      ${rankingChartCard('Tradeoff scatter maps', 'Each point is one tested model at the intersection of two public telemetry axes.', tradeoffScatterMaps(chartRows), 'Use these maps to read quality versus cost, speed, and recorded token use. Runtime and token axes are normalized per item and show coverage in hover cards; they are telemetry, not current overall score inputs.', 'axis-chart-card')}
       ${rankingChartCard('Lane contrast', 'Top eight entrants with Full, SWE, and Hard Intelligence shown side by side.', `<div class="lane-compare-chart">${laneComparisonRows(topLaneRows)}</div>`, 'Hard Intelligence is shown as its own lane so cross-lane strengths and weaknesses stay visible.')}
       ${rankingChartCard('Measured cost context', 'Cost is shown because deployment economics matter, but it does not secretly rewrite capability scores.', `<div class="bar-chart compact">${costRows(chartRows)}</div>`, 'Very expensive rows are not punished twice; cost is visible telemetry and part of the public interpretation.')}
       ${rankingChartCard('Lane balance pressure', 'Largest gap between each entrant’s strongest and weakest measured major lane.', `<div class="bar-chart compact">${laneBalancePressureRows(chartRows)}</div>`, 'Lower pressure means a more even profile; higher pressure explains why one strong lane may not lift the overall rank by itself.', 'balance-chart-card')}
@@ -1150,7 +1292,7 @@ async function writeRankingPage() {
               <th>SWE</th>
               <th>Hard IQ</th>
               <th>Formula</th>
-              <th>Cost</th>
+              <th>Cost + telemetry</th>
               <th>Why here</th>
             </tr>
           </thead>
@@ -1307,6 +1449,8 @@ async function writeArenaPage() {
     ],
   }));
 }
+
+await writeFile(path.join(dist, 'data/model-comparison.json'), `${JSON.stringify(models, null, 2)}\n`);
 
 await writeModelPages();
 await writeRankingPage();

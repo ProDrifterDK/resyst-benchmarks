@@ -135,8 +135,8 @@ await stat(path.join(root, 'dist/assets/icon-512.png'));
 const html = await readText('dist/index.html');
 assertSeoBasics('dist/index.html', html, 'https://benchmarks.resyst.cl/');
 for (const required of [
-  'styles.css?v=20260615-ranking-scatter-tooltip-layer',
-  'app.js?v=20260615-ranking-scatter-tooltip-layer',
+  'styles.css?v=20260615-telemetry-normalization',
+  'app.js?v=20260615-telemetry-normalization',
   'AI Model Benchmarks & Arena Replays | Resyst Labs',
   'Resyst Labs logo',
   'https://benchmarks.resyst.cl/',
@@ -201,6 +201,7 @@ for (const required of ['https://benchmarks.resyst.cl/', 'https://benchmarks.res
 if (/<loc>http:\/\//.test(sitemap) || /<image:loc>http:\/\//.test(sitemap)) throw new Error('sitemap.xml canonical URL entries must use HTTPS only');
 
 const models = JSON.parse(await readText('src/data/model-comparison.json'));
+const publicModels = JSON.parse(await readText('dist/data/model-comparison.json'));
 const arena = JSON.parse(await readText('src/data/arena-snapshots.json'));
 
 const rankingHtml = await readText('dist/ranking/index.html');
@@ -213,7 +214,7 @@ for (const required of [
   'Tradeoff scatter maps',
   'Cost × overall',
   'Runtime × overall',
-  'Tokens × cost',
+  'Recorded tokens/item × cost',
   'Each point is one tested model',
   '#1 - GPT 5.5',
   '#2 - DS-V4-flash',
@@ -248,7 +249,7 @@ const tooltipLayers = (rankingHtml.match(/class="scatter-tooltip-layer"/g) ?? []
 const hoverLayerRules = (rankingHtml.match(/:hover ~ \.scatter-tooltip-layer/g) ?? []).length;
 const scatterChartBlocks = rankingHtml.match(/<svg class="scatter-chart"[\s\S]*?<\/svg>/g) ?? [];
 if (namedScatterLabels !== rankedCount * 2) throw new Error(`expected inline short names only on Cost and Runtime scatter plots; saw ${namedScatterLabels}`);
-if (compactScatterLabels !== rankedCount) throw new Error(`expected compact rank-only labels on Tokens × cost; saw ${compactScatterLabels}`);
+if (compactScatterLabels !== rankedCount) throw new Error(`expected compact rank-only labels on Recorded tokens/item × cost; saw ${compactScatterLabels}`);
 if (hoverCards !== rankedCount * 3) throw new Error(`expected hover cards for every scatter point; saw ${hoverCards}`);
 if (tooltipLayers !== 3) throw new Error(`expected one final tooltip layer per scatter plot; saw ${tooltipLayers}`);
 if (hoverLayerRules !== rankedCount * 3) throw new Error(`expected hover/focus rules targeting final tooltip layers; saw ${hoverLayerRules}`);
@@ -372,6 +373,20 @@ for (const row of models.rows.filter((entry) => !hardMeasuredIds.includes(entry.
 }
 
 const rankedRows = models.rows.filter((row) => Number.isFinite(row.overall_rank));
+const publicRows = publicModels.rows.filter((row) => Number.isFinite(row.overall_rank));
+if (publicRows.length !== rankedRows.length) throw new Error('public model data must preserve ranked row count');
+for (const row of publicRows) {
+  const telemetry = row.telemetry;
+  if (!telemetry || telemetry.scoring_role !== 'telemetry_only') throw new Error(`${row.id} missing normalized public telemetry`);
+  for (const group of ['tokens', 'runtime']) {
+    if (!['complete', 'limited', 'missing'].includes(telemetry[group]?.status)) throw new Error(`${row.id} has invalid ${group} telemetry status`);
+    if (!Number.isFinite(Number(telemetry[group]?.coverage_pct))) throw new Error(`${row.id} missing ${group} coverage percentage`);
+    if (!telemetry[group]?.lanes?.full || !telemetry[group]?.lanes?.swe || !telemetry[group]?.lanes?.hard) throw new Error(`${row.id} missing ${group} lane breakdown`);
+  }
+  if (Number(row.overall_score) !== Number(models.rows.find((source) => source.id === row.id)?.overall_score)) throw new Error(`${row.id} public telemetry rewrite changed overall score`);
+}
+if (publicRows.find((row) => row.id === 'gpt-5.5-openrouter-xhigh')?.telemetry.tokens.status !== 'limited') throw new Error('GPT-5.5 token telemetry must be labeled limited until Full/SWE token totals are recorded');
+if (publicRows.find((row) => row.id === 'step-3.7-flash-openrouter-xhigh')?.telemetry.tokens.status !== 'complete') throw new Error('Step 3.7 token telemetry should be complete after provider token usage normalization');
 for (const row of rankedRows) {
   const modelPage = `dist/models/${row.id}/index.html`;
   const content = await readText(modelPage);
