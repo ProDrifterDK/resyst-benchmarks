@@ -1,16 +1,17 @@
 {
-  "generated_at": "2026-06-14T23:25:21Z",
-  "synced_at": "2026-06-14T23:25:21Z",
+  "generated_at": "2026-06-15T04:32:14Z",
+  "synced_at": "2026-06-15T04:32:14Z",
   "summary": {
     "title": "Resyst Labs LLM Benchmark Rankings",
     "formula": "Overall = average of measured major lanes: Full/Agentic, SWE MVP, and Hard Intelligence when published",
     "public_note": "Local and API-backed models share one tournament table. Blank Hard Intelligence cells mean that lane is not yet measured for that entrant.",
-    "row_count": 12
+    "row_count": 13
   },
   "notes": [
     "Full/Agentic, SWE, and Hard Intelligence are separate benchmark lanes; overall uses the average of measured major lanes.",
     "Hard Intelligence measures active inquiry, online adaptation, evidence-driven self-repair, and authority/salience integrity.",
     "Provider, runtime, cost, latency, and reliability metadata are exposed for auditability.",
+    "Local entrants are marked with a Local model badge and ranked in the same unified tournament table as API-backed entrants.",
     "SWE rows use the software-engineering MVP suite and are distinct from SWE-bench Verified.",
     "Arena replays publish board states, legal actions, events, and tactical telemetry while excluding raw model completions."
   ],
@@ -1051,7 +1052,7 @@
       "notes": [
         "Exact OpenRouter model: anthropic/claude-fable-5."
       ],
-      "full_rank": 12,
+      "full_rank": 13,
       "swe_rank": 6,
       "overall_score": 79.22,
       "overall_rank": 8,
@@ -1477,7 +1478,7 @@
           "ignored_all_retrieved_evidence": 2
         }
       },
-      "hard_rank": 11,
+      "hard_rank": 12,
       "overall_score": 68.0565,
       "overall_rank": 11,
       "full": {
@@ -1653,7 +1654,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "full_rank": 11,
+      "full_rank": 12,
       "swe_rank": 11,
       "overall_score": 67.5758,
       "overall_rank": 12,
@@ -1757,6 +1758,195 @@
               "item_count": 8,
               "recorded_seconds": 105.1934,
               "seconds_per_item": 13.1492,
+              "status": "recorded",
+              "basis": "total_seconds"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "gemma4-12b-coder-fable5-composer25-q4km-local",
+      "label": "Gemma4‑12B‑Coder Fable5/Composer2.5 Q4_K_M",
+      "basis": "Local GGUF · llama.cpp Vulkan · Q4_K_M",
+      "runtime_type": "local",
+      "provider": "local",
+      "runtime": "llama.cpp Vulkan",
+      "location": "local",
+      "cost_class": "local hardware",
+      "quant": "Q4_K_M",
+      "full": {
+        "suite": "benchmark_core_v1 · full_suite_v3 · 43 prompts · local Vulkan",
+        "final": 80.6,
+        "capability": 87.07,
+        "agentic": 79.75,
+        "daily": 77.89,
+        "efficiency": 75,
+        "performance": 65.95,
+        "reliability": 99.53,
+        "pass_rate": 88.37,
+        "avg_s": 22.862,
+        "decode": 45.77,
+        "cost": 0,
+        "cost_basis": "local_hardware_no_api_metering",
+        "prompt_count": 43,
+        "total_time_s": 983.07,
+        "prompt_tokens": 441388,
+        "output_tokens": 12768,
+        "failure_modes": {
+          "field_value_mismatch": 1,
+          "invalid_output": 1,
+          "missing_extract_fact": 1,
+          "missing_required_concept": 1,
+          "missing_required_phrase": 1,
+          "missing_search_docs": 1,
+          "missing_transform_value": 1,
+          "nonzero_exit": 2,
+          "reasoning_truncated": 1,
+          "wrong_tool": 1
+        }
+      },
+      "swe": {
+        "suite": "software_engineering_mvp_v1 · n=1 · scorer_v2.8 · local Vulkan",
+        "swe_score": 54.01,
+        "focused_final": 54.01,
+        "capability": 32.7,
+        "daily": 60.76,
+        "performance": 79.1,
+        "efficiency": 75,
+        "reliability": 100,
+        "pass_rate": 25,
+        "cost": 0,
+        "cost_basis": "local_hardware_no_api_metering",
+        "time_s": 92.85,
+        "prompt_count": 8,
+        "prompt_tokens": 1661,
+        "output_tokens": 2995,
+        "failure_modes": {
+          "below_min_findings": 4,
+          "low_precision": 4,
+          "low_recall": 4,
+          "patch_rejected": 1,
+          "tests_failed": 1
+        }
+      },
+      "hard_intelligence": {
+        "suite": "hard_intelligence_v1.alpha · public diagnostic local slice",
+        "diagnostic_score": 48.9583,
+        "overall_included": true,
+        "seed_count": 1,
+        "variant_count": 2,
+        "record_count": 8,
+        "cost": 0,
+        "cost_basis": "local_hardware_no_api_metering",
+        "input_tokens": 1334,
+        "output_tokens": 4926,
+        "reasoning_tokens_estimate": 4474,
+        "runtime_seconds": 193.9968,
+        "local_status": {
+          "invalid_output": 1,
+          "ok": 7
+        },
+        "finish_reasons": {
+          "exit_0": 8
+        },
+        "output_budget_valid": true,
+        "reasoning_level": "maximum",
+        "reasoning_mode": "llama.cpp native reasoning",
+        "lanes": {
+          "active_information_acquisition": 17.5,
+          "authority_salience_constraint_integrity": 90,
+          "evidence_driven_self_repair": 82.0833,
+          "online_adaptation_fast_learning": 6.25
+        },
+        "failure_modes": {
+          "ignored_feedback": 1,
+          "local_invalid_output": 1,
+          "premature_guess_without_evidence": 2
+        },
+        "limitations": [
+          "public_fixture_only",
+          "single_difficulty_band",
+          "single_seed",
+          "incomplete_difficulty_curve",
+          "insufficient_seed_count"
+        ]
+      },
+      "notes": [
+        "Local model row: benchmarked on local hardware with no API metering.",
+        "Strong local Full/Agentic and focused tool-loop behavior; SWE review/audit and Hard Intelligence inquiry/adaptation are weak in this max-thinking run."
+      ],
+      "overall_score": 61.1894,
+      "full_rank": 11,
+      "swe_rank": 13,
+      "hard_rank": 11,
+      "overall_rank": 13,
+      "telemetry": {
+        "scoring_role": "telemetry_only",
+        "cost": 0,
+        "cost_per_scored_item": 0,
+        "avgSeconds": 21.524,
+        "tokenVolume": 465072,
+        "tokenPerScoredItem": 7882.58,
+        "overall": 61.1894,
+        "scored_items": 59,
+        "tokens": {
+          "recorded_total": 465072,
+          "per_scored_item_recorded": 7882.58,
+          "per_covered_item": 7882.58,
+          "covered_items": 59,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_total": 454156,
+              "per_item_recorded": 10561.77,
+              "status": "recorded",
+              "basis": "direct_fields"
+            },
+            "swe": {
+              "item_count": 8,
+              "recorded_total": 4656,
+              "per_item_recorded": 582,
+              "status": "recorded",
+              "basis": "direct_fields"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_total": 6260,
+              "per_item_recorded": 782.5,
+              "status": "recorded",
+              "basis": "direct_fields"
+            }
+          }
+        },
+        "runtime": {
+          "recorded_seconds": 1269.9168,
+          "seconds_per_timed_item": 21.524,
+          "seconds_per_scored_item_recorded": 21.524,
+          "covered_items": 59,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_seconds": 983.07,
+              "seconds_per_item": 22.8621,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "swe": {
+              "item_count": 8,
+              "recorded_seconds": 92.85,
+              "seconds_per_item": 11.6063,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_seconds": 193.9968,
+              "seconds_per_item": 24.2496,
               "status": "recorded",
               "basis": "total_seconds"
             }

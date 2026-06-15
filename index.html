@@ -34,7 +34,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Resyst Labs Benchmarks: independent AI model rankings and Arena evidence" />
     <meta property="og:site_name" content="Resyst Labs Benchmarks" />
-    <link rel="stylesheet" href="styles.css?v=20260615-telemetry-normalization" />
+    <link rel="stylesheet" href="styles.css?v=20260615-local-model-badge" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -86,7 +86,7 @@
   "@type": "ItemList",
   "name": "Resyst Labs AI model benchmark ranking",
   "itemListOrder": "https://schema.org/ItemListOrderAscending",
-  "numberOfItems": 12,
+  "numberOfItems": 13,
   "itemListElement": [
     {
       "@type": "ListItem",
@@ -159,6 +159,12 @@
       "position": 12,
       "name": "NVIDIA Nemotron 3 Ultra",
       "url": "https://benchmarks.resyst.cl/models/nemotron-3-ultra-openrouter-xhigh/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 13,
+      "name": "Gemma4‑12B‑Coder Fable5/Composer2.5 Q4_K_M",
+      "url": "https://benchmarks.resyst.cl/models/gemma4-12b-coder-fable5-composer25-q4km-local/"
     }
   ]
 }
@@ -215,7 +221,7 @@
           </div>
           <div class="instrument-strip">
             <div>
-              <span id="model-count">12</span>
+              <span id="model-count">13</span>
               <small>ranked entrants</small>
             </div>
             <div>
@@ -223,7 +229,7 @@
               <small>Arena matches</small>
             </div>
             <div>
-              <span id="data-date">Jun 13, 2026</span>
+              <span id="data-date">Jun 14, 2026</span>
               <small>data refresh</small>
             </div>
           </div>
@@ -547,6 +553,25 @@
         <td>100.0%</td>
         <td><a class="row-action" href="models/nemotron-3-ultra-openrouter-xhigh/">Result</a></td>
       </tr>
+<tr>
+        <td class="rank-cell">#13</td>
+        <td class="model-cell">
+          <a class="model-link" href="models/gemma4-12b-coder-fable5-composer25-q4km-local/"><strong>Gemma4‑12B‑Coder Fable5/Composer2.5 Q4_K_M</strong></a>
+          <span class="model-badge-list" aria-label="Runtime badges"><span class="model-badge local-model-badge" title="Benchmarked on local hardware">Local model</span></span>
+        </td>
+        <td>Local GGUF · llama.cpp Vulkan · Q4_K_M</td>
+        <td class="score-cell">61.19</td>
+        <td>80.60</td>
+        <td>54.01</td>
+        <td>48.96</td>
+        <td>17.50</td>
+        <td>6.25</td>
+        <td>82.08</td>
+        <td>90.00</td>
+        <td>$0</td>
+        <td>100.0%</td>
+        <td><a class="row-action" href="models/gemma4-12b-coder-fable5-composer25-q4km-local/">Result</a></td>
+      </tr>
             </tbody>
           </table>
         </div>
@@ -702,6 +727,6 @@
         Resyst Labs Benchmarks requires JavaScript to render the live ranking table from the public JSON data files. The data files remain available at data/model-comparison.json and data/arena-snapshots.json.
       </div>
     </noscript>
-    <script type="module" src="app.js?v=20260615-telemetry-normalization"></script>
+    <script type="module" src="app.js?v=20260615-local-model-badge"></script>
   </body>
 </html>
