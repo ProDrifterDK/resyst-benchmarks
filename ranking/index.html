@@ -28,7 +28,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Resyst Labs Benchmarks: independent AI model rankings and Arena evidence" />
     <meta property="og:site_name" content="Resyst Labs Benchmarks" />
-    <link rel="stylesheet" href="../styles.css?v=20260615-ranking-balance-chart" />
+    <link rel="stylesheet" href="../styles.css?v=20260615-ranking-axis-chart" />
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -349,6 +349,68 @@
       <small>rank #12</small>
     </div></div>
     <p class="chart-note">Overall is a lane mean, not a hidden replacement for source measurements.</p>
+  </article>
+      <article class="ranking-chart-card axis-chart-card glass-panel">
+    <div class="ranking-chart-head">
+      <span class="panel-label">Chart</span>
+      <h2>Rank × overall score</h2>
+      <p>X-axis orders all tested models by public rank; Y-axis shows overall score.</p>
+    </div>
+    <div class="axis-chart-wrap">
+    <svg class="ranking-axis-chart" viewBox="0 0 1040 470" role="img" aria-labelledby="rank-score-title rank-score-desc">
+      <title id="rank-score-title">Rank by overall score across tested models</title>
+      <desc id="rank-score-desc">X-axis orders every tested model by public rank. Y-axis shows overall score on a zoomed score band.</desc>
+      <defs>
+        <linearGradient id="rankCurveGradient" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0%" stop-color="#c9a84c"></stop>
+          <stop offset="58%" stop-color="#67e8f9"></stop>
+          <stop offset="100%" stop-color="#9d7cff"></stop>
+        </linearGradient>
+      </defs>
+      <g class="axis-gridlines">
+        <line class="axis-grid" x1="78" x2="1006" y1="342.0" y2="342.0"></line>
+<line class="axis-grid" x1="78" x2="1006" y1="263.5" y2="263.5"></line>
+<line class="axis-grid" x1="78" x2="1006" y1="185.0" y2="185.0"></line>
+<line class="axis-grid" x1="78" x2="1006" y1="106.5" y2="106.5"></line>
+<line class="axis-grid" x1="78" x2="1006" y1="28.0" y2="28.0"></line>
+      </g>
+      <line class="axis-line" x1="78" x2="1006" y1="342" y2="342"></line>
+      <line class="axis-line" x1="78" x2="78" y1="28" y2="342"></line>
+      <g class="axis-y-tick"><text x="66" y="342.0" text-anchor="end" dominant-baseline="middle">60</text></g>
+<g class="axis-y-tick"><text x="66" y="263.5" text-anchor="end" dominant-baseline="middle">69</text></g>
+<g class="axis-y-tick"><text x="66" y="185.0" text-anchor="end" dominant-baseline="middle">78</text></g>
+<g class="axis-y-tick"><text x="66" y="106.5" text-anchor="end" dominant-baseline="middle">86</text></g>
+<g class="axis-y-tick"><text x="66" y="28.0" text-anchor="end" dominant-baseline="middle">95</text></g>
+      <path class="rank-curve" d="M 78.0 88.8 L 162.4 101.9 L 246.7 122.6 L 331.1 132.3 L 415.5 132.4 L 499.8 156.2 L 584.2 165.6 L 668.5 169.6 L 752.9 210.8 L 837.3 243.3 L 921.6 269.7 L 1006.0 274.0"></path>
+      <a href="../models/gpt-5.5-openrouter-xhigh/" aria-label="Open GPT‑5.5 result"><circle class="rank-point leader" cx="78.0" cy="88.8" r="7"><title>#1 GPT‑5.5 · overall 88.22</title></circle></a>
+<a href="../models/deepseek-v4-flash-direct/" aria-label="Open DeepSeek V4 Flash result"><circle class="rank-point " cx="162.4" cy="101.9" r="7"><title>#2 DeepSeek V4 Flash · overall 86.76</title></circle></a>
+<a href="../models/claude-opus-4.8-openrouter-xhigh/" aria-label="Open Claude Opus 4.8 result"><circle class="rank-point " cx="246.7" cy="122.6" r="7"><title>#3 Claude Opus 4.8 · overall 84.45</title></circle></a>
+<a href="../models/gemini-3.5-flash-openrouter/" aria-label="Open Gemini 3.5 Flash result"><circle class="rank-point " cx="331.1" cy="132.3" r="7"><title>#4 Gemini 3.5 Flash · overall 83.38</title></circle></a>
+<a href="../models/deepseek-v4-pro-direct/" aria-label="Open DeepSeek V4 Pro result"><circle class="rank-point " cx="415.5" cy="132.4" r="7"><title>#5 DeepSeek V4 Pro · overall 83.36</title></circle></a>
+<a href="../models/qwen3.7-max-openrouter-xhigh/" aria-label="Open Qwen3.7 Max result"><circle class="rank-point " cx="499.8" cy="156.2" r="7"><title>#6 Qwen3.7 Max · overall 80.71</title></circle></a>
+<a href="../models/minimax-m3-openrouter-xhigh/" aria-label="Open MiniMax M3 result"><circle class="rank-point " cx="584.2" cy="165.6" r="7"><title>#7 MiniMax M3 · overall 79.66</title></circle></a>
+<a href="../models/claude-fable-5-openrouter-xhigh/" aria-label="Open Claude Fable 5 result"><circle class="rank-point " cx="668.5" cy="169.6" r="7"><title>#8 Claude Fable 5 · overall 79.22</title></circle></a>
+<a href="../models/minimax-m3-direct-anthropic/" aria-label="Open MiniMax M3 Direct Plus result"><circle class="rank-point " cx="752.9" cy="210.8" r="7"><title>#9 MiniMax M3 Direct Plus · overall 74.63</title></circle></a>
+<a href="../models/kimi-k2.7-code-openrouter-xhigh/" aria-label="Open Kimi K2.7 Code result"><circle class="rank-point " cx="837.3" cy="243.3" r="7"><title>#10 Kimi K2.7 Code · overall 71.01</title></circle></a>
+<a href="../models/step-3.7-flash-openrouter-xhigh/" aria-label="Open Step 3.7 Flash result"><circle class="rank-point " cx="921.6" cy="269.7" r="7"><title>#11 Step 3.7 Flash · overall 68.06</title></circle></a>
+<a href="../models/nemotron-3-ultra-openrouter-xhigh/" aria-label="Open NVIDIA Nemotron 3 Ultra result"><circle class="rank-point " cx="1006.0" cy="274.0" r="7"><title>#12 NVIDIA Nemotron 3 Ultra · overall 67.58</title></circle></a>
+      <g class="axis-x-tick" transform="translate(78.0 358) rotate(-38)"><text text-anchor="end"><tspan class="axis-rank-label">#1</tspan> GPT‑5.5</text></g>
+<g class="axis-x-tick" transform="translate(162.4 358) rotate(-38)"><text text-anchor="end"><tspan class="axis-rank-label">#2</tspan> DeepSeek V4 Flash</text></g>
+<g class="axis-x-tick" transform="translate(246.7 358) rotate(-38)"><text text-anchor="end"><tspan class="axis-rank-label">#3</tspan> Claude Opus 4.8</text></g>
+<g class="axis-x-tick" transform="translate(331.1 358) rotate(-38)"><text text-anchor="end"><tspan class="axis-rank-label">#4</tspan> Gemini 3.5 Flash</text></g>
+<g class="axis-x-tick" transform="translate(415.5 358) rotate(-38)"><text text-anchor="end"><tspan class="axis-rank-label">#5</tspan> DeepSeek V4 Pro</text></g>
+<g class="axis-x-tick" transform="translate(499.8 358) rotate(-38)"><text text-anchor="end"><tspan class="axis-rank-label">#6</tspan> Qwen3.7 Max</text></g>
+<g class="axis-x-tick" transform="translate(584.2 358) rotate(-38)"><text text-anchor="end"><tspan class="axis-rank-label">#7</tspan> MiniMax M3</text></g>
+<g class="axis-x-tick" transform="translate(668.5 358) rotate(-38)"><text text-anchor="end"><tspan class="axis-rank-label">#8</tspan> Claude Fable 5</text></g>
+<g class="axis-x-tick" transform="translate(752.9 358) rotate(-38)"><text text-anchor="end"><tspan class="axis-rank-label">#9</tspan> MiniMax M3 Direct…</text></g>
+<g class="axis-x-tick" transform="translate(837.3 358) rotate(-38)"><text text-anchor="end"><tspan class="axis-rank-label">#10</tspan> Kimi K2.7 Code</text></g>
+<g class="axis-x-tick" transform="translate(921.6 358) rotate(-38)"><text text-anchor="end"><tspan class="axis-rank-label">#11</tspan> Step 3.7 Flash</text></g>
+<g class="axis-x-tick" transform="translate(1006.0 358) rotate(-38)"><text text-anchor="end"><tspan class="axis-rank-label">#12</tspan> NVIDIA Nemotron 3…</text></g>
+      <text class="axis-title y-axis-title" x="24" y="185" transform="rotate(-90 24 185)" text-anchor="middle">Overall score</text>
+      <text class="axis-title x-axis-title" x="542" y="452" text-anchor="middle">Tested models ordered by public rank</text>
+    </svg>
+  </div>
+    <p class="chart-note">The score band is zoomed so rank gaps remain readable while every plotted point still links to its public model result.</p>
   </article>
       <article class="ranking-chart-card glass-panel">
     <div class="ranking-chart-head">
