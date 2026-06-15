@@ -815,6 +815,70 @@ td {
   text-transform: uppercase;
 }
 
+.tradeoff-scatter-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.scatter-panel {
+  min-width: 0;
+  margin: 0;
+  padding: 0.85rem;
+  border: 1px solid var(--line-soft);
+  border-radius: 24px;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.scatter-panel figcaption {
+  margin-bottom: 0.55rem;
+  color: #fff8eb;
+  font-weight: 900;
+}
+
+.scatter-chart {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: auto;
+}
+
+.scatter-grid {
+  stroke: rgba(255, 248, 235, 0.11);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.scatter-tick,
+.scatter-rank-label {
+  fill: var(--paper-soft);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+}
+
+.scatter-rank-label {
+  fill: var(--amber-2);
+  font-weight: 900;
+}
+
+.scatter-point {
+  fill: var(--cyan);
+  stroke: #050508;
+  stroke-width: 2.3;
+  transition: r 140ms ease, fill 140ms ease;
+}
+
+.scatter-point.leader {
+  fill: var(--amber-2);
+}
+
+.scatter-chart a:focus-visible .scatter-point,
+.scatter-chart a:hover .scatter-point {
+  fill: #fff8eb;
+  r: 9;
+}
+
 .cost-row .bar-track i {
   background: linear-gradient(90deg, var(--violet), var(--amber));
 }
@@ -3252,6 +3316,7 @@ td {
   .result-card-grid,
   .ranking-chart-grid,
   .ranking-insight-grid,
+  .tradeoff-scatter-grid,
   .result-explainer,
   .match-replay-head,
   .replay-scoreboard,
@@ -3283,6 +3348,7 @@ td {
   .arena-rule-grid,
   .ranking-chart-grid,
   .ranking-insight-grid,
+  .tradeoff-scatter-grid,
   .match-metrics.compact,
   .match-switcher,
   .encounter-meta-grid {
