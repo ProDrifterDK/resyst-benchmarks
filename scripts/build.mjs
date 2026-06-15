@@ -9,7 +9,7 @@ const site = 'https://benchmarks.resyst.cl/';
 const logoUrl = `${site}assets/ResystLabs-Logo.png`;
 const ogImageVersion = '20260613-link-preview';
 const ogImageUrl = `${site}og.png?v=${ogImageVersion}`;
-const assetVersion = '20260615-ranking-axis-chart';
+const assetVersion = '20260615-ranking-tradeoff-scatter';
 
 if (!existsSync(src)) {
   throw new Error('src directory is missing');
@@ -780,54 +780,138 @@ function rankingChartCard(title, subtitle, body, note = '', className = '') {
   </article>`;
 }
 
-function rankingAxisChart(rows) {
-  const measured = rows.filter((row) => finiteScore(row.overall_score) !== null);
-  const width = 1040;
-  const height = 470;
-  const margin = { top: 28, right: 34, bottom: 128, left: 78 };
+function metricValue(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : 0;
+}
+
+function firstMetric(...values) {
+  for (const value of values) {
+    const number = Number(value);
+    if (Number.isFinite(number)) return number;
+  }
+  return 0;
+}
+
+function laneTokens(lane, inputKey = 'prompt_tokens') {
+  if (!lane) return 0;
+  const direct = metricValue(lane[inputKey]) + metricValue(lane.output_tokens) + metricValue(lane.reasoning_tokens);
+  return direct || metricValue(lane.provider_tokens_total_for_quota);
+}
+
+function publicTelemetry(row) {
+  const hard = row.hard_intelligence ?? {};
+  const hardInput = firstMetric(hard.input_tokens, hard.input_tokens_estimated);
+  const hardOutput = firstMetric(hard.output_tokens, hard.output_tokens_estimated);
+  const hardReasoning = firstMetric(hard.reasoning_tokens, hard.reasoning_tokens_estimate);
+  const totalTime = metricValue(row.full?.total_time_s) + metricValue(row.swe?.time_s) + firstMetric(hard.runtime_seconds, hard.elapsed_seconds);
+  const itemCount = metricValue(row.full?.prompt_count) + metricValue(row.swe?.prompt_count) + metricValue(hard.record_count);
+  const tokenVolume = laneTokens(row.full) + laneTokens(row.swe) + hardInput + hardOutput + hardReasoning;
+  return {
+    cost: totalMeasuredCost(row),
+    avgSeconds: itemCount > 0 ? totalTime / itemCount : 0,
+    tokenVolume,
+    overall: metricValue(row.overall_score),
+  };
+}
+
+function fmtCompactNumber(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return '—';
+  if (Math.abs(number) >= 1_000_000) return `${(number / 1_000_000).toFixed(1)}M`;
+  if (Math.abs(number) >= 1_000) return `${(number / 1_000).toFixed(1)}k`;
+  if (Math.abs(number) >= 100) return number.toFixed(0);
+  if (Math.abs(number) >= 10) return number.toFixed(1);
+  return number.toFixed(2);
+}
+
+function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX = fmtCompactNumber, formatY = fmtCompactNumber }) {
+  const points = rows
+    .map((row) => ({ row, x: Number(xValue(row)), y: Number(yValue(row)) }))
+    .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
+  const width = 520;
+  const height = 360;
+  const margin = { top: 26, right: 28, bottom: 72, left: 70 };
   const plotWidth = width - margin.left - margin.right;
   const plotHeight = height - margin.top - margin.bottom;
-  const scores = measured.map((row) => Number(row.overall_score));
-  const minScore = Math.min(...scores);
-  const maxScore = Math.max(...scores);
-  const yMin = Math.max(0, Math.floor((minScore - 5) / 5) * 5);
-  const yMax = Math.min(100, Math.ceil((maxScore + 5) / 5) * 5);
-  const yRange = Math.max(1, yMax - yMin);
-  const xFor = (index) => margin.left + (measured.length <= 1 ? plotWidth / 2 : (index / (measured.length - 1)) * plotWidth);
-  const yFor = (score) => margin.top + ((yMax - score) / yRange) * plotHeight;
-  const shortLabel = (label) => label.length > 18 ? `${label.slice(0, 17)}…` : label;
-  const points = measured.map((row, index) => ({
-    row,
-    index,
-    x: xFor(index),
-    y: yFor(Number(row.overall_score)),
-  }));
-  const linePath = points.map((point, index) => `${index === 0 ? 'M' : 'L'} ${point.x.toFixed(1)} ${point.y.toFixed(1)}`).join(' ');
-  const tickCount = 5;
-  const yTicks = Array.from({ length: tickCount }, (_, index) => yMin + (index / (tickCount - 1)) * yRange);
-  return `<div class="axis-chart-wrap">
-    <svg class="ranking-axis-chart" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="rank-score-title rank-score-desc">
-      <title id="rank-score-title">Rank by overall score across tested models</title>
-      <desc id="rank-score-desc">X-axis orders every tested model by public rank. Y-axis shows overall score on a zoomed score band.</desc>
-      <defs>
-        <linearGradient id="rankCurveGradient" x1="0" x2="1" y1="0" y2="0">
-          <stop offset="0%" stop-color="#c9a84c"></stop>
-          <stop offset="58%" stop-color="#67e8f9"></stop>
-          <stop offset="100%" stop-color="#9d7cff"></stop>
-        </linearGradient>
-      </defs>
-      <g class="axis-gridlines">
-        ${yTicks.map((tick) => `<line class="axis-grid" x1="${margin.left}" x2="${width - margin.right}" y1="${yFor(tick).toFixed(1)}" y2="${yFor(tick).toFixed(1)}"></line>`).join('\n')}
-      </g>
+  const xValues = points.map((point) => point.x);
+  const yValues = points.map((point) => point.y);
+  const xMinRaw = Math.min(...xValues);
+  const xMaxRaw = Math.max(...xValues);
+  const yMinRaw = Math.min(...yValues);
+  const yMaxRaw = Math.max(...yValues);
+  const xPad = Math.max((xMaxRaw - xMinRaw) * 0.08, xMaxRaw === xMinRaw ? Math.max(1, xMaxRaw * 0.1) : 0);
+  const yPad = Math.max((yMaxRaw - yMinRaw) * 0.08, yMaxRaw === yMinRaw ? Math.max(1, yMaxRaw * 0.1) : 0);
+  const xMin = Math.max(0, xMinRaw - xPad);
+  const xMax = xMaxRaw + xPad;
+  const yMin = Math.max(0, yMinRaw - yPad);
+  const yMax = Math.min(100, yMaxRaw + yPad);
+  const xRange = Math.max(0.0001, xMax - xMin);
+  const yRange = Math.max(0.0001, yMax - yMin);
+  const xFor = (value) => margin.left + ((value - xMin) / xRange) * plotWidth;
+  const yFor = (value) => margin.top + ((yMax - value) / yRange) * plotHeight;
+  const ticks = [0, 0.25, 0.5, 0.75, 1];
+  const safeId = slug(title);
+  return `<figure class="scatter-panel">
+    <figcaption>${escapeHtml(title)}</figcaption>
+    <svg class="scatter-chart" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="scatter-title-${safeId} scatter-desc-${safeId}">
+      <title id="scatter-title-${safeId}">${escapeHtml(title)}</title>
+      <desc id="scatter-desc-${safeId}">Each point is one tested model. ${escapeHtml(xLabel)} is plotted on the X-axis and ${escapeHtml(yLabel)} is plotted on the Y-axis.</desc>
+      ${ticks.map((ratio) => {
+        const x = margin.left + ratio * plotWidth;
+        const y = margin.top + ratio * plotHeight;
+        return `<line class="scatter-grid" x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${margin.top}" y2="${height - margin.bottom}"></line><line class="scatter-grid" x1="${margin.left}" x2="${width - margin.right}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}"></line>`;
+      }).join('\n')}
       <line class="axis-line" x1="${margin.left}" x2="${width - margin.right}" y1="${height - margin.bottom}" y2="${height - margin.bottom}"></line>
       <line class="axis-line" x1="${margin.left}" x2="${margin.left}" y1="${margin.top}" y2="${height - margin.bottom}"></line>
-      ${yTicks.map((tick) => `<g class="axis-y-tick"><text x="${margin.left - 12}" y="${yFor(tick).toFixed(1)}" text-anchor="end" dominant-baseline="middle">${fmt(tick, 0)}</text></g>`).join('\n')}
-      <path class="rank-curve" d="${escapeHtml(linePath)}"></path>
-      ${points.map((point) => `<a href="../${modelPath(point.row)}" aria-label="Open ${escapeHtml(point.row.label)} result"><circle class="rank-point ${point.index === 0 ? 'leader' : ''}" cx="${point.x.toFixed(1)}" cy="${point.y.toFixed(1)}" r="7"><title>#${escapeHtml(point.row.overall_rank)} ${escapeHtml(point.row.label)} · overall ${fmt(point.row.overall_score)}</title></circle></a>`).join('\n')}
-      ${points.map((point) => `<g class="axis-x-tick" transform="translate(${point.x.toFixed(1)} ${height - margin.bottom + 16}) rotate(-38)"><text text-anchor="end"><tspan class="axis-rank-label">#${escapeHtml(point.row.overall_rank)}</tspan> ${escapeHtml(shortLabel(point.row.label))}</text></g>`).join('\n')}
-      <text class="axis-title y-axis-title" x="24" y="${margin.top + plotHeight / 2}" transform="rotate(-90 24 ${margin.top + plotHeight / 2})" text-anchor="middle">Overall score</text>
-      <text class="axis-title x-axis-title" x="${margin.left + plotWidth / 2}" y="${height - 18}" text-anchor="middle">Tested models ordered by public rank</text>
+      ${ticks.map((ratio) => {
+        const xValueTick = xMin + ratio * xRange;
+        const yValueTick = yMin + ratio * yRange;
+        const x = margin.left + ratio * plotWidth;
+        const y = yFor(yValueTick);
+        return `<text class="scatter-tick" x="${x.toFixed(1)}" y="${height - margin.bottom + 22}" text-anchor="middle">${escapeHtml(formatX(xValueTick))}</text><text class="scatter-tick" x="${margin.left - 10}" y="${y.toFixed(1)}" text-anchor="end" dominant-baseline="middle">${escapeHtml(formatY(yValueTick))}</text>`;
+      }).join('\n')}
+      ${points.map((point) => `<a href="../${modelPath(point.row)}" aria-label="Open ${escapeHtml(point.row.label)} result"><circle class="scatter-point ${Number(point.row.overall_rank) <= 3 ? 'leader' : ''}" cx="${xFor(point.x).toFixed(1)}" cy="${yFor(point.y).toFixed(1)}" r="7"><title>#${escapeHtml(point.row.overall_rank)} ${escapeHtml(point.row.label)} · ${escapeHtml(xLabel)} ${escapeHtml(formatX(point.x))} · ${escapeHtml(yLabel)} ${escapeHtml(formatY(point.y))}</title></circle><text class="scatter-rank-label" x="${(xFor(point.x) + 10).toFixed(1)}" y="${(yFor(point.y) - 8).toFixed(1)}">#${escapeHtml(point.row.overall_rank)}</text></a>`).join('\n')}
+      <text class="axis-title scatter-x-title" x="${margin.left + plotWidth / 2}" y="${height - 18}" text-anchor="middle">${escapeHtml(xLabel)}</text>
+      <text class="axis-title scatter-y-title" x="20" y="${margin.top + plotHeight / 2}" transform="rotate(-90 20 ${margin.top + plotHeight / 2})" text-anchor="middle">${escapeHtml(yLabel)}</text>
     </svg>
+  </figure>`;
+}
+
+function tradeoffScatterMaps(rows) {
+  const telemetry = new Map(rows.map((row) => [row.id, publicTelemetry(row)]));
+  const getTelemetry = (row) => telemetry.get(row.id) ?? publicTelemetry(row);
+  return `<div class="tradeoff-scatter-grid">
+    ${scatterPlotPanel({
+      title: 'Cost × overall',
+      xLabel: 'Measured cost',
+      yLabel: 'Overall score',
+      rows,
+      xValue: (row) => getTelemetry(row).cost,
+      yValue: (row) => getTelemetry(row).overall,
+      formatX: fmtCost,
+      formatY: (value) => fmt(value, 1),
+    })}
+    ${scatterPlotPanel({
+      title: 'Runtime × overall',
+      xLabel: 'Avg seconds per item',
+      yLabel: 'Overall score',
+      rows,
+      xValue: (row) => getTelemetry(row).avgSeconds,
+      yValue: (row) => getTelemetry(row).overall,
+      formatX: (value) => `${fmtCompactNumber(value)}s`,
+      formatY: (value) => fmt(value, 1),
+    })}
+    ${scatterPlotPanel({
+      title: 'Tokens × cost',
+      xLabel: 'Public token volume',
+      yLabel: 'Measured cost',
+      rows,
+      xValue: (row) => getTelemetry(row).tokenVolume,
+      yValue: (row) => getTelemetry(row).cost,
+      formatX: fmtCompactNumber,
+      formatY: fmtCost,
+    })}
   </div>`;
 }
 
@@ -949,7 +1033,7 @@ async function writeRankingPage() {
 
     <section class="section-shell ranking-chart-grid" aria-label="Ranking charts">
       ${rankingChartCard('Overall ladder', 'Every ranked entrant ordered by public overall score.', `<div class="bar-chart">${rankingBarRows(chartRows, (row) => row.overall_score, (row) => `rank #${row.overall_rank}`)}</div>`, 'Overall is a lane mean, not a hidden replacement for source measurements.')}
-      ${rankingChartCard('Rank × overall score', 'X-axis orders all tested models by public rank; Y-axis shows overall score.', rankingAxisChart(chartRows), 'The score band is zoomed so rank gaps remain readable while every plotted point still links to its public model result.', 'axis-chart-card')}
+      ${rankingChartCard('Tradeoff scatter maps', 'Each point is one tested model at the intersection of two public telemetry axes.', tradeoffScatterMaps(chartRows), 'Use these maps to read quality versus cost, speed, and token volume. Upper-left is usually the best region for score tradeoffs; lower-left is best for token/cost efficiency.', 'axis-chart-card')}
       ${rankingChartCard('Lane contrast', 'Top eight entrants with Full, SWE, and Hard Intelligence shown side by side.', `<div class="lane-compare-chart">${laneComparisonRows(topLaneRows)}</div>`, 'Hard Intelligence is shown as its own lane so cross-lane strengths and weaknesses stay visible.')}
       ${rankingChartCard('Measured cost context', 'Cost is shown because deployment economics matter, but it does not secretly rewrite capability scores.', `<div class="bar-chart compact">${costRows(chartRows)}</div>`, 'Very expensive rows are not punished twice; cost is visible telemetry and part of the public interpretation.')}
       ${rankingChartCard('Lane balance pressure', 'Largest gap between each entrant’s strongest and weakest measured major lane.', `<div class="bar-chart compact">${laneBalancePressureRows(chartRows)}</div>`, 'Lower pressure means a more even profile; higher pressure explains why one strong lane may not lift the overall rank by itself.', 'balance-chart-card')}
