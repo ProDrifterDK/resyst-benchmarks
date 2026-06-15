@@ -34,7 +34,10 @@
         "decode": 24.473,
         "cost": 2.437015,
         "cost_basis": "provider_reported",
-        "prompt_count": 43
+        "prompt_count": 43,
+        "prompt_tokens": 427720,
+        "output_tokens": 3148,
+        "reasoning_tokens": 3280
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
@@ -47,7 +50,10 @@
         "reliability": 100,
         "cost": 1.63434,
         "time_s": 1050.23,
-        "prompt_count": 24
+        "prompt_count": 24,
+        "prompt_tokens": 7530,
+        "output_tokens": 6730,
+        "reasoning_tokens": 46493
       },
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
@@ -85,31 +91,31 @@
         "cost": 4.0713550000000005,
         "cost_per_scored_item": 0.054285,
         "avgSeconds": 19.5668,
-        "tokenVolume": 1532,
-        "tokenPerScoredItem": 20.43,
+        "tokenVolume": 496433,
+        "tokenPerScoredItem": 6619.11,
         "overall": 88.2237,
         "scored_items": 75,
         "tokens": {
-          "recorded_total": 1532,
-          "per_scored_item_recorded": 20.43,
-          "per_covered_item": 191.5,
-          "covered_items": 8,
-          "coverage_pct": 10.67,
-          "status": "limited",
+          "recorded_total": 496433,
+          "per_scored_item_recorded": 6619.11,
+          "per_covered_item": 6619.11,
+          "covered_items": 75,
+          "coverage_pct": 100,
+          "status": "complete",
           "lanes": {
             "full": {
               "item_count": 43,
-              "recorded_total": null,
-              "per_item_recorded": null,
-              "status": "missing",
-              "basis": "missing"
+              "recorded_total": 434148,
+              "per_item_recorded": 10096.47,
+              "status": "recorded",
+              "basis": "direct_fields"
             },
             "swe": {
               "item_count": 24,
-              "recorded_total": null,
-              "per_item_recorded": null,
-              "status": "missing",
-              "basis": "missing"
+              "recorded_total": 60753,
+              "per_item_recorded": 2531.38,
+              "status": "recorded",
+              "basis": "direct_fields"
             },
             "hard": {
               "item_count": 8,
@@ -172,7 +178,10 @@
         "cost": 0.079311,
         "cost_basis": "provider_reported_or_project_pricing",
         "prompt_count": 43,
-        "total_time_s": 197.88
+        "total_time_s": 197.88,
+        "prompt_tokens": 536612,
+        "output_tokens": 7140,
+        "reasoning_tokens": 7807
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
@@ -185,7 +194,10 @@
         "reliability": 100,
         "cost": 0.007089,
         "time_s": 198.43,
-        "prompt_count": 24
+        "prompt_count": 24,
+        "prompt_tokens": 7902,
+        "output_tokens": 5910,
+        "reasoning_tokens": 15456
       },
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
@@ -223,31 +235,31 @@
         "cost": 0.22499804,
         "cost_per_scored_item": 0.000733,
         "avgSeconds": 5.9151,
-        "tokenVolume": 540797,
-        "tokenPerScoredItem": 1761.55,
+        "tokenVolume": 1121624,
+        "tokenPerScoredItem": 3653.5,
         "overall": 86.7613,
         "scored_items": 307,
         "tokens": {
-          "recorded_total": 540797,
-          "per_scored_item_recorded": 1761.55,
-          "per_covered_item": 2253.32,
-          "covered_items": 240,
-          "coverage_pct": 78.18,
-          "status": "limited",
+          "recorded_total": 1121624,
+          "per_scored_item_recorded": 3653.5,
+          "per_covered_item": 3653.5,
+          "covered_items": 307,
+          "coverage_pct": 100,
+          "status": "complete",
           "lanes": {
             "full": {
               "item_count": 43,
-              "recorded_total": null,
-              "per_item_recorded": null,
-              "status": "missing",
-              "basis": "missing"
+              "recorded_total": 551559,
+              "per_item_recorded": 12826.95,
+              "status": "recorded",
+              "basis": "direct_fields"
             },
             "swe": {
               "item_count": 24,
-              "recorded_total": null,
-              "per_item_recorded": null,
-              "status": "missing",
-              "basis": "missing"
+              "recorded_total": 29268,
+              "per_item_recorded": 1219.5,
+              "status": "recorded",
+              "basis": "direct_fields"
             },
             "hard": {
               "item_count": 240,
@@ -309,7 +321,10 @@
         "decode": 29.802,
         "cost": 5.53418,
         "cost_basis": "provider_reported",
-        "prompt_count": 43
+        "prompt_count": 43,
+        "prompt_tokens": 852365,
+        "output_tokens": 10848,
+        "reasoning_tokens": 1575
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
@@ -322,7 +337,10 @@
         "reliability": 100,
         "cost": 0.44712,
         "time_s": 209.77,
-        "prompt_count": 24
+        "prompt_count": 24,
+        "prompt_tokens": 12039,
+        "output_tokens": 13766,
+        "reasoning_tokens": 1711
       },
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
@@ -368,31 +386,31 @@
         "cost": 6.11454,
         "cost_per_scored_item": 0.081527,
         "avgSeconds": 10.4308,
-        "tokenVolume": 10101,
-        "tokenPerScoredItem": 134.68,
+        "tokenVolume": 902405,
+        "tokenPerScoredItem": 12032.07,
         "overall": 84.4533,
         "scored_items": 75,
         "tokens": {
-          "recorded_total": 10101,
-          "per_scored_item_recorded": 134.68,
-          "per_covered_item": 1262.63,
-          "covered_items": 8,
-          "coverage_pct": 10.67,
-          "status": "limited",
+          "recorded_total": 902405,
+          "per_scored_item_recorded": 12032.07,
+          "per_covered_item": 12032.07,
+          "covered_items": 75,
+          "coverage_pct": 100,
+          "status": "complete",
           "lanes": {
             "full": {
               "item_count": 43,
-              "recorded_total": null,
-              "per_item_recorded": null,
-              "status": "missing",
-              "basis": "missing"
+              "recorded_total": 864788,
+              "per_item_recorded": 20111.35,
+              "status": "recorded",
+              "basis": "direct_fields"
             },
             "swe": {
               "item_count": 24,
-              "recorded_total": null,
-              "per_item_recorded": null,
-              "status": "missing",
-              "basis": "missing"
+              "recorded_total": 27516,
+              "per_item_recorded": 1146.5,
+              "status": "recorded",
+              "basis": "direct_fields"
             },
             "hard": {
               "item_count": 8,
@@ -455,7 +473,10 @@
         "cost": 1.010705,
         "cost_basis": "provider_reported_or_openrouter_pricing",
         "prompt_count": 43,
-        "total_time_s": 310.8
+        "total_time_s": 310.8,
+        "prompt_tokens": 503955,
+        "output_tokens": 3928,
+        "reasoning_tokens": 24380
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
@@ -468,7 +489,10 @@
         "reliability": 100,
         "cost": 0.491144,
         "time_s": 290.68,
-        "prompt_count": 24
+        "prompt_count": 24,
+        "prompt_tokens": 8499,
+        "output_tokens": 8162,
+        "reasoning_tokens": 44993
       },
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
@@ -511,31 +535,31 @@
         "cost": 1.6457935,
         "cost_per_scored_item": 0.021944,
         "avgSeconds": 9.1303,
-        "tokenVolume": 32774,
-        "tokenPerScoredItem": 436.99,
+        "tokenVolume": 626691,
+        "tokenPerScoredItem": 8355.88,
         "overall": 83.3767,
         "scored_items": 75,
         "tokens": {
-          "recorded_total": 32774,
-          "per_scored_item_recorded": 436.99,
-          "per_covered_item": 4096.75,
-          "covered_items": 8,
-          "coverage_pct": 10.67,
-          "status": "limited",
+          "recorded_total": 626691,
+          "per_scored_item_recorded": 8355.88,
+          "per_covered_item": 8355.88,
+          "covered_items": 75,
+          "coverage_pct": 100,
+          "status": "complete",
           "lanes": {
             "full": {
               "item_count": 43,
-              "recorded_total": null,
-              "per_item_recorded": null,
-              "status": "missing",
-              "basis": "missing"
+              "recorded_total": 532263,
+              "per_item_recorded": 12378.21,
+              "status": "recorded",
+              "basis": "direct_fields"
             },
             "swe": {
               "item_count": 24,
-              "recorded_total": null,
-              "per_item_recorded": null,
-              "status": "missing",
-              "basis": "missing"
+              "recorded_total": 61654,
+              "per_item_recorded": 2568.92,
+              "status": "recorded",
+              "basis": "direct_fields"
             },
             "hard": {
               "item_count": 8,
@@ -598,7 +622,10 @@
         "cost": 0.247676,
         "cost_basis": "provider_reported_or_project_pricing",
         "prompt_count": 43,
-        "total_time_s": 447.32
+        "total_time_s": 447.32,
+        "prompt_tokens": 536584,
+        "output_tokens": 7197,
+        "reasoning_tokens": 9055
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
@@ -611,7 +638,10 @@
         "reliability": 100,
         "cost": 0.032801,
         "time_s": 696.7,
-        "prompt_count": 24
+        "prompt_count": 24,
+        "prompt_tokens": 7902,
+        "output_tokens": 6269,
+        "reasoning_tokens": 27482
       },
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
@@ -653,31 +683,31 @@
         "cost": 0.33487897,
         "cost_per_scored_item": 0.004465,
         "avgSeconds": 23.2495,
-        "tokenVolume": 123996,
-        "tokenPerScoredItem": 1653.28,
+        "tokenVolume": 718485,
+        "tokenPerScoredItem": 9579.8,
         "overall": 83.365,
         "scored_items": 75,
         "tokens": {
-          "recorded_total": 123996,
-          "per_scored_item_recorded": 1653.28,
-          "per_covered_item": 15499.5,
-          "covered_items": 8,
-          "coverage_pct": 10.67,
-          "status": "limited",
+          "recorded_total": 718485,
+          "per_scored_item_recorded": 9579.8,
+          "per_covered_item": 9579.8,
+          "covered_items": 75,
+          "coverage_pct": 100,
+          "status": "complete",
           "lanes": {
             "full": {
               "item_count": 43,
-              "recorded_total": null,
-              "per_item_recorded": null,
-              "status": "missing",
-              "basis": "missing"
+              "recorded_total": 552836,
+              "per_item_recorded": 12856.65,
+              "status": "recorded",
+              "basis": "direct_fields"
             },
             "swe": {
               "item_count": 24,
-              "recorded_total": null,
-              "per_item_recorded": null,
-              "status": "missing",
-              "basis": "missing"
+              "recorded_total": 41653,
+              "per_item_recorded": 1735.54,
+              "status": "recorded",
+              "basis": "direct_fields"
             },
             "hard": {
               "item_count": 8,
@@ -739,7 +769,10 @@
         "decode": 44.996,
         "cost": 0.66922,
         "cost_basis": "provider_reported",
-        "prompt_count": 43
+        "prompt_count": 43,
+        "prompt_tokens": 537183,
+        "output_tokens": 5678,
+        "reasoning_tokens": 25020
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
@@ -752,7 +785,10 @@
         "reliability": 100,
         "cost": 0.181609,
         "time_s": 740.56,
-        "prompt_count": 24
+        "prompt_count": 24,
+        "prompt_tokens": 7983,
+        "output_tokens": 7572,
+        "reasoning_tokens": 38196
       },
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
@@ -797,31 +833,31 @@
         "cost": 0.9062727500000001,
         "cost_per_scored_item": 0.012084,
         "avgSeconds": 22.7093,
-        "tokenVolume": 29421,
-        "tokenPerScoredItem": 392.28,
+        "tokenVolume": 651053,
+        "tokenPerScoredItem": 8680.71,
         "overall": 80.7086,
         "scored_items": 75,
         "tokens": {
-          "recorded_total": 29421,
-          "per_scored_item_recorded": 392.28,
-          "per_covered_item": 3677.63,
-          "covered_items": 8,
-          "coverage_pct": 10.67,
-          "status": "limited",
+          "recorded_total": 651053,
+          "per_scored_item_recorded": 8680.71,
+          "per_covered_item": 8680.71,
+          "covered_items": 75,
+          "coverage_pct": 100,
+          "status": "complete",
           "lanes": {
             "full": {
               "item_count": 43,
-              "recorded_total": null,
-              "per_item_recorded": null,
-              "status": "missing",
-              "basis": "missing"
+              "recorded_total": 567881,
+              "per_item_recorded": 13206.53,
+              "status": "recorded",
+              "basis": "direct_fields"
             },
             "swe": {
               "item_count": 24,
-              "recorded_total": null,
-              "per_item_recorded": null,
-              "status": "missing",
-              "basis": "missing"
+              "recorded_total": 53751,
+              "per_item_recorded": 2239.63,
+              "status": "recorded",
+              "basis": "direct_fields"
             },
             "hard": {
               "item_count": 8,
@@ -883,7 +919,10 @@
         "decode": 24.334,
         "cost": 0.108666,
         "cost_basis": "provider_reported",
-        "prompt_count": 43
+        "prompt_count": 43,
+        "prompt_tokens": 410461,
+        "output_tokens": 4809,
+        "reasoning_tokens": 9163
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
@@ -896,7 +935,10 @@
         "reliability": 100,
         "cost": 0.047882,
         "time_s": 1116.23,
-        "prompt_count": 24
+        "prompt_count": 24,
+        "prompt_tokens": 11610,
+        "output_tokens": 10043,
+        "reasoning_tokens": 28072
       },
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
@@ -934,31 +976,31 @@
         "cost": 0.1823699,
         "cost_per_scored_item": 0.002432,
         "avgSeconds": 27.524,
-        "tokenVolume": 25113,
-        "tokenPerScoredItem": 334.84,
+        "tokenVolume": 499271,
+        "tokenPerScoredItem": 6656.95,
         "overall": 79.6603,
         "scored_items": 75,
         "tokens": {
-          "recorded_total": 25113,
-          "per_scored_item_recorded": 334.84,
-          "per_covered_item": 3139.13,
-          "covered_items": 8,
-          "coverage_pct": 10.67,
-          "status": "limited",
+          "recorded_total": 499271,
+          "per_scored_item_recorded": 6656.95,
+          "per_covered_item": 6656.95,
+          "covered_items": 75,
+          "coverage_pct": 100,
+          "status": "complete",
           "lanes": {
             "full": {
               "item_count": 43,
-              "recorded_total": null,
-              "per_item_recorded": null,
-              "status": "missing",
-              "basis": "missing"
+              "recorded_total": 424433,
+              "per_item_recorded": 9870.53,
+              "status": "recorded",
+              "basis": "direct_fields"
             },
             "swe": {
               "item_count": 24,
-              "recorded_total": null,
-              "per_item_recorded": null,
-              "status": "missing",
-              "basis": "missing"
+              "recorded_total": 49725,
+              "per_item_recorded": 2071.88,
+              "status": "recorded",
+              "basis": "direct_fields"
             },
             "hard": {
               "item_count": 8,
@@ -1147,7 +1189,10 @@
         "decode": 23.392,
         "cost": 0.003093,
         "cost_basis": "minimax_plus_quota_equivalent_20usd_1.7b_tokens",
-        "prompt_count": 43
+        "prompt_count": 43,
+        "prompt_tokens": 262622,
+        "output_tokens": 14012,
+        "reasoning_tokens_estimate": 8039
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8 · direct extra-high reasoning",
@@ -1216,24 +1261,24 @@
         "cost": 0.00408662,
         "cost_per_scored_item": 0.000054,
         "avgSeconds": 21.9386,
-        "tokenVolume": 84433,
-        "tokenPerScoredItem": 1125.77,
+        "tokenVolume": 369106,
+        "tokenPerScoredItem": 4921.41,
         "overall": 74.629,
         "scored_items": 75,
         "tokens": {
-          "recorded_total": 84433,
-          "per_scored_item_recorded": 1125.77,
-          "per_covered_item": 2638.53,
-          "covered_items": 32,
-          "coverage_pct": 42.67,
-          "status": "limited",
+          "recorded_total": 369106,
+          "per_scored_item_recorded": 4921.41,
+          "per_covered_item": 4921.41,
+          "covered_items": 75,
+          "coverage_pct": 100,
+          "status": "complete",
           "lanes": {
             "full": {
               "item_count": 43,
-              "recorded_total": null,
-              "per_item_recorded": null,
-              "status": "missing",
-              "basis": "missing"
+              "recorded_total": 284673,
+              "per_item_recorded": 6620.3,
+              "status": "estimated",
+              "basis": "direct_plus_estimated_fields"
             },
             "swe": {
               "item_count": 24,
@@ -1303,7 +1348,10 @@
         "cost": 0.439739,
         "cost_basis": "provider_reported",
         "prompt_count": 43,
-        "total_time_s": 546.65
+        "total_time_s": 546.65,
+        "prompt_tokens": 507417,
+        "output_tokens": 3397,
+        "reasoning_tokens": 9359
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
@@ -1316,7 +1364,10 @@
         "reliability": 100,
         "cost": 0.129164,
         "time_s": 860.76,
-        "prompt_count": 24
+        "prompt_count": 24,
+        "prompt_tokens": 7389,
+        "output_tokens": 4494,
+        "reasoning_tokens": 27085
       },
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
@@ -1361,31 +1412,31 @@
         "cost": 0.7322077499999999,
         "cost_per_scored_item": 0.009763,
         "avgSeconds": 28.6025,
-        "tokenVolume": 89827,
-        "tokenPerScoredItem": 1197.69,
+        "tokenVolume": 648968,
+        "tokenPerScoredItem": 8652.91,
         "overall": 71.0061,
         "scored_items": 75,
         "tokens": {
-          "recorded_total": 89827,
-          "per_scored_item_recorded": 1197.69,
-          "per_covered_item": 11228.38,
-          "covered_items": 8,
-          "coverage_pct": 10.67,
-          "status": "limited",
+          "recorded_total": 648968,
+          "per_scored_item_recorded": 8652.91,
+          "per_covered_item": 8652.91,
+          "covered_items": 75,
+          "coverage_pct": 100,
+          "status": "complete",
           "lanes": {
             "full": {
               "item_count": 43,
-              "recorded_total": null,
-              "per_item_recorded": null,
-              "status": "missing",
-              "basis": "missing"
+              "recorded_total": 520173,
+              "per_item_recorded": 12097.05,
+              "status": "recorded",
+              "basis": "direct_fields"
             },
             "swe": {
               "item_count": 24,
-              "recorded_total": null,
-              "per_item_recorded": null,
-              "status": "missing",
-              "basis": "missing"
+              "recorded_total": 38968,
+              "per_item_recorded": 1623.67,
+              "status": "recorded",
+              "basis": "direct_fields"
             },
             "hard": {
               "item_count": 8,
@@ -1804,7 +1855,9 @@
           "nonzero_exit": 2,
           "reasoning_truncated": 1,
           "wrong_tool": 1
-        }
+        },
+        "input_tokens": 441388,
+        "reasoning_tokens_estimate": 17232
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=1 · scorer_v2.8 · local Vulkan",
@@ -1828,7 +1881,9 @@
           "low_recall": 4,
           "patch_rejected": 1,
           "tests_failed": 1
-        }
+        },
+        "input_tokens": 1661,
+        "reasoning_tokens_estimate": 1182
       },
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic local slice",
@@ -1886,38 +1941,38 @@
         "cost": 0,
         "cost_per_scored_item": 0,
         "avgSeconds": 21.524,
-        "tokenVolume": 465072,
-        "tokenPerScoredItem": 7882.58,
+        "tokenVolume": 487960,
+        "tokenPerScoredItem": 8270.51,
         "overall": 61.1894,
         "scored_items": 59,
         "tokens": {
-          "recorded_total": 465072,
-          "per_scored_item_recorded": 7882.58,
-          "per_covered_item": 7882.58,
+          "recorded_total": 487960,
+          "per_scored_item_recorded": 8270.51,
+          "per_covered_item": 8270.51,
           "covered_items": 59,
           "coverage_pct": 100,
           "status": "complete",
           "lanes": {
             "full": {
               "item_count": 43,
-              "recorded_total": 454156,
-              "per_item_recorded": 10561.77,
-              "status": "recorded",
-              "basis": "direct_fields"
+              "recorded_total": 471388,
+              "per_item_recorded": 10962.51,
+              "status": "estimated",
+              "basis": "direct_plus_estimated_fields"
             },
             "swe": {
               "item_count": 8,
-              "recorded_total": 4656,
-              "per_item_recorded": 582,
-              "status": "recorded",
-              "basis": "direct_fields"
+              "recorded_total": 5838,
+              "per_item_recorded": 729.75,
+              "status": "estimated",
+              "basis": "direct_plus_estimated_fields"
             },
             "hard": {
               "item_count": 8,
-              "recorded_total": 6260,
-              "per_item_recorded": 782.5,
-              "status": "recorded",
-              "basis": "direct_fields"
+              "recorded_total": 10734,
+              "per_item_recorded": 1341.75,
+              "status": "estimated",
+              "basis": "direct_plus_estimated_fields"
             }
           }
         },
