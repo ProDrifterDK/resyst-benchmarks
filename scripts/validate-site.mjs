@@ -405,7 +405,14 @@ for (const row of publicRows) {
   }
   if (Number(row.overall_score) !== Number(models.rows.find((source) => source.id === row.id)?.overall_score)) throw new Error(`${row.id} public telemetry rewrite changed overall score`);
 }
-if (publicRows.find((row) => row.id === 'gpt-5.5-openrouter-xhigh')?.telemetry.tokens.status !== 'limited') throw new Error('GPT-5.5 token telemetry must be labeled limited until Full/SWE token totals are recorded');
+const gpt55Telemetry = publicRows.find((row) => row.id === 'gpt-5.5-openrouter-xhigh')?.telemetry;
+if (gpt55Telemetry?.tokens.status !== 'complete' || gpt55Telemetry.tokens.lanes.full.status !== 'recorded' || gpt55Telemetry.tokens.lanes.swe.status !== 'recorded') {
+  throw new Error('GPT-5.5 token telemetry must be complete after recovered Full/SWE token totals are recorded');
+}
+const deepseekFlashTelemetry = publicRows.find((row) => row.id === 'deepseek-v4-flash-direct')?.telemetry;
+if (deepseekFlashTelemetry?.runtime.status !== 'limited' || deepseekFlashTelemetry.runtime.lanes.hard.status !== 'missing') {
+  throw new Error('DeepSeek V4 Flash runtime telemetry must remain limited until Hard Intelligence runtime is recovered or rerun');
+}
 if (publicRows.find((row) => row.id === 'step-3.7-flash-openrouter-xhigh')?.telemetry.tokens.status !== 'complete') throw new Error('Step 3.7 token telemetry should be complete after provider token usage normalization');
 for (const row of rankedRows) {
   const modelPage = `dist/models/${row.id}/index.html`;

@@ -883,9 +883,10 @@ function laneTokenTelemetry(lane) {
     basis = 'quota_total';
     confidence = 'recorded';
   } else if (measuredDirect > 0) {
-    recordedTotal = measuredDirect;
-    basis = 'direct_fields';
-    confidence = 'recorded';
+    const includesEstimatedReasoning = directReasoning === null && estimatedReasoning !== null;
+    recordedTotal = includesEstimatedReasoning && estimatedDirect > measuredDirect ? estimatedDirect : measuredDirect;
+    basis = includesEstimatedReasoning && estimatedDirect > measuredDirect ? 'direct_plus_estimated_fields' : 'direct_fields';
+    confidence = basis === 'direct_plus_estimated_fields' ? 'estimated' : 'recorded';
   } else if (providerUsage > 0) {
     recordedTotal = providerUsage;
     basis = 'provider_usage';
