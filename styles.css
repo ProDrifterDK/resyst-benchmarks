@@ -672,6 +672,10 @@ td {
   grid-row: span 2;
 }
 
+.ranking-chart-card.balance-chart-card {
+  grid-column: 1 / -1;
+}
+
 .ranking-chart-head h2 {
   font-size: clamp(1.9rem, 4vw, 3.4rem);
   line-height: 0.94;
@@ -734,6 +738,10 @@ td {
 
 .cost-row .bar-track i {
   background: linear-gradient(90deg, var(--violet), var(--amber));
+}
+
+.pressure-row .bar-track i {
+  background: linear-gradient(90deg, var(--danger), var(--amber-2));
 }
 
 .lane-compare-chart {
