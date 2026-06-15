@@ -851,7 +851,10 @@ td {
 }
 
 .scatter-tick,
-.scatter-rank-label {
+.scatter-rank-label,
+.scatter-tooltip-title,
+.scatter-tooltip-subtitle,
+.scatter-tooltip-metric {
   fill: var(--paper-soft);
   font-family: var(--mono);
   font-size: 0.68rem;
@@ -860,6 +863,50 @@ td {
 .scatter-rank-label {
   fill: var(--amber-2);
   font-weight: 900;
+  paint-order: stroke fill;
+  stroke: rgba(5, 5, 8, 0.92);
+  stroke-linejoin: round;
+  stroke-width: 3px;
+}
+
+.scatter-rank-label.with-name {
+  fill: #fff3d2;
+  font-size: 0.58rem;
+  letter-spacing: -0.015em;
+}
+
+.scatter-rank-label.compact {
+  font-size: 0.68rem;
+}
+
+.scatter-hover-card {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+  filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.45));
+}
+
+.scatter-tooltip-box {
+  fill: rgba(5, 5, 8, 0.94);
+  stroke: rgba(246, 178, 78, 0.86);
+  stroke-width: 1.1;
+}
+
+.scatter-tooltip-title {
+  fill: #fff8eb;
+  font-size: 0.66rem;
+  font-weight: 900;
+}
+
+.scatter-tooltip-subtitle {
+  fill: var(--paper-soft);
+  font-size: 0.55rem;
+}
+
+.scatter-tooltip-metric {
+  fill: var(--amber-2);
+  font-size: 0.55rem;
+  font-weight: 800;
 }
 
 .scatter-point {
@@ -873,10 +920,15 @@ td {
   fill: var(--amber-2);
 }
 
-.scatter-chart a:focus-visible .scatter-point,
-.scatter-chart a:hover .scatter-point {
+.scatter-chart .scatter-link:focus-visible .scatter-point,
+.scatter-chart .scatter-link:hover .scatter-point {
   fill: #fff8eb;
   r: 9;
+}
+
+.scatter-chart .scatter-link:focus-visible .scatter-hover-card,
+.scatter-chart .scatter-link:hover .scatter-hover-card {
+  opacity: 1;
 }
 
 .cost-row .bar-track i {
