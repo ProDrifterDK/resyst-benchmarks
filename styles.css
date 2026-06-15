@@ -926,9 +926,8 @@ td {
   r: 9;
 }
 
-.scatter-chart .scatter-link:focus-visible .scatter-hover-card,
-.scatter-chart .scatter-link:hover .scatter-hover-card {
-  opacity: 1;
+.scatter-tooltip-layer {
+  pointer-events: none;
 }
 
 .cost-row .bar-track i {
