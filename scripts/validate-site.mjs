@@ -249,9 +249,11 @@ const namedScatterLabels = (rankingHtml.match(/scatter-rank-label with-name/g) ?
 const compactScatterLabels = (rankingHtml.match(/scatter-rank-label compact/g) ?? []).length;
 const hoverCards = (rankingHtml.match(/class="scatter-hover-card/g) ?? []).length;
 const tooltipLayers = (rankingHtml.match(/class="scatter-tooltip-layer"/g) ?? []).length;
+const laneBalanceRows = (rankingHtml.match(/class="bar-row pressure-row"/g) ?? []).length;
 const hoverLayerRules = (rankingHtml.match(/:hover ~ \.scatter-tooltip-layer/g) ?? []).length;
 const hoverHasRules = (rankingHtml.match(/:has\(\.scatter-point:hover\) ~ \.scatter-tooltip-layer/g) ?? []).length;
 const scatterChartBlocks = rankingHtml.match(/<svg class="scatter-chart"[\s\S]*?<\/svg>/g) ?? [];
+if (laneBalanceRows !== rankedCount) throw new Error(`expected Lane balance pressure rows for every ranked entrant; saw ${laneBalanceRows}`);
 if (namedScatterLabels !== rankedCount * 2) throw new Error(`expected inline short names only on Cost and Runtime scatter plots; saw ${namedScatterLabels}`);
 if (compactScatterLabels !== rankedCount) throw new Error(`expected compact rank-only labels on Recorded tokens/item × cost; saw ${compactScatterLabels}`);
 if (hoverCards !== rankedCount * 3) throw new Error(`expected hover cards for every scatter point; saw ${hoverCards}`);

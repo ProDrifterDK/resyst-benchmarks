@@ -1224,8 +1224,7 @@ function laneBalancePressureRows(rows) {
       return { row, strongest, weakest, pressure: strongest.value - weakest.value };
     })
     .filter(Boolean)
-    .sort((a, b) => b.pressure - a.pressure)
-    .slice(0, 10);
+    .sort((a, b) => b.pressure - a.pressure);
   const maxPressure = Math.max(...pressureRows.map((entry) => entry.pressure), 0.001);
   return pressureRows.map(({ row, strongest, weakest, pressure }) => {
     const bar = Math.max(2, Math.min(100, (pressure / maxPressure) * 100));
