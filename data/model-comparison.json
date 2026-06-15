@@ -87,6 +87,7 @@
         "failure_modes": {}
       },
       "hard_rank": 1,
+      "token_median_per_scored_item": 1091,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 4.0713550000000005,
@@ -100,6 +101,7 @@
           "recorded_total": 496433,
           "per_scored_item_recorded": 6619.11,
           "mean_per_scored_item": 6619.11,
+          "median_per_scored_item": 1091,
           "p90_per_scored_item": 14960.73,
           "per_covered_item": 6619.11,
           "covered_items": 75,
@@ -240,6 +242,7 @@
         "runtime_seconds": 6641.6749
       },
       "hard_rank": 5,
+      "token_median_per_scored_item": 1819,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.29006304,
@@ -253,6 +256,7 @@
           "recorded_total": 1368354,
           "per_scored_item_recorded": 4457.18,
           "mean_per_scored_item": 4457.18,
+          "median_per_scored_item": 1819,
           "p90_per_scored_item": 9278,
           "per_covered_item": 4457.18,
           "covered_items": 307,
@@ -394,6 +398,7 @@
         }
       },
       "hard_rank": 3,
+      "token_median_per_scored_item": 1132,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 6.11454,
@@ -407,6 +412,7 @@
           "recorded_total": 902405,
           "per_scored_item_recorded": 12032.07,
           "mean_per_scored_item": 12032.07,
+          "median_per_scored_item": 1132,
           "p90_per_scored_item": 30841,
           "per_covered_item": 12032.07,
           "covered_items": 75,
@@ -546,6 +552,7 @@
         "failure_modes": {}
       },
       "hard_rank": 2,
+      "token_median_per_scored_item": 2443,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 1.6457935,
@@ -559,6 +566,7 @@
           "recorded_total": 626691,
           "per_scored_item_recorded": 8355.88,
           "mean_per_scored_item": 8355.88,
+          "median_per_scored_item": 2443,
           "p90_per_scored_item": 15620,
           "per_covered_item": 8355.88,
           "covered_items": 75,
@@ -697,6 +705,7 @@
         }
       },
       "hard_rank": 4,
+      "token_median_per_scored_item": 1931,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.33487897,
@@ -710,6 +719,7 @@
           "recorded_total": 718485,
           "per_scored_item_recorded": 9579.8,
           "mean_per_scored_item": 9579.8,
+          "median_per_scored_item": 1931,
           "p90_per_scored_item": 22805.69,
           "per_covered_item": 9579.8,
           "covered_items": 75,
@@ -850,6 +860,7 @@
         }
       },
       "hard_rank": 7,
+      "token_median_per_scored_item": 2099,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.9062727500000001,
@@ -863,6 +874,7 @@
           "recorded_total": 651053,
           "per_scored_item_recorded": 8680.71,
           "mean_per_scored_item": 8680.71,
+          "median_per_scored_item": 2099,
           "p90_per_scored_item": 17071,
           "per_covered_item": 8680.71,
           "covered_items": 75,
@@ -996,6 +1008,7 @@
         }
       },
       "hard_rank": 8,
+      "token_median_per_scored_item": 1876,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.1823699,
@@ -1009,6 +1022,7 @@
           "recorded_total": 499271,
           "per_scored_item_recorded": 6656.95,
           "mean_per_scored_item": 6656.95,
+          "median_per_scored_item": 1876,
           "p90_per_scored_item": 17299.54,
           "per_covered_item": 6656.95,
           "covered_items": 75,
@@ -1126,6 +1140,7 @@
       "overall_score": 79.22,
       "overall_rank": 8,
       "token_p90_per_scored_item": 31166.24,
+      "token_median_per_scored_item": 1277,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 11.8149,
@@ -1139,6 +1154,7 @@
           "recorded_total": 1071201,
           "per_scored_item_recorded": 15988.07,
           "mean_per_scored_item": 15988.07,
+          "median_per_scored_item": 1277,
           "p90_per_scored_item": 31166.24,
           "per_covered_item": 15988.07,
           "covered_items": 67,
@@ -1287,6 +1303,7 @@
         }
       },
       "hard_rank": 6,
+      "token_median_per_scored_item": 1373,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.00408662,
@@ -1300,6 +1317,7 @@
           "recorded_total": 369106,
           "per_scored_item_recorded": 4921.41,
           "mean_per_scored_item": 4921.41,
+          "median_per_scored_item": 1373,
           "p90_per_scored_item": 12788,
           "per_covered_item": 4921.41,
           "covered_items": 75,
@@ -1441,6 +1459,7 @@
         }
       },
       "hard_rank": 9,
+      "token_median_per_scored_item": 1593,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.7322077499999999,
@@ -1454,6 +1473,7 @@
           "recorded_total": 648968,
           "per_scored_item_recorded": 8652.91,
           "mean_per_scored_item": 8652.91,
+          "median_per_scored_item": 1593,
           "p90_per_scored_item": 15362.09,
           "per_covered_item": 8652.91,
           "covered_items": 75,
@@ -1620,6 +1640,7 @@
       },
       "full_rank": 3,
       "swe_rank": 7,
+      "token_median_per_scored_item": 4395,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.49386395,
@@ -1633,6 +1654,7 @@
           "recorded_total": 863635,
           "per_scored_item_recorded": 11515.13,
           "mean_per_scored_item": 11515.13,
+          "median_per_scored_item": 4395,
           "p90_per_scored_item": 32369,
           "per_covered_item": 11515.13,
           "covered_items": 75,
@@ -1783,6 +1805,7 @@
         }
       },
       "hard_rank": 10,
+      "token_median_per_scored_item": 984,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.4891468,
@@ -1796,6 +1819,7 @@
           "recorded_total": 656434,
           "per_scored_item_recorded": 8752.45,
           "mean_per_scored_item": 8752.45,
+          "median_per_scored_item": 984,
           "p90_per_scored_item": 17722.49,
           "per_covered_item": 8752.45,
           "covered_items": 75,
@@ -1979,6 +2003,7 @@
       "hard_rank": 11,
       "overall_rank": 13,
       "token_p90_per_scored_item": 26798,
+      "token_median_per_scored_item": 764,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0,
@@ -1992,6 +2017,7 @@
           "recorded_total": 487960,
           "per_scored_item_recorded": 8270.51,
           "mean_per_scored_item": 8270.51,
+          "median_per_scored_item": 764,
           "p90_per_scored_item": 26798,
           "per_covered_item": 8270.51,
           "covered_items": 59,
