@@ -62,6 +62,7 @@
       "swe_rank": 5,
       "overall_score": 88.2237,
       "overall_rank": 1,
+      "token_p90_per_scored_item": 14960.73,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 93.401,
@@ -98,6 +99,8 @@
         "tokens": {
           "recorded_total": 496433,
           "per_scored_item_recorded": 6619.11,
+          "mean_per_scored_item": 6619.11,
+          "p90_per_scored_item": 14960.73,
           "per_covered_item": 6619.11,
           "covered_items": 75,
           "coverage_pct": 100,
@@ -206,6 +209,7 @@
       "swe_rank": 3,
       "overall_score": 86.0768,
       "overall_rank": 2,
+      "token_p90_per_scored_item": 9278,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 75.4803,
@@ -248,6 +252,8 @@
         "tokens": {
           "recorded_total": 1368354,
           "per_scored_item_recorded": 4457.18,
+          "mean_per_scored_item": 4457.18,
+          "p90_per_scored_item": 9278,
           "per_covered_item": 4457.18,
           "covered_items": 307,
           "coverage_pct": 100,
@@ -355,6 +361,7 @@
       "swe_rank": 2,
       "overall_score": 84.4533,
       "overall_rank": 3,
+      "token_p90_per_scored_item": 30841,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 81.3698,
@@ -399,6 +406,8 @@
         "tokens": {
           "recorded_total": 902405,
           "per_scored_item_recorded": 12032.07,
+          "mean_per_scored_item": 12032.07,
+          "p90_per_scored_item": 30841,
           "per_covered_item": 12032.07,
           "covered_items": 75,
           "coverage_pct": 100,
@@ -507,6 +516,7 @@
       "swe_rank": 9,
       "overall_score": 83.3767,
       "overall_rank": 4,
+      "token_p90_per_scored_item": 15620,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 87.75,
@@ -548,6 +558,8 @@
         "tokens": {
           "recorded_total": 626691,
           "per_scored_item_recorded": 8355.88,
+          "mean_per_scored_item": 8355.88,
+          "p90_per_scored_item": 15620,
           "per_covered_item": 8355.88,
           "covered_items": 75,
           "coverage_pct": 100,
@@ -656,6 +668,7 @@
       "swe_rank": 8,
       "overall_score": 83.365,
       "overall_rank": 5,
+      "token_p90_per_scored_item": 22805.69,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 78.375,
@@ -696,6 +709,8 @@
         "tokens": {
           "recorded_total": 718485,
           "per_scored_item_recorded": 9579.8,
+          "mean_per_scored_item": 9579.8,
+          "p90_per_scored_item": 22805.69,
           "per_covered_item": 9579.8,
           "covered_items": 75,
           "coverage_pct": 100,
@@ -803,6 +818,7 @@
       "swe_rank": 1,
       "overall_score": 80.7086,
       "overall_rank": 6,
+      "token_p90_per_scored_item": 17071,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 69.8958,
@@ -846,6 +862,8 @@
         "tokens": {
           "recorded_total": 651053,
           "per_scored_item_recorded": 8680.71,
+          "mean_per_scored_item": 8680.71,
+          "p90_per_scored_item": 17071,
           "per_covered_item": 8680.71,
           "covered_items": 75,
           "coverage_pct": 100,
@@ -953,6 +971,7 @@
       "swe_rank": 4,
       "overall_score": 79.6603,
       "overall_rank": 7,
+      "token_p90_per_scored_item": 17299.54,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 66.7708,
@@ -989,6 +1008,8 @@
         "tokens": {
           "recorded_total": 499271,
           "per_scored_item_recorded": 6656.95,
+          "mean_per_scored_item": 6656.95,
+          "p90_per_scored_item": 17299.54,
           "per_covered_item": 6656.95,
           "covered_items": 75,
           "coverage_pct": 100,
@@ -1104,6 +1125,7 @@
       "swe_rank": 6,
       "overall_score": 79.22,
       "overall_rank": 8,
+      "token_p90_per_scored_item": 31166.24,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 11.8149,
@@ -1116,6 +1138,8 @@
         "tokens": {
           "recorded_total": 1071201,
           "per_scored_item_recorded": 15988.07,
+          "mean_per_scored_item": 15988.07,
+          "p90_per_scored_item": 31166.24,
           "per_covered_item": 15988.07,
           "covered_items": 67,
           "coverage_pct": 100,
@@ -1230,6 +1254,7 @@
       "swe_rank": 10,
       "overall_score": 74.629,
       "overall_rank": 9,
+      "token_p90_per_scored_item": 12788,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 71.7969,
@@ -1274,6 +1299,8 @@
         "tokens": {
           "recorded_total": 369106,
           "per_scored_item_recorded": 4921.41,
+          "mean_per_scored_item": 4921.41,
+          "p90_per_scored_item": 12788,
           "per_covered_item": 4921.41,
           "covered_items": 75,
           "coverage_pct": 100,
@@ -1382,6 +1409,7 @@
       "full_rank": 5,
       "swe_rank": 12,
       "overall_rank": 10,
+      "token_p90_per_scored_item": 15362.09,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 66.4583,
@@ -1425,6 +1453,8 @@
         "tokens": {
           "recorded_total": 648968,
           "per_scored_item_recorded": 8652.91,
+          "mean_per_scored_item": 8652.91,
+          "p90_per_scored_item": 15362.09,
           "per_covered_item": 8652.91,
           "covered_items": 75,
           "coverage_pct": 100,
@@ -1538,6 +1568,7 @@
       "hard_rank": 12,
       "overall_score": 68.0565,
       "overall_rank": 11,
+      "token_p90_per_scored_item": 32369,
       "full": {
         "suite": "benchmark_core_v1 · full_suite_v3 · 43 prompts",
         "final": 89.79,
@@ -1601,6 +1632,8 @@
         "tokens": {
           "recorded_total": 863635,
           "per_scored_item_recorded": 11515.13,
+          "mean_per_scored_item": 11515.13,
+          "p90_per_scored_item": 32369,
           "per_covered_item": 11515.13,
           "covered_items": 75,
           "coverage_pct": 100,
@@ -1715,6 +1748,7 @@
       "swe_rank": 11,
       "overall_score": 67.5758,
       "overall_rank": 12,
+      "token_p90_per_scored_item": 17722.49,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 64.5573,
@@ -1761,6 +1795,8 @@
         "tokens": {
           "recorded_total": 656434,
           "per_scored_item_recorded": 8752.45,
+          "mean_per_scored_item": 8752.45,
+          "p90_per_scored_item": 17722.49,
           "per_covered_item": 8752.45,
           "covered_items": 75,
           "coverage_pct": 100,
@@ -1942,6 +1978,7 @@
       "swe_rank": 13,
       "hard_rank": 11,
       "overall_rank": 13,
+      "token_p90_per_scored_item": 26798,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0,
@@ -1954,6 +1991,8 @@
         "tokens": {
           "recorded_total": 487960,
           "per_scored_item_recorded": 8270.51,
+          "mean_per_scored_item": 8270.51,
+          "p90_per_scored_item": 26798,
           "per_covered_item": 8270.51,
           "covered_items": 59,
           "coverage_pct": 100,

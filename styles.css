@@ -931,6 +931,10 @@ td {
   filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.45));
 }
 
+.scatter-hover-card.is-visible {
+  opacity: 1;
+}
+
 .scatter-tooltip-box {
   fill: rgba(5, 5, 8, 0.94);
   stroke: rgba(246, 178, 78, 0.86);
@@ -982,7 +986,8 @@ td {
 }
 
 .scatter-chart .scatter-link:focus-visible .scatter-point,
-.scatter-chart .scatter-link:hover .scatter-point {
+.scatter-chart .scatter-link:hover .scatter-point,
+.scatter-chart .scatter-link:has(.scatter-point:hover) .scatter-point {
   fill: #fff8eb;
   r: 9;
 }
