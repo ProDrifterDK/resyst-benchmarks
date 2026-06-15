@@ -30,21 +30,13 @@ const shortDate = (iso) => {
 
 const sideValue = (map, side) => map?.[side] ?? 0;
 const modelPath = (row) => `models/${encodeURIComponent(row.id)}/`;
-const hardDifficultyCoverage = (row) => row.hard_intelligence?.difficulty_coverage ?? [];
-const hardIsCompleteCoverage = (row) => {
-  const coverage = hardDifficultyCoverage(row);
-  return ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'].every((difficulty) => coverage.includes(difficulty))
-    && Number(row.hard_intelligence?.seed_count ?? 0) >= 5;
-};
 const hardOverallIncluded = (row) => Boolean(
   row.hard_intelligence
   && row.hard_intelligence.overall_included !== false,
 );
-const hardIsPartial = (row) => Boolean(row.hard_intelligence && !hardIsCompleteCoverage(row));
 const hardCellAttrs = (row) => {
   if (!row.hard_intelligence) return ' class="pending-score-cell" aria-label="Not measured"';
-  if (!hardOverallIncluded(row)) return ' class="partial-score-cell" title="Partial Hard Intelligence diagnostic smoke; excluded from overall ranking"';
-  if (hardIsPartial(row)) return ' class="partial-score-cell" title="Partial Hard Intelligence diagnostic smoke; included in overall ranking"';
+  if (!hardOverallIncluded(row)) return ' class="pending-score-cell" aria-label="Diagnostic telemetry; not part of overall"';
   return '';
 };
 const prettyReason = (value = 'resolved') => String(value).replaceAll('_', ' ');
