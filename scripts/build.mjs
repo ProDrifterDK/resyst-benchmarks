@@ -9,7 +9,7 @@ const site = 'https://benchmarks.resyst.cl/';
 const logoUrl = `${site}assets/ResystLabs-Logo.png`;
 const ogImageVersion = '20260613-link-preview';
 const ogImageUrl = `${site}og.png?v=${ogImageVersion}`;
-const assetVersion = '20260615-ranking-tradeoff-scatter';
+const assetVersion = '20260615-ranking-scatter-rows';
 
 if (!existsSync(src)) {
   throw new Error('src directory is missing');

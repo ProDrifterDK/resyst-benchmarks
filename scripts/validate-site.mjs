@@ -135,8 +135,8 @@ await stat(path.join(root, 'dist/assets/icon-512.png'));
 const html = await readText('dist/index.html');
 assertSeoBasics('dist/index.html', html, 'https://benchmarks.resyst.cl/');
 for (const required of [
-  'styles.css?v=20260615-ranking-tradeoff-scatter',
-  'app.js?v=20260615-ranking-tradeoff-scatter',
+  'styles.css?v=20260615-ranking-scatter-rows',
+  'app.js?v=20260615-ranking-scatter-rows',
   'AI Model Benchmarks & Arena Replays | Resyst Labs',
   'Resyst Labs logo',
   'https://benchmarks.resyst.cl/',
@@ -263,6 +263,10 @@ for (const cssFile of ['src/styles.css', 'dist/styles.css']) {
   const css = await readText(cssFile);
   if (/\.encounter-switcher\s*\{[^}]*position\s*:\s*sticky/i.test(css)) {
     throw new Error(`${cssFile} keeps the encounter selector sticky; it must scroll as normal page content`);
+  }
+  const scatterGridRule = css.match(/\.tradeoff-scatter-grid\s*\{[^}]*\}/i)?.[0] ?? '';
+  if (!/grid-template-columns\s*:\s*minmax\(0,\s*1fr\)/i.test(scatterGridRule) || /repeat\(3/i.test(scatterGridRule)) {
+    throw new Error(`${cssFile} must render ranking tradeoff scatter plots as full-width stacked rows`);
   }
 }
 
