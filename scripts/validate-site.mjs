@@ -135,8 +135,8 @@ await stat(path.join(root, 'dist/assets/icon-512.png'));
 const html = await readText('dist/index.html');
 assertSeoBasics('dist/index.html', html, 'https://benchmarks.resyst.cl/');
 for (const required of [
-  'styles.css?v=20260615-ranking-scatter-labels',
-  'app.js?v=20260615-ranking-scatter-labels',
+  'styles.css?v=20260615-ranking-scatter-tooltip-layer',
+  'app.js?v=20260615-ranking-scatter-tooltip-layer',
   'AI Model Benchmarks & Arena Replays | Resyst Labs',
   'Resyst Labs logo',
   'https://benchmarks.resyst.cl/',
