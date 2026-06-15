@@ -9,7 +9,7 @@ const site = 'https://benchmarks.resyst.cl/';
 const logoUrl = `${site}assets/ResystLabs-Logo.png`;
 const ogImageVersion = '20260613-link-preview';
 const ogImageUrl = `${site}og.png?v=${ogImageVersion}`;
-const assetVersion = '20260615-ranking-copy-cleanup';
+const assetVersion = '20260615-ranking-balance-chart';
 
 if (!existsSync(src)) {
   throw new Error('src directory is missing');
@@ -767,8 +767,9 @@ function rankingBarRows(rows, getScore, getMeta = () => '') {
   }).join('\n');
 }
 
-function rankingChartCard(title, subtitle, body, note = '') {
-  return `<article class="ranking-chart-card glass-panel">
+function rankingChartCard(title, subtitle, body, note = '', className = '') {
+  const classes = ['ranking-chart-card', className, 'glass-panel'].filter(Boolean).join(' ');
+  return `<article class="${escapeHtml(classes)}">
     <div class="ranking-chart-head">
       <span class="panel-label">Chart</span>
       <h2>${escapeHtml(title)}</h2>
@@ -791,6 +792,31 @@ function laneComparisonRows(rows) {
         ${swe === null ? '' : `<span class="lane-bar swe" style="--lane:${Math.max(2, swe).toFixed(2)}%"><i>SWE ${fmt(swe)}</i></span>`}
         ${hard === null ? '' : `<span class="lane-bar hard" style="--lane:${Math.max(2, hard).toFixed(2)}%"><i>Hard ${fmt(hard)}</i></span>`}
       </div>
+    </div>`;
+  }).join('\n');
+}
+
+function laneBalancePressureRows(rows) {
+  const pressureRows = rows
+    .map((row) => {
+      const entries = laneScoreEntries(row);
+      if (entries.length < 2) return null;
+      const ordered = [...entries].sort((a, b) => b.value - a.value);
+      const strongest = ordered[0];
+      const weakest = ordered.at(-1);
+      return { row, strongest, weakest, pressure: strongest.value - weakest.value };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.pressure - a.pressure)
+    .slice(0, 10);
+  const maxPressure = Math.max(...pressureRows.map((entry) => entry.pressure), 0.001);
+  return pressureRows.map(({ row, strongest, weakest, pressure }) => {
+    const bar = Math.max(2, Math.min(100, (pressure / maxPressure) * 100));
+    return `<div class="bar-row pressure-row" style="--bar:${bar.toFixed(2)}%">
+      <a href="../${modelPath(row)}">${escapeHtml(row.label)}</a>
+      <div class="bar-track" aria-hidden="true"><i></i></div>
+      <strong>${fmt(pressure)}</strong>
+      <small>${escapeHtml(weakest.label)} ${fmt(weakest.value)} vs ${escapeHtml(strongest.label)} ${fmt(strongest.value)} · rank #${escapeHtml(row.overall_rank)}</small>
     </div>`;
   }).join('\n');
 }
@@ -874,6 +900,7 @@ async function writeRankingPage() {
       ${rankingChartCard('Overall ladder', 'Every ranked entrant ordered by public overall score.', `<div class="bar-chart">${rankingBarRows(chartRows, (row) => row.overall_score, (row) => `rank #${row.overall_rank}`)}</div>`, 'Overall is a lane mean, not a hidden replacement for source measurements.')}
       ${rankingChartCard('Lane contrast', 'Top eight entrants with Full, SWE, and Hard Intelligence shown side by side.', `<div class="lane-compare-chart">${laneComparisonRows(topLaneRows)}</div>`, 'Hard Intelligence is shown as its own lane so cross-lane strengths and weaknesses stay visible.')}
       ${rankingChartCard('Measured cost context', 'Cost is shown because deployment economics matter, but it does not secretly rewrite capability scores.', `<div class="bar-chart compact">${costRows(chartRows)}</div>`, 'Very expensive rows are not punished twice; cost is visible telemetry and part of the public interpretation.')}
+      ${rankingChartCard('Lane balance pressure', 'Largest gap between each entrant’s strongest and weakest measured major lane.', `<div class="bar-chart compact">${laneBalancePressureRows(chartRows)}</div>`, 'Lower pressure means a more even profile; higher pressure explains why one strong lane may not lift the overall rank by itself.', 'balance-chart-card')}
     </section>
 
     <section class="section-shell ranking-insight-grid" aria-label="Ranking explanation cards">
