@@ -817,8 +817,8 @@ td {
 
 .tradeoff-scatter-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.15rem;
   margin-top: 1.25rem;
 }
 
