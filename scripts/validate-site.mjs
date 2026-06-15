@@ -135,8 +135,8 @@ await stat(path.join(root, 'dist/assets/icon-512.png'));
 const html = await readText('dist/index.html');
 assertSeoBasics('dist/index.html', html, 'https://benchmarks.resyst.cl/');
 for (const required of [
-  'styles.css?v=20260615-ranking-balance-chart',
-  'app.js?v=20260615-ranking-balance-chart',
+  'styles.css?v=20260615-ranking-axis-chart',
+  'app.js?v=20260615-ranking-axis-chart',
   'AI Model Benchmarks & Arena Replays | Resyst Labs',
   'Resyst Labs logo',
   'https://benchmarks.resyst.cl/',
@@ -210,6 +210,8 @@ for (const required of [
   'Why the ranking looks like this.',
   'The public ranking is not a single vibe score',
   'Overall ladder',
+  'Rank × overall score',
+  'Tested models ordered by public rank',
   'Lane contrast',
   'Measured cost context',
   'Lane balance pressure',

@@ -9,7 +9,7 @@ const site = 'https://benchmarks.resyst.cl/';
 const logoUrl = `${site}assets/ResystLabs-Logo.png`;
 const ogImageVersion = '20260613-link-preview';
 const ogImageUrl = `${site}og.png?v=${ogImageVersion}`;
-const assetVersion = '20260615-ranking-balance-chart';
+const assetVersion = '20260615-ranking-axis-chart';
 
 if (!existsSync(src)) {
   throw new Error('src directory is missing');
@@ -780,6 +780,57 @@ function rankingChartCard(title, subtitle, body, note = '', className = '') {
   </article>`;
 }
 
+function rankingAxisChart(rows) {
+  const measured = rows.filter((row) => finiteScore(row.overall_score) !== null);
+  const width = 1040;
+  const height = 470;
+  const margin = { top: 28, right: 34, bottom: 128, left: 78 };
+  const plotWidth = width - margin.left - margin.right;
+  const plotHeight = height - margin.top - margin.bottom;
+  const scores = measured.map((row) => Number(row.overall_score));
+  const minScore = Math.min(...scores);
+  const maxScore = Math.max(...scores);
+  const yMin = Math.max(0, Math.floor((minScore - 5) / 5) * 5);
+  const yMax = Math.min(100, Math.ceil((maxScore + 5) / 5) * 5);
+  const yRange = Math.max(1, yMax - yMin);
+  const xFor = (index) => margin.left + (measured.length <= 1 ? plotWidth / 2 : (index / (measured.length - 1)) * plotWidth);
+  const yFor = (score) => margin.top + ((yMax - score) / yRange) * plotHeight;
+  const shortLabel = (label) => label.length > 18 ? `${label.slice(0, 17)}…` : label;
+  const points = measured.map((row, index) => ({
+    row,
+    index,
+    x: xFor(index),
+    y: yFor(Number(row.overall_score)),
+  }));
+  const linePath = points.map((point, index) => `${index === 0 ? 'M' : 'L'} ${point.x.toFixed(1)} ${point.y.toFixed(1)}`).join(' ');
+  const tickCount = 5;
+  const yTicks = Array.from({ length: tickCount }, (_, index) => yMin + (index / (tickCount - 1)) * yRange);
+  return `<div class="axis-chart-wrap">
+    <svg class="ranking-axis-chart" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="rank-score-title rank-score-desc">
+      <title id="rank-score-title">Rank by overall score across tested models</title>
+      <desc id="rank-score-desc">X-axis orders every tested model by public rank. Y-axis shows overall score on a zoomed score band.</desc>
+      <defs>
+        <linearGradient id="rankCurveGradient" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0%" stop-color="#c9a84c"></stop>
+          <stop offset="58%" stop-color="#67e8f9"></stop>
+          <stop offset="100%" stop-color="#9d7cff"></stop>
+        </linearGradient>
+      </defs>
+      <g class="axis-gridlines">
+        ${yTicks.map((tick) => `<line class="axis-grid" x1="${margin.left}" x2="${width - margin.right}" y1="${yFor(tick).toFixed(1)}" y2="${yFor(tick).toFixed(1)}"></line>`).join('\n')}
+      </g>
+      <line class="axis-line" x1="${margin.left}" x2="${width - margin.right}" y1="${height - margin.bottom}" y2="${height - margin.bottom}"></line>
+      <line class="axis-line" x1="${margin.left}" x2="${margin.left}" y1="${margin.top}" y2="${height - margin.bottom}"></line>
+      ${yTicks.map((tick) => `<g class="axis-y-tick"><text x="${margin.left - 12}" y="${yFor(tick).toFixed(1)}" text-anchor="end" dominant-baseline="middle">${fmt(tick, 0)}</text></g>`).join('\n')}
+      <path class="rank-curve" d="${escapeHtml(linePath)}"></path>
+      ${points.map((point) => `<a href="../${modelPath(point.row)}" aria-label="Open ${escapeHtml(point.row.label)} result"><circle class="rank-point ${point.index === 0 ? 'leader' : ''}" cx="${point.x.toFixed(1)}" cy="${point.y.toFixed(1)}" r="7"><title>#${escapeHtml(point.row.overall_rank)} ${escapeHtml(point.row.label)} · overall ${fmt(point.row.overall_score)}</title></circle></a>`).join('\n')}
+      ${points.map((point) => `<g class="axis-x-tick" transform="translate(${point.x.toFixed(1)} ${height - margin.bottom + 16}) rotate(-38)"><text text-anchor="end"><tspan class="axis-rank-label">#${escapeHtml(point.row.overall_rank)}</tspan> ${escapeHtml(shortLabel(point.row.label))}</text></g>`).join('\n')}
+      <text class="axis-title y-axis-title" x="24" y="${margin.top + plotHeight / 2}" transform="rotate(-90 24 ${margin.top + plotHeight / 2})" text-anchor="middle">Overall score</text>
+      <text class="axis-title x-axis-title" x="${margin.left + plotWidth / 2}" y="${height - 18}" text-anchor="middle">Tested models ordered by public rank</text>
+    </svg>
+  </div>`;
+}
+
 function laneComparisonRows(rows) {
   return rows.map((row) => {
     const full = finiteScore(row.full?.final);
@@ -898,6 +949,7 @@ async function writeRankingPage() {
 
     <section class="section-shell ranking-chart-grid" aria-label="Ranking charts">
       ${rankingChartCard('Overall ladder', 'Every ranked entrant ordered by public overall score.', `<div class="bar-chart">${rankingBarRows(chartRows, (row) => row.overall_score, (row) => `rank #${row.overall_rank}`)}</div>`, 'Overall is a lane mean, not a hidden replacement for source measurements.')}
+      ${rankingChartCard('Rank × overall score', 'X-axis orders all tested models by public rank; Y-axis shows overall score.', rankingAxisChart(chartRows), 'The score band is zoomed so rank gaps remain readable while every plotted point still links to its public model result.', 'axis-chart-card')}
       ${rankingChartCard('Lane contrast', 'Top eight entrants with Full, SWE, and Hard Intelligence shown side by side.', `<div class="lane-compare-chart">${laneComparisonRows(topLaneRows)}</div>`, 'Hard Intelligence is shown as its own lane so cross-lane strengths and weaknesses stay visible.')}
       ${rankingChartCard('Measured cost context', 'Cost is shown because deployment economics matter, but it does not secretly rewrite capability scores.', `<div class="bar-chart compact">${costRows(chartRows)}</div>`, 'Very expensive rows are not punished twice; cost is visible telemetry and part of the public interpretation.')}
       ${rankingChartCard('Lane balance pressure', 'Largest gap between each entrant’s strongest and weakest measured major lane.', `<div class="bar-chart compact">${laneBalancePressureRows(chartRows)}</div>`, 'Lower pressure means a more even profile; higher pressure explains why one strong lane may not lift the overall rank by itself.', 'balance-chart-card')}
