@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-15T04:32:14Z",
+  "generated_at": "2026-06-15T05:48:49Z",
   "synced_at": "2026-06-15T04:32:14Z",
   "summary": {
     "title": "Resyst Labs LLM Benchmark Rankings",
@@ -162,7 +162,7 @@
     {
       "id": "deepseek-v4-flash-direct",
       "label": "DeepSeek V4 Flash",
-      "basis": "DeepSeek direct API",
+      "basis": "DeepSeek direct API · refreshed Hard Intelligence telemetry",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · rubric-calibrated-e55eb55",
         "final": 95.8,
@@ -204,45 +204,51 @@
       ],
       "full_rank": 1,
       "swe_rank": 3,
-      "overall_score": 86.7613,
+      "overall_score": 86.0768,
       "overall_rank": 2,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
-        "diagnostic_score": 77.5339,
+        "diagnostic_score": 75.4803,
         "record_count": 240,
-        "cost": 0.13859804,
-        "input_tokens": 91608,
-        "output_tokens": 449189,
+        "cost": 0.20366304,
+        "input_tokens": 120318,
+        "output_tokens": 25830,
         "api_status": {
           "ok": 240
         },
         "output_budget_valid": true,
         "lanes": {
-          "active_information_acquisition": 88.7031,
-          "online_adaptation_fast_learning": 58.4333,
-          "evidence_driven_self_repair": 83.3239,
-          "authority_salience_constraint_integrity": 79.6754
+          "active_information_acquisition": 80.7354,
+          "online_adaptation_fast_learning": 81.7014,
+          "evidence_driven_self_repair": 73.2767,
+          "authority_salience_constraint_integrity": 66.2077
         },
         "failure_modes": {
-          "prediction_explanation_mismatch": 10,
-          "blind_false_premise_agreement": 8,
-          "missing_required_type_field": 1
-        }
+          "prediction_explanation_mismatch": 11,
+          "blind_false_premise_agreement": 7,
+          "ignored_all_retrieved_evidence": 4,
+          "case_10": 1,
+          "case_7": 1,
+          "case_9": 1,
+          "regressed_public_case": 1
+        },
+        "reasoning_tokens": 641379,
+        "runtime_seconds": 6641.6749
       },
       "hard_rank": 5,
       "telemetry": {
         "scoring_role": "telemetry_only",
-        "cost": 0.22499804,
-        "cost_per_scored_item": 0.000733,
-        "avgSeconds": 5.9151,
-        "tokenVolume": 1121624,
-        "tokenPerScoredItem": 3653.5,
-        "overall": 86.7613,
+        "cost": 0.29006304,
+        "cost_per_scored_item": 0.000945,
+        "avgSeconds": 22.925,
+        "tokenVolume": 1368354,
+        "tokenPerScoredItem": 4457.18,
+        "overall": 86.0768,
         "scored_items": 307,
         "tokens": {
-          "recorded_total": 1121624,
-          "per_scored_item_recorded": 3653.5,
-          "per_covered_item": 3653.5,
+          "recorded_total": 1368354,
+          "per_scored_item_recorded": 4457.18,
+          "per_covered_item": 4457.18,
           "covered_items": 307,
           "coverage_pct": 100,
           "status": "complete",
@@ -263,20 +269,20 @@
             },
             "hard": {
               "item_count": 240,
-              "recorded_total": 540797,
-              "per_item_recorded": 2253.32,
+              "recorded_total": 787527,
+              "per_item_recorded": 3281.36,
               "status": "recorded",
               "basis": "direct_fields"
             }
           }
         },
         "runtime": {
-          "recorded_seconds": 396.31,
-          "seconds_per_timed_item": 5.9151,
-          "seconds_per_scored_item_recorded": 1.2909,
-          "covered_items": 67,
-          "coverage_pct": 21.82,
-          "status": "limited",
+          "recorded_seconds": 7037.9849,
+          "seconds_per_timed_item": 22.925,
+          "seconds_per_scored_item_recorded": 22.925,
+          "covered_items": 307,
+          "coverage_pct": 100,
+          "status": "complete",
           "lanes": {
             "full": {
               "item_count": 43,
@@ -294,10 +300,10 @@
             },
             "hard": {
               "item_count": 240,
-              "recorded_seconds": null,
-              "seconds_per_item": null,
-              "status": "missing",
-              "basis": "missing"
+              "recorded_seconds": 6641.6749,
+              "seconds_per_item": 27.6736,
+              "status": "recorded",
+              "basis": "total_seconds"
             }
           }
         }
