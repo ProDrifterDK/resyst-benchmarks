@@ -27,7 +27,7 @@
         "daily": 83.58,
         "efficiency": 56.1,
         "performance": 87.64,
-        "reliability": 100.0,
+        "reliability": 100,
         "pass_rate": 93.02,
         "avg_s": 7.214,
         "decode": 24.473,
@@ -43,7 +43,7 @@
         "daily": 65.44,
         "performance": 56.56,
         "efficiency": 36.53,
-        "reliability": 100.0,
+        "reliability": 100,
         "cost": 1.63434,
         "time_s": 1050.23,
         "prompt_count": 24
@@ -60,7 +60,7 @@
         "diagnostic_score": 93.401,
         "overall_included": true,
         "record_count": 8,
-        "cost": 0.0,
+        "cost": 0,
         "finish_reason_missing": true,
         "input_tokens_estimated": 1314,
         "output_tokens_estimated": 218,
@@ -74,11 +74,83 @@
           "active_information_acquisition": 93.0833,
           "online_adaptation_fast_learning": 98.125,
           "evidence_driven_self_repair": 82.3958,
-          "authority_salience_constraint_integrity": 100.0
+          "authority_salience_constraint_integrity": 100
         },
         "failure_modes": {}
       },
-      "hard_rank": 1
+      "hard_rank": 1,
+      "telemetry": {
+        "scoring_role": "telemetry_only",
+        "cost": 4.0713550000000005,
+        "cost_per_scored_item": 0.054285,
+        "avgSeconds": 19.5668,
+        "tokenVolume": 1532,
+        "tokenPerScoredItem": 20.43,
+        "overall": 88.2237,
+        "scored_items": 75,
+        "tokens": {
+          "recorded_total": 1532,
+          "per_scored_item_recorded": 20.43,
+          "per_covered_item": 191.5,
+          "covered_items": 8,
+          "coverage_pct": 10.67,
+          "status": "limited",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_total": null,
+              "per_item_recorded": null,
+              "status": "missing",
+              "basis": "missing"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_total": null,
+              "per_item_recorded": null,
+              "status": "missing",
+              "basis": "missing"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_total": 1532,
+              "per_item_recorded": 191.5,
+              "status": "estimated",
+              "basis": "estimated_fields"
+            }
+          }
+        },
+        "runtime": {
+          "recorded_seconds": 1467.5087,
+          "seconds_per_timed_item": 19.5668,
+          "seconds_per_scored_item_recorded": 19.5668,
+          "covered_items": 75,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_seconds": 310.202,
+              "seconds_per_item": 7.214,
+              "status": "recorded",
+              "basis": "average_seconds"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_seconds": 1050.23,
+              "seconds_per_item": 43.7596,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_seconds": 107.0767,
+              "seconds_per_item": 13.3846,
+              "status": "recorded",
+              "basis": "total_seconds"
+            }
+          }
+        }
+      }
     },
     {
       "id": "deepseek-v4-flash-direct",
@@ -92,7 +164,7 @@
         "daily": 95.35,
         "efficiency": 94.55,
         "performance": 93.5,
-        "reliability": 100.0,
+        "reliability": 100,
         "pass_rate": 97.67,
         "avg_s": 4.602,
         "decode": 77.095,
@@ -109,7 +181,7 @@
         "daily": 87.04,
         "performance": 85.59,
         "efficiency": 91.35,
-        "reliability": 100.0,
+        "reliability": 100,
         "cost": 0.007089,
         "time_s": 198.43,
         "prompt_count": 24
@@ -144,7 +216,79 @@
           "missing_required_type_field": 1
         }
       },
-      "hard_rank": 5
+      "hard_rank": 5,
+      "telemetry": {
+        "scoring_role": "telemetry_only",
+        "cost": 0.22499804,
+        "cost_per_scored_item": 0.000733,
+        "avgSeconds": 5.9151,
+        "tokenVolume": 540797,
+        "tokenPerScoredItem": 1761.55,
+        "overall": 86.7613,
+        "scored_items": 307,
+        "tokens": {
+          "recorded_total": 540797,
+          "per_scored_item_recorded": 1761.55,
+          "per_covered_item": 2253.32,
+          "covered_items": 240,
+          "coverage_pct": 78.18,
+          "status": "limited",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_total": null,
+              "per_item_recorded": null,
+              "status": "missing",
+              "basis": "missing"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_total": null,
+              "per_item_recorded": null,
+              "status": "missing",
+              "basis": "missing"
+            },
+            "hard": {
+              "item_count": 240,
+              "recorded_total": 540797,
+              "per_item_recorded": 2253.32,
+              "status": "recorded",
+              "basis": "direct_fields"
+            }
+          }
+        },
+        "runtime": {
+          "recorded_seconds": 396.31,
+          "seconds_per_timed_item": 5.9151,
+          "seconds_per_scored_item_recorded": 1.2909,
+          "covered_items": 67,
+          "coverage_pct": 21.82,
+          "status": "limited",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_seconds": 197.88,
+              "seconds_per_item": 4.6019,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_seconds": 198.43,
+              "seconds_per_item": 8.2679,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "hard": {
+              "item_count": 240,
+              "recorded_seconds": null,
+              "seconds_per_item": null,
+              "status": "missing",
+              "basis": "missing"
+            }
+          }
+        }
+      }
     },
     {
       "id": "claude-opus-4.8-openrouter-xhigh",
@@ -157,8 +301,8 @@
         "agentic": 94.68,
         "daily": 79.29,
         "efficiency": 44.44,
-        "performance": 79.0,
-        "reliability": 100.0,
+        "performance": 79,
+        "reliability": 100,
         "pass_rate": 93.02,
         "avg_s": 11.653,
         "decode": 29.802,
@@ -174,7 +318,7 @@
         "daily": 83.74,
         "performance": 84.67,
         "efficiency": 70.15,
-        "reliability": 100.0,
+        "reliability": 100,
         "cost": 0.44712,
         "time_s": 209.77,
         "prompt_count": 24
@@ -208,16 +352,88 @@
         "reasoning_mode": "OpenRouter reasoning",
         "lanes": {
           "active_information_acquisition": 93.0833,
-          "online_adaptation_fast_learning": 80.0,
+          "online_adaptation_fast_learning": 80,
           "evidence_driven_self_repair": 82.3958,
-          "authority_salience_constraint_integrity": 70.0
+          "authority_salience_constraint_integrity": 70
         },
         "failure_modes": {
           "blind_false_premise_agreement": 1,
           "prediction_explanation_mismatch": 1
         }
       },
-      "hard_rank": 3
+      "hard_rank": 3,
+      "telemetry": {
+        "scoring_role": "telemetry_only",
+        "cost": 6.11454,
+        "cost_per_scored_item": 0.081527,
+        "avgSeconds": 10.4308,
+        "tokenVolume": 10101,
+        "tokenPerScoredItem": 134.68,
+        "overall": 84.4533,
+        "scored_items": 75,
+        "tokens": {
+          "recorded_total": 10101,
+          "per_scored_item_recorded": 134.68,
+          "per_covered_item": 1262.63,
+          "covered_items": 8,
+          "coverage_pct": 10.67,
+          "status": "limited",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_total": null,
+              "per_item_recorded": null,
+              "status": "missing",
+              "basis": "missing"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_total": null,
+              "per_item_recorded": null,
+              "status": "missing",
+              "basis": "missing"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_total": 10101,
+              "per_item_recorded": 1262.63,
+              "status": "recorded",
+              "basis": "direct_fields"
+            }
+          }
+        },
+        "runtime": {
+          "recorded_seconds": 782.3123,
+          "seconds_per_timed_item": 10.4308,
+          "seconds_per_scored_item_recorded": 10.4308,
+          "covered_items": 75,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_seconds": 501.079,
+              "seconds_per_item": 11.653,
+              "status": "recorded",
+              "basis": "average_seconds"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_seconds": 209.77,
+              "seconds_per_item": 8.7404,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_seconds": 71.4633,
+              "seconds_per_item": 8.9329,
+              "status": "recorded",
+              "basis": "total_seconds"
+            }
+          }
+        }
+      }
     },
     {
       "id": "gemini-3.5-flash-openrouter",
@@ -228,10 +444,10 @@
         "final": 88.79,
         "capability": 93.55,
         "agentic": 91.87,
-        "daily": 87.0,
+        "daily": 87,
         "efficiency": 69.56,
         "performance": 87.61,
-        "reliability": 100.0,
+        "reliability": 100,
         "pass_rate": 93.02,
         "avg_s": 7.228,
         "decode": 99.619,
@@ -248,7 +464,7 @@
         "daily": 73.5,
         "performance": 78.11,
         "efficiency": 65.33,
-        "reliability": 100.0,
+        "reliability": 100,
         "cost": 0.491144,
         "time_s": 290.68,
         "prompt_count": 24
@@ -284,11 +500,83 @@
           "active_information_acquisition": 81.4167,
           "online_adaptation_fast_learning": 97.5,
           "evidence_driven_self_repair": 82.0833,
-          "authority_salience_constraint_integrity": 90.0
+          "authority_salience_constraint_integrity": 90
         },
         "failure_modes": {}
       },
-      "hard_rank": 2
+      "hard_rank": 2,
+      "telemetry": {
+        "scoring_role": "telemetry_only",
+        "cost": 1.6457935,
+        "cost_per_scored_item": 0.021944,
+        "avgSeconds": 9.1303,
+        "tokenVolume": 32774,
+        "tokenPerScoredItem": 436.99,
+        "overall": 83.3767,
+        "scored_items": 75,
+        "tokens": {
+          "recorded_total": 32774,
+          "per_scored_item_recorded": 436.99,
+          "per_covered_item": 4096.75,
+          "covered_items": 8,
+          "coverage_pct": 10.67,
+          "status": "limited",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_total": null,
+              "per_item_recorded": null,
+              "status": "missing",
+              "basis": "missing"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_total": null,
+              "per_item_recorded": null,
+              "status": "missing",
+              "basis": "missing"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_total": 32774,
+              "per_item_recorded": 4096.75,
+              "status": "recorded",
+              "basis": "direct_fields"
+            }
+          }
+        },
+        "runtime": {
+          "recorded_seconds": 684.7715,
+          "seconds_per_timed_item": 9.1303,
+          "seconds_per_scored_item_recorded": 9.1303,
+          "covered_items": 75,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_seconds": 310.8,
+              "seconds_per_item": 7.2279,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_seconds": 290.68,
+              "seconds_per_item": 12.1117,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_seconds": 83.2915,
+              "seconds_per_item": 10.4114,
+              "status": "recorded",
+              "basis": "total_seconds"
+            }
+          }
+        }
+      }
     },
     {
       "id": "deepseek-v4-pro-direct",
@@ -302,8 +590,8 @@
         "daily": 89.28,
         "efficiency": 80.14,
         "performance": 81.44,
-        "reliability": 100.0,
-        "pass_rate": 100.0,
+        "reliability": 100,
+        "pass_rate": 100,
         "avg_s": 10.403,
         "decode": 37.726,
         "cost": 0.247676,
@@ -319,7 +607,7 @@
         "daily": 60.42,
         "performance": 28.45,
         "efficiency": 75.81,
-        "reliability": 100.0,
+        "reliability": 100,
         "cost": 0.032801,
         "time_s": 696.7,
         "prompt_count": 24
@@ -349,16 +637,88 @@
         "reasoning_mode": "enabled",
         "lanes": {
           "active_information_acquisition": 81.4167,
-          "online_adaptation_fast_learning": 80.0,
+          "online_adaptation_fast_learning": 80,
           "evidence_driven_self_repair": 82.0833,
-          "authority_salience_constraint_integrity": 70.0
+          "authority_salience_constraint_integrity": 70
         },
         "failure_modes": {
           "blind_false_premise_agreement": 1,
           "prediction_explanation_mismatch": 1
         }
       },
-      "hard_rank": 4
+      "hard_rank": 4,
+      "telemetry": {
+        "scoring_role": "telemetry_only",
+        "cost": 0.33487897,
+        "cost_per_scored_item": 0.004465,
+        "avgSeconds": 23.2495,
+        "tokenVolume": 123996,
+        "tokenPerScoredItem": 1653.28,
+        "overall": 83.365,
+        "scored_items": 75,
+        "tokens": {
+          "recorded_total": 123996,
+          "per_scored_item_recorded": 1653.28,
+          "per_covered_item": 15499.5,
+          "covered_items": 8,
+          "coverage_pct": 10.67,
+          "status": "limited",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_total": null,
+              "per_item_recorded": null,
+              "status": "missing",
+              "basis": "missing"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_total": null,
+              "per_item_recorded": null,
+              "status": "missing",
+              "basis": "missing"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_total": 123996,
+              "per_item_recorded": 15499.5,
+              "status": "recorded",
+              "basis": "direct_fields"
+            }
+          }
+        },
+        "runtime": {
+          "recorded_seconds": 1743.7158,
+          "seconds_per_timed_item": 23.2495,
+          "seconds_per_scored_item_recorded": 23.2495,
+          "covered_items": 75,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_seconds": 447.32,
+              "seconds_per_item": 10.4028,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_seconds": 696.7,
+              "seconds_per_item": 29.0292,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_seconds": 599.6958,
+              "seconds_per_item": 74.962,
+              "status": "recorded",
+              "basis": "total_seconds"
+            }
+          }
+        }
+      }
     },
     {
       "id": "qwen3.7-max-openrouter-xhigh",
@@ -368,11 +728,11 @@
         "suite": "Prior models use full_suite_v2 with v3 16K/32K native-tool patch; Qwen3.7 Max uses full_suite_v3.",
         "final": 83.24,
         "capability": 92.37,
-        "agentic": 94.0,
+        "agentic": 94,
         "daily": 79.71,
         "efficiency": 63.72,
         "performance": 71.49,
-        "reliability": 100.0,
+        "reliability": 100,
         "pass_rate": 93.02,
         "avg_s": 16.212,
         "decode": 44.996,
@@ -388,7 +748,7 @@
         "daily": 74.14,
         "performance": 59.78,
         "efficiency": 63.83,
-        "reliability": 100.0,
+        "reliability": 100,
         "cost": 0.181609,
         "time_s": 740.56,
         "prompt_count": 24
@@ -422,15 +782,87 @@
         "reasoning_mode": "OpenRouter reasoning",
         "lanes": {
           "active_information_acquisition": 17.5,
-          "online_adaptation_fast_learning": 80.0,
+          "online_adaptation_fast_learning": 80,
           "evidence_driven_self_repair": 82.0833,
-          "authority_salience_constraint_integrity": 100.0
+          "authority_salience_constraint_integrity": 100
         },
         "failure_modes": {
           "prediction_explanation_mismatch": 1
         }
       },
-      "hard_rank": 7
+      "hard_rank": 7,
+      "telemetry": {
+        "scoring_role": "telemetry_only",
+        "cost": 0.9062727500000001,
+        "cost_per_scored_item": 0.012084,
+        "avgSeconds": 22.7093,
+        "tokenVolume": 29421,
+        "tokenPerScoredItem": 392.28,
+        "overall": 80.7086,
+        "scored_items": 75,
+        "tokens": {
+          "recorded_total": 29421,
+          "per_scored_item_recorded": 392.28,
+          "per_covered_item": 3677.63,
+          "covered_items": 8,
+          "coverage_pct": 10.67,
+          "status": "limited",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_total": null,
+              "per_item_recorded": null,
+              "status": "missing",
+              "basis": "missing"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_total": null,
+              "per_item_recorded": null,
+              "status": "missing",
+              "basis": "missing"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_total": 29421,
+              "per_item_recorded": 3677.63,
+              "status": "recorded",
+              "basis": "direct_fields"
+            }
+          }
+        },
+        "runtime": {
+          "recorded_seconds": 1703.2012,
+          "seconds_per_timed_item": 22.7093,
+          "seconds_per_scored_item_recorded": 22.7093,
+          "covered_items": 75,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_seconds": 697.116,
+              "seconds_per_item": 16.212,
+              "status": "recorded",
+              "basis": "average_seconds"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_seconds": 740.56,
+              "seconds_per_item": 30.8567,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_seconds": 265.5252,
+              "seconds_per_item": 33.1907,
+              "status": "recorded",
+              "basis": "total_seconds"
+            }
+          }
+        }
+      }
     },
     {
       "id": "minimax-m3-openrouter-xhigh",
@@ -444,7 +876,7 @@
         "daily": 83.48,
         "efficiency": 82.14,
         "performance": 74.91,
-        "reliability": 100.0,
+        "reliability": 100,
         "pass_rate": 86.05,
         "avg_s": 13.764,
         "decode": 24.334,
@@ -460,7 +892,7 @@
         "daily": 73.36,
         "performance": 55.88,
         "efficiency": 71.7,
-        "reliability": 100.0,
+        "reliability": 100,
         "cost": 0.047882,
         "time_s": 1116.23,
         "prompt_count": 24
@@ -489,13 +921,85 @@
           "active_information_acquisition": 17.5,
           "online_adaptation_fast_learning": 97.5,
           "evidence_driven_self_repair": 82.0833,
-          "authority_salience_constraint_integrity": 70.0
+          "authority_salience_constraint_integrity": 70
         },
         "failure_modes": {
           "blind_false_premise_agreement": 1
         }
       },
-      "hard_rank": 8
+      "hard_rank": 8,
+      "telemetry": {
+        "scoring_role": "telemetry_only",
+        "cost": 0.1823699,
+        "cost_per_scored_item": 0.002432,
+        "avgSeconds": 27.524,
+        "tokenVolume": 25113,
+        "tokenPerScoredItem": 334.84,
+        "overall": 79.6603,
+        "scored_items": 75,
+        "tokens": {
+          "recorded_total": 25113,
+          "per_scored_item_recorded": 334.84,
+          "per_covered_item": 3139.13,
+          "covered_items": 8,
+          "coverage_pct": 10.67,
+          "status": "limited",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_total": null,
+              "per_item_recorded": null,
+              "status": "missing",
+              "basis": "missing"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_total": null,
+              "per_item_recorded": null,
+              "status": "missing",
+              "basis": "missing"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_total": 25113,
+              "per_item_recorded": 3139.13,
+              "status": "recorded",
+              "basis": "direct_fields"
+            }
+          }
+        },
+        "runtime": {
+          "recorded_seconds": 2064.302,
+          "seconds_per_timed_item": 27.524,
+          "seconds_per_scored_item_recorded": 27.524,
+          "covered_items": 75,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_seconds": 591.852,
+              "seconds_per_item": 13.764,
+              "status": "recorded",
+              "basis": "average_seconds"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_seconds": 1116.23,
+              "seconds_per_item": 46.5096,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_seconds": 356.22,
+              "seconds_per_item": 44.5275,
+              "status": "recorded",
+              "basis": "total_seconds"
+            }
+          }
+        }
+      }
     },
     {
       "id": "claude-fable-5-openrouter-xhigh",
@@ -504,12 +1008,12 @@
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · full_suite_v3",
         "final": 77.02,
-        "capability": 86.0,
+        "capability": 86,
         "agentic": 82.26,
         "daily": 73.64,
         "efficiency": 36.64,
         "performance": 76.91,
-        "reliability": 100.0,
+        "reliability": 100,
         "pass_rate": 86.05,
         "avg_s": 12.735,
         "decode": 18.708,
@@ -529,7 +1033,7 @@
         "daily": 75.36,
         "performance": 79.02,
         "efficiency": 55.18,
-        "reliability": 100.0,
+        "reliability": 100,
         "cost": 1.02434,
         "time_s": 279.59,
         "prompt_count": 24,
@@ -538,10 +1042,10 @@
         "reasoning_tokens": 1804,
         "task_type_scores": {
           "multi_file_patch": 83.33,
-          "component_creation": 50.0,
+          "component_creation": 50,
           "software_audit_review": 92.92,
           "edge_case_discovery": 85.86,
-          "security_supply_chain": 95.0
+          "security_supply_chain": 95
         }
       },
       "notes": [
@@ -550,7 +1054,79 @@
       "full_rank": 12,
       "swe_rank": 6,
       "overall_score": 79.22,
-      "overall_rank": 8
+      "overall_rank": 8,
+      "telemetry": {
+        "scoring_role": "telemetry_only",
+        "cost": 11.8149,
+        "cost_per_scored_item": 0.176342,
+        "avgSeconds": 12.3463,
+        "tokenVolume": 1071201,
+        "tokenPerScoredItem": 15988.07,
+        "overall": 79.22,
+        "scored_items": 67,
+        "tokens": {
+          "recorded_total": 1071201,
+          "per_scored_item_recorded": 15988.07,
+          "per_covered_item": 15988.07,
+          "covered_items": 67,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_total": 1039279,
+              "per_item_recorded": 24169.28,
+              "status": "recorded",
+              "basis": "direct_fields"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_total": 31922,
+              "per_item_recorded": 1330.08,
+              "status": "recorded",
+              "basis": "direct_fields"
+            },
+            "hard": {
+              "item_count": 0,
+              "recorded_total": null,
+              "per_item_recorded": null,
+              "status": "not_run",
+              "basis": "not_run"
+            }
+          }
+        },
+        "runtime": {
+          "recorded_seconds": 827.2,
+          "seconds_per_timed_item": 12.3463,
+          "seconds_per_scored_item_recorded": 12.3463,
+          "covered_items": 67,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_seconds": 547.61,
+              "seconds_per_item": 12.7351,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_seconds": 279.59,
+              "seconds_per_item": 11.6496,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "hard": {
+              "item_count": 0,
+              "recorded_seconds": null,
+              "seconds_per_item": null,
+              "status": "not_run",
+              "basis": "not_run"
+            }
+          }
+        }
+      }
     },
     {
       "id": "minimax-m3-direct-anthropic",
@@ -564,7 +1140,7 @@
         "daily": 82.74,
         "efficiency": 84.23,
         "performance": 73.71,
-        "reliability": 100.0,
+        "reliability": 100,
         "pass_rate": 88.37,
         "avg_s": 14.377,
         "decode": 23.392,
@@ -580,8 +1156,8 @@
         "capability": 62.62,
         "daily": 60.93,
         "performance": 59.67,
-        "efficiency": 50.0,
-        "reliability": 100.0,
+        "efficiency": 50,
+        "reliability": 100,
         "cost": 0.000601,
         "cost_basis": "minimax_plus_quota_equivalent_20usd_1.7b_tokens_includes_cache_fields",
         "quota_fraction_pct": 0.003003529411764706,
@@ -626,14 +1202,86 @@
           "active_information_acquisition": 17.5,
           "online_adaptation_fast_learning": 98.5,
           "evidence_driven_self_repair": 71.1875,
-          "authority_salience_constraint_integrity": 100.0
+          "authority_salience_constraint_integrity": 100
         },
         "failure_modes": {
           "case_5": 1,
           "regressed_public_case": 1
         }
       },
-      "hard_rank": 6
+      "hard_rank": 6,
+      "telemetry": {
+        "scoring_role": "telemetry_only",
+        "cost": 0.00408662,
+        "cost_per_scored_item": 0.000054,
+        "avgSeconds": 21.9386,
+        "tokenVolume": 84433,
+        "tokenPerScoredItem": 1125.77,
+        "overall": 74.629,
+        "scored_items": 75,
+        "tokens": {
+          "recorded_total": 84433,
+          "per_scored_item_recorded": 1125.77,
+          "per_covered_item": 2638.53,
+          "covered_items": 32,
+          "coverage_pct": 42.67,
+          "status": "limited",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_total": null,
+              "per_item_recorded": null,
+              "status": "missing",
+              "basis": "missing"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_total": 51060,
+              "per_item_recorded": 2127.5,
+              "status": "recorded",
+              "basis": "quota_total"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_total": 33373,
+              "per_item_recorded": 4171.63,
+              "status": "recorded",
+              "basis": "quota_total"
+            }
+          }
+        },
+        "runtime": {
+          "recorded_seconds": 1645.3965,
+          "seconds_per_timed_item": 21.9386,
+          "seconds_per_scored_item_recorded": 21.9386,
+          "covered_items": 75,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_seconds": 618.211,
+              "seconds_per_item": 14.377,
+              "status": "recorded",
+              "basis": "average_seconds"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_seconds": 751.18,
+              "seconds_per_item": 31.2992,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_seconds": 276.0055,
+              "seconds_per_item": 34.5007,
+              "status": "recorded",
+              "basis": "total_seconds"
+            }
+          }
+        }
+      }
     },
     {
       "id": "kimi-k2.7-code-openrouter-xhigh",
@@ -647,7 +1295,7 @@
         "daily": 84.59,
         "efficiency": 69.56,
         "performance": 76.94,
-        "reliability": 100.0,
+        "reliability": 100,
         "pass_rate": 97.67,
         "avg_s": 12.713,
         "decode": 25.227,
@@ -664,7 +1312,7 @@
         "daily": 59.24,
         "performance": 58.53,
         "efficiency": 67.09,
-        "reliability": 100.0,
+        "reliability": 100,
         "cost": 0.129164,
         "time_s": 860.76,
         "prompt_count": 24
@@ -698,15 +1346,87 @@
         "reasoning_mode": "OpenRouter reasoning",
         "lanes": {
           "active_information_acquisition": 17.5,
-          "online_adaptation_fast_learning": 80.0,
+          "online_adaptation_fast_learning": 80,
           "evidence_driven_self_repair": 78.3333,
-          "authority_salience_constraint_integrity": 90.0
+          "authority_salience_constraint_integrity": 90
         },
         "failure_modes": {
           "prediction_explanation_mismatch": 1
         }
       },
-      "hard_rank": 9
+      "hard_rank": 9,
+      "telemetry": {
+        "scoring_role": "telemetry_only",
+        "cost": 0.7322077499999999,
+        "cost_per_scored_item": 0.009763,
+        "avgSeconds": 28.6025,
+        "tokenVolume": 89827,
+        "tokenPerScoredItem": 1197.69,
+        "overall": 71.0061,
+        "scored_items": 75,
+        "tokens": {
+          "recorded_total": 89827,
+          "per_scored_item_recorded": 1197.69,
+          "per_covered_item": 11228.38,
+          "covered_items": 8,
+          "coverage_pct": 10.67,
+          "status": "limited",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_total": null,
+              "per_item_recorded": null,
+              "status": "missing",
+              "basis": "missing"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_total": null,
+              "per_item_recorded": null,
+              "status": "missing",
+              "basis": "missing"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_total": 89827,
+              "per_item_recorded": 11228.38,
+              "status": "recorded",
+              "basis": "direct_fields"
+            }
+          }
+        },
+        "runtime": {
+          "recorded_seconds": 2145.1907,
+          "seconds_per_timed_item": 28.6025,
+          "seconds_per_scored_item_recorded": 28.6025,
+          "covered_items": 75,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_seconds": 546.65,
+              "seconds_per_item": 12.7128,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_seconds": 860.76,
+              "seconds_per_item": 35.865,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_seconds": 737.7807,
+              "seconds_per_item": 92.2226,
+              "status": "recorded",
+              "basis": "total_seconds"
+            }
+          }
+        }
+      }
     },
     {
       "id": "step-3.7-flash-openrouter-xhigh",
@@ -739,9 +1459,9 @@
         "reasoning_mode": "OpenRouter reasoning",
         "lanes": {
           "active_information_acquisition": 17.5,
-          "online_adaptation_fast_learning": 80.0,
+          "online_adaptation_fast_learning": 80,
           "evidence_driven_self_repair": 29.4583,
-          "authority_salience_constraint_integrity": 9.0
+          "authority_salience_constraint_integrity": 9
         },
         "failure_modes": {
           "premature_guess_without_evidence": 2,
@@ -790,27 +1510,99 @@
         "daily": 67.4,
         "performance": 54.51,
         "efficiency": 55.82,
-        "reliability": 100.0,
+        "reliability": 100,
         "cost": 0.259602,
         "cost_basis": "provider_reported_openrouter_usage_cost",
         "time_s": 1247.05,
         "prompt_count": 24,
-        "pass_rate": 75.0,
+        "pass_rate": 75,
         "provider_token_usage": {
           "prompt_tokens": 8094,
           "output_tokens": 224369,
           "reasoning_tokens": 0
         },
         "task_type_scores": {
-          "multi_file_patch": 100.0,
+          "multi_file_patch": 100,
           "component_creation": 70.52,
-          "software_audit_review": 60.0,
+          "software_audit_review": 60,
           "edge_case_discovery": 91.25,
           "security_supply_chain": 90.83
         }
       },
       "full_rank": 3,
-      "swe_rank": 7
+      "swe_rank": 7,
+      "telemetry": {
+        "scoring_role": "telemetry_only",
+        "cost": 0.49386395,
+        "cost_per_scored_item": 0.006585,
+        "avgSeconds": 27.7672,
+        "tokenVolume": 863635,
+        "tokenPerScoredItem": 11515.13,
+        "overall": 68.0565,
+        "scored_items": 75,
+        "tokens": {
+          "recorded_total": 863635,
+          "per_scored_item_recorded": 11515.13,
+          "per_covered_item": 11515.13,
+          "covered_items": 75,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_total": 528136,
+              "per_item_recorded": 12282.23,
+              "status": "recorded",
+              "basis": "provider_usage"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_total": 232463,
+              "per_item_recorded": 9685.96,
+              "status": "recorded",
+              "basis": "provider_usage"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_total": 103036,
+              "per_item_recorded": 12879.5,
+              "status": "recorded",
+              "basis": "direct_fields"
+            }
+          }
+        },
+        "runtime": {
+          "recorded_seconds": 2082.5408,
+          "seconds_per_timed_item": 27.7672,
+          "seconds_per_scored_item_recorded": 27.7672,
+          "covered_items": 75,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_seconds": 309.44,
+              "seconds_per_item": 7.1963,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_seconds": 1247.05,
+              "seconds_per_item": 51.9604,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_seconds": 526.0508,
+              "seconds_per_item": 65.7564,
+              "status": "recorded",
+              "basis": "total_seconds"
+            }
+          }
+        }
+      }
     },
     {
       "id": "nemotron-3-ultra-openrouter-xhigh",
@@ -824,7 +1616,7 @@
         "daily": 73.49,
         "efficiency": 60.02,
         "performance": 52.5,
-        "reliability": 100.0,
+        "reliability": 100,
         "pass_rate": 93.02,
         "avg_s": 68.938,
         "decode": 5.735,
@@ -846,12 +1638,12 @@
         "daily": 60.63,
         "performance": 52.5,
         "efficiency": 69.03,
-        "reliability": 100.0,
+        "reliability": 100,
         "cost": 0.056355,
         "cost_basis": "provider_reported_openrouter_upstream_cost",
         "time_s": 2234.05,
         "prompt_count": 24,
-        "pass_rate": 50.0,
+        "pass_rate": 50,
         "provider_token_usage": {
           "prompt_tokens": 8067,
           "output_tokens": 21027,
@@ -890,7 +1682,7 @@
           "active_information_acquisition": 93.0833,
           "online_adaptation_fast_learning": 8.75,
           "evidence_driven_self_repair": 56.3958,
-          "authority_salience_constraint_integrity": 100.0
+          "authority_salience_constraint_integrity": 100
         },
         "failure_modes": {
           "ignored_feedback": 1,
@@ -898,7 +1690,79 @@
           "regressed_public_case": 2
         }
       },
-      "hard_rank": 10
+      "hard_rank": 10,
+      "telemetry": {
+        "scoring_role": "telemetry_only",
+        "cost": 0.4891468,
+        "cost_per_scored_item": 0.006522,
+        "avgSeconds": 70.7144,
+        "tokenVolume": 656434,
+        "tokenPerScoredItem": 8752.45,
+        "overall": 67.5758,
+        "scored_items": 75,
+        "tokens": {
+          "recorded_total": 656434,
+          "per_scored_item_recorded": 8752.45,
+          "per_covered_item": 8752.45,
+          "covered_items": 75,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_total": 573852,
+              "per_item_recorded": 13345.4,
+              "status": "recorded",
+              "basis": "provider_usage"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_total": 43806,
+              "per_item_recorded": 1825.25,
+              "status": "recorded",
+              "basis": "provider_usage"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_total": 38776,
+              "per_item_recorded": 4847,
+              "status": "recorded",
+              "basis": "direct_fields"
+            }
+          }
+        },
+        "runtime": {
+          "recorded_seconds": 5303.5834,
+          "seconds_per_timed_item": 70.7144,
+          "seconds_per_scored_item_recorded": 70.7144,
+          "covered_items": 75,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_seconds": 2964.34,
+              "seconds_per_item": 68.9381,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_seconds": 2234.05,
+              "seconds_per_item": 93.0854,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "hard": {
+              "item_count": 8,
+              "recorded_seconds": 105.1934,
+              "seconds_per_item": 13.1492,
+              "status": "recorded",
+              "basis": "total_seconds"
+            }
+          }
+        }
+      }
     }
   ],
   "schema_type": "resyst_labs_benchmark_rankings"
