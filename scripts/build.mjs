@@ -9,7 +9,7 @@ const site = 'https://benchmarks.resyst.cl/';
 const logoUrl = `${site}assets/ResystLabs-Logo.png`;
 const ogImageVersion = '20260613-link-preview';
 const ogImageUrl = `${site}og.png?v=${ogImageVersion}`;
-const assetVersion = '20260615-local-model-badge';
+const assetVersion = '20260615-ranking-local-badge';
 
 if (!existsSync(src)) {
   throw new Error('src directory is missing');
@@ -792,7 +792,7 @@ function rankingBarRows(rows, getScore, getMeta = () => '') {
     const bar = Math.max(2, Math.min(100, score));
     const meta = getMeta(row);
     return `<div class="bar-row" style="--bar:${bar.toFixed(2)}%">
-      <a href="../${modelPath(row)}">${escapeHtml(row.label)}</a>
+      <span class="bar-row-model"><a href="../${modelPath(row)}">${escapeHtml(row.label)}</a>${modelBadgeMarkup(row)}</span>
       <div class="bar-track" aria-hidden="true"><i></i></div>
       <strong>${fmt(score)}</strong>
       ${meta ? `<small>${escapeHtml(meta)}</small>` : ''}

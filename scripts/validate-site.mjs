@@ -135,8 +135,8 @@ await stat(path.join(root, 'dist/assets/icon-512.png'));
 const html = await readText('dist/index.html');
 assertSeoBasics('dist/index.html', html, 'https://benchmarks.resyst.cl/');
 for (const required of [
-  'styles.css?v=20260615-local-model-badge',
-  'app.js?v=20260615-local-model-badge',
+  'styles.css?v=20260615-ranking-local-badge',
+  'app.js?v=20260615-ranking-local-badge',
   'AI Model Benchmarks & Arena Replays | Resyst Labs',
   'Resyst Labs logo',
   'https://benchmarks.resyst.cl/',
@@ -314,6 +314,10 @@ for (const row of localRows) {
 }
 if (localRows.length) {
   if (!rankingHtml.includes('Local model')) throw new Error('ranking page must render the reusable Local model badge');
+  for (const row of localRows) {
+    const ladderBadgePattern = new RegExp(`<span class="bar-row-model">[\\s\\S]*?models/${row.id}/[\\s\\S]*?Local model`);
+    if (!ladderBadgePattern.test(rankingHtml)) throw new Error(`ranking overall ladder missing Local model badge for ${row.id}`);
+  }
 }
 const hardMeasuredIds = ['gpt-5.5-openrouter-xhigh', 'gemini-3.5-flash-openrouter', 'claude-opus-4.8-openrouter-xhigh', 'deepseek-v4-pro-direct', 'deepseek-v4-flash-direct', 'minimax-m3-direct-anthropic', 'qwen3.7-max-openrouter-xhigh', 'minimax-m3-openrouter-xhigh', 'kimi-k2.7-code-openrouter-xhigh', 'nemotron-3-ultra-openrouter-xhigh', 'gemma4-12b-coder-fable5-composer25-q4km-local', 'step-3.7-flash-openrouter-xhigh'];
 const expectedHard = {
