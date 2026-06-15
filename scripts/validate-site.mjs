@@ -244,9 +244,19 @@ const rankedCount = models.rows.filter((entry) => Number.isFinite(entry.overall_
 const namedScatterLabels = (rankingHtml.match(/scatter-rank-label with-name/g) ?? []).length;
 const compactScatterLabels = (rankingHtml.match(/scatter-rank-label compact/g) ?? []).length;
 const hoverCards = (rankingHtml.match(/scatter-hover-card/g) ?? []).length;
+const tooltipLayers = (rankingHtml.match(/class="scatter-tooltip-layer"/g) ?? []).length;
+const hoverLayerRules = (rankingHtml.match(/:hover ~ \.scatter-tooltip-layer/g) ?? []).length;
+const scatterChartBlocks = rankingHtml.match(/<svg class="scatter-chart"[\s\S]*?<\/svg>/g) ?? [];
 if (namedScatterLabels !== rankedCount * 2) throw new Error(`expected inline short names only on Cost and Runtime scatter plots; saw ${namedScatterLabels}`);
 if (compactScatterLabels !== rankedCount) throw new Error(`expected compact rank-only labels on Tokens × cost; saw ${compactScatterLabels}`);
 if (hoverCards !== rankedCount * 3) throw new Error(`expected hover cards for every scatter point; saw ${hoverCards}`);
+if (tooltipLayers !== 3) throw new Error(`expected one final tooltip layer per scatter plot; saw ${tooltipLayers}`);
+if (hoverLayerRules !== rankedCount * 3) throw new Error(`expected hover/focus rules targeting final tooltip layers; saw ${hoverLayerRules}`);
+for (const [index, chart] of scatterChartBlocks.entries()) {
+  if (chart.lastIndexOf('scatter-tooltip-layer') < chart.lastIndexOf('scatter-point')) {
+    throw new Error(`scatter chart ${index + 1} renders tooltip layer before points, which lets points cover tooltips`);
+  }
+}
 
 const arenaHtml = await readText('dist/arena/index.html');
 assertSeoBasics('dist/arena/index.html', arenaHtml, 'https://benchmarks.resyst.cl/arena/');

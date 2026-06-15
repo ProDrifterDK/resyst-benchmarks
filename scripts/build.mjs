@@ -926,28 +926,39 @@ function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX
         const y = yFor(yValueTick);
         return `<text class="scatter-tick" x="${x.toFixed(1)}" y="${height - margin.bottom + 22}" text-anchor="middle">${escapeHtml(formatX(xValueTick))}</text><text class="scatter-tick" x="${margin.left - 10}" y="${y.toFixed(1)}" text-anchor="end" dominant-baseline="middle">${escapeHtml(formatY(yValueTick))}</text>`;
       }).join('\n')}
-      ${points.map((point, pointIndex) => {
-        const cx = xFor(point.x);
-        const cy = yFor(point.y);
-        const rank = `#${point.row.overall_rank}`;
-        const shortLabel = shortModelLabel(point.row);
-        const inlineLabel = showInlineNames ? `${rank} - ${shortLabel}` : rank;
-        const labelPosition = labelPositions.get(pointIndex) ?? { x: cx + 10, y: cy - 8, anchor: 'start' };
-        const tooltip = tooltipFor(cx, cy);
-        return `<a class="scatter-link" href="../${modelPath(point.row)}" aria-label="Open ${escapeHtml(point.row.label)} result">
+      ${(() => {
+        const pointViews = points.map((point, pointIndex) => {
+          const cx = xFor(point.x);
+          const cy = yFor(point.y);
+          const rank = `#${point.row.overall_rank}`;
+          const shortLabel = shortModelLabel(point.row);
+          const inlineLabel = showInlineNames ? `${rank} - ${shortLabel}` : rank;
+          const labelPosition = labelPositions.get(pointIndex) ?? { x: cx + 10, y: cy - 8, anchor: 'start' };
+          const tooltip = tooltipFor(cx, cy);
+          const linkId = `scatter-link-${safeId}-${pointIndex}`;
+          const tooltipId = `scatter-tooltip-${safeId}-${pointIndex}`;
+          return { point, cx, cy, rank, shortLabel, inlineLabel, labelPosition, tooltip, linkId, tooltipId };
+        });
+        const hoverRules = pointViews
+          .map(({ linkId, tooltipId }) => `#${linkId}:hover ~ .scatter-tooltip-layer #${tooltipId}, #${linkId}:focus ~ .scatter-tooltip-layer #${tooltipId}, #${linkId}:focus-visible ~ .scatter-tooltip-layer #${tooltipId} { opacity: 1; }`)
+          .join('\n');
+        return `${hoverRules ? `<style>${hoverRules}</style>` : ''}
+      ${pointViews.map(({ point, cx, cy, rank, shortLabel, inlineLabel, labelPosition, linkId }) => `<a id="${linkId}" class="scatter-link" href="../${modelPath(point.row)}" aria-label="Open ${escapeHtml(point.row.label)} result">
           <circle class="scatter-point ${Number(point.row.overall_rank) <= 3 ? 'leader' : ''}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="7"><title>${escapeHtml(rank)} - ${escapeHtml(shortLabel)} · ${escapeHtml(point.row.label)} · ${escapeHtml(xLabel)} ${escapeHtml(formatX(point.x))} · ${escapeHtml(yLabel)} ${escapeHtml(formatY(point.y))}</title></circle>
           <text class="scatter-rank-label ${showInlineNames ? 'with-name' : 'compact'}" x="${labelPosition.x.toFixed(1)}" y="${labelPosition.y.toFixed(1)}" text-anchor="${labelPosition.anchor}">${escapeHtml(inlineLabel)}</text>
-          <g class="scatter-hover-card" aria-hidden="true" transform="translate(${tooltip.x.toFixed(1)} ${tooltip.y.toFixed(1)})">
-            <rect class="scatter-tooltip-box" width="${tooltipWidth}" height="${tooltipHeight}" rx="12"></rect>
-            <text class="scatter-tooltip-title" x="12" y="19">${escapeHtml(rank)} - ${escapeHtml(shortLabel)}</text>
-            <text class="scatter-tooltip-subtitle" x="12" y="36">${escapeHtml(point.row.label)}</text>
-            <text class="scatter-tooltip-metric" x="12" y="53">${escapeHtml(xLabel)}: ${escapeHtml(formatX(point.x))}</text>
-            <text class="scatter-tooltip-metric" x="12" y="67">${escapeHtml(yLabel)}: ${escapeHtml(formatY(point.y))}</text>
-          </g>
-        </a>`;
-      }).join('\n')}
+        </a>`).join('\n')}
       <text class="axis-title scatter-x-title" x="${margin.left + plotWidth / 2}" y="${height - 18}" text-anchor="middle">${escapeHtml(xLabel)}</text>
       <text class="axis-title scatter-y-title" x="20" y="${margin.top + plotHeight / 2}" transform="rotate(-90 20 ${margin.top + plotHeight / 2})" text-anchor="middle">${escapeHtml(yLabel)}</text>
+      <g class="scatter-tooltip-layer" aria-hidden="true">
+        ${pointViews.map(({ point, rank, shortLabel, tooltip, tooltipId }) => `<g id="${tooltipId}" class="scatter-hover-card" transform="translate(${tooltip.x.toFixed(1)} ${tooltip.y.toFixed(1)})">
+          <rect class="scatter-tooltip-box" width="${tooltipWidth}" height="${tooltipHeight}" rx="12"></rect>
+          <text class="scatter-tooltip-title" x="12" y="19">${escapeHtml(rank)} - ${escapeHtml(shortLabel)}</text>
+          <text class="scatter-tooltip-subtitle" x="12" y="36">${escapeHtml(point.row.label)}</text>
+          <text class="scatter-tooltip-metric" x="12" y="53">${escapeHtml(xLabel)}: ${escapeHtml(formatX(point.x))}</text>
+          <text class="scatter-tooltip-metric" x="12" y="67">${escapeHtml(yLabel)}: ${escapeHtml(formatY(point.y))}</text>
+        </g>`).join('\n')}
+      </g>`;
+      })()}
     </svg>
   </figure>`;
 }
