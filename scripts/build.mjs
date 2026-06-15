@@ -946,6 +946,7 @@ function publicTelemetry(row) {
   const tokenTotal = Object.values(lanes).reduce((sum, lane) => sum + metricValue(lane.tokens.recorded_total), 0);
   const tokenCoveredItems = Object.values(lanes).reduce((sum, lane) => lane.tokens.recorded_total !== null ? sum + lane.tokens.item_count : sum, 0);
   const tokenMean = scoredItems > 0 ? roundMetric(tokenTotal / scoredItems, 2) : null;
+  const tokenMedian = firstFiniteMetric(row.token_median_per_scored_item, row.tokens_median_per_scored_item);
   const tokenP90 = firstFiniteMetric(row.token_p90_per_scored_item, row.tokens_p90_per_scored_item);
   const runtimeSeconds = Object.values(lanes).reduce((sum, lane) => sum + metricValue(lane.runtime.recorded_seconds), 0);
   const runtimeCoveredItems = Object.values(lanes).reduce((sum, lane) => lane.runtime.recorded_seconds !== null ? sum + lane.runtime.item_count : sum, 0);
@@ -965,6 +966,7 @@ function publicTelemetry(row) {
       recorded_total: tokenTotal,
       per_scored_item_recorded: tokenMean,
       mean_per_scored_item: tokenMean,
+      median_per_scored_item: tokenMedian === null ? null : roundMetric(tokenMedian, 2),
       p90_per_scored_item: tokenP90 === null ? null : roundMetric(tokenP90, 2),
       per_covered_item: tokenCoveredItems > 0 ? roundMetric(tokenTotal / tokenCoveredItems, 2) : null,
       covered_items: tokenCoveredItems,
@@ -1150,7 +1152,7 @@ function tradeoffScatterMaps(rows) {
     const tokens = getTelemetry(row).tokens;
     return [
       `Tokens total: ${fmtCompactNumber(tokens.recorded_total)}`,
-      `Mean / item: ${fmtCompactNumber(tokens.mean_per_scored_item ?? tokens.per_scored_item_recorded)}`,
+      `Median / item: ${tokens.median_per_scored_item === null ? '—' : fmtCompactNumber(tokens.median_per_scored_item)}`,
       `P90 / item: ${tokens.p90_per_scored_item === null ? '—' : fmtCompactNumber(tokens.p90_per_scored_item)}`,
       coverageLine('Token', tokens.coverage_pct),
     ];

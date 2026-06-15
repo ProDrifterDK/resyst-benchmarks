@@ -220,7 +220,7 @@ for (const required of [
   '#2 - DS-V4-flash',
   'scatter-hover-card',
   'Tokens total:',
-  'Mean / item:',
+  'Median / item:',
   'P90 / item:',
   'Lane contrast',
   'Measured cost context',
@@ -413,6 +413,7 @@ for (const row of publicRows) {
     if (!telemetry[group]?.lanes?.full || !telemetry[group]?.lanes?.swe || !telemetry[group]?.lanes?.hard) throw new Error(`${row.id} missing ${group} lane breakdown`);
   }
   if (!Number.isFinite(Number(telemetry.tokens?.mean_per_scored_item))) throw new Error(`${row.id} missing token mean per scored item`);
+  if (!Number.isFinite(Number(telemetry.tokens?.median_per_scored_item))) throw new Error(`${row.id} missing token median per scored item`);
   if (!Number.isFinite(Number(telemetry.tokens?.p90_per_scored_item))) throw new Error(`${row.id} missing token P90 per scored item`);
   if (Number(row.overall_score) !== Number(models.rows.find((source) => source.id === row.id)?.overall_score)) throw new Error(`${row.id} public telemetry rewrite changed overall score`);
 }

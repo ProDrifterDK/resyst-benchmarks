@@ -86,7 +86,8 @@
         },
         "failure_modes": {}
       },
-      "hard_rank": 1
+      "hard_rank": 1,
+      "token_median_per_scored_item": 1091.0
     },
     {
       "id": "deepseek-v4-flash-direct",
@@ -165,7 +166,8 @@
         "reasoning_tokens": 641379,
         "runtime_seconds": 6641.6749
       },
-      "hard_rank": 5
+      "hard_rank": 5,
+      "token_median_per_scored_item": 1819.0
     },
     {
       "id": "claude-opus-4.8-openrouter-xhigh",
@@ -245,7 +247,8 @@
           "prediction_explanation_mismatch": 1
         }
       },
-      "hard_rank": 3
+      "hard_rank": 3,
+      "token_median_per_scored_item": 1132.0
     },
     {
       "id": "gemini-3.5-flash-openrouter",
@@ -323,7 +326,8 @@
         },
         "failure_modes": {}
       },
-      "hard_rank": 2
+      "hard_rank": 2,
+      "token_median_per_scored_item": 2443.0
     },
     {
       "id": "deepseek-v4-pro-direct",
@@ -400,7 +404,8 @@
           "prediction_explanation_mismatch": 1
         }
       },
-      "hard_rank": 4
+      "hard_rank": 4,
+      "token_median_per_scored_item": 1931.0
     },
     {
       "id": "qwen3.7-max-openrouter-xhigh",
@@ -479,7 +484,8 @@
           "prediction_explanation_mismatch": 1
         }
       },
-      "hard_rank": 7
+      "hard_rank": 7,
+      "token_median_per_scored_item": 2099.0
     },
     {
       "id": "minimax-m3-openrouter-xhigh",
@@ -551,7 +557,8 @@
           "blind_false_premise_agreement": 1
         }
       },
-      "hard_rank": 8
+      "hard_rank": 8,
+      "token_median_per_scored_item": 1876.0
     },
     {
       "id": "claude-fable-5-openrouter-xhigh",
@@ -607,7 +614,8 @@
       "swe_rank": 6,
       "overall_score": 79.22,
       "overall_rank": 8,
-      "token_p90_per_scored_item": 31166.24
+      "token_p90_per_scored_item": 31166.24,
+      "token_median_per_scored_item": 1277.0
     },
     {
       "id": "minimax-m3-direct-anthropic",
@@ -694,7 +702,8 @@
           "regressed_public_case": 1
         }
       },
-      "hard_rank": 6
+      "hard_rank": 6,
+      "token_median_per_scored_item": 1373.0
     },
     {
       "id": "kimi-k2.7-code-openrouter-xhigh",
@@ -774,7 +783,8 @@
           "prediction_explanation_mismatch": 1
         }
       },
-      "hard_rank": 9
+      "hard_rank": 9,
+      "token_median_per_scored_item": 1593.0
     },
     {
       "id": "step-3.7-flash-openrouter-xhigh",
@@ -879,7 +889,8 @@
         }
       },
       "full_rank": 3,
-      "swe_rank": 7
+      "swe_rank": 7,
+      "token_median_per_scored_item": 4395.0
     },
     {
       "id": "nemotron-3-ultra-openrouter-xhigh",
@@ -968,7 +979,8 @@
           "regressed_public_case": 2
         }
       },
-      "hard_rank": 10
+      "hard_rank": 10,
+      "token_median_per_scored_item": 984.0
     },
     {
       "id": "gemma4-12b-coder-fable5-composer25-q4km-local",
@@ -1090,7 +1102,8 @@
       "swe_rank": 13,
       "hard_rank": 11,
       "overall_rank": 13,
-      "token_p90_per_scored_item": 26798.0
+      "token_p90_per_scored_item": 26798.0,
+      "token_median_per_scored_item": 764.0
     }
   ],
   "schema_type": "resyst_labs_benchmark_rankings"
