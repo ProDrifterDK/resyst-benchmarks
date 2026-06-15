@@ -30,6 +30,17 @@ const shortDate = (iso) => {
 
 const sideValue = (map, side) => map?.[side] ?? 0;
 const modelPath = (row) => `models/${encodeURIComponent(row.id)}/`;
+const isLocalModel = (row) => row.runtime_type === 'local'
+  || row.location === 'local'
+  || row.provider === 'local'
+  || String(row.cost_class ?? '').includes('local');
+const modelBadgeMarkup = (row) => {
+  const badges = [];
+  if (isLocalModel(row)) badges.push({ label: 'Local model', className: 'local-model-badge', title: 'Benchmarked on local hardware' });
+  return badges.length
+    ? `<span class="model-badge-list" aria-label="Runtime badges">${badges.map((badge) => `<span class="model-badge ${badge.className}" title="${escapeHtml(badge.title)}">${escapeHtml(badge.label)}</span>`).join('')}</span>`
+    : '';
+};
 const hardOverallIncluded = (row) => Boolean(
   row.hard_intelligence
   && row.hard_intelligence.overall_included !== false,
@@ -147,6 +158,7 @@ function renderPodium(models) {
       <a class="podium-link" href="${modelPath(row)}" aria-label="Open result page for ${escapeHtml(row.label)}"></a>
       <span class="podium-rank">#${row.overall_rank}</span>
       <h3>${escapeHtml(row.label)}</h3>
+      ${modelBadgeMarkup(row)}
       <p>${escapeHtml(row.basis)}</p>
       <span class="podium-cta">Open result →</span>
       <span class="podium-score">${formatNumber(row.overall_score, 1)}</span>
@@ -170,6 +182,7 @@ function renderRanking(models) {
         <td class="rank-cell">#${row.overall_rank}</td>
         <td class="model-cell">
           <a class="model-link" href="${modelPath(row)}"><strong>${escapeHtml(row.label)}</strong></a>
+          ${modelBadgeMarkup(row)}
         </td>
         <td>${escapeHtml(row.basis)}</td>
         <td class="score-cell">${formatNumber(row.overall_score, 2)}</td>

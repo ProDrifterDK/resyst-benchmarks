@@ -135,8 +135,8 @@ await stat(path.join(root, 'dist/assets/icon-512.png'));
 const html = await readText('dist/index.html');
 assertSeoBasics('dist/index.html', html, 'https://benchmarks.resyst.cl/');
 for (const required of [
-  'styles.css?v=20260615-telemetry-normalization',
-  'app.js?v=20260615-telemetry-normalization',
+  'styles.css?v=20260615-local-model-badge',
+  'app.js?v=20260615-local-model-badge',
   'AI Model Benchmarks & Arena Replays | Resyst Labs',
   'Resyst Labs logo',
   'https://benchmarks.resyst.cl/',
@@ -298,7 +298,19 @@ if (!models.rows.every((row) => row.label && row.basis && Number.isFinite(row.ov
   throw new Error('each model row needs public label, basis and rank metadata');
 }
 const hardLaneKeys = ['active_information_acquisition', 'online_adaptation_fast_learning', 'evidence_driven_self_repair', 'authority_salience_constraint_integrity'];
-const hardMeasuredIds = ['gpt-5.5-openrouter-xhigh', 'gemini-3.5-flash-openrouter', 'claude-opus-4.8-openrouter-xhigh', 'deepseek-v4-pro-direct', 'deepseek-v4-flash-direct', 'minimax-m3-direct-anthropic', 'qwen3.7-max-openrouter-xhigh', 'minimax-m3-openrouter-xhigh', 'kimi-k2.7-code-openrouter-xhigh', 'nemotron-3-ultra-openrouter-xhigh', 'step-3.7-flash-openrouter-xhigh'];
+const isLocalModel = (row) => row.runtime_type === 'local'
+  || row.location === 'local'
+  || row.provider === 'local'
+  || String(row.cost_class ?? '').includes('local');
+const localRows = models.rows.filter(isLocalModel);
+for (const row of localRows) {
+  if (row.runtime_type !== 'local') throw new Error(`${row.id} local entrant must expose runtime_type=local`);
+  if (!row.cost_class || !String(row.cost_class).includes('local')) throw new Error(`${row.id} local entrant must expose local cost class`);
+}
+if (localRows.length) {
+  if (!rankingHtml.includes('Local model')) throw new Error('ranking page must render the reusable Local model badge');
+}
+const hardMeasuredIds = ['gpt-5.5-openrouter-xhigh', 'gemini-3.5-flash-openrouter', 'claude-opus-4.8-openrouter-xhigh', 'deepseek-v4-pro-direct', 'deepseek-v4-flash-direct', 'minimax-m3-direct-anthropic', 'qwen3.7-max-openrouter-xhigh', 'minimax-m3-openrouter-xhigh', 'kimi-k2.7-code-openrouter-xhigh', 'nemotron-3-ultra-openrouter-xhigh', 'gemma4-12b-coder-fable5-composer25-q4km-local', 'step-3.7-flash-openrouter-xhigh'];
 const expectedHard = {
   'gpt-5.5-openrouter-xhigh': {score: 93.401, rank: 1},
   'gemini-3.5-flash-openrouter': {score: 87.75, rank: 2},
@@ -310,7 +322,8 @@ const expectedHard = {
   'minimax-m3-openrouter-xhigh': {score: 66.7708, rank: 8},
   'kimi-k2.7-code-openrouter-xhigh': {score: 66.4583, rank: 9},
   'nemotron-3-ultra-openrouter-xhigh': {score: 64.5573, rank: 10},
-  'step-3.7-flash-openrouter-xhigh': {score: 33.9896, rank: 11},
+  'gemma4-12b-coder-fable5-composer25-q4km-local': {score: 48.9583, rank: 11},
+  'step-3.7-flash-openrouter-xhigh': {score: 33.9896, rank: 12},
 };
 for (const id of hardMeasuredIds) {
   const row = models.rows.find((entry) => entry.id === id);
@@ -368,6 +381,13 @@ const nemotron3Ultra = models.rows.find((row) => row.id === 'nemotron-3-ultra-op
 if (nemotron3Ultra?.overall_rank !== 12 || Math.abs(Number(nemotron3Ultra?.overall_score) - 67.5758) > 0.0001) {
   throw new Error('NVIDIA Nemotron 3 Ultra overall must include the published Hard Intelligence result and rank #12');
 }
+const gemmaLocal = models.rows.find((row) => row.id === 'gemma4-12b-coder-fable5-composer25-q4km-local');
+if (gemmaLocal?.overall_rank !== 13 || Math.abs(Number(gemmaLocal?.overall_score) - 61.1894) > 0.0001) {
+  throw new Error('Gemma4-12B-Coder local overall must include Full, SWE, and Hard Intelligence measurements and rank #13');
+}
+if (gemmaLocal?.runtime_type !== 'local' || !gemmaLocal?.hard_intelligence?.limitations?.includes('single_difficulty_band')) {
+  throw new Error('Gemma4-12B-Coder local row must expose local runtime metadata and public coverage limitations');
+}
 for (const row of models.rows.filter((entry) => !hardMeasuredIds.includes(entry.id))) {
   if (row.hard_intelligence) throw new Error(`${row.id} must keep Hard Intelligence blank until measured`);
 }
@@ -410,6 +430,7 @@ for (const row of rankedRows) {
   for (const label of ['Overall score', 'Full / Agentic', 'SWE MVP', 'Hard Intelligence', 'Measured cost', 'Runtime economics']) {
     if (!text.includes(label)) throw new Error(`${modelPage} missing visible metric label: ${label}`);
   }
+  if (isLocalModel(row) && !text.includes('Local model')) throw new Error(`${modelPage} missing Local model badge`);
 }
 
 if (!Array.isArray(arena.matches) || arena.matches.length < 1) {

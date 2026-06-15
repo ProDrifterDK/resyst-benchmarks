@@ -9,7 +9,7 @@ const site = 'https://benchmarks.resyst.cl/';
 const logoUrl = `${site}assets/ResystLabs-Logo.png`;
 const ogImageVersion = '20260613-link-preview';
 const ogImageUrl = `${site}og.png?v=${ogImageVersion}`;
-const assetVersion = '20260615-telemetry-normalization';
+const assetVersion = '20260615-local-model-badge';
 
 if (!existsSync(src)) {
   throw new Error('src directory is missing');
@@ -55,8 +55,20 @@ const shortModelLabels = new Map([
   ['kimi-k2.7-code-openrouter-xhigh', 'Kimi K2.7'],
   ['step-3.7-flash-openrouter-xhigh', 'Step 3.7'],
   ['nemotron-3-ultra-openrouter-xhigh', 'Nemotron 3'],
+  ['gemma4-12b-coder-fable5-composer25-q4km-local', 'Gemma4 Local'],
 ]);
 const shortModelLabel = (row) => shortModelLabels.get(row.id) ?? String(row.label ?? row.id).replace(/DeepSeek/g, 'DS').replace(/NVIDIA /g, '').slice(0, 18);
+const isLocalModel = (row) => row.runtime_type === 'local'
+  || row.location === 'local'
+  || row.provider === 'local'
+  || String(row.cost_class ?? '').includes('local');
+function modelBadgeMarkup(row) {
+  const badges = [];
+  if (isLocalModel(row)) badges.push({ label: 'Local model', className: 'local-model-badge', title: 'Benchmarked on local hardware' });
+  return badges.length
+    ? `<span class="model-badge-list" aria-label="Runtime badges">${badges.map((badge) => `<span class="model-badge ${badge.className}" title="${escapeHtml(badge.title)}">${escapeHtml(badge.label)}</span>`).join('')}</span>`
+    : '';
+}
 const hardLane = (row, key) => row.hard_intelligence?.lanes?.[key];
 const hardOverallIncluded = (row) => Boolean(
   row.hard_intelligence
@@ -355,6 +367,7 @@ async function writeModelPages() {
         <a class="back-link" href="../../ranking/">← Back to ranking</a>
         <p class="eyebrow">Model result · rank #${escapeHtml(row.overall_rank)}</p>
         <h1>${escapeHtml(row.label)}</h1>
+        ${modelBadgeMarkup(row)}
         <p class="hero-lead">${escapeHtml(row.basis)}. Public result card with the model’s overall score, lane measurements, runtime/cost telemetry, and ranking formula.</p>
         <div class="detail-actions">
           <a class="button primary" href="../../data/model-comparison.json">Download public JSON</a>
@@ -685,6 +698,7 @@ function overviewPodiumCard(row) {
       <a class="podium-link" href="${modelPath(row)}" aria-label="Open benchmark result for ${escapeHtml(row.label)}"></a>
       <span class="podium-rank">#${escapeHtml(row.overall_rank)}</span>
       <h3>${escapeHtml(row.label)}</h3>
+      ${modelBadgeMarkup(row)}
       <p>${escapeHtml(row.basis)}</p>
       <span class="podium-cta">Open result →</span>
       <span class="podium-score">${fmtOne(row.overall_score)}</span>
@@ -700,6 +714,7 @@ function overviewRankingRow(row) {
         <td class="rank-cell">#${escapeHtml(row.overall_rank)}</td>
         <td class="model-cell">
           <a class="model-link" href="${modelPath(row)}"><strong>${escapeHtml(row.label)}</strong></a>
+          ${modelBadgeMarkup(row)}
         </td>
         <td>${escapeHtml(row.basis)}</td>
         <td class="score-cell">${fmt(row.overall_score)}</td>
@@ -1223,7 +1238,7 @@ function rankingDetailedTableRow(row) {
   const telemetry = row.telemetry ?? publicTelemetry(row);
   return `<tr>
     <td class="rank-cell">#${escapeHtml(row.overall_rank)}</td>
-    <td class="model-cell"><a class="model-link" href="../${modelPath(row)}"><strong>${escapeHtml(row.label)}</strong></a></td>
+    <td class="model-cell"><a class="model-link" href="../${modelPath(row)}"><strong>${escapeHtml(row.label)}</strong></a>${modelBadgeMarkup(row)}</td>
     <td class="score-cell">${fmt(row.overall_score)}</td>
     <td>${fmt(row.full?.final)} <small>#${escapeHtml(row.full_rank ?? '—')}</small></td>
     <td>${fmt(row.swe?.swe_score)} <small>#${escapeHtml(row.swe_rank ?? '—')}</small></td>
