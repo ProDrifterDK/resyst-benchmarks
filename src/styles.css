@@ -639,11 +639,6 @@ td {
   color: transparent;
 }
 
-.partial-score-cell {
-  color: var(--amber-2);
-  text-decoration: underline dotted rgba(241, 206, 111, 0.55);
-  text-underline-offset: 0.18em;
-}
 
 .section-actions {
   display: inline-flex;
@@ -779,7 +774,6 @@ td {
 .lane-bar.full { background: linear-gradient(90deg, var(--cyan), #baf7ff); }
 .lane-bar.swe { background: linear-gradient(90deg, var(--green), #dbffd8); }
 .lane-bar.hard { background: linear-gradient(90deg, var(--amber), var(--amber-2)); }
-.lane-bar.is-partial { outline: 1px dashed rgba(255, 248, 235, 0.78); outline-offset: 2px; }
 
 .ranking-insight-grid {
   display: grid;
@@ -1186,7 +1180,7 @@ td {
   }
 }
 
-/* Detail pages, official logo, model result cards, and Arena replay room */
+/* Detail pages, Resyst logo, model result cards, and Arena replay room */
 .podium-card { isolation: isolate; }
 
 .podium-link {
