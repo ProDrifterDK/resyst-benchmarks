@@ -135,8 +135,8 @@ await stat(path.join(root, 'dist/assets/icon-512.png'));
 const html = await readText('dist/index.html');
 assertSeoBasics('dist/index.html', html, 'https://benchmarks.resyst.cl/');
 for (const required of [
-  'styles.css?v=20260615-ranking-scatter-rows',
-  'app.js?v=20260615-ranking-scatter-rows',
+  'styles.css?v=20260615-ranking-scatter-labels',
+  'app.js?v=20260615-ranking-scatter-labels',
   'AI Model Benchmarks & Arena Replays | Resyst Labs',
   'Resyst Labs logo',
   'https://benchmarks.resyst.cl/',
@@ -215,6 +215,9 @@ for (const required of [
   'Runtime × overall',
   'Tokens × cost',
   'Each point is one tested model',
+  '#1 - GPT 5.5',
+  '#2 - DS-V4-flash',
+  'scatter-hover-card',
   'Lane contrast',
   'Measured cost context',
   'Lane balance pressure',
@@ -237,6 +240,13 @@ for (const required of [
 for (const row of models.rows.filter((entry) => Number.isFinite(entry.overall_rank))) {
   if (!rankingHtml.includes(`../models/${row.id}/`)) throw new Error(`ranking page missing model detail link for ${row.id}`);
 }
+const rankedCount = models.rows.filter((entry) => Number.isFinite(entry.overall_rank)).length;
+const namedScatterLabels = (rankingHtml.match(/scatter-rank-label with-name/g) ?? []).length;
+const compactScatterLabels = (rankingHtml.match(/scatter-rank-label compact/g) ?? []).length;
+const hoverCards = (rankingHtml.match(/scatter-hover-card/g) ?? []).length;
+if (namedScatterLabels !== rankedCount * 2) throw new Error(`expected inline short names only on Cost and Runtime scatter plots; saw ${namedScatterLabels}`);
+if (compactScatterLabels !== rankedCount) throw new Error(`expected compact rank-only labels on Tokens × cost; saw ${compactScatterLabels}`);
+if (hoverCards !== rankedCount * 3) throw new Error(`expected hover cards for every scatter point; saw ${hoverCards}`);
 
 const arenaHtml = await readText('dist/arena/index.html');
 assertSeoBasics('dist/arena/index.html', arenaHtml, 'https://benchmarks.resyst.cl/arena/');

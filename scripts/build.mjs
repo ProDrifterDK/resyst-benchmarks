@@ -9,7 +9,7 @@ const site = 'https://benchmarks.resyst.cl/';
 const logoUrl = `${site}assets/ResystLabs-Logo.png`;
 const ogImageVersion = '20260613-link-preview';
 const ogImageUrl = `${site}og.png?v=${ogImageVersion}`;
-const assetVersion = '20260615-ranking-scatter-rows';
+const assetVersion = '20260615-ranking-scatter-labels';
 
 if (!existsSync(src)) {
   throw new Error('src directory is missing');
@@ -42,6 +42,21 @@ const fmtCost = (value) => {
 const sideValue = (map, side) => map?.[side] ?? 0;
 const prettyReason = (value = 'resolved') => String(value).replaceAll('_', ' ');
 const modelPath = (row) => `models/${slug(row.id)}/`;
+const shortModelLabels = new Map([
+  ['gpt-5.5-openrouter-xhigh', 'GPT 5.5'],
+  ['deepseek-v4-flash-direct', 'DS-V4-flash'],
+  ['claude-opus-4.8-openrouter-xhigh', 'Claude Opus'],
+  ['gemini-3.5-flash-openrouter', 'Gemini 3.5'],
+  ['deepseek-v4-pro-direct', 'DS-V4-pro'],
+  ['qwen3.7-max-openrouter-xhigh', 'Qwen 3.7'],
+  ['minimax-m3-openrouter-xhigh', 'MiniMax M3'],
+  ['claude-fable-5-openrouter-xhigh', 'Fable 5'],
+  ['minimax-m3-direct-anthropic', 'M3 Direct'],
+  ['kimi-k2.7-code-openrouter-xhigh', 'Kimi K2.7'],
+  ['step-3.7-flash-openrouter-xhigh', 'Step 3.7'],
+  ['nemotron-3-ultra-openrouter-xhigh', 'Nemotron 3'],
+]);
+const shortModelLabel = (row) => shortModelLabels.get(row.id) ?? String(row.label ?? row.id).replace(/DeepSeek/g, 'DS').replace(/NVIDIA /g, '').slice(0, 18);
 const hardLane = (row, key) => row.hard_intelligence?.lanes?.[key];
 const hardOverallIncluded = (row) => Boolean(
   row.hard_intelligence
@@ -825,7 +840,7 @@ function fmtCompactNumber(value) {
   return number.toFixed(2);
 }
 
-function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX = fmtCompactNumber, formatY = fmtCompactNumber }) {
+function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX = fmtCompactNumber, formatY = fmtCompactNumber, showInlineNames = false }) {
   const points = rows
     .map((row) => ({ row, x: Number(xValue(row)), y: Number(yValue(row)) }))
     .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
@@ -850,8 +865,48 @@ function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX
   const yRange = Math.max(0.0001, yMax - yMin);
   const xFor = (value) => margin.left + ((value - xMin) / xRange) * plotWidth;
   const yFor = (value) => margin.top + ((yMax - value) / yRange) * plotHeight;
+  const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+  const tooltipWidth = 202;
+  const tooltipHeight = 76;
+  const tooltipFor = (cx, cy) => {
+    const preferRight = cx + tooltipWidth + 18 <= width - margin.right;
+    const x = preferRight ? cx + 16 : cx - tooltipWidth - 16;
+    const yAbove = cy - tooltipHeight - 16;
+    const y = yAbove >= margin.top ? yAbove : cy + 18;
+    return {
+      x: clamp(x, margin.left, width - margin.right - tooltipWidth),
+      y: clamp(y, margin.top, height - margin.bottom - tooltipHeight),
+    };
+  };
   const ticks = [0, 0.25, 0.5, 0.75, 1];
   const safeId = slug(title);
+  const labelPositions = new Map();
+  if (showInlineNames) {
+    const minLabelY = margin.top + 13;
+    const maxLabelY = height - margin.bottom - 8;
+    const labelRows = points
+      .map((point, index) => {
+        const cx = xFor(point.x);
+        const cy = yFor(point.y);
+        const anchor = cx > width - 150 ? 'end' : 'start';
+        return {
+          index,
+          anchor,
+          x: anchor === 'end' ? cx - 11 : cx + 11,
+          desiredY: clamp(cy - 8, minLabelY, maxLabelY),
+          y: clamp(cy - 8, minLabelY, maxLabelY),
+        };
+      })
+      .sort((a, b) => a.desiredY - b.desiredY);
+    for (let index = 1; index < labelRows.length; index += 1) {
+      labelRows[index].y = Math.max(labelRows[index].y, labelRows[index - 1].y + 16);
+    }
+    const overflow = (labelRows.at(-1)?.y ?? 0) - maxLabelY;
+    if (overflow > 0) {
+      for (const row of labelRows) row.y = Math.max(minLabelY, row.y - overflow);
+    }
+    for (const row of labelRows) labelPositions.set(row.index, row);
+  }
   return `<figure class="scatter-panel">
     <figcaption>${escapeHtml(title)}</figcaption>
     <svg class="scatter-chart" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="scatter-title-${safeId} scatter-desc-${safeId}">
@@ -871,7 +926,26 @@ function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX
         const y = yFor(yValueTick);
         return `<text class="scatter-tick" x="${x.toFixed(1)}" y="${height - margin.bottom + 22}" text-anchor="middle">${escapeHtml(formatX(xValueTick))}</text><text class="scatter-tick" x="${margin.left - 10}" y="${y.toFixed(1)}" text-anchor="end" dominant-baseline="middle">${escapeHtml(formatY(yValueTick))}</text>`;
       }).join('\n')}
-      ${points.map((point) => `<a href="../${modelPath(point.row)}" aria-label="Open ${escapeHtml(point.row.label)} result"><circle class="scatter-point ${Number(point.row.overall_rank) <= 3 ? 'leader' : ''}" cx="${xFor(point.x).toFixed(1)}" cy="${yFor(point.y).toFixed(1)}" r="7"><title>#${escapeHtml(point.row.overall_rank)} ${escapeHtml(point.row.label)} · ${escapeHtml(xLabel)} ${escapeHtml(formatX(point.x))} · ${escapeHtml(yLabel)} ${escapeHtml(formatY(point.y))}</title></circle><text class="scatter-rank-label" x="${(xFor(point.x) + 10).toFixed(1)}" y="${(yFor(point.y) - 8).toFixed(1)}">#${escapeHtml(point.row.overall_rank)}</text></a>`).join('\n')}
+      ${points.map((point, pointIndex) => {
+        const cx = xFor(point.x);
+        const cy = yFor(point.y);
+        const rank = `#${point.row.overall_rank}`;
+        const shortLabel = shortModelLabel(point.row);
+        const inlineLabel = showInlineNames ? `${rank} - ${shortLabel}` : rank;
+        const labelPosition = labelPositions.get(pointIndex) ?? { x: cx + 10, y: cy - 8, anchor: 'start' };
+        const tooltip = tooltipFor(cx, cy);
+        return `<a class="scatter-link" href="../${modelPath(point.row)}" aria-label="Open ${escapeHtml(point.row.label)} result">
+          <circle class="scatter-point ${Number(point.row.overall_rank) <= 3 ? 'leader' : ''}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="7"><title>${escapeHtml(rank)} - ${escapeHtml(shortLabel)} · ${escapeHtml(point.row.label)} · ${escapeHtml(xLabel)} ${escapeHtml(formatX(point.x))} · ${escapeHtml(yLabel)} ${escapeHtml(formatY(point.y))}</title></circle>
+          <text class="scatter-rank-label ${showInlineNames ? 'with-name' : 'compact'}" x="${labelPosition.x.toFixed(1)}" y="${labelPosition.y.toFixed(1)}" text-anchor="${labelPosition.anchor}">${escapeHtml(inlineLabel)}</text>
+          <g class="scatter-hover-card" aria-hidden="true" transform="translate(${tooltip.x.toFixed(1)} ${tooltip.y.toFixed(1)})">
+            <rect class="scatter-tooltip-box" width="${tooltipWidth}" height="${tooltipHeight}" rx="12"></rect>
+            <text class="scatter-tooltip-title" x="12" y="19">${escapeHtml(rank)} - ${escapeHtml(shortLabel)}</text>
+            <text class="scatter-tooltip-subtitle" x="12" y="36">${escapeHtml(point.row.label)}</text>
+            <text class="scatter-tooltip-metric" x="12" y="53">${escapeHtml(xLabel)}: ${escapeHtml(formatX(point.x))}</text>
+            <text class="scatter-tooltip-metric" x="12" y="67">${escapeHtml(yLabel)}: ${escapeHtml(formatY(point.y))}</text>
+          </g>
+        </a>`;
+      }).join('\n')}
       <text class="axis-title scatter-x-title" x="${margin.left + plotWidth / 2}" y="${height - 18}" text-anchor="middle">${escapeHtml(xLabel)}</text>
       <text class="axis-title scatter-y-title" x="20" y="${margin.top + plotHeight / 2}" transform="rotate(-90 20 ${margin.top + plotHeight / 2})" text-anchor="middle">${escapeHtml(yLabel)}</text>
     </svg>
@@ -891,6 +965,7 @@ function tradeoffScatterMaps(rows) {
       yValue: (row) => getTelemetry(row).overall,
       formatX: fmtCost,
       formatY: (value) => fmt(value, 1),
+      showInlineNames: true,
     })}
     ${scatterPlotPanel({
       title: 'Runtime × overall',
@@ -901,6 +976,7 @@ function tradeoffScatterMaps(rows) {
       yValue: (row) => getTelemetry(row).overall,
       formatX: (value) => `${fmtCompactNumber(value)}s`,
       formatY: (value) => fmt(value, 1),
+      showInlineNames: true,
     })}
     ${scatterPlotPanel({
       title: 'Tokens × cost',
