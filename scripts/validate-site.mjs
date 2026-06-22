@@ -27,7 +27,7 @@ const forbidden = [
   ['unpublished result path', /results\/|docs\/results|raw_artifact|source_artifact|generated_from|evidence_artifacts|raw\.jsonl|summary\.json|report\.md/i],
   ['non-public artifact wording', /artifact|public artifacts|data artifacts|artifact references|Synchronizing benchmark artifact|Pending artifact|public artifact could not be loaded/i],
   ['provider marketing shorthand without explanation', /Think Max/i],
-  ['internal D6-only coverage note', /D6-only|D6 smoke|\bsmoke\b|\bpartial\b/i],
+  ['internal diagnostic coverage note', /D6[-_]only|D6 smoke|\bsmoke\b|\bpartial\b/i],
   ['internal hard-coverage metadata', /official_score|official_eligible|difficulty_coverage|coverage_label|d6_diagnostic_score|request_max_tokens/i],
 ];
 
@@ -334,9 +334,10 @@ const expectedRows = {
   'claude-fable-5-openrouter-xhigh': {overallScore: 79.22, overallRank: 9, fullRank: 14, sweRank: 7},
   'minimax-m3-direct-anthropic': {overallScore: 74.629, overallRank: 10, fullRank: 9, sweRank: 11, hardScore: 71.7969, hardRank: 7},
   'kimi-k2.7-code-openrouter-xhigh': {overallScore: 71.0061, overallRank: 11, fullRank: 5, sweRank: 13, hardScore: 66.4583, hardRank: 10},
-  'step-3.7-flash-openrouter-xhigh': {overallScore: 68.0565, overallRank: 12, fullRank: 3, sweRank: 8, hardScore: 33.9896, hardRank: 13},
+  'step-3.7-flash-openrouter-xhigh': {overallScore: 68.0565, overallRank: 12, fullRank: 3, sweRank: 8, hardScore: 33.9896, hardRank: 14},
   'nemotron-3-ultra-openrouter-xhigh': {overallScore: 67.5758, overallRank: 13, fullRank: 13, sweRank: 12, hardScore: 64.5573, hardRank: 11},
   'gemma4-12b-coder-fable5-composer25-q4km-local': {overallScore: 61.1894, overallRank: 14, fullRank: 12, sweRank: 14, hardScore: 48.9583, hardRank: 12},
+  'qwythos-9b-q8-vulkan-local': {overallScore: 55.1321, overallRank: 15, fullRank: 15, sweRank: 15, hardScore: 43.9062, hardRank: 13},
 };
 const hardMeasuredIds = Object.entries(expectedRows)
   .filter(([, expected]) => Number.isFinite(expected.hardScore))

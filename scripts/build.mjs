@@ -57,6 +57,7 @@ const shortModelLabels = new Map([
   ['step-3.7-flash-openrouter-xhigh', 'Step 3.7'],
   ['nemotron-3-ultra-openrouter-xhigh', 'Nemotron 3'],
   ['gemma4-12b-coder-fable5-composer25-q4km-local', 'Gemma4 Local'],
+  ['qwythos-9b-q8-vulkan-local', 'Qwythos Q8'],
 ]);
 const shortModelLabel = (row) => shortModelLabels.get(row.id) ?? String(row.label ?? row.id).replace(/DeepSeek/g, 'DS').replace(/NVIDIA /g, '').slice(0, 18);
 const isLocalModel = (row) => row.runtime_type === 'local'
