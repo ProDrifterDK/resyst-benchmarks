@@ -331,13 +331,14 @@ const expectedRows = {
   'deepseek-v4-pro-direct': {overallScore: 83.365, overallRank: 6, fullRank: 2, sweRank: 9, hardScore: 78.375, hardRank: 4},
   'qwen3.7-max-openrouter-xhigh': {overallScore: 80.7086, overallRank: 7, fullRank: 11, sweRank: 2, hardScore: 69.8958, hardRank: 8},
   'minimax-m3-openrouter-xhigh': {overallScore: 79.6603, overallRank: 8, fullRank: 8, sweRank: 5, hardScore: 66.7708, hardRank: 9},
-  'claude-fable-5-openrouter-xhigh': {overallScore: 79.22, overallRank: 9, fullRank: 14, sweRank: 7},
+  'claude-fable-5-openrouter-xhigh': {overallScore: 79.22, overallRank: 9, fullRank: 15, sweRank: 7},
   'minimax-m3-direct-anthropic': {overallScore: 74.629, overallRank: 10, fullRank: 9, sweRank: 11, hardScore: 71.7969, hardRank: 7},
   'kimi-k2.7-code-openrouter-xhigh': {overallScore: 71.0061, overallRank: 11, fullRank: 5, sweRank: 13, hardScore: 66.4583, hardRank: 10},
-  'step-3.7-flash-openrouter-xhigh': {overallScore: 68.0565, overallRank: 12, fullRank: 3, sweRank: 8, hardScore: 33.9896, hardRank: 14},
+  'step-3.7-flash-openrouter-xhigh': {overallScore: 68.0565, overallRank: 12, fullRank: 3, sweRank: 8, hardScore: 33.9896, hardRank: 15},
   'nemotron-3-ultra-openrouter-xhigh': {overallScore: 67.5758, overallRank: 13, fullRank: 13, sweRank: 12, hardScore: 64.5573, hardRank: 11},
-  'gemma4-12b-coder-fable5-composer25-q4km-local': {overallScore: 61.1894, overallRank: 14, fullRank: 12, sweRank: 14, hardScore: 48.9583, hardRank: 12},
-  'qwythos-9b-q8-vulkan-local': {overallScore: 55.1321, overallRank: 15, fullRank: 15, sweRank: 15, hardScore: 43.9062, hardRank: 13},
+  'gemma4-12b-coder-fable5-composer25-q4km-local': {overallScore: 61.1894, overallRank: 14, fullRank: 12, sweRank: 14, hardScore: 48.9583, hardRank: 13},
+  'ornith-35b-q4km-vulkan-fit-local': {overallScore: 55.5678, overallRank: 15, fullRank: 14, sweRank: 16, hardScore: 49.5833, hardRank: 12},
+  'qwythos-9b-q8-vulkan-local': {overallScore: 55.1321, overallRank: 16, fullRank: 16, sweRank: 15, hardScore: 43.9062, hardRank: 14},
 };
 const hardMeasuredIds = Object.entries(expectedRows)
   .filter(([, expected]) => Number.isFinite(expected.hardScore))

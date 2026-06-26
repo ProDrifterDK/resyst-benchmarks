@@ -57,6 +57,7 @@ const shortModelLabels = new Map([
   ['step-3.7-flash-openrouter-xhigh', 'Step 3.7'],
   ['nemotron-3-ultra-openrouter-xhigh', 'Nemotron 3'],
   ['gemma4-12b-coder-fable5-composer25-q4km-local', 'Gemma4 Local'],
+  ['ornith-35b-q4km-vulkan-fit-local', 'Ornith 35B'],
   ['qwythos-9b-q8-vulkan-local', 'Qwythos Q8'],
 ]);
 const shortModelLabel = (row) => shortModelLabels.get(row.id) ?? String(row.label ?? row.id).replace(/DeepSeek/g, 'DS').replace(/NVIDIA /g, '').slice(0, 18);
@@ -111,7 +112,7 @@ const rankedRows = [...models.rows]
   .filter((row) => Number.isFinite(row.overall_rank))
   .sort((a, b) => a.overall_rank - b.overall_rank);
 const dataDate = (models.generated_at ? new Date(models.generated_at) : new Date()).toISOString().slice(0, 10);
-const dataDateLabel = new Intl.DateTimeFormat('en', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(dataDate));
+const dataDateLabel = new Intl.DateTimeFormat('en', { month: 'short', day: '2-digit', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${dataDate}T00:00:00Z`));
 
 function header(prefix = '') {
   return `
