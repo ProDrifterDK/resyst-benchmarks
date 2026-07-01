@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-06-26T10:36:56Z",
-  "synced_at": "2026-06-26T10:36:56Z",
+  "generated_at": "2026-07-01T05:11:50Z",
+  "synced_at": "2026-07-01T05:11:50Z",
   "summary": {
     "title": "Resyst Labs LLM Benchmark Rankings",
     "formula": "Overall = average of measured major lanes: Full/Agentic, SWE MVP, and Hard Intelligence when published",
     "public_note": "Local and API-backed models share one tournament table. Blank Hard Intelligence cells mean that lane is not yet measured for that entrant.",
-    "row_count": 16
+    "row_count": 17
   },
   "notes": [
     "Full/Agentic, SWE, and Hard Intelligence are separate benchmark lanes; overall uses the average of measured major lanes.",
@@ -167,7 +167,7 @@
       "overall_rank": 2,
       "full_rank": 1,
       "swe_rank": 4,
-      "hard_rank": 5
+      "hard_rank": 6
     },
     {
       "id": "claude-opus-4.8-openrouter-xhigh",
@@ -248,7 +248,7 @@
       "overall_rank": 3,
       "full_rank": 10,
       "swe_rank": 3,
-      "hard_rank": 3
+      "hard_rank": 4
     },
     {
       "id": "glm-5.2-openrouter-xhigh",
@@ -326,7 +326,7 @@
       "overall_rank": 4,
       "full_rank": 6,
       "swe_rank": 1,
-      "hard_rank": 6
+      "hard_rank": 7
     },
     {
       "id": "gemini-3.5-flash-openrouter",
@@ -404,7 +404,7 @@
       "token_median_per_scored_item": 2443,
       "overall_rank": 5,
       "full_rank": 4,
-      "swe_rank": 10,
+      "swe_rank": 11,
       "hard_rank": 2
     },
     {
@@ -483,7 +483,105 @@
       "overall_rank": 6,
       "full_rank": 2,
       "swe_rank": 9,
-      "hard_rank": 4
+      "hard_rank": 5
+    },
+    {
+      "id": "claude-sonnet-5-openrouter-xhigh",
+      "label": "Claude Sonnet 5",
+      "basis": "OpenRouter · extra-high reasoning · Full + SWE + Hard measured",
+      "full": {
+        "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
+        "final": 81.64,
+        "capability": 86.48,
+        "agentic": 81.58,
+        "daily": 79.75,
+        "efficiency": 54.36,
+        "performance": 83.67,
+        "reliability": 100,
+        "pass_rate": 88.37,
+        "avg_s": 9.253,
+        "decode": 32.602,
+        "cost": 2.195072,
+        "cost_basis": "provider_reported_or_openrouter_pricing",
+        "prompt_count": 43,
+        "total_time_s": 397.879,
+        "prompt_tokens": 1033846,
+        "output_tokens": 12738,
+        "reasoning_tokens": 383,
+        "failure_modes": {
+          "invalid_json": 2,
+          "missing_any_phrase": 1,
+          "missing_required_concept": 1,
+          "output_budget_exhausted": 1,
+          "provider_finish_length": 1,
+          "wrong_tool_args": 1
+        }
+      },
+      "swe": {
+        "suite": "software_engineering_mvp_v1 · n=3 · public SWE MVP",
+        "swe_score": 78.08,
+        "focused_final": 73.09,
+        "capability": 75.05,
+        "daily": 71.94,
+        "performance": 70.25,
+        "efficiency": 61.64,
+        "reliability": 100,
+        "cost": 0.440018,
+        "cost_basis": "provider_reported_or_openrouter_pricing",
+        "time_s": 425.547,
+        "prompt_count": 24,
+        "prompt_tokens": 12039,
+        "output_tokens": 41594,
+        "reasoning_tokens": 5141,
+        "failure_modes": {
+          "low_precision": 3,
+          "patch_rejected": 5
+        }
+      },
+      "notes": [
+        "Measured with OpenRouter extra-high reasoning across Full/Agentic, SWE MVP, and Hard Intelligence.",
+        "Hard Intelligence is a public diagnostic, not a hidden official score."
+      ],
+      "overall_score": 82.082,
+      "token_p90_per_scored_item": 31009,
+      "hard_intelligence": {
+        "suite": "hard_intelligence_v1.alpha · public diagnostic",
+        "diagnostic_score": 86.526,
+        "overall_included": true,
+        "record_count": 16,
+        "cost": 0.176872,
+        "input_tokens": 9121,
+        "output_tokens": 15863,
+        "reasoning_tokens": 2798,
+        "runtime_seconds": 215.3065,
+        "api_status": {
+          "ok": 16
+        },
+        "finish_reasons": {
+          "stop": 16
+        },
+        "output_budget_valid": true,
+        "reasoning_level": "extra-high",
+        "reasoning_mode": "OpenRouter reasoning",
+        "lanes": {
+          "active_information_acquisition": 98.5,
+          "online_adaptation_fast_learning": 99.0625,
+          "evidence_driven_self_repair": 86.0417,
+          "authority_salience_constraint_integrity": 62.5
+        },
+        "failure_modes": {
+          "blind_false_premise_agreement": 2
+        },
+        "limitations": [
+          "public_fixture_only",
+          "incomplete_non_official_diagnostic"
+        ]
+      },
+      "token_median_per_scored_item": 1824,
+      "overall_rank": 7,
+      "full_rank": 12,
+      "swe_rank": 10,
+      "hard_rank": 3
     },
     {
       "id": "qwen3.7-max-openrouter-xhigh",
@@ -560,10 +658,10 @@
         }
       },
       "token_median_per_scored_item": 2099,
-      "overall_rank": 7,
+      "overall_rank": 8,
       "full_rank": 11,
       "swe_rank": 2,
-      "hard_rank": 8
+      "hard_rank": 9
     },
     {
       "id": "minimax-m3-openrouter-xhigh",
@@ -633,10 +731,10 @@
         }
       },
       "token_median_per_scored_item": 1876,
-      "overall_rank": 8,
+      "overall_rank": 9,
       "full_rank": 8,
       "swe_rank": 5,
-      "hard_rank": 9
+      "hard_rank": 10
     },
     {
       "id": "claude-fable-5-openrouter-xhigh",
@@ -691,8 +789,8 @@
       "overall_score": 79.22,
       "token_p90_per_scored_item": 31166.24,
       "token_median_per_scored_item": 1277,
-      "overall_rank": 9,
-      "full_rank": 15,
+      "overall_rank": 10,
+      "full_rank": 16,
       "swe_rank": 7
     },
     {
@@ -778,10 +876,10 @@
         }
       },
       "token_median_per_scored_item": 1373,
-      "overall_rank": 10,
+      "overall_rank": 11,
       "full_rank": 9,
-      "swe_rank": 11,
-      "hard_rank": 7
+      "swe_rank": 12,
+      "hard_rank": 8
     },
     {
       "id": "kimi-k2.7-code-openrouter-xhigh",
@@ -859,10 +957,10 @@
         }
       },
       "token_median_per_scored_item": 1593,
-      "overall_rank": 11,
+      "overall_rank": 12,
       "full_rank": 5,
-      "swe_rank": 13,
-      "hard_rank": 10
+      "swe_rank": 14,
+      "hard_rank": 11
     },
     {
       "id": "step-3.7-flash-openrouter-xhigh",
@@ -965,10 +1063,10 @@
         }
       },
       "token_median_per_scored_item": 4395,
-      "overall_rank": 12,
+      "overall_rank": 13,
       "full_rank": 3,
       "swe_rank": 8,
-      "hard_rank": 15
+      "hard_rank": 16
     },
     {
       "id": "nemotron-3-ultra-openrouter-xhigh",
@@ -1055,10 +1153,10 @@
         }
       },
       "token_median_per_scored_item": 984,
-      "overall_rank": 13,
-      "full_rank": 13,
-      "swe_rank": 12,
-      "hard_rank": 11
+      "overall_rank": 14,
+      "full_rank": 14,
+      "swe_rank": 13,
+      "hard_rank": 12
     },
     {
       "id": "gemma4-12b-coder-fable5-composer25-q4km-local",
@@ -1173,10 +1271,10 @@
       "overall_score": 61.1894,
       "token_p90_per_scored_item": 26798,
       "token_median_per_scored_item": 764,
-      "overall_rank": 14,
-      "full_rank": 12,
-      "swe_rank": 14,
-      "hard_rank": 13
+      "overall_rank": 15,
+      "full_rank": 13,
+      "swe_rank": 15,
+      "hard_rank": 14
     },
     {
       "id": "ornith-35b-q4km-vulkan-fit-local",
@@ -1289,10 +1387,10 @@
       "overall_score": 55.5678,
       "token_p90_per_scored_item": 10537,
       "token_median_per_scored_item": 1192,
-      "overall_rank": 15,
-      "full_rank": 14,
-      "swe_rank": 16,
-      "hard_rank": 12
+      "overall_rank": 16,
+      "full_rank": 15,
+      "swe_rank": 17,
+      "hard_rank": 13
     },
     {
       "id": "qwythos-9b-q8-vulkan-local",
@@ -1406,10 +1504,10 @@
       "overall_score": 55.1321,
       "token_p90_per_scored_item": 19779,
       "token_median_per_scored_item": 1064,
-      "overall_rank": 16,
-      "full_rank": 16,
-      "swe_rank": 15,
-      "hard_rank": 14
+      "overall_rank": 17,
+      "full_rank": 17,
+      "swe_rank": 16,
+      "hard_rank": 15
     }
   ],
   "schema_type": "resyst_labs_benchmark_rankings"
