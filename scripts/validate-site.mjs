@@ -218,7 +218,7 @@ for (const required of [
   'Each point is one tested model',
   '#1 - GPT 5.5',
   '#2 - DS-V4-flash',
-  '#4 - GLM 5.2',
+  '#4 - Fable 5',
   'scatter-hover-card',
   'Tokens total:',
   'Median / item:',
@@ -324,22 +324,22 @@ if (localRows.length) {
 }
 const expectedRows = {
   'gpt-5.5-openrouter-xhigh': {overallScore: 88.2237, overallRank: 1, fullRank: 7, sweRank: 6, hardScore: 93.401, hardRank: 1},
-  'deepseek-v4-flash-direct': {overallScore: 86.0768, overallRank: 2, fullRank: 1, sweRank: 4, hardScore: 75.4803, hardRank: 6},
-  'claude-opus-4.8-openrouter-xhigh': {overallScore: 84.4533, overallRank: 3, fullRank: 10, sweRank: 3, hardScore: 81.3698, hardRank: 4},
-  'glm-5.2-openrouter-xhigh': {overallScore: 83.6778, overallRank: 4, fullRank: 6, sweRank: 1, hardScore: 74.5833, hardRank: 7},
-  'gemini-3.5-flash-openrouter': {overallScore: 83.3767, overallRank: 5, fullRank: 4, sweRank: 11, hardScore: 87.75, hardRank: 2},
-  'deepseek-v4-pro-direct': {overallScore: 83.365, overallRank: 6, fullRank: 2, sweRank: 9, hardScore: 78.375, hardRank: 5},
-  'claude-sonnet-5-openrouter-xhigh': {overallScore: 82.082, overallRank: 7, fullRank: 12, sweRank: 10, hardScore: 86.526, hardRank: 3},
-  'qwen3.7-max-openrouter-xhigh': {overallScore: 80.7086, overallRank: 8, fullRank: 11, sweRank: 2, hardScore: 69.8958, hardRank: 9},
-  'minimax-m3-openrouter-xhigh': {overallScore: 79.6603, overallRank: 9, fullRank: 8, sweRank: 5, hardScore: 66.7708, hardRank: 10},
-  'claude-fable-5-openrouter-xhigh': {overallScore: 79.22, overallRank: 10, fullRank: 16, sweRank: 7},
-  'minimax-m3-direct-anthropic': {overallScore: 74.629, overallRank: 11, fullRank: 9, sweRank: 12, hardScore: 71.7969, hardRank: 8},
-  'kimi-k2.7-code-openrouter-xhigh': {overallScore: 71.0061, overallRank: 12, fullRank: 5, sweRank: 14, hardScore: 66.4583, hardRank: 11},
-  'step-3.7-flash-openrouter-xhigh': {overallScore: 68.0565, overallRank: 13, fullRank: 3, sweRank: 8, hardScore: 33.9896, hardRank: 16},
-  'nemotron-3-ultra-openrouter-xhigh': {overallScore: 67.5758, overallRank: 14, fullRank: 14, sweRank: 13, hardScore: 64.5573, hardRank: 12},
-  'gemma4-12b-coder-fable5-composer25-q4km-local': {overallScore: 61.1894, overallRank: 15, fullRank: 13, sweRank: 15, hardScore: 48.9583, hardRank: 14},
-  'ornith-35b-q4km-vulkan-fit-local': {overallScore: 55.5678, overallRank: 16, fullRank: 15, sweRank: 17, hardScore: 49.5833, hardRank: 13},
-  'qwythos-9b-q8-vulkan-local': {overallScore: 55.1321, overallRank: 17, fullRank: 17, sweRank: 16, hardScore: 43.9062, hardRank: 15},
+  'deepseek-v4-flash-direct': {overallScore: 86.0768, overallRank: 2, fullRank: 1, sweRank: 4, hardScore: 75.4803, hardRank: 7},
+  'claude-opus-4.8-openrouter-xhigh': {overallScore: 84.4533, overallRank: 3, fullRank: 10, sweRank: 3, hardScore: 81.3698, hardRank: 5},
+  'claude-fable-5-openrouter-xhigh': {overallScore: 83.7387, overallRank: 4, fullRank: 16, sweRank: 7, hardScore: 92.776, hardRank: 2},
+  'glm-5.2-openrouter-xhigh': {overallScore: 83.6778, overallRank: 5, fullRank: 6, sweRank: 1, hardScore: 74.5833, hardRank: 8},
+  'gemini-3.5-flash-openrouter': {overallScore: 83.3767, overallRank: 6, fullRank: 4, sweRank: 11, hardScore: 87.75, hardRank: 3},
+  'deepseek-v4-pro-direct': {overallScore: 83.365, overallRank: 7, fullRank: 2, sweRank: 9, hardScore: 78.375, hardRank: 6},
+  'claude-sonnet-5-openrouter-xhigh': {overallScore: 82.082, overallRank: 8, fullRank: 12, sweRank: 10, hardScore: 86.526, hardRank: 4},
+  'qwen3.7-max-openrouter-xhigh': {overallScore: 80.7086, overallRank: 9, fullRank: 11, sweRank: 2, hardScore: 69.8958, hardRank: 10},
+  'minimax-m3-openrouter-xhigh': {overallScore: 79.6603, overallRank: 10, fullRank: 8, sweRank: 5, hardScore: 66.7708, hardRank: 11},
+  'minimax-m3-direct-anthropic': {overallScore: 74.629, overallRank: 11, fullRank: 9, sweRank: 12, hardScore: 71.7969, hardRank: 9},
+  'kimi-k2.7-code-openrouter-xhigh': {overallScore: 71.0061, overallRank: 12, fullRank: 5, sweRank: 14, hardScore: 66.4583, hardRank: 12},
+  'step-3.7-flash-openrouter-xhigh': {overallScore: 68.0565, overallRank: 13, fullRank: 3, sweRank: 8, hardScore: 33.9896, hardRank: 17},
+  'nemotron-3-ultra-openrouter-xhigh': {overallScore: 67.5758, overallRank: 14, fullRank: 14, sweRank: 13, hardScore: 64.5573, hardRank: 13},
+  'gemma4-12b-coder-fable5-composer25-q4km-local': {overallScore: 61.1894, overallRank: 15, fullRank: 13, sweRank: 15, hardScore: 48.9583, hardRank: 15},
+  'ornith-35b-q4km-vulkan-fit-local': {overallScore: 55.5678, overallRank: 16, fullRank: 15, sweRank: 17, hardScore: 49.5833, hardRank: 14},
+  'qwythos-9b-q8-vulkan-local': {overallScore: 55.1321, overallRank: 17, fullRank: 17, sweRank: 16, hardScore: 43.9062, hardRank: 16},
 };
 const hardMeasuredIds = Object.entries(expectedRows)
   .filter(([, expected]) => Number.isFinite(expected.hardScore))
@@ -371,6 +371,19 @@ if (Number(sonnet5?.token_median_per_scored_item) !== 1824 || Number(sonnet5?.to
 }
 if (!sonnet5?.notes?.some((note) => /extra-high reasoning/.test(note)) || !sonnet5?.notes?.some((note) => /public diagnostic/.test(note))) {
   throw new Error('Claude Sonnet 5 public notes must identify extra-high reasoning and Hard Intelligence diagnostic status');
+}
+const fable5 = models.rows.find((row) => row.id === 'claude-fable-5-openrouter-xhigh');
+if (Math.abs(Number(fable5?.overall_score) - ((Number(fable5?.full?.final) + Number(fable5?.swe?.swe_score) + Number(fable5?.hard_intelligence?.diagnostic_score)) / 3)) > 0.0001) {
+  throw new Error('Claude Fable 5 overall must equal the mean of Full, SWE, and Hard Intelligence');
+}
+if (Number(fable5?.token_median_per_scored_item) !== 1270 || Math.abs(Number(fable5?.token_p90_per_scored_item) - 30791.4) > 0.0001) {
+  throw new Error('Claude Fable 5 token median/P90 telemetry drifted');
+}
+if (!fable5?.notes?.some((note) => /extra-high reasoning/.test(note)) || !fable5?.notes?.some((note) => /public diagnostic/.test(note))) {
+  throw new Error('Claude Fable 5 public notes must identify extra-high reasoning and Hard Intelligence diagnostic status');
+}
+if (fable5?.hard_intelligence?.request_reasoning?.effort !== 'xhigh' || fable5?.hard_intelligence?.request_reasoning?.exclude !== false) {
+  throw new Error('Claude Fable 5 request reasoning metadata drifted');
 }
 const glm52 = models.rows.find((row) => row.id === 'glm-5.2-openrouter-xhigh');
 if (Math.abs(Number(glm52?.overall_score) - ((Number(glm52?.full?.final) + Number(glm52?.swe?.swe_score) + Number(glm52?.hard_intelligence?.diagnostic_score)) / 3)) > 0.0001) {
