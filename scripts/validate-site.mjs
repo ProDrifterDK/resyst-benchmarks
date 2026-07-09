@@ -216,9 +216,10 @@ for (const required of [
   'Runtime × overall',
   'Recorded tokens/item × cost',
   'Each point is one tested model',
-  '#1 - GPT 5.5',
-  '#2 - DS-V4-flash',
-  '#4 - Fable 5',
+  '#1 - GPT5.5',
+  '#2 - Terra',
+  '#3 - DS-V4f',
+  '#4 - Sol',
   'scatter-hover-card',
   'Tokens total:',
   'Median / item:',
@@ -299,8 +300,8 @@ for (const cssFile of ['src/styles.css', 'dist/styles.css']) {
   }
 }
 
-if (!Array.isArray(models.rows) || models.rows.length !== 17 || models.summary?.row_count !== 17) {
-  throw new Error('model data must expose exactly 17 ranked rows for the Sonnet 5 publication set');
+if (!Array.isArray(models.rows) || models.rows.length !== 20 || models.summary?.row_count !== 20) {
+  throw new Error('model data must expose exactly 20 ranked rows for the GPT-5.6 publication set');
 }
 if (!models.rows.every((row) => row.label && row.basis && Number.isFinite(row.overall_rank ?? 999))) {
   throw new Error('each model row needs public label, basis and rank metadata');
@@ -323,23 +324,26 @@ if (localRows.length) {
   }
 }
 const expectedRows = {
-  'gpt-5.5-openrouter-xhigh': {overallScore: 88.2237, overallRank: 1, fullRank: 7, sweRank: 6, hardScore: 93.401, hardRank: 1},
-  'deepseek-v4-flash-direct': {overallScore: 86.0768, overallRank: 2, fullRank: 1, sweRank: 4, hardScore: 75.4803, hardRank: 7},
-  'claude-opus-4.8-openrouter-xhigh': {overallScore: 84.4533, overallRank: 3, fullRank: 10, sweRank: 3, hardScore: 81.3698, hardRank: 5},
-  'claude-fable-5-openrouter-xhigh': {overallScore: 83.7387, overallRank: 4, fullRank: 16, sweRank: 7, hardScore: 92.776, hardRank: 2},
-  'glm-5.2-openrouter-xhigh': {overallScore: 83.6778, overallRank: 5, fullRank: 6, sweRank: 1, hardScore: 74.5833, hardRank: 8},
-  'gemini-3.5-flash-openrouter': {overallScore: 83.3767, overallRank: 6, fullRank: 4, sweRank: 11, hardScore: 87.75, hardRank: 3},
-  'deepseek-v4-pro-direct': {overallScore: 83.365, overallRank: 7, fullRank: 2, sweRank: 9, hardScore: 78.375, hardRank: 6},
-  'claude-sonnet-5-openrouter-xhigh': {overallScore: 82.082, overallRank: 8, fullRank: 12, sweRank: 10, hardScore: 86.526, hardRank: 4},
-  'qwen3.7-max-openrouter-xhigh': {overallScore: 80.7086, overallRank: 9, fullRank: 11, sweRank: 2, hardScore: 69.8958, hardRank: 10},
-  'minimax-m3-openrouter-xhigh': {overallScore: 79.6603, overallRank: 10, fullRank: 8, sweRank: 5, hardScore: 66.7708, hardRank: 11},
-  'minimax-m3-direct-anthropic': {overallScore: 74.629, overallRank: 11, fullRank: 9, sweRank: 12, hardScore: 71.7969, hardRank: 9},
-  'kimi-k2.7-code-openrouter-xhigh': {overallScore: 71.0061, overallRank: 12, fullRank: 5, sweRank: 14, hardScore: 66.4583, hardRank: 12},
-  'step-3.7-flash-openrouter-xhigh': {overallScore: 68.0565, overallRank: 13, fullRank: 3, sweRank: 8, hardScore: 33.9896, hardRank: 17},
-  'nemotron-3-ultra-openrouter-xhigh': {overallScore: 67.5758, overallRank: 14, fullRank: 14, sweRank: 13, hardScore: 64.5573, hardRank: 13},
-  'gemma4-12b-coder-fable5-composer25-q4km-local': {overallScore: 61.1894, overallRank: 15, fullRank: 13, sweRank: 15, hardScore: 48.9583, hardRank: 15},
-  'ornith-35b-q4km-vulkan-fit-local': {overallScore: 55.5678, overallRank: 16, fullRank: 15, sweRank: 17, hardScore: 49.5833, hardRank: 14},
-  'qwythos-9b-q8-vulkan-local': {overallScore: 55.1321, overallRank: 17, fullRank: 17, sweRank: 16, hardScore: 43.9062, hardRank: 16},
+  'gpt-5.5-openrouter-xhigh': {overallScore: 88.2237, overallRank: 1, fullRank: 10, sweRank: 7, hardScore: 93.401, hardRank: 1},
+  'gpt-5.6-terra-openrouter-xhigh': {overallScore: 87.7041, overallRank: 2, fullRank: 5, sweRank: 6, hardScore: 88.1823, hardRank: 4},
+  'deepseek-v4-flash-direct': {overallScore: 86.0768, overallRank: 3, fullRank: 1, sweRank: 4, hardScore: 75.4803, hardRank: 10},
+  'gpt-5.6-sol-openrouter-xhigh': {overallScore: 84.5658, overallRank: 4, fullRank: 9, sweRank: 12, hardScore: 91.3073, hardRank: 3},
+  'claude-opus-4.8-openrouter-xhigh': {overallScore: 84.4533, overallRank: 5, fullRank: 13, sweRank: 3, hardScore: 81.3698, hardRank: 7},
+  'claude-fable-5-openrouter-xhigh': {overallScore: 83.7387, overallRank: 6, fullRank: 19, sweRank: 8, hardScore: 92.776, hardRank: 2},
+  'glm-5.2-openrouter-xhigh': {overallScore: 83.6778, overallRank: 7, fullRank: 8, sweRank: 1, hardScore: 74.5833, hardRank: 11},
+  'gemini-3.5-flash-openrouter': {overallScore: 83.3767, overallRank: 8, fullRank: 6, sweRank: 14, hardScore: 87.75, hardRank: 5},
+  'deepseek-v4-pro-direct': {overallScore: 83.365, overallRank: 9, fullRank: 2, sweRank: 10, hardScore: 78.375, hardRank: 9},
+  'gpt-5.6-luna-openrouter-xhigh': {overallScore: 82.1343, overallRank: 10, fullRank: 3, sweRank: 13, hardScore: 80.6628, hardRank: 8},
+  'claude-sonnet-5-openrouter-xhigh': {overallScore: 82.082, overallRank: 11, fullRank: 15, sweRank: 11, hardScore: 86.526, hardRank: 6},
+  'qwen3.7-max-openrouter-xhigh': {overallScore: 80.7086, overallRank: 12, fullRank: 14, sweRank: 2, hardScore: 69.8958, hardRank: 13},
+  'minimax-m3-openrouter-xhigh': {overallScore: 79.6603, overallRank: 13, fullRank: 11, sweRank: 5, hardScore: 66.7708, hardRank: 14},
+  'minimax-m3-direct-anthropic': {overallScore: 74.629, overallRank: 14, fullRank: 12, sweRank: 15, hardScore: 71.7969, hardRank: 12},
+  'kimi-k2.7-code-openrouter-xhigh': {overallScore: 71.0061, overallRank: 15, fullRank: 7, sweRank: 17, hardScore: 66.4583, hardRank: 15},
+  'step-3.7-flash-openrouter-xhigh': {overallScore: 68.0565, overallRank: 16, fullRank: 4, sweRank: 9, hardScore: 33.9896, hardRank: 20},
+  'nemotron-3-ultra-openrouter-xhigh': {overallScore: 67.5758, overallRank: 17, fullRank: 17, sweRank: 16, hardScore: 64.5573, hardRank: 16},
+  'gemma4-12b-coder-fable5-composer25-q4km-local': {overallScore: 61.1894, overallRank: 18, fullRank: 16, sweRank: 18, hardScore: 48.9583, hardRank: 18},
+  'ornith-35b-q4km-vulkan-fit-local': {overallScore: 55.5678, overallRank: 19, fullRank: 18, sweRank: 20, hardScore: 49.5833, hardRank: 17},
+  'qwythos-9b-q8-vulkan-local': {overallScore: 55.1321, overallRank: 20, fullRank: 20, sweRank: 19, hardScore: 43.9062, hardRank: 19},
 };
 const hardMeasuredIds = Object.entries(expectedRows)
   .filter(([, expected]) => Number.isFinite(expected.hardScore))
@@ -360,6 +364,25 @@ for (const [id, expected] of Object.entries(expectedRows)) {
     for (const key of hardLaneKeys) {
       if (!Number.isFinite(Number(hardScores[key]))) throw new Error(`${id} missing hard-intelligence lane: ${key}`);
     }
+  }
+}
+const gpt56TelemetryExpectations = {
+  'gpt-5.6-luna-openrouter-xhigh': {median: 1567, p90: 15121.6},
+  'gpt-5.6-terra-openrouter-xhigh': {median: 1055, p90: 14890.0},
+  'gpt-5.6-sol-openrouter-xhigh': {median: 1075, p90: 15046.0},
+};
+for (const [id, expected] of Object.entries(gpt56TelemetryExpectations)) {
+  const row = models.rows.find((entry) => entry.id === id);
+  if (!row) throw new Error(`${id} missing GPT-5.6 row`);
+  const mean = (Number(row.full?.final) + Number(row.swe?.swe_score) + Number(row.hard_intelligence?.diagnostic_score)) / 3;
+  if (Math.abs(Number(row.overall_score) - mean) > 0.0001) {
+    throw new Error(`${id} overall must equal the mean of Full, SWE, and Hard Intelligence`);
+  }
+  if (Number(row.token_median_per_scored_item) !== expected.median || Math.abs(Number(row.token_p90_per_scored_item) - expected.p90) > 0.0001) {
+    throw new Error(`${id} token median/P90 telemetry drifted`);
+  }
+  if (!row.notes?.some((note) => /extra-high reasoning/.test(note)) || !row.notes?.some((note) => /public diagnostic/.test(note))) {
+    throw new Error(`${id} public notes must identify extra-high reasoning and Hard Intelligence diagnostic status`);
   }
 }
 const sonnet5 = models.rows.find((row) => row.id === 'claude-sonnet-5-openrouter-xhigh');

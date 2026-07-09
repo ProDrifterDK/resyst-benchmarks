@@ -43,22 +43,26 @@ const sideValue = (map, side) => map?.[side] ?? 0;
 const prettyReason = (value = 'resolved') => String(value).replaceAll('_', ' ');
 const modelPath = (row) => `models/${slug(row.id)}/`;
 const shortModelLabels = new Map([
-  ['gpt-5.5-openrouter-xhigh', 'GPT 5.5'],
-  ['deepseek-v4-flash-direct', 'DS-V4-flash'],
-  ['claude-opus-4.8-openrouter-xhigh', 'Claude Opus'],
-  ['glm-5.2-openrouter-xhigh', 'GLM 5.2'],
-  ['gemini-3.5-flash-openrouter', 'Gemini 3.5'],
-  ['deepseek-v4-pro-direct', 'DS-V4-pro'],
-  ['qwen3.7-max-openrouter-xhigh', 'Qwen 3.7'],
-  ['minimax-m3-openrouter-xhigh', 'MiniMax M3'],
-  ['claude-fable-5-openrouter-xhigh', 'Fable 5'],
+  ['gpt-5.5-openrouter-xhigh', 'GPT5.5'],
+  ['gpt-5.6-luna-openrouter-xhigh', 'Luna'],
+  ['gpt-5.6-terra-openrouter-xhigh', 'Terra'],
+  ['gpt-5.6-sol-openrouter-xhigh', 'Sol'],
+  ['deepseek-v4-flash-direct', 'DS-V4f'],
+  ['claude-opus-4.8-openrouter-xhigh', 'Opus'],
+  ['glm-5.2-openrouter-xhigh', 'GLM5.2'],
+  ['gemini-3.5-flash-openrouter', 'Gemini'],
+  ['deepseek-v4-pro-direct', 'DS-V4p'],
+  ['qwen3.7-max-openrouter-xhigh', 'Qwen3.7'],
+  ['minimax-m3-openrouter-xhigh', 'M3'],
+  ['claude-fable-5-openrouter-xhigh', 'Fable'],
+  ['claude-sonnet-5-openrouter-xhigh', 'Sonnet'],
   ['minimax-m3-direct-anthropic', 'M3 Direct'],
-  ['kimi-k2.7-code-openrouter-xhigh', 'Kimi K2.7'],
-  ['step-3.7-flash-openrouter-xhigh', 'Step 3.7'],
-  ['nemotron-3-ultra-openrouter-xhigh', 'Nemotron 3'],
-  ['gemma4-12b-coder-fable5-composer25-q4km-local', 'Gemma4 Local'],
-  ['ornith-35b-q4km-vulkan-fit-local', 'Ornith 35B'],
-  ['qwythos-9b-q8-vulkan-local', 'Qwythos Q8'],
+  ['kimi-k2.7-code-openrouter-xhigh', 'Kimi'],
+  ['step-3.7-flash-openrouter-xhigh', 'Step'],
+  ['nemotron-3-ultra-openrouter-xhigh', 'Nemotron'],
+  ['gemma4-12b-coder-fable5-composer25-q4km-local', 'Gemma'],
+  ['ornith-35b-q4km-vulkan-fit-local', 'Ornith'],
+  ['qwythos-9b-q8-vulkan-local', 'Qwythos'],
 ]);
 const shortModelLabel = (row) => shortModelLabels.get(row.id) ?? String(row.label ?? row.id).replace(/DeepSeek/g, 'DS').replace(/NVIDIA /g, '').slice(0, 18);
 const isLocalModel = (row) => row.runtime_type === 'local'
@@ -1043,6 +1047,9 @@ function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX
   if (showInlineNames) {
     const minLabelY = margin.top + 13;
     const maxLabelY = height - margin.bottom - 8;
+    // Vertical step between stacked label rows. 11px keeps 20 inline labels
+    // (19 gaps) inside the ~241px band without clamping the top rows to minLabelY.
+    const labelRowStep = 11;
     const labelRows = points
       .map((point, index) => {
         const cx = xFor(point.x);
@@ -1058,7 +1065,7 @@ function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX
       })
       .sort((a, b) => a.desiredY - b.desiredY);
     for (let index = 1; index < labelRows.length; index += 1) {
-      labelRows[index].y = Math.max(labelRows[index].y, labelRows[index - 1].y + 16);
+      labelRows[index].y = Math.max(labelRows[index].y, labelRows[index - 1].y + labelRowStep);
     }
     const overflow = (labelRows.at(-1)?.y ?? 0) - maxLabelY;
     if (overflow > 0) {
