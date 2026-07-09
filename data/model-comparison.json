@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-03T20:31:12Z",
-  "synced_at": "2026-07-03T20:31:12Z",
+  "generated_at": "2026-07-09T22:18:32Z",
+  "synced_at": "2026-07-09T22:18:32Z",
   "summary": {
     "title": "Resyst Labs LLM Benchmark Rankings",
     "formula": "Overall = average of measured major lanes: Full/Agentic, SWE MVP, and Hard Intelligence when published",
     "public_note": "Local and API-backed models share one tournament table. Blank Hard Intelligence cells mean that lane is not yet measured for that entrant.",
-    "row_count": 17
+    "row_count": 20
   },
   "notes": [
     "Full/Agentic, SWE, and Hard Intelligence are separate benchmark lanes; overall uses the average of measured major lanes.",
@@ -85,8 +85,8 @@
       },
       "token_median_per_scored_item": 1091,
       "overall_rank": 1,
-      "full_rank": 7,
-      "swe_rank": 6,
+      "full_rank": 10,
+      "swe_rank": 7,
       "hard_rank": 1,
       "telemetry": {
         "scoring_role": "telemetry_only",
@@ -157,6 +157,189 @@
               "item_count": 8,
               "recorded_seconds": 107.0767,
               "seconds_per_item": 13.3846,
+              "status": "recorded",
+              "basis": "total_seconds"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "gpt-5.6-terra-openrouter-xhigh",
+      "label": "GPT‑5.6 Terra",
+      "basis": "OpenRouter · extra-high reasoning · Full + SWE + Hard measured",
+      "provider": "openrouter",
+      "runtime": "api",
+      "location": "remote",
+      "cost_class": "paid-api",
+      "full": {
+        "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
+        "final": 88.85,
+        "capability": 92.01,
+        "agentic": 90.53,
+        "daily": 87.66,
+        "efficiency": 68.8,
+        "performance": 91.72,
+        "reliability": 100,
+        "pass_rate": 93.02,
+        "avg_s": 4.13,
+        "decode": 31.25,
+        "cost": 1.457842,
+        "cost_basis": "provider_reported_or_openrouter_pricing",
+        "prompt_count": 43,
+        "total_time_s": 177.599,
+        "prompt_tokens": 502940,
+        "output_tokens": 5198,
+        "reasoning_tokens": 1742,
+        "failure_modes": {
+          "field_value_mismatch": 1,
+          "missing_any_phrase": 1,
+          "wrong_tool_args": 1
+        }
+      },
+      "swe": {
+        "suite": "software_engineering_mvp_v1 · n=3 · public SWE MVP",
+        "swe_score": 86.08,
+        "focused_final": 80.67,
+        "capability": 83.39,
+        "daily": 79.38,
+        "performance": 76.64,
+        "efficiency": 71,
+        "reliability": 100,
+        "cost": 0.34356,
+        "cost_basis": "provider_reported_or_openrouter_pricing",
+        "time_s": 234.955,
+        "prompt_count": 24,
+        "prompt_tokens": 7530,
+        "output_tokens": 21649,
+        "reasoning_tokens": 15480,
+        "failure_modes": {
+          "no_patch_found": 3
+        },
+        "task_type_scores": {
+          "multi_file_patch": 83.33,
+          "component_creation": 66.67,
+          "software_audit_review": 86.67,
+          "edge_case_discovery": 93.75,
+          "security_supply_chain": 100
+        }
+      },
+      "notes": [
+        "Exact OpenRouter model: openai/gpt-5.6-terra.",
+        "Measured with OpenRouter extra-high reasoning across Full/Agentic, SWE MVP, and Hard Intelligence.",
+        "Hard Intelligence is a public diagnostic, not a hidden official score."
+      ],
+      "overall_score": 87.7041,
+      "token_p90_per_scored_item": 14890,
+      "token_median_per_scored_item": 1055,
+      "hard_intelligence": {
+        "suite": "hard_intelligence_v1.alpha · public diagnostic",
+        "diagnostic_score": 88.1823,
+        "overall_included": true,
+        "record_count": 16,
+        "cost": 0.065943,
+        "cost_basis": "provider_reported_or_openrouter_pricing",
+        "input_tokens": 5245,
+        "output_tokens": 3522,
+        "reasoning_tokens": 1998,
+        "runtime_seconds": 65.0589,
+        "api_status": {
+          "ok": 16
+        },
+        "finish_reasons": {
+          "stop": 16
+        },
+        "output_budget_valid": true,
+        "reasoning_level": "extra-high",
+        "reasoning_mode": "OpenRouter reasoning",
+        "lanes": {
+          "active_information_acquisition": 99.75,
+          "authority_salience_constraint_integrity": 70,
+          "evidence_driven_self_repair": 85.4792,
+          "online_adaptation_fast_learning": 97.5
+        },
+        "failure_modes": {
+          "blind_false_premise_agreement": 2
+        },
+        "limitations": [
+          "public_fixture_only",
+          "incomplete_difficulty_curve",
+          "insufficient_seed_count"
+        ]
+      },
+      "overall_rank": 2,
+      "full_rank": 5,
+      "swe_rank": 6,
+      "hard_rank": 4,
+      "telemetry": {
+        "scoring_role": "telemetry_only",
+        "cost": 1.867345,
+        "cost_per_scored_item": 0.022498,
+        "avgSeconds": 5.7544,
+        "tokenVolume": 565304,
+        "tokenPerScoredItem": 6810.89,
+        "overall": 87.7041,
+        "scored_items": 83,
+        "tokens": {
+          "recorded_total": 565304,
+          "per_scored_item_recorded": 6810.89,
+          "mean_per_scored_item": 6810.89,
+          "median_per_scored_item": 1055,
+          "p90_per_scored_item": 14890,
+          "per_covered_item": 6810.89,
+          "covered_items": 83,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_total": 509880,
+              "per_item_recorded": 11857.67,
+              "status": "recorded",
+              "basis": "direct_fields"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_total": 44659,
+              "per_item_recorded": 1860.79,
+              "status": "recorded",
+              "basis": "direct_fields"
+            },
+            "hard": {
+              "item_count": 16,
+              "recorded_total": 10765,
+              "per_item_recorded": 672.81,
+              "status": "recorded",
+              "basis": "direct_fields"
+            }
+          }
+        },
+        "runtime": {
+          "recorded_seconds": 477.6129,
+          "seconds_per_timed_item": 5.7544,
+          "seconds_per_scored_item_recorded": 5.7544,
+          "covered_items": 83,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_seconds": 177.599,
+              "seconds_per_item": 4.1302,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_seconds": 234.955,
+              "seconds_per_item": 9.7898,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "hard": {
+              "item_count": 16,
+              "recorded_seconds": 65.0589,
+              "seconds_per_item": 4.0662,
               "status": "recorded",
               "basis": "total_seconds"
             }
@@ -239,10 +422,10 @@
         "runtime_seconds": 6641.6749
       },
       "token_median_per_scored_item": 1819,
-      "overall_rank": 2,
+      "overall_rank": 3,
       "full_rank": 1,
       "swe_rank": 4,
-      "hard_rank": 7,
+      "hard_rank": 10,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.29006304,
@@ -312,6 +495,191 @@
               "item_count": 240,
               "recorded_seconds": 6641.6749,
               "seconds_per_item": 27.6736,
+              "status": "recorded",
+              "basis": "total_seconds"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "gpt-5.6-sol-openrouter-xhigh",
+      "label": "GPT‑5.6 Sol",
+      "basis": "OpenRouter · extra-high reasoning · Full + SWE + Hard measured",
+      "provider": "openrouter",
+      "runtime": "api",
+      "location": "remote",
+      "cost_class": "paid-api",
+      "full": {
+        "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
+        "final": 86.27,
+        "capability": 97.27,
+        "agentic": 94.03,
+        "daily": 82.22,
+        "efficiency": 57.08,
+        "performance": 76.84,
+        "reliability": 100,
+        "pass_rate": 97.67,
+        "avg_s": 5.65,
+        "decode": 24.134,
+        "cost": 2.944231,
+        "cost_basis": "provider_reported_or_openrouter_pricing",
+        "prompt_count": 43,
+        "total_time_s": 242.932,
+        "prompt_tokens": 502955,
+        "output_tokens": 5720,
+        "reasoning_tokens": 2443,
+        "failure_modes": {
+          "schema_missing_required_field": 1
+        }
+      },
+      "swe": {
+        "suite": "software_engineering_mvp_v1 · n=3 · public SWE MVP",
+        "swe_score": 76.12,
+        "focused_final": 58.35,
+        "capability": 71.2,
+        "daily": 52.86,
+        "performance": 27.79,
+        "efficiency": 48.26,
+        "reliability": 100,
+        "cost": 0.78501,
+        "cost_basis": "provider_reported_or_openrouter_pricing",
+        "time_s": 769.205,
+        "prompt_count": 24,
+        "prompt_tokens": 7530,
+        "output_tokens": 24912,
+        "reasoning_tokens": 18289,
+        "failure_modes": {
+          "low_precision": 2,
+          "low_recall": 2,
+          "patch_rejected": 3,
+          "public_tests_failed": 2,
+          "tests_failed": 2
+        },
+        "task_type_scores": {
+          "multi_file_patch": 83.33,
+          "component_creation": 45.62,
+          "software_audit_review": 60,
+          "edge_case_discovery": 93.33,
+          "security_supply_chain": 98.33
+        }
+      },
+      "notes": [
+        "Exact OpenRouter model: openai/gpt-5.6-sol.",
+        "Measured with OpenRouter extra-high reasoning across Full/Agentic, SWE MVP, and Hard Intelligence.",
+        "Hard Intelligence is a public diagnostic, not a hidden official score."
+      ],
+      "overall_score": 84.5658,
+      "token_p90_per_scored_item": 15046,
+      "token_median_per_scored_item": 1075,
+      "hard_intelligence": {
+        "suite": "hard_intelligence_v1.alpha · public diagnostic",
+        "diagnostic_score": 91.3073,
+        "overall_included": true,
+        "record_count": 16,
+        "cost": 0.128465,
+        "cost_basis": "provider_reported_or_openrouter_pricing",
+        "input_tokens": 5245,
+        "output_tokens": 3408,
+        "reasoning_tokens": 1864,
+        "runtime_seconds": 91.8036,
+        "api_status": {
+          "ok": 16
+        },
+        "finish_reasons": {
+          "stop": 16
+        },
+        "output_budget_valid": true,
+        "reasoning_level": "extra-high",
+        "reasoning_mode": "OpenRouter reasoning",
+        "lanes": {
+          "active_information_acquisition": 99.75,
+          "authority_salience_constraint_integrity": 100,
+          "evidence_driven_self_repair": 85.4792,
+          "online_adaptation_fast_learning": 80
+        },
+        "failure_modes": {
+          "prediction_explanation_mismatch": 2
+        },
+        "limitations": [
+          "public_fixture_only",
+          "incomplete_difficulty_curve",
+          "insufficient_seed_count"
+        ]
+      },
+      "overall_rank": 4,
+      "full_rank": 9,
+      "swe_rank": 12,
+      "hard_rank": 3,
+      "telemetry": {
+        "scoring_role": "telemetry_only",
+        "cost": 3.857706,
+        "cost_per_scored_item": 0.046478,
+        "avgSeconds": 13.3005,
+        "tokenVolume": 572366,
+        "tokenPerScoredItem": 6895.98,
+        "overall": 84.5658,
+        "scored_items": 83,
+        "tokens": {
+          "recorded_total": 572366,
+          "per_scored_item_recorded": 6895.98,
+          "mean_per_scored_item": 6895.98,
+          "median_per_scored_item": 1075,
+          "p90_per_scored_item": 15046,
+          "per_covered_item": 6895.98,
+          "covered_items": 83,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_total": 511118,
+              "per_item_recorded": 11886.47,
+              "status": "recorded",
+              "basis": "direct_fields"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_total": 50731,
+              "per_item_recorded": 2113.79,
+              "status": "recorded",
+              "basis": "direct_fields"
+            },
+            "hard": {
+              "item_count": 16,
+              "recorded_total": 10517,
+              "per_item_recorded": 657.31,
+              "status": "recorded",
+              "basis": "direct_fields"
+            }
+          }
+        },
+        "runtime": {
+          "recorded_seconds": 1103.9406,
+          "seconds_per_timed_item": 13.3005,
+          "seconds_per_scored_item_recorded": 13.3005,
+          "covered_items": 83,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_seconds": 242.932,
+              "seconds_per_item": 5.6496,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_seconds": 769.205,
+              "seconds_per_item": 32.0502,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "hard": {
+              "item_count": 16,
+              "recorded_seconds": 91.8036,
+              "seconds_per_item": 5.7377,
               "status": "recorded",
               "basis": "total_seconds"
             }
@@ -395,10 +763,10 @@
         }
       },
       "token_median_per_scored_item": 1132,
-      "overall_rank": 3,
-      "full_rank": 10,
+      "overall_rank": 5,
+      "full_rank": 13,
       "swe_rank": 3,
-      "hard_rank": 5,
+      "hard_rank": 7,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 6.11454,
@@ -468,6 +836,178 @@
               "item_count": 8,
               "recorded_seconds": 71.4633,
               "seconds_per_item": 8.9329,
+              "status": "recorded",
+              "basis": "total_seconds"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "claude-fable-5-openrouter-xhigh",
+      "label": "Claude Fable 5",
+      "basis": "OpenRouter · extra-high reasoning · Full + SWE + Hard measured",
+      "full": {
+        "suite": "benchmark_core_v1 · 43 prompts · full_suite_v3",
+        "final": 77.02,
+        "capability": 86,
+        "agentic": 82.26,
+        "daily": 73.64,
+        "efficiency": 36.64,
+        "performance": 76.91,
+        "reliability": 100,
+        "pass_rate": 86.05,
+        "avg_s": 12.735,
+        "decode": 18.708,
+        "cost": 10.79056,
+        "cost_basis": "provider_reported",
+        "prompt_count": 43,
+        "total_time_s": 547.61,
+        "prompt_tokens": 1028491,
+        "output_tokens": 10113,
+        "reasoning_tokens": 675
+      },
+      "swe": {
+        "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
+        "swe_score": 81.42,
+        "focused_final": 76.57,
+        "capability": 79.17,
+        "daily": 75.36,
+        "performance": 79.02,
+        "efficiency": 55.18,
+        "reliability": 100,
+        "cost": 1.02434,
+        "time_s": 279.59,
+        "prompt_count": 24,
+        "prompt_tokens": 12039,
+        "output_tokens": 18079,
+        "reasoning_tokens": 1804,
+        "task_type_scores": {
+          "multi_file_patch": 83.33,
+          "component_creation": 50,
+          "software_audit_review": 92.92,
+          "edge_case_discovery": 85.86,
+          "security_supply_chain": 95
+        }
+      },
+      "notes": [
+        "Exact OpenRouter model: anthropic/claude-fable-5.",
+        "Measured with OpenRouter extra-high reasoning across Full/Agentic, SWE MVP, and Hard Intelligence.",
+        "Hard Intelligence is a public diagnostic, not a hidden official score."
+      ],
+      "overall_score": 83.7387,
+      "token_p90_per_scored_item": 30791.4,
+      "hard_intelligence": {
+        "suite": "hard_intelligence_v1.alpha · public diagnostic",
+        "diagnostic_score": 92.776,
+        "overall_included": true,
+        "record_count": 16,
+        "cost": 0.4705,
+        "cost_basis": "provider_reported",
+        "input_tokens": 9112,
+        "output_tokens": 7650,
+        "reasoning_tokens": 1992,
+        "runtime_seconds": 199.7755,
+        "api_status": {
+          "ok": 16
+        },
+        "finish_reasons": {
+          "stop": 16
+        },
+        "output_budget_valid": true,
+        "reasoning_level": "extra-high",
+        "reasoning_mode": "OpenRouter reasoning",
+        "request_reasoning": {
+          "effort": "xhigh",
+          "exclude": false
+        },
+        "lanes": {
+          "active_information_acquisition": 99.75,
+          "online_adaptation_fast_learning": 98.125,
+          "evidence_driven_self_repair": 85.7292,
+          "authority_salience_constraint_integrity": 87.5
+        },
+        "failure_modes": {},
+        "limitations": [
+          "public_fixture_only",
+          "incomplete_difficulty_curve",
+          "insufficient_seed_count"
+        ]
+      },
+      "token_median_per_scored_item": 1270,
+      "overall_rank": 6,
+      "full_rank": 19,
+      "swe_rank": 8,
+      "hard_rank": 2,
+      "telemetry": {
+        "scoring_role": "telemetry_only",
+        "cost": 12.2854,
+        "cost_per_scored_item": 0.148017,
+        "avgSeconds": 12.3732,
+        "tokenVolume": 1089955,
+        "tokenPerScoredItem": 13131.99,
+        "overall": 83.7387,
+        "scored_items": 83,
+        "tokens": {
+          "recorded_total": 1089955,
+          "per_scored_item_recorded": 13131.99,
+          "mean_per_scored_item": 13131.99,
+          "median_per_scored_item": 1270,
+          "p90_per_scored_item": 30791.4,
+          "per_covered_item": 13131.99,
+          "covered_items": 83,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_total": 1039279,
+              "per_item_recorded": 24169.28,
+              "status": "recorded",
+              "basis": "direct_fields"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_total": 31922,
+              "per_item_recorded": 1330.08,
+              "status": "recorded",
+              "basis": "direct_fields"
+            },
+            "hard": {
+              "item_count": 16,
+              "recorded_total": 18754,
+              "per_item_recorded": 1172.13,
+              "status": "recorded",
+              "basis": "direct_fields"
+            }
+          }
+        },
+        "runtime": {
+          "recorded_seconds": 1026.9755,
+          "seconds_per_timed_item": 12.3732,
+          "seconds_per_scored_item_recorded": 12.3732,
+          "covered_items": 83,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_seconds": 547.61,
+              "seconds_per_item": 12.7351,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_seconds": 279.59,
+              "seconds_per_item": 11.6496,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "hard": {
+              "item_count": 16,
+              "recorded_seconds": 199.7755,
+              "seconds_per_item": 12.486,
               "status": "recorded",
               "basis": "total_seconds"
             }
@@ -548,10 +1088,10 @@
       "overall_score": 83.6778,
       "token_median_per_scored_item": 5593,
       "token_p90_per_scored_item": 64361.4,
-      "overall_rank": 5,
-      "full_rank": 6,
+      "overall_rank": 7,
+      "full_rank": 8,
       "swe_rank": 1,
-      "hard_rank": 8,
+      "hard_rank": 11,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 2.76764848,
@@ -702,10 +1242,10 @@
         "failure_modes": {}
       },
       "token_median_per_scored_item": 2443,
-      "overall_rank": 6,
-      "full_rank": 4,
-      "swe_rank": 11,
-      "hard_rank": 3,
+      "overall_rank": 8,
+      "full_rank": 6,
+      "swe_rank": 14,
+      "hard_rank": 5,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 1.6457935,
@@ -855,10 +1395,10 @@
         }
       },
       "token_median_per_scored_item": 1931,
-      "overall_rank": 7,
+      "overall_rank": 9,
       "full_rank": 2,
-      "swe_rank": 9,
-      "hard_rank": 6,
+      "swe_rank": 10,
+      "hard_rank": 9,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.33487897,
@@ -928,6 +1468,194 @@
               "item_count": 8,
               "recorded_seconds": 599.6958,
               "seconds_per_item": 74.962,
+              "status": "recorded",
+              "basis": "total_seconds"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "gpt-5.6-luna-openrouter-xhigh",
+      "label": "GPT‑5.6 Luna",
+      "basis": "OpenRouter · extra-high reasoning · Full + SWE + Hard measured",
+      "provider": "openrouter",
+      "runtime": "api",
+      "location": "remote",
+      "cost_class": "paid-api",
+      "full": {
+        "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
+        "final": 89.9,
+        "capability": 93.41,
+        "agentic": 92.01,
+        "daily": 88.53,
+        "efficiency": 76.82,
+        "performance": 88,
+        "reliability": 100,
+        "pass_rate": 93.02,
+        "avg_s": 4.964,
+        "decode": 36.67,
+        "cost": 0.629842,
+        "cost_basis": "provider_reported_or_openrouter_pricing",
+        "prompt_count": 43,
+        "total_time_s": 213.442,
+        "prompt_tokens": 502982,
+        "output_tokens": 7069,
+        "reasoning_tokens": 3629,
+        "failure_modes": {
+          "content_empty": 1,
+          "content_null": 1,
+          "missing_any_phrase": 1,
+          "schema_missing_required_field": 1,
+          "wrong_tool_args": 1
+        }
+      },
+      "swe": {
+        "suite": "software_engineering_mvp_v1 · n=3 · public SWE MVP",
+        "swe_score": 75.84,
+        "focused_final": 70.04,
+        "capability": 70.95,
+        "daily": 69.14,
+        "performance": 64.55,
+        "efficiency": 65.84,
+        "reliability": 100,
+        "cost": 0.306108,
+        "cost_basis": "provider_reported_or_openrouter_pricing",
+        "time_s": 356.659,
+        "prompt_count": 24,
+        "prompt_tokens": 7530,
+        "output_tokens": 49763,
+        "reasoning_tokens": 43000,
+        "failure_modes": {
+          "low_precision": 1,
+          "patch_rejected": 4,
+          "public_tests_failed": 2,
+          "tests_failed": 2
+        },
+        "task_type_scores": {
+          "multi_file_patch": 100,
+          "component_creation": 9.08,
+          "software_audit_review": 79.3,
+          "edge_case_discovery": 92.5,
+          "security_supply_chain": 98.33
+        }
+      },
+      "notes": [
+        "Exact OpenRouter model: openai/gpt-5.6-luna.",
+        "Measured with OpenRouter extra-high reasoning across Full/Agentic, SWE MVP, and Hard Intelligence.",
+        "Hard Intelligence is a public diagnostic, not a hidden official score."
+      ],
+      "overall_score": 82.1343,
+      "token_p90_per_scored_item": 15121.6,
+      "token_median_per_scored_item": 1567,
+      "hard_intelligence": {
+        "suite": "hard_intelligence_v1.alpha · public diagnostic",
+        "diagnostic_score": 80.6628,
+        "overall_included": true,
+        "record_count": 16,
+        "cost": 0.064393,
+        "cost_basis": "provider_reported_or_openrouter_pricing",
+        "input_tokens": 5245,
+        "output_tokens": 9858,
+        "reasoning_tokens": 8322,
+        "runtime_seconds": 95.3576,
+        "api_status": {
+          "ok": 16
+        },
+        "finish_reasons": {
+          "stop": 16
+        },
+        "output_budget_valid": true,
+        "reasoning_level": "extra-high",
+        "reasoning_mode": "OpenRouter reasoning",
+        "lanes": {
+          "active_information_acquisition": 99.75,
+          "authority_salience_constraint_integrity": 57.5,
+          "evidence_driven_self_repair": 85.4011,
+          "online_adaptation_fast_learning": 80
+        },
+        "failure_modes": {
+          "prediction_explanation_mismatch": 3
+        },
+        "limitations": [
+          "public_fixture_only",
+          "incomplete_difficulty_curve",
+          "insufficient_seed_count"
+        ]
+      },
+      "overall_rank": 10,
+      "full_rank": 3,
+      "swe_rank": 13,
+      "hard_rank": 8,
+      "telemetry": {
+        "scoring_role": "telemetry_only",
+        "cost": 1.000343,
+        "cost_per_scored_item": 0.012052,
+        "avgSeconds": 8.0176,
+        "tokenVolume": 637398,
+        "tokenPerScoredItem": 7679.49,
+        "overall": 82.1343,
+        "scored_items": 83,
+        "tokens": {
+          "recorded_total": 637398,
+          "per_scored_item_recorded": 7679.49,
+          "mean_per_scored_item": 7679.49,
+          "median_per_scored_item": 1567,
+          "p90_per_scored_item": 15121.6,
+          "per_covered_item": 7679.49,
+          "covered_items": 83,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_total": 513680,
+              "per_item_recorded": 11946.05,
+              "status": "recorded",
+              "basis": "direct_fields"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_total": 100293,
+              "per_item_recorded": 4178.88,
+              "status": "recorded",
+              "basis": "direct_fields"
+            },
+            "hard": {
+              "item_count": 16,
+              "recorded_total": 23425,
+              "per_item_recorded": 1464.06,
+              "status": "recorded",
+              "basis": "direct_fields"
+            }
+          }
+        },
+        "runtime": {
+          "recorded_seconds": 665.4586,
+          "seconds_per_timed_item": 8.0176,
+          "seconds_per_scored_item_recorded": 8.0176,
+          "covered_items": 83,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_seconds": 213.442,
+              "seconds_per_item": 4.9638,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_seconds": 356.659,
+              "seconds_per_item": 14.8608,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "hard": {
+              "item_count": 16,
+              "recorded_seconds": 95.3576,
+              "seconds_per_item": 5.9599,
               "status": "recorded",
               "basis": "total_seconds"
             }
@@ -1028,10 +1756,10 @@
         ]
       },
       "token_median_per_scored_item": 1824,
-      "overall_rank": 8,
-      "full_rank": 12,
-      "swe_rank": 10,
-      "hard_rank": 4,
+      "overall_rank": 11,
+      "full_rank": 15,
+      "swe_rank": 11,
+      "hard_rank": 6,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 2.811962,
@@ -1183,10 +1911,10 @@
         }
       },
       "token_median_per_scored_item": 2099,
-      "overall_rank": 9,
-      "full_rank": 11,
+      "overall_rank": 12,
+      "full_rank": 14,
       "swe_rank": 2,
-      "hard_rank": 10,
+      "hard_rank": 13,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.9062727500000001,
@@ -1331,10 +2059,10 @@
         }
       },
       "token_median_per_scored_item": 1876,
-      "overall_rank": 10,
-      "full_rank": 8,
+      "overall_rank": 13,
+      "full_rank": 11,
       "swe_rank": 5,
-      "hard_rank": 11,
+      "hard_rank": 14,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.1823699,
@@ -1404,178 +2132,6 @@
               "item_count": 8,
               "recorded_seconds": 356.22,
               "seconds_per_item": 44.5275,
-              "status": "recorded",
-              "basis": "total_seconds"
-            }
-          }
-        }
-      }
-    },
-    {
-      "id": "claude-fable-5-openrouter-xhigh",
-      "label": "Claude Fable 5",
-      "basis": "OpenRouter · extra-high reasoning · Full + SWE + Hard measured",
-      "full": {
-        "suite": "benchmark_core_v1 · 43 prompts · full_suite_v3",
-        "final": 77.02,
-        "capability": 86,
-        "agentic": 82.26,
-        "daily": 73.64,
-        "efficiency": 36.64,
-        "performance": 76.91,
-        "reliability": 100,
-        "pass_rate": 86.05,
-        "avg_s": 12.735,
-        "decode": 18.708,
-        "cost": 10.79056,
-        "cost_basis": "provider_reported",
-        "prompt_count": 43,
-        "total_time_s": 547.61,
-        "prompt_tokens": 1028491,
-        "output_tokens": 10113,
-        "reasoning_tokens": 675
-      },
-      "swe": {
-        "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
-        "swe_score": 81.42,
-        "focused_final": 76.57,
-        "capability": 79.17,
-        "daily": 75.36,
-        "performance": 79.02,
-        "efficiency": 55.18,
-        "reliability": 100,
-        "cost": 1.02434,
-        "time_s": 279.59,
-        "prompt_count": 24,
-        "prompt_tokens": 12039,
-        "output_tokens": 18079,
-        "reasoning_tokens": 1804,
-        "task_type_scores": {
-          "multi_file_patch": 83.33,
-          "component_creation": 50,
-          "software_audit_review": 92.92,
-          "edge_case_discovery": 85.86,
-          "security_supply_chain": 95
-        }
-      },
-      "notes": [
-        "Exact OpenRouter model: anthropic/claude-fable-5.",
-        "Measured with OpenRouter extra-high reasoning across Full/Agentic, SWE MVP, and Hard Intelligence.",
-        "Hard Intelligence is a public diagnostic, not a hidden official score."
-      ],
-      "overall_score": 83.7387,
-      "token_p90_per_scored_item": 30791.4,
-      "hard_intelligence": {
-        "suite": "hard_intelligence_v1.alpha · public diagnostic",
-        "diagnostic_score": 92.776,
-        "overall_included": true,
-        "record_count": 16,
-        "cost": 0.4705,
-        "cost_basis": "provider_reported",
-        "input_tokens": 9112,
-        "output_tokens": 7650,
-        "reasoning_tokens": 1992,
-        "runtime_seconds": 199.7755,
-        "api_status": {
-          "ok": 16
-        },
-        "finish_reasons": {
-          "stop": 16
-        },
-        "output_budget_valid": true,
-        "reasoning_level": "extra-high",
-        "reasoning_mode": "OpenRouter reasoning",
-        "request_reasoning": {
-          "effort": "xhigh",
-          "exclude": false
-        },
-        "lanes": {
-          "active_information_acquisition": 99.75,
-          "online_adaptation_fast_learning": 98.125,
-          "evidence_driven_self_repair": 85.7292,
-          "authority_salience_constraint_integrity": 87.5
-        },
-        "failure_modes": {},
-        "limitations": [
-          "public_fixture_only",
-          "incomplete_difficulty_curve",
-          "insufficient_seed_count"
-        ]
-      },
-      "token_median_per_scored_item": 1270,
-      "overall_rank": 4,
-      "full_rank": 16,
-      "swe_rank": 7,
-      "hard_rank": 2,
-      "telemetry": {
-        "scoring_role": "telemetry_only",
-        "cost": 12.2854,
-        "cost_per_scored_item": 0.148017,
-        "avgSeconds": 12.3732,
-        "tokenVolume": 1089955,
-        "tokenPerScoredItem": 13131.99,
-        "overall": 83.7387,
-        "scored_items": 83,
-        "tokens": {
-          "recorded_total": 1089955,
-          "per_scored_item_recorded": 13131.99,
-          "mean_per_scored_item": 13131.99,
-          "median_per_scored_item": 1270,
-          "p90_per_scored_item": 30791.4,
-          "per_covered_item": 13131.99,
-          "covered_items": 83,
-          "coverage_pct": 100,
-          "status": "complete",
-          "lanes": {
-            "full": {
-              "item_count": 43,
-              "recorded_total": 1039279,
-              "per_item_recorded": 24169.28,
-              "status": "recorded",
-              "basis": "direct_fields"
-            },
-            "swe": {
-              "item_count": 24,
-              "recorded_total": 31922,
-              "per_item_recorded": 1330.08,
-              "status": "recorded",
-              "basis": "direct_fields"
-            },
-            "hard": {
-              "item_count": 16,
-              "recorded_total": 18754,
-              "per_item_recorded": 1172.13,
-              "status": "recorded",
-              "basis": "direct_fields"
-            }
-          }
-        },
-        "runtime": {
-          "recorded_seconds": 1026.9755,
-          "seconds_per_timed_item": 12.3732,
-          "seconds_per_scored_item_recorded": 12.3732,
-          "covered_items": 83,
-          "coverage_pct": 100,
-          "status": "complete",
-          "lanes": {
-            "full": {
-              "item_count": 43,
-              "recorded_seconds": 547.61,
-              "seconds_per_item": 12.7351,
-              "status": "recorded",
-              "basis": "total_seconds"
-            },
-            "swe": {
-              "item_count": 24,
-              "recorded_seconds": 279.59,
-              "seconds_per_item": 11.6496,
-              "status": "recorded",
-              "basis": "total_seconds"
-            },
-            "hard": {
-              "item_count": 16,
-              "recorded_seconds": 199.7755,
-              "seconds_per_item": 12.486,
               "status": "recorded",
               "basis": "total_seconds"
             }
@@ -1666,10 +2222,10 @@
         }
       },
       "token_median_per_scored_item": 1373,
-      "overall_rank": 11,
-      "full_rank": 9,
-      "swe_rank": 12,
-      "hard_rank": 9,
+      "overall_rank": 14,
+      "full_rank": 12,
+      "swe_rank": 15,
+      "hard_rank": 12,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.00408662,
@@ -1822,10 +2378,10 @@
         }
       },
       "token_median_per_scored_item": 1593,
-      "overall_rank": 12,
-      "full_rank": 5,
-      "swe_rank": 14,
-      "hard_rank": 12,
+      "overall_rank": 15,
+      "full_rank": 7,
+      "swe_rank": 17,
+      "hard_rank": 15,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.7322077499999999,
@@ -2003,10 +2559,10 @@
         }
       },
       "token_median_per_scored_item": 4395,
-      "overall_rank": 13,
-      "full_rank": 3,
-      "swe_rank": 8,
-      "hard_rank": 17,
+      "overall_rank": 16,
+      "full_rank": 4,
+      "swe_rank": 9,
+      "hard_rank": 20,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.49386395,
@@ -2168,10 +2724,10 @@
         }
       },
       "token_median_per_scored_item": 984,
-      "overall_rank": 14,
-      "full_rank": 14,
-      "swe_rank": 13,
-      "hard_rank": 13,
+      "overall_rank": 17,
+      "full_rank": 17,
+      "swe_rank": 16,
+      "hard_rank": 16,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.4891468,
@@ -2361,10 +2917,10 @@
       "overall_score": 61.1894,
       "token_p90_per_scored_item": 26798,
       "token_median_per_scored_item": 764,
-      "overall_rank": 15,
-      "full_rank": 13,
-      "swe_rank": 15,
-      "hard_rank": 15,
+      "overall_rank": 18,
+      "full_rank": 16,
+      "swe_rank": 18,
+      "hard_rank": 18,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0,
@@ -2552,10 +3108,10 @@
       "overall_score": 55.5678,
       "token_p90_per_scored_item": 10537,
       "token_median_per_scored_item": 1192,
-      "overall_rank": 16,
-      "full_rank": 15,
-      "swe_rank": 17,
-      "hard_rank": 14,
+      "overall_rank": 19,
+      "full_rank": 18,
+      "swe_rank": 20,
+      "hard_rank": 17,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0,
@@ -2744,10 +3300,10 @@
       "overall_score": 55.1321,
       "token_p90_per_scored_item": 19779,
       "token_median_per_scored_item": 1064,
-      "overall_rank": 17,
-      "full_rank": 17,
-      "swe_rank": 16,
-      "hard_rank": 16,
+      "overall_rank": 20,
+      "full_rank": 20,
+      "swe_rank": 19,
+      "hard_rank": 19,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0,
