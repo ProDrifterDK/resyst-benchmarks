@@ -26,11 +26,11 @@
       "cost_class": "subscription-quota",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 95.12,
+        "final": 94.32,
         "capability": 98.52,
         "agentic": 97.21,
         "daily": 93.8,
-        "efficiency": 91.37,
+        "efficiency": 86.04,
         "performance": 88.91,
         "reliability": 100,
         "pass_rate": 97.67,
@@ -50,11 +50,11 @@
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · public SWE MVP",
         "swe_score": 89.52,
-        "focused_final": 79.26,
+        "focused_final": 77.75,
         "capability": 88.88,
         "daily": 75.37,
         "performance": 58.94,
-        "efficiency": 70.96,
+        "efficiency": 60.9,
         "reliability": 100,
         "cost": 0.081571,
         "cost_basis": "official_model_pricing_estimate",
@@ -81,7 +81,7 @@
         "No effort level is published: the relay reports effectively flat reasoning-token counts across levels, so no effort label is claimed.",
         "Hard Intelligence is a public diagnostic, not a hidden official score."
       ],
-      "overall_score": 90.916,
+      "overall_score": 90.6494,
       "token_p90_per_scored_item": 23122.4,
       "token_median_per_scored_item": 4074,
       "hard_intelligence": {
@@ -128,7 +128,7 @@
         "avgSeconds": 15.0997,
         "tokenVolume": 872298,
         "tokenPerScoredItem": 10509.61,
-        "overall": 90.916,
+        "overall": 90.6494,
         "scored_items": 83,
         "tokens": {
           "recorded_total": 872298,
@@ -203,11 +203,11 @@
       "basis": "OpenRouter full/SWE · OpenAI-compatible Hard Intelligence",
       "full": {
         "suite": "Prior models use full_suite_v2 with v3 16K/32K native-tool patch; Qwen3.7 Max uses full_suite_v3.",
-        "final": 85.76,
+        "final": 85.92,
         "capability": 91.71,
         "agentic": 87.89,
         "daily": 83.58,
-        "efficiency": 56.1,
+        "efficiency": 57.16,
         "performance": 87.64,
         "reliability": 100,
         "pass_rate": 93.02,
@@ -223,11 +223,11 @@
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
         "swe_score": 85.51,
-        "focused_final": 70.46,
+        "focused_final": 70.06,
         "capability": 83.35,
         "daily": 65.44,
         "performance": 56.56,
-        "efficiency": 36.53,
+        "efficiency": 33.85,
         "reliability": 100,
         "cost": 1.63434,
         "time_s": 1050.23,
@@ -239,7 +239,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 88.2237,
+      "overall_score": 88.277,
       "token_p90_per_scored_item": 14960.73,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -266,7 +266,7 @@
       },
       "token_median_per_scored_item": 1091,
       "overall_rank": 2,
-      "full_rank": 12,
+      "full_rank": 11,
       "swe_rank": 8,
       "hard_rank": 1,
       "telemetry": {
@@ -276,7 +276,7 @@
         "avgSeconds": 19.5668,
         "tokenVolume": 496433,
         "tokenPerScoredItem": 6619.11,
-        "overall": 88.2237,
+        "overall": 88.277,
         "scored_items": 75,
         "tokens": {
           "recorded_total": 496433,
@@ -355,11 +355,11 @@
       "cost_class": "paid-api",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 88.85,
+        "final": 88.5,
         "capability": 92.01,
         "agentic": 90.53,
         "daily": 87.66,
-        "efficiency": 68.8,
+        "efficiency": 66.43,
         "performance": 91.72,
         "reliability": 100,
         "pass_rate": 93.02,
@@ -381,11 +381,11 @@
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · public SWE MVP",
         "swe_score": 86.08,
-        "focused_final": 80.67,
+        "focused_final": 79.82,
         "capability": 83.39,
         "daily": 79.38,
         "performance": 76.64,
-        "efficiency": 71,
+        "efficiency": 65.31,
         "reliability": 100,
         "cost": 0.34356,
         "cost_basis": "provider_reported_or_openrouter_pricing",
@@ -410,7 +410,7 @@
         "Measured with OpenRouter extra-high reasoning across Full/Agentic, SWE MVP, and Hard Intelligence.",
         "Hard Intelligence is a public diagnostic, not a hidden official score."
       ],
-      "overall_score": 87.7041,
+      "overall_score": 87.5874,
       "token_p90_per_scored_item": 14890,
       "token_median_per_scored_item": 1055,
       "hard_intelligence": {
@@ -459,7 +459,7 @@
         "avgSeconds": 5.7544,
         "tokenVolume": 565304,
         "tokenPerScoredItem": 6810.89,
-        "overall": 87.7041,
+        "overall": 87.5874,
         "scored_items": 83,
         "tokens": {
           "recorded_total": 565304,
@@ -534,11 +534,11 @@
       "basis": "DeepSeek direct API · refreshed Hard Intelligence telemetry",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · rubric-calibrated-e55eb55",
-        "final": 95.8,
+        "final": 95.15,
         "capability": 96.8,
         "agentic": 96.32,
         "daily": 95.35,
-        "efficiency": 94.55,
+        "efficiency": 90.26,
         "performance": 93.5,
         "reliability": 100,
         "pass_rate": 97.67,
@@ -555,11 +555,11 @@
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
         "swe_score": 86.95,
-        "focused_final": 86.59,
+        "focused_final": 86.38,
         "capability": 84.53,
         "daily": 87.04,
         "performance": 85.59,
-        "efficiency": 91.35,
+        "efficiency": 89.91,
         "reliability": 100,
         "cost": 0.007089,
         "time_s": 198.43,
@@ -571,7 +571,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 86.0768,
+      "overall_score": 85.8601,
       "token_p90_per_scored_item": 9278,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -604,7 +604,7 @@
       },
       "token_median_per_scored_item": 1819,
       "overall_rank": 4,
-      "full_rank": 1,
+      "full_rank": 2,
       "swe_rank": 5,
       "hard_rank": 12,
       "telemetry": {
@@ -614,7 +614,7 @@
         "avgSeconds": 22.925,
         "tokenVolume": 1368354,
         "tokenPerScoredItem": 4457.18,
-        "overall": 86.0768,
+        "overall": 85.8601,
         "scored_items": 307,
         "tokens": {
           "recorded_total": 1368354,
@@ -693,11 +693,11 @@
       "cost_class": "paid-api",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 86.27,
+        "final": 86.38,
         "capability": 97.27,
         "agentic": 94.03,
         "daily": 82.22,
-        "efficiency": 57.08,
+        "efficiency": 57.82,
         "performance": 76.84,
         "reliability": 100,
         "pass_rate": 97.67,
@@ -717,11 +717,11 @@
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · public SWE MVP",
         "swe_score": 76.12,
-        "focused_final": 58.35,
+        "focused_final": 57.42,
         "capability": 71.2,
         "daily": 52.86,
         "performance": 27.79,
-        "efficiency": 48.26,
+        "efficiency": 42.11,
         "reliability": 100,
         "cost": 0.78501,
         "cost_basis": "provider_reported_or_openrouter_pricing",
@@ -750,7 +750,7 @@
         "Measured with OpenRouter extra-high reasoning across Full/Agentic, SWE MVP, and Hard Intelligence.",
         "Hard Intelligence is a public diagnostic, not a hidden official score."
       ],
-      "overall_score": 84.5658,
+      "overall_score": 84.6024,
       "token_p90_per_scored_item": 15046,
       "token_median_per_scored_item": 1075,
       "hard_intelligence": {
@@ -789,7 +789,7 @@
         ]
       },
       "overall_rank": 5,
-      "full_rank": 11,
+      "full_rank": 10,
       "swe_rank": 13,
       "hard_rank": 3,
       "telemetry": {
@@ -799,7 +799,7 @@
         "avgSeconds": 13.3005,
         "tokenVolume": 572366,
         "tokenPerScoredItem": 6895.98,
-        "overall": 84.5658,
+        "overall": 84.6024,
         "scored_items": 83,
         "tokens": {
           "recorded_total": 572366,
@@ -874,11 +874,11 @@
       "basis": "OpenRouter · extra-high reasoning · Hard Intelligence",
       "full": {
         "suite": "Prior models use full_suite_v2 with v3 16K/32K native-tool patch; Qwen3.7 Max uses full_suite_v3.",
-        "final": 83.32,
+        "final": 83.28,
         "capability": 94.37,
         "agentic": 94.68,
         "daily": 79.29,
-        "efficiency": 44.44,
+        "efficiency": 44.17,
         "performance": 79,
         "reliability": 100,
         "pass_rate": 93.02,
@@ -894,11 +894,11 @@
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
         "swe_score": 88.67,
-        "focused_final": 84.92,
+        "focused_final": 84.07,
         "capability": 87.69,
         "daily": 83.74,
         "performance": 84.67,
-        "efficiency": 70.15,
+        "efficiency": 64.5,
         "reliability": 100,
         "cost": 0.44712,
         "time_s": 209.77,
@@ -910,7 +910,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 84.4533,
+      "overall_score": 84.4399,
       "token_p90_per_scored_item": 30841,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -945,7 +945,7 @@
       },
       "token_median_per_scored_item": 1132,
       "overall_rank": 6,
-      "full_rank": 15,
+      "full_rank": 14,
       "swe_rank": 4,
       "hard_rank": 9,
       "telemetry": {
@@ -955,7 +955,7 @@
         "avgSeconds": 10.4308,
         "tokenVolume": 902405,
         "tokenPerScoredItem": 12032.07,
-        "overall": 84.4533,
+        "overall": 84.4399,
         "scored_items": 75,
         "tokens": {
           "recorded_total": 902405,
@@ -1030,11 +1030,11 @@
       "basis": "OpenRouter · extra-high reasoning · Full + SWE + Hard measured",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · full_suite_v3",
-        "final": 77.02,
+        "final": 77.08,
         "capability": 86,
         "agentic": 82.26,
         "daily": 73.64,
-        "efficiency": 36.64,
+        "efficiency": 37.04,
         "performance": 76.91,
         "reliability": 100,
         "pass_rate": 86.05,
@@ -1051,11 +1051,11 @@
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
         "swe_score": 81.42,
-        "focused_final": 76.57,
+        "focused_final": 76.33,
         "capability": 79.17,
         "daily": 75.36,
         "performance": 79.02,
-        "efficiency": 55.18,
+        "efficiency": 53.52,
         "reliability": 100,
         "cost": 1.02434,
         "time_s": 279.59,
@@ -1076,7 +1076,7 @@
         "Measured with OpenRouter extra-high reasoning across Full/Agentic, SWE MVP, and Hard Intelligence.",
         "Hard Intelligence is a public diagnostic, not a hidden official score."
       ],
-      "overall_score": 83.7387,
+      "overall_score": 83.7587,
       "token_p90_per_scored_item": 30791.4,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -1127,7 +1127,7 @@
         "avgSeconds": 12.3732,
         "tokenVolume": 1089955,
         "tokenPerScoredItem": 13131.99,
-        "overall": 83.7387,
+        "overall": 83.7587,
         "scored_items": 83,
         "tokens": {
           "recorded_total": 1089955,
@@ -1202,11 +1202,11 @@
       "basis": "OpenRouter · z-ai/glm-5.2 · maximum reasoning · Full + SWE + Hard measured",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 86.87,
+        "final": 85.82,
         "capability": 99.37,
         "agentic": 96.24,
         "daily": 82.22,
-        "efficiency": 62.91,
+        "efficiency": 55.9,
         "performance": 71.11,
         "reliability": 100,
         "pass_rate": 100,
@@ -1223,11 +1223,11 @@
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · public SWE MVP",
         "swe_score": 89.58,
-        "focused_final": 72.41,
+        "focused_final": 71.92,
         "capability": 89.58,
         "daily": 65.89,
         "performance": 52.5,
-        "efficiency": 33.41,
+        "efficiency": 30.14,
         "reliability": 100,
         "cost": 1.81129432,
         "cost_basis": "provider_reported",
@@ -1266,11 +1266,11 @@
         "GLM‑5.2 used OpenRouter maximum reasoning across the public benchmark suites.",
         "SWE score reflects all prompt outcomes from the public software-engineering suite."
       ],
-      "overall_score": 83.6778,
+      "overall_score": 83.3278,
       "token_median_per_scored_item": 5593,
       "token_p90_per_scored_item": 64361.4,
       "overall_rank": 8,
-      "full_rank": 10,
+      "full_rank": 12,
       "swe_rank": 1,
       "hard_rank": 13,
       "telemetry": {
@@ -1280,7 +1280,7 @@
         "avgSeconds": 91.1934,
         "tokenVolume": 1679878,
         "tokenPerScoredItem": 22398.37,
-        "overall": 83.6778,
+        "overall": 83.3278,
         "scored_items": 75,
         "tokens": {
           "recorded_total": 1679878,
@@ -1355,11 +1355,11 @@
       "basis": "OpenRouter · extra-high reasoning · Hard Intelligence",
       "full": {
         "suite": "full_suite_v3 · scorer_v2.8_gemini35_swe_aliases",
-        "final": 88.79,
+        "final": 88.04,
         "capability": 93.55,
         "agentic": 91.87,
         "daily": 87,
-        "efficiency": 69.56,
+        "efficiency": 64.59,
         "performance": 87.61,
         "reliability": 100,
         "pass_rate": 93.02,
@@ -1376,11 +1376,11 @@
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
         "swe_score": 73.59,
-        "focused_final": 72.96,
+        "focused_final": 72.02,
         "capability": 70.23,
         "daily": 73.5,
         "performance": 78.11,
-        "efficiency": 65.33,
+        "efficiency": 59.12,
         "reliability": 100,
         "cost": 0.491144,
         "time_s": 290.68,
@@ -1392,7 +1392,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 83.3767,
+      "overall_score": 83.1267,
       "token_p90_per_scored_item": 15620,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -1434,7 +1434,7 @@
         "avgSeconds": 9.1303,
         "tokenVolume": 626691,
         "tokenPerScoredItem": 8355.88,
-        "overall": 83.3767,
+        "overall": 83.1267,
         "scored_items": 75,
         "tokens": {
           "recorded_total": 626691,
@@ -1509,11 +1509,11 @@
       "basis": "DeepSeek direct API · maximum-reasoning Hard IQ",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · rubric-calibrated-e55eb55",
-        "final": 92.04,
+        "final": 90.84,
         "capability": 99.37,
         "agentic": 97.18,
         "daily": 89.28,
-        "efficiency": 80.14,
+        "efficiency": 72.18,
         "performance": 81.44,
         "reliability": 100,
         "pass_rate": 100,
@@ -1530,11 +1530,11 @@
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
         "swe_score": 79.68,
-        "focused_final": 65.14,
+        "focused_final": 64.26,
         "capability": 75.75,
         "daily": 60.42,
         "performance": 28.45,
-        "efficiency": 75.81,
+        "efficiency": 69.92,
         "reliability": 100,
         "cost": 0.032801,
         "time_s": 696.7,
@@ -1546,7 +1546,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 83.365,
+      "overall_score": 82.965,
       "token_p90_per_scored_item": 22805.69,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -1587,7 +1587,7 @@
         "avgSeconds": 23.2495,
         "tokenVolume": 718485,
         "tokenPerScoredItem": 9579.8,
-        "overall": 83.365,
+        "overall": 82.965,
         "scored_items": 75,
         "tokens": {
           "recorded_total": 718485,
@@ -1666,11 +1666,11 @@
       "cost_class": "paid-api",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 89.9,
+        "final": 89.19,
         "capability": 93.41,
         "agentic": 92.01,
         "daily": 88.53,
-        "efficiency": 76.82,
+        "efficiency": 72.08,
         "performance": 88,
         "reliability": 100,
         "pass_rate": 93.02,
@@ -1694,11 +1694,11 @@
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · public SWE MVP",
         "swe_score": 75.84,
-        "focused_final": 70.04,
+        "focused_final": 69.07,
         "capability": 70.95,
         "daily": 69.14,
         "performance": 64.55,
-        "efficiency": 65.84,
+        "efficiency": 59.38,
         "reliability": 100,
         "cost": 0.306108,
         "cost_basis": "provider_reported_or_openrouter_pricing",
@@ -1726,7 +1726,7 @@
         "Measured with OpenRouter extra-high reasoning across Full/Agentic, SWE MVP, and Hard Intelligence.",
         "Hard Intelligence is a public diagnostic, not a hidden official score."
       ],
-      "overall_score": 82.1343,
+      "overall_score": 81.8976,
       "token_p90_per_scored_item": 15121.6,
       "token_median_per_scored_item": 1567,
       "hard_intelligence": {
@@ -1764,7 +1764,7 @@
           "insufficient_seed_count"
         ]
       },
-      "overall_rank": 11,
+      "overall_rank": 12,
       "full_rank": 5,
       "swe_rank": 14,
       "hard_rank": 10,
@@ -1775,7 +1775,7 @@
         "avgSeconds": 8.0176,
         "tokenVolume": 637398,
         "tokenPerScoredItem": 7679.49,
-        "overall": 82.1343,
+        "overall": 81.8976,
         "scored_items": 83,
         "tokens": {
           "recorded_total": 637398,
@@ -1850,11 +1850,11 @@
       "basis": "OpenRouter · extra-high reasoning · Full + SWE + Hard measured",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 81.64,
+        "final": 81.77,
         "capability": 86.48,
         "agentic": 81.58,
         "daily": 79.75,
-        "efficiency": 54.36,
+        "efficiency": 55.27,
         "performance": 83.67,
         "reliability": 100,
         "pass_rate": 88.37,
@@ -1879,11 +1879,11 @@
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · public SWE MVP",
         "swe_score": 78.08,
-        "focused_final": 73.09,
+        "focused_final": 72.02,
         "capability": 75.05,
         "daily": 71.94,
         "performance": 70.25,
-        "efficiency": 61.64,
+        "efficiency": 54.52,
         "reliability": 100,
         "cost": 0.440018,
         "cost_basis": "provider_reported_or_openrouter_pricing",
@@ -1901,7 +1901,7 @@
         "Measured with OpenRouter extra-high reasoning across Full/Agentic, SWE MVP, and Hard Intelligence.",
         "Hard Intelligence is a public diagnostic, not a hidden official score."
       ],
-      "overall_score": 82.082,
+      "overall_score": 82.1253,
       "token_p90_per_scored_item": 31009,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -1937,7 +1937,7 @@
         ]
       },
       "token_median_per_scored_item": 1824,
-      "overall_rank": 12,
+      "overall_rank": 11,
       "full_rank": 17,
       "swe_rank": 12,
       "hard_rank": 7,
@@ -1948,7 +1948,7 @@
         "avgSeconds": 12.5148,
         "tokenVolume": 1133523,
         "tokenPerScoredItem": 13656.9,
-        "overall": 82.082,
+        "overall": 82.1253,
         "scored_items": 83,
         "tokens": {
           "recorded_total": 1133523,
@@ -2027,11 +2027,11 @@
       "cost_class": "subscription-quota",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 95.72,
+        "final": 95.35,
         "capability": 99.37,
         "agentic": 97.83,
         "daily": 94.31,
-        "efficiency": 92.74,
+        "efficiency": 90.28,
         "performance": 88.6,
         "reliability": 100,
         "pass_rate": 100,
@@ -2049,11 +2049,11 @@
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · public SWE MVP",
         "swe_score": 62.59,
-        "focused_final": 62.11,
+        "focused_final": 61.57,
         "capability": 53.23,
         "daily": 64.47,
         "performance": 64.2,
-        "efficiency": 78.52,
+        "efficiency": 74.94,
         "reliability": 100,
         "cost": 0.01284,
         "cost_basis": "official_model_pricing_estimate",
@@ -2084,7 +2084,7 @@
         "Hard Intelligence is a public diagnostic, not a hidden official score.",
         "Token median and P90 per scored item are intentionally omitted: their derivation could not be reproduced on the same basis as the published rows."
       ],
-      "overall_score": 80.711,
+      "overall_score": 80.5876,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 83.8229,
@@ -2120,7 +2120,7 @@
         ]
       },
       "overall_rank": 13,
-      "full_rank": 2,
+      "full_rank": 1,
       "swe_rank": 17,
       "hard_rank": 8,
       "telemetry": {
@@ -2130,7 +2130,7 @@
         "avgSeconds": 13.4294,
         "tokenVolume": 578129,
         "tokenPerScoredItem": 6965.41,
-        "overall": 80.711,
+        "overall": 80.5876,
         "scored_items": 83,
         "tokens": {
           "recorded_total": 578129,
@@ -2205,11 +2205,11 @@
       "basis": "OpenRouter · extra-high reasoning · Hard Intelligence",
       "full": {
         "suite": "Prior models use full_suite_v2 with v3 16K/32K native-tool patch; Qwen3.7 Max uses full_suite_v3.",
-        "final": 83.24,
+        "final": 82.2,
         "capability": 92.37,
         "agentic": 94,
         "daily": 79.71,
-        "efficiency": 63.72,
+        "efficiency": 56.8,
         "performance": 71.49,
         "reliability": 100,
         "pass_rate": 93.02,
@@ -2225,11 +2225,11 @@
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
         "swe_score": 88.99,
-        "focused_final": 78.27,
+        "focused_final": 76.9,
         "capability": 88.63,
         "daily": 74.14,
         "performance": 59.78,
-        "efficiency": 63.83,
+        "efficiency": 54.71,
         "reliability": 100,
         "cost": 0.181609,
         "time_s": 740.56,
@@ -2241,7 +2241,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 80.7086,
+      "overall_score": 80.3619,
       "token_p90_per_scored_item": 17071,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -2285,7 +2285,7 @@
         "avgSeconds": 22.7093,
         "tokenVolume": 651053,
         "tokenPerScoredItem": 8680.71,
-        "overall": 80.7086,
+        "overall": 80.3619,
         "scored_items": 75,
         "tokens": {
           "recorded_total": 651053,
@@ -2360,11 +2360,11 @@
       "basis": "OpenRouter · extra-high reasoning",
       "full": {
         "suite": "Prior models use full_suite_v2 with v3 16K/32K native-tool patch; Qwen3.7 Max uses full_suite_v3.",
-        "final": 85.33,
+        "final": 84.19,
         "capability": 89.6,
         "agentic": 81.72,
         "daily": 83.48,
-        "efficiency": 82.14,
+        "efficiency": 74.58,
         "performance": 74.91,
         "reliability": 100,
         "pass_rate": 86.05,
@@ -2380,11 +2380,11 @@
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
         "swe_score": 86.88,
-        "focused_final": 77.11,
+        "focused_final": 75.84,
         "capability": 86.15,
         "daily": 73.36,
         "performance": 55.88,
-        "efficiency": 71.7,
+        "efficiency": 63.26,
         "reliability": 100,
         "cost": 0.047882,
         "time_s": 1116.23,
@@ -2396,7 +2396,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 79.6603,
+      "overall_score": 79.2803,
       "token_p90_per_scored_item": 17299.54,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -2433,7 +2433,7 @@
         "avgSeconds": 27.524,
         "tokenVolume": 499271,
         "tokenPerScoredItem": 6656.95,
-        "overall": 79.6603,
+        "overall": 79.2803,
         "scored_items": 75,
         "tokens": {
           "recorded_total": 499271,
@@ -2505,21 +2505,21 @@
     {
       "id": "minimax-m3-direct-anthropic",
       "label": "MiniMax M3 Direct Plus",
-      "basis": "MiniMax Plus · direct API · SWE extra-high reasoning",
+      "basis": "MiniMax direct API · extra-high reasoning · costed at MiniMax's published M3 API rates",
       "full": {
         "suite": "Prior models use full_suite_v2 with v3 16K/32K native-tool patch; Qwen3.7 Max uses full_suite_v3.",
-        "final": 84.32,
+        "final": 82.91,
         "capability": 87.74,
         "agentic": 79.86,
         "daily": 82.74,
-        "efficiency": 84.23,
+        "efficiency": 74.82,
         "performance": 73.71,
         "reliability": 100,
         "pass_rate": 88.37,
         "avg_s": 14.377,
         "decode": 23.392,
-        "cost": 0.003093,
-        "cost_basis": "minimax_plus_quota_equivalent_20usd_1.7b_tokens",
+        "cost": 0.095751,
+        "cost_basis": "official_model_pricing_estimate",
         "prompt_count": 43,
         "prompt_tokens": 262622,
         "output_tokens": 14012,
@@ -2529,14 +2529,14 @@
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8 · direct extra-high reasoning",
         "model_id": "minimax-m3-direct-anthropic-xhigh",
         "swe_score": 67.77,
-        "focused_final": 61.86,
+        "focused_final": 64.23,
         "capability": 62.62,
         "daily": 60.93,
         "performance": 59.67,
-        "efficiency": 50,
+        "efficiency": 65.78,
         "reliability": 100,
-        "cost": 0.000601,
-        "cost_basis": "minimax_plus_quota_equivalent_20usd_1.7b_tokens_includes_cache_fields",
+        "cost": 0.048699,
+        "cost_basis": "official_model_pricing_estimate",
         "quota_fraction_pct": 0.003003529411764706,
         "provider_token_usage": {
           "input_tokens": 2762,
@@ -2551,14 +2551,14 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 74.629,
+      "overall_score": 74.159,
       "token_p90_per_scored_item": 12788,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 71.7969,
         "overall_included": true,
         "record_count": 8,
-        "cost": 0.00039262,
+        "cost": 0.024667,
         "input_tokens": 2246,
         "output_tokens": 19994,
         "reasoning_tokens_estimate": 11133,
@@ -2582,21 +2582,22 @@
         "failure_modes": {
           "case_5": 1,
           "regressed_public_case": 1
-        }
+        },
+        "cost_basis": "official_model_pricing_estimate"
       },
       "token_median_per_scored_item": 1373,
       "overall_rank": 16,
-      "full_rank": 14,
+      "full_rank": 15,
       "swe_rank": 16,
       "hard_rank": 14,
       "telemetry": {
         "scoring_role": "telemetry_only",
-        "cost": 0.00408662,
-        "cost_per_scored_item": 0.000054,
+        "cost": 0.169117,
+        "cost_per_scored_item": 0.002255,
         "avgSeconds": 21.9386,
         "tokenVolume": 369106,
         "tokenPerScoredItem": 4921.41,
-        "overall": 74.629,
+        "overall": 74.159,
         "scored_items": 75,
         "tokens": {
           "recorded_total": 369106,
@@ -2671,11 +2672,11 @@
       "basis": "OpenRouter · Kimi K2.7 Code · extra-high Hard IQ",
       "full": {
         "suite": "benchmark_core_v1 · full_suite_v3 · 43 prompts",
-        "final": 87.95,
+        "final": 87.14,
         "capability": 96.87,
         "agentic": 92.22,
         "daily": 84.59,
-        "efficiency": 69.56,
+        "efficiency": 64.17,
         "performance": 76.94,
         "reliability": 100,
         "pass_rate": 97.67,
@@ -2692,11 +2693,11 @@
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
         "swe_score": 58.61,
-        "focused_final": 57.66,
+        "focused_final": 56.1,
         "capability": 50.84,
         "daily": 59.24,
         "performance": 58.53,
-        "efficiency": 67.09,
+        "efficiency": 56.72,
         "reliability": 100,
         "cost": 0.129164,
         "time_s": 860.76,
@@ -2708,7 +2709,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 71.0061,
+      "overall_score": 70.7361,
       "token_p90_per_scored_item": 15362.09,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -2752,7 +2753,7 @@
         "avgSeconds": 28.6025,
         "tokenVolume": 648968,
         "tokenPerScoredItem": 8652.91,
-        "overall": 71.0061,
+        "overall": 70.7361,
         "scored_items": 75,
         "tokens": {
           "recorded_total": 648968,
@@ -2870,15 +2871,15 @@
           "ignored_all_retrieved_evidence": 2
         }
       },
-      "overall_score": 68.0565,
+      "overall_score": 67.7232,
       "token_p90_per_scored_item": 32369,
       "full": {
         "suite": "benchmark_core_v1 · full_suite_v3 · 43 prompts",
-        "final": 89.79,
+        "final": 88.79,
         "capability": 89.97,
         "agentic": 84.11,
         "daily": 89.53,
-        "efficiency": 89.38,
+        "efficiency": 82.77,
         "performance": 87.67,
         "reliability": 99.53,
         "pass_rate": 88.37,
@@ -2897,11 +2898,11 @@
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
         "swe_score": 80.39,
-        "focused_final": 71.22,
+        "focused_final": 70.04,
         "capability": 80.39,
         "daily": 67.4,
         "performance": 54.51,
-        "efficiency": 55.82,
+        "efficiency": 47.99,
         "reliability": 100,
         "cost": 0.259602,
         "cost_basis": "provider_reported_openrouter_usage_cost",
@@ -2933,7 +2934,7 @@
         "avgSeconds": 27.7672,
         "tokenVolume": 863635,
         "tokenPerScoredItem": 11515.13,
-        "overall": 68.0565,
+        "overall": 67.7232,
         "scored_items": 75,
         "tokens": {
           "recorded_total": 863635,
@@ -3008,11 +3009,11 @@
       "basis": "OpenRouter · nvidia/nemotron-3-ultra-550b-a55b · extra-high reasoning",
       "full": {
         "suite": "full_suite_v3 · benchmark_core_v1 · scorer_v2.8_gemini35_swe_aliases",
-        "final": 79.54,
+        "final": 78.03,
         "capability": 95.29,
         "agentic": 92.57,
         "daily": 73.49,
-        "efficiency": 60.02,
+        "efficiency": 49.96,
         "performance": 52.5,
         "reliability": 100,
         "pass_rate": 93.02,
@@ -3031,11 +3032,11 @@
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
         "swe_score": 58.63,
-        "focused_final": 60.73,
+        "focused_final": 59.3,
         "capability": 58.63,
         "daily": 60.63,
         "performance": 52.5,
-        "efficiency": 69.03,
+        "efficiency": 59.52,
         "reliability": 100,
         "cost": 0.056355,
         "cost_basis": "provider_reported_openrouter_upstream_cost",
@@ -3051,7 +3052,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 67.5758,
+      "overall_score": 67.0724,
       "token_p90_per_scored_item": 17722.49,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -3098,7 +3099,7 @@
         "avgSeconds": 70.7144,
         "tokenVolume": 656434,
         "tokenPerScoredItem": 8752.45,
-        "overall": 67.5758,
+        "overall": 67.0724,
         "scored_items": 75,
         "tokens": {
           "recorded_total": 656434,
