@@ -238,10 +238,18 @@ for (const required of [
   'ItemList',
   'Dataset',
   'Step 3.7 Flash',
-  '68.06',
-  '88.22',
 ]) {
   if (!rankingHtml.includes(required)) throw new Error(`ranking page missing required content: ${required}`);
+}
+// Overall scores are read from the table rather than pinned as literals, so a scoring-rule
+// change that legitimately moves a score fails nowhere and a page that silently drops one
+// still fails here.
+for (const row of models.rows) {
+  if (!Number.isFinite(Number(row.overall_score))) continue;
+  const shown = Number(row.overall_score).toFixed(2);
+  if (!rankingHtml.includes(shown)) {
+    throw new Error(`ranking page does not render ${row.id}'s overall score ${shown}`);
+  }
 }
 for (const row of models.rows.filter((entry) => Number.isFinite(entry.overall_rank))) {
   if (!rankingHtml.includes(`../models/${row.id}/`)) throw new Error(`ranking page missing model detail link for ${row.id}`);
@@ -345,25 +353,25 @@ if (localRows.length) {
   }
 }
 const expectedRows = {
-  'deepseek-v4.1-flash-opencode-go': {overallScore: 90.916, overallRank: 1, fullRank: 3, sweRank: 2, hardScore: 88.1081, hardRank: 5},
-  'gpt-5.5-openrouter-xhigh': {overallScore: 88.2237, overallRank: 2, fullRank: 12, sweRank: 8, hardScore: 93.401, hardRank: 1},
-  'gpt-5.6-terra-openrouter-xhigh': {overallScore: 87.7041, overallRank: 3, fullRank: 7, sweRank: 7, hardScore: 88.1823, hardRank: 4},
-  'deepseek-v4-flash-direct': {overallScore: 86.0768, overallRank: 4, fullRank: 1, sweRank: 5, hardScore: 75.4803, hardRank: 12},
-  'gpt-5.6-sol-openrouter-xhigh': {overallScore: 84.5658, overallRank: 5, fullRank: 11, sweRank: 13, hardScore: 91.3073, hardRank: 3},
-  'claude-opus-4.8-openrouter-xhigh': {overallScore: 84.4533, overallRank: 6, fullRank: 15, sweRank: 4, hardScore: 81.3698, hardRank: 9},
-  'claude-fable-5-openrouter-xhigh': {overallScore: 83.7387, overallRank: 7, fullRank: 21, sweRank: 9, hardScore: 92.776, hardRank: 2},
-  'glm-5.2-openrouter-xhigh': {overallScore: 83.6778, overallRank: 8, fullRank: 10, sweRank: 1, hardScore: 74.5833, hardRank: 13},
-  'gemini-3.5-flash-openrouter': {overallScore: 83.3767, overallRank: 9, fullRank: 8, sweRank: 15, hardScore: 87.75, hardRank: 6},
-  'deepseek-v4-pro-direct': {overallScore: 83.365, overallRank: 10, fullRank: 4, sweRank: 11, hardScore: 78.375, hardRank: 11},
-  'gpt-5.6-luna-openrouter-xhigh': {overallScore: 82.1343, overallRank: 11, fullRank: 5, sweRank: 14, hardScore: 80.6628, hardRank: 10},
-  'claude-sonnet-5-openrouter-xhigh': {overallScore: 82.082, overallRank: 12, fullRank: 17, sweRank: 12, hardScore: 86.526, hardRank: 7},
-  'gpt-6-luna-chatgpt-codex-xhigh': {overallScore: 80.711, overallRank: 13, fullRank: 2, sweRank: 17, hardScore: 83.8229, hardRank: 8},
-  'qwen3.7-max-openrouter-xhigh': {overallScore: 80.7086, overallRank: 14, fullRank: 16, sweRank: 3, hardScore: 69.8958, hardRank: 15},
-  'minimax-m3-openrouter-xhigh': {overallScore: 79.6603, overallRank: 15, fullRank: 13, sweRank: 6, hardScore: 66.7708, hardRank: 16},
-  'minimax-m3-direct-anthropic': {overallScore: 74.629, overallRank: 16, fullRank: 14, sweRank: 16, hardScore: 71.7969, hardRank: 14},
-  'kimi-k2.7-code-openrouter-xhigh': {overallScore: 71.0061, overallRank: 17, fullRank: 9, sweRank: 19, hardScore: 66.4583, hardRank: 17},
-  'step-3.7-flash-openrouter-xhigh': {overallScore: 68.0565, overallRank: 18, fullRank: 6, sweRank: 10, hardScore: 33.9896, hardRank: 22},
-  'nemotron-3-ultra-openrouter-xhigh': {overallScore: 67.5758, overallRank: 19, fullRank: 19, sweRank: 18, hardScore: 64.5573, hardRank: 18},
+  'deepseek-v4.1-flash-opencode-go': {overallScore: 90.6494, overallRank: 1, fullRank: 3, sweRank: 2, hardScore: 88.1081, hardRank: 5},
+  'gpt-5.5-openrouter-xhigh': {overallScore: 88.277, overallRank: 2, fullRank: 11, sweRank: 8, hardScore: 93.401, hardRank: 1},
+  'gpt-5.6-terra-openrouter-xhigh': {overallScore: 87.5874, overallRank: 3, fullRank: 7, sweRank: 7, hardScore: 88.1823, hardRank: 4},
+  'deepseek-v4-flash-direct': {overallScore: 85.8601, overallRank: 4, fullRank: 2, sweRank: 5, hardScore: 75.4803, hardRank: 12},
+  'gpt-5.6-sol-openrouter-xhigh': {overallScore: 84.6024, overallRank: 5, fullRank: 10, sweRank: 13, hardScore: 91.3073, hardRank: 3},
+  'claude-opus-4.8-openrouter-xhigh': {overallScore: 84.4399, overallRank: 6, fullRank: 14, sweRank: 4, hardScore: 81.3698, hardRank: 9},
+  'claude-fable-5-openrouter-xhigh': {overallScore: 83.7587, overallRank: 7, fullRank: 21, sweRank: 9, hardScore: 92.776, hardRank: 2},
+  'glm-5.2-openrouter-xhigh': {overallScore: 83.3278, overallRank: 8, fullRank: 12, sweRank: 1, hardScore: 74.5833, hardRank: 13},
+  'gemini-3.5-flash-openrouter': {overallScore: 83.1267, overallRank: 9, fullRank: 8, sweRank: 15, hardScore: 87.75, hardRank: 6},
+  'deepseek-v4-pro-direct': {overallScore: 82.965, overallRank: 10, fullRank: 4, sweRank: 11, hardScore: 78.375, hardRank: 11},
+  'claude-sonnet-5-openrouter-xhigh': {overallScore: 82.1253, overallRank: 11, fullRank: 17, sweRank: 12, hardScore: 86.526, hardRank: 7},
+  'gpt-5.6-luna-openrouter-xhigh': {overallScore: 81.8976, overallRank: 12, fullRank: 5, sweRank: 14, hardScore: 80.6628, hardRank: 10},
+  'gpt-6-luna-chatgpt-codex-xhigh': {overallScore: 80.5876, overallRank: 13, fullRank: 1, sweRank: 17, hardScore: 83.8229, hardRank: 8},
+  'qwen3.7-max-openrouter-xhigh': {overallScore: 80.3619, overallRank: 14, fullRank: 16, sweRank: 3, hardScore: 69.8958, hardRank: 15},
+  'minimax-m3-openrouter-xhigh': {overallScore: 79.2803, overallRank: 15, fullRank: 13, sweRank: 6, hardScore: 66.7708, hardRank: 16},
+  'minimax-m3-direct-anthropic': {overallScore: 74.159, overallRank: 16, fullRank: 15, sweRank: 16, hardScore: 71.7969, hardRank: 14},
+  'kimi-k2.7-code-openrouter-xhigh': {overallScore: 70.7361, overallRank: 17, fullRank: 9, sweRank: 19, hardScore: 66.4583, hardRank: 17},
+  'step-3.7-flash-openrouter-xhigh': {overallScore: 67.7232, overallRank: 18, fullRank: 6, sweRank: 10, hardScore: 33.9896, hardRank: 22},
+  'nemotron-3-ultra-openrouter-xhigh': {overallScore: 67.0724, overallRank: 19, fullRank: 19, sweRank: 18, hardScore: 64.5573, hardRank: 18},
   'gemma4-12b-coder-fable5-composer25-q4km-local': {overallScore: 61.1894, overallRank: 20, fullRank: 18, sweRank: 20, hardScore: 48.9583, hardRank: 20},
   'ornith-35b-q4km-vulkan-fit-local': {overallScore: 55.5678, overallRank: 21, fullRank: 20, sweRank: 22, hardScore: 49.5833, hardRank: 19},
   'qwythos-9b-q8-vulkan-local': {overallScore: 55.1321, overallRank: 22, fullRank: 22, sweRank: 21, hardScore: 43.9062, hardRank: 21},
