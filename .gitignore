@@ -3,3 +3,9 @@ node_modules/
 .DS_Store
 .cache/
 .wrangler/
+
+# Editing/backup leftovers must never reach dist/: the build copies src/ wholesale.
+*.bak
+*.bak-*
+*.orig
+*~
