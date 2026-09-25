@@ -898,11 +898,79 @@ td {
   font-weight: 900;
 }
 
+.scatter-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.scatter-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--paper-soft);
+}
+
+.scatter-filter {
+  appearance: none;
+  padding: 0.32rem 1.6rem 0.32rem 0.6rem;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  background-color: rgba(0, 0, 0, 0.32);
+  background-image: linear-gradient(45deg, transparent 50%, var(--amber-2) 50%), linear-gradient(135deg, var(--amber-2) 50%, transparent 50%);
+  background-position: calc(100% - 14px) 52%, calc(100% - 9px) 52%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  color: #fff3d2;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+}
+
+.scatter-filter:focus-visible {
+  outline: 2px solid var(--amber-2);
+  outline-offset: 2px;
+}
+
+.scatter-filter option {
+  background: #0b0b12;
+  color: #fff3d2;
+}
+
+.scatter-control-note {
+  color: var(--paper-soft);
+  font-size: 0.7rem;
+  opacity: 0.72;
+}
+
+/* Filtered points leave the tab order as well as the plot, so keyboard traversal never lands
+   on a marker the reader chose to hide. */
+.scatter-link.is-filtered-out {
+  display: none;
+}
+
 .scatter-chart {
   display: block;
   width: 100%;
   min-width: 0;
   height: auto;
+}
+
+/* Thin enough to read as a pointer rather than a data mark: it links a displaced label back to
+   its marker without competing with the grid or the points. Bright enough to follow across the
+   plot without hunting for it. */
+.scatter-leader {
+  stroke: rgba(255, 248, 235, 0.52);
+  stroke-width: 1;
+  stroke-linecap: round;
 }
 
 .scatter-grid {
