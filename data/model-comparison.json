@@ -266,7 +266,7 @@
       },
       "token_median_per_scored_item": 1091,
       "overall_rank": 2,
-      "full_rank": 12,
+      "full_rank": 14,
       "swe_rank": 8,
       "hard_rank": 2,
       "telemetry": {
@@ -450,7 +450,7 @@
         ]
       },
       "overall_rank": 3,
-      "full_rank": 7,
+      "full_rank": 8,
       "swe_rank": 7,
       "hard_rank": 6,
       "telemetry": {
@@ -535,8 +535,8 @@
       "basis": "DeepSeek direct API · refreshed Hard Intelligence telemetry",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · rubric-calibrated-e55eb55",
-        "final": 95.15,
-        "capability": 96.8,
+        "final": 96.53,
+        "capability": 99.3,
         "agentic": 96.32,
         "daily": 95.35,
         "efficiency": 90.26,
@@ -551,7 +551,9 @@
         "total_time_s": 197.88,
         "prompt_tokens": 536612,
         "output_tokens": 7140,
-        "reasoning_tokens": 7807
+        "reasoning_tokens": 7807,
+        "hallucination_resistance": 100,
+        "rubric_basis": "full_suite_v5"
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
@@ -572,7 +574,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 85.8601,
+      "overall_score": 86.3201,
       "token_p90_per_scored_item": 9278,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -605,7 +607,7 @@
       },
       "token_median_per_scored_item": 1819,
       "overall_rank": 4,
-      "full_rank": 2,
+      "full_rank": 1,
       "swe_rank": 5,
       "hard_rank": 14,
       "telemetry": {
@@ -615,7 +617,7 @@
         "avgSeconds": 22.925,
         "tokenVolume": 1368354,
         "tokenPerScoredItem": 4457.18,
-        "overall": 85.8601,
+        "overall": 86.3201,
         "scored_items": 307,
         "tokens": {
           "recorded_total": 1368354,
@@ -790,7 +792,7 @@
         ]
       },
       "overall_rank": 6,
-      "full_rank": 11,
+      "full_rank": 12,
       "swe_rank": 13,
       "hard_rank": 5,
       "telemetry": {
@@ -947,7 +949,7 @@
       },
       "token_median_per_scored_item": 1132,
       "overall_rank": 5,
-      "full_rank": 15,
+      "full_rank": 17,
       "swe_rank": 4,
       "hard_rank": 11,
       "telemetry": {
@@ -1032,8 +1034,8 @@
       "basis": "OpenRouter · extra-high reasoning · Full + SWE + Hard measured",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · full_suite_v3",
-        "final": 78.18,
-        "capability": 88,
+        "final": 79.56,
+        "capability": 90.5,
         "agentic": 82.26,
         "daily": 73.64,
         "efficiency": 37.04,
@@ -1048,7 +1050,9 @@
         "total_time_s": 547.61,
         "prompt_tokens": 1028491,
         "output_tokens": 10113,
-        "reasoning_tokens": 675
+        "reasoning_tokens": 675,
+        "hallucination_resistance": 100,
+        "rubric_basis": "full_suite_v5"
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
@@ -1079,7 +1083,7 @@
         "Hard Intelligence is a public diagnostic, not a hidden official score.",
         "Full long-context probe rescored under suite v4 (ambiguous probe: provider content filter returned empty)."
       ],
-      "overall_score": 84.1253,
+      "overall_score": 84.5853,
       "token_p90_per_scored_item": 30791.4,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -1120,7 +1124,7 @@
       },
       "token_median_per_scored_item": 1270,
       "overall_rank": 7,
-      "full_rank": 22,
+      "full_rank": 21,
       "swe_rank": 9,
       "hard_rank": 3,
       "telemetry": {
@@ -1130,7 +1134,7 @@
         "avgSeconds": 12.3732,
         "tokenVolume": 1089955,
         "tokenPerScoredItem": 13131.99,
-        "overall": 84.1253,
+        "overall": 84.5853,
         "scored_items": 83,
         "tokens": {
           "recorded_total": 1089955,
@@ -1273,7 +1277,7 @@
       "token_median_per_scored_item": 5593,
       "token_p90_per_scored_item": 64361.4,
       "overall_rank": 8,
-      "full_rank": 13,
+      "full_rank": 15,
       "swe_rank": 1,
       "hard_rank": 15,
       "telemetry": {
@@ -1427,7 +1431,7 @@
       },
       "token_median_per_scored_item": 2443,
       "overall_rank": 9,
-      "full_rank": 9,
+      "full_rank": 10,
       "swe_rank": 15,
       "hard_rank": 8,
       "telemetry": {
@@ -2124,8 +2128,8 @@
           "insufficient_seed_count"
         ]
       },
-      "overall_rank": 13,
-      "full_rank": 1,
+      "overall_rank": 14,
+      "full_rank": 2,
       "swe_rank": 17,
       "hard_rank": 10,
       "telemetry": {
@@ -2365,8 +2369,8 @@
       "basis": "OpenRouter · extra-high reasoning",
       "full": {
         "suite": "Prior models use full_suite_v2 with v3 16K/32K native-tool patch; Qwen3.7 Max uses full_suite_v3.",
-        "final": 84.19,
-        "capability": 89.6,
+        "final": 86.94,
+        "capability": 94.6,
         "agentic": 81.72,
         "daily": 83.48,
         "efficiency": 74.58,
@@ -2380,7 +2384,9 @@
         "prompt_count": 43,
         "prompt_tokens": 410461,
         "output_tokens": 4809,
-        "reasoning_tokens": 9163
+        "reasoning_tokens": 9163,
+        "hallucination_resistance": 100,
+        "rubric_basis": "full_suite_v5"
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
@@ -2401,7 +2407,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 79.2803,
+      "overall_score": 80.1969,
       "token_p90_per_scored_item": 17299.54,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -2428,7 +2434,7 @@
       },
       "token_median_per_scored_item": 1876,
       "overall_rank": 16,
-      "full_rank": 16,
+      "full_rank": 11,
       "swe_rank": 6,
       "hard_rank": 18,
       "telemetry": {
@@ -2438,7 +2444,7 @@
         "avgSeconds": 27.524,
         "tokenVolume": 499271,
         "tokenPerScoredItem": 6656.95,
-        "overall": 79.2803,
+        "overall": 80.1969,
         "scored_items": 75,
         "tokens": {
           "recorded_total": 499271,
@@ -2513,8 +2519,8 @@
       "basis": "MiniMax direct API · extra-high reasoning · costed at MiniMax's published M3 API rates",
       "full": {
         "suite": "Prior models use full_suite_v2 with v3 16K/32K native-tool patch; Qwen3.7 Max uses full_suite_v3.",
-        "final": 82.91,
-        "capability": 87.74,
+        "final": 85.66,
+        "capability": 92.74,
         "agentic": 79.86,
         "daily": 82.74,
         "efficiency": 74.82,
@@ -2528,7 +2534,9 @@
         "prompt_count": 43,
         "prompt_tokens": 262622,
         "output_tokens": 14012,
-        "reasoning_tokens_estimate": 8039
+        "reasoning_tokens_estimate": 8039,
+        "hallucination_resistance": 100,
+        "rubric_basis": "full_suite_v5"
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8 · direct extra-high reasoning",
@@ -2556,7 +2564,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 74.159,
+      "overall_score": 75.0756,
       "token_p90_per_scored_item": 12788,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -2592,7 +2600,7 @@
       },
       "token_median_per_scored_item": 1373,
       "overall_rank": 18,
-      "full_rank": 17,
+      "full_rank": 16,
       "swe_rank": 16,
       "hard_rank": 16,
       "telemetry": {
@@ -2602,7 +2610,7 @@
         "avgSeconds": 21.9386,
         "tokenVolume": 369106,
         "tokenPerScoredItem": 4921.41,
-        "overall": 74.159,
+        "overall": 75.0756,
         "scored_items": 75,
         "tokens": {
           "recorded_total": 369106,
@@ -2677,8 +2685,8 @@
       "basis": "OpenRouter · Kimi K2.7 Code · extra-high Hard IQ",
       "full": {
         "suite": "benchmark_core_v1 · full_suite_v3 · 43 prompts",
-        "final": 87.14,
-        "capability": 96.87,
+        "final": 88.51,
+        "capability": 99.37,
         "agentic": 92.22,
         "daily": 84.59,
         "efficiency": 64.17,
@@ -2693,7 +2701,9 @@
         "total_time_s": 546.65,
         "prompt_tokens": 507417,
         "output_tokens": 3397,
-        "reasoning_tokens": 9359
+        "reasoning_tokens": 9359,
+        "hallucination_resistance": 100,
+        "rubric_basis": "full_suite_v5"
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
@@ -2714,7 +2724,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 70.7361,
+      "overall_score": 71.1928,
       "token_p90_per_scored_item": 15362.09,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -2748,7 +2758,7 @@
       },
       "token_median_per_scored_item": 1593,
       "overall_rank": 19,
-      "full_rank": 10,
+      "full_rank": 9,
       "swe_rank": 20,
       "hard_rank": 19,
       "telemetry": {
@@ -2758,7 +2768,7 @@
         "avgSeconds": 28.6025,
         "tokenVolume": 648968,
         "tokenPerScoredItem": 8652.91,
-        "overall": 70.7361,
+        "overall": 71.1928,
         "scored_items": 75,
         "tokens": {
           "recorded_total": 648968,
@@ -2876,12 +2886,12 @@
           "ignored_all_retrieved_evidence": 2
         }
       },
-      "overall_score": 67.7232,
+      "overall_score": 68.1832,
       "token_p90_per_scored_item": 32369,
       "full": {
         "suite": "benchmark_core_v1 · full_suite_v3 · 43 prompts",
-        "final": 88.79,
-        "capability": 89.97,
+        "final": 90.17,
+        "capability": 92.47,
         "agentic": 84.11,
         "daily": 89.53,
         "efficiency": 82.77,
@@ -2898,7 +2908,9 @@
           "prompt_tokens": 495018,
           "output_tokens": 33118,
           "reasoning_tokens": 0
-        }
+        },
+        "hallucination_resistance": 100,
+        "rubric_basis": "full_suite_v5"
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8",
@@ -2929,7 +2941,7 @@
       },
       "token_median_per_scored_item": 4395,
       "overall_rank": 20,
-      "full_rank": 8,
+      "full_rank": 7,
       "swe_rank": 10,
       "hard_rank": 24,
       "telemetry": {
@@ -2939,7 +2951,7 @@
         "avgSeconds": 27.7672,
         "tokenVolume": 863635,
         "tokenPerScoredItem": 11515.13,
-        "overall": 67.7232,
+        "overall": 68.1832,
         "scored_items": 75,
         "tokens": {
           "recorded_total": 863635,
@@ -3095,7 +3107,7 @@
       },
       "token_median_per_scored_item": 984,
       "overall_rank": 21,
-      "full_rank": 21,
+      "full_rank": 22,
       "swe_rank": 19,
       "hard_rank": 20,
       "telemetry": {
@@ -3383,8 +3395,8 @@
       "quant": "Q4_K_M",
       "full": {
         "suite": "benchmark_core_v1 · full_suite_v3 · 43 prompts · local Vulkan",
-        "final": 72.39,
-        "capability": 88.34,
+        "final": 73.77,
+        "capability": 90.84,
         "agentic": 79.66,
         "daily": 73.71,
         "efficiency": 37.88,
@@ -3416,7 +3428,9 @@
         "footprint_score": 55.58,
         "latency_score": 5,
         "ram_mb": 20367.509,
-        "efficiency_basis": "local"
+        "efficiency_basis": "local",
+        "hallucination_resistance": 100,
+        "rubric_basis": "full_suite_v5"
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8 · local Vulkan",
@@ -3483,7 +3497,7 @@
         "Strong local Full/Agentic baseline for a 35B MoE GGUF, but SWE implementation/review and Hard Intelligence inquiry/adaptation were weak in this run.",
         "The local entrant shares the unified public tournament table with API-backed entrants while exposing local runtime and cost metadata."
       ],
-      "overall_score": 53.7111,
+      "overall_score": 54.1711,
       "token_p90_per_scored_item": 10537,
       "token_median_per_scored_item": 1192,
       "overall_rank": 24,
@@ -3497,7 +3511,7 @@
         "avgSeconds": 117.6592,
         "tokenVolume": 651473,
         "tokenPerScoredItem": 8686.31,
-        "overall": 53.7111,
+        "overall": 54.1711,
         "scored_items": 75,
         "tokens": {
           "recorded_total": 651473,
@@ -3955,8 +3969,8 @@
       "cost_class": "subscription-quota",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 84.74,
-        "capability": 95.01,
+        "final": 86.11,
+        "capability": 97.51,
         "agentic": 89.65,
         "daily": 80.22,
         "efficiency": 46.61,
@@ -3976,7 +3990,9 @@
           "content_empty": 1,
           "missing_any_phrase": 2,
           "wrong_tool_args": 1
-        }
+        },
+        "hallucination_resistance": 100,
+        "rubric_basis": "full_suite_v5"
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · public SWE MVP",
@@ -4013,7 +4029,7 @@
         "Full long-context probe scored under suite v4 (explicit absence instruction, broadened rubric).",
         "Hard Intelligence is a public diagnostic, not a hidden official score."
       ],
-      "overall_score": 80.5789,
+      "overall_score": 81.0356,
       "token_p90_per_scored_item": 30791.4,
       "token_median_per_scored_item": 4074,
       "hard_intelligence": {
@@ -4047,10 +4063,10 @@
           "insufficient_seed_count"
         ]
       },
-      "full_rank": 14,
+      "full_rank": 13,
       "swe_rank": 18,
       "hard_rank": 1,
-      "overall_rank": 14,
+      "overall_rank": 13,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 6.77572,
@@ -4058,7 +4074,7 @@
         "avgSeconds": 13.4793,
         "tokenVolume": 566427,
         "tokenPerScoredItem": 6824.42,
-        "overall": 80.5789,
+        "overall": 81.0356,
         "scored_items": 83,
         "tokens": {
           "recorded_total": 566427,
