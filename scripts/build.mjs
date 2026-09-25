@@ -1004,7 +1004,7 @@ function fmtCompactNumber(value) {
   return number.toFixed(2);
 }
 
-function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX = fmtCompactNumber, formatY = fmtCompactNumber, showInlineNames = false, pointClass = () => '', tooltipExtra = () => [] }) {
+function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX = fmtCompactNumber, formatY = fmtCompactNumber, showInlineNames = false, inlineNameLimit = 10, defaultVisible = 10, pointClass = () => '', tooltipExtra = () => [] }) {
   const points = rows
     .map((row) => ({ row, x: Number(xValue(row)), y: Number(yValue(row)), className: pointClass(row), extra: tooltipExtra(row) }))
     .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
@@ -1045,12 +1045,16 @@ function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX
   const ticks = [0, 0.25, 0.5, 0.75, 1];
   const safeId = slug(title);
   const labelPositions = new Map();
-  if (showInlineNames) {
+  {
+    // Collision avoidance applies to every panel, not just the ones that carry names. The
+    // token/cost panel is rank-only but has the same 22 labels competing for the same band, and
+    // leaving it unstacked was what made it the most crowded of the three.
     const minLabelY = margin.top + 13;
     const maxLabelY = height - margin.bottom - 8;
-    // Vertical step between stacked label rows. 11px keeps 20 inline labels
-    // (19 gaps) inside the ~241px band without clamping the top rows to minLabelY.
-    const labelRowStep = 11;
+    // Vertical step between stacked label rows, tightened as entrants are added so the column
+    // still fits the band. The floor keeps the type legible: past that the overflow shift below
+    // distributes the remainder instead of collapsing labels onto each other.
+    const labelRowStep = Math.max(9, Math.min(11, (maxLabelY - minLabelY) / Math.max(1, points.length - 1)));
     const labelRows = points
       .map((point, index) => {
         const cx = xFor(point.x);
@@ -1076,6 +1080,17 @@ function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX
   }
   return `<figure class="scatter-panel">
     <figcaption>${escapeHtml(title)}</figcaption>
+    <div class="scatter-controls">
+      <label class="scatter-control">
+        <span class="scatter-control-label">Entrants shown</span>
+        <select class="scatter-filter" data-scatter="${safeId}" aria-label="How many entrants to plot in ${escapeHtml(title)}">
+          <option value="10"${defaultVisible === 10 ? ' selected' : ''}>Top 10</option>
+          <option value="15"${defaultVisible === 15 ? ' selected' : ''}>Top 15</option>
+          <option value="9999"${defaultVisible > 15 ? ' selected' : ''}>All ${points.length}</option>
+        </select>
+      </label>
+      <small class="scatter-control-note">Names stay on the top ${inlineNameLimit}; every visible point keeps its rank label and hover detail.</small>
+    </div>
     <svg class="scatter-chart" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="scatter-title-${safeId} scatter-desc-${safeId}">
       <title id="scatter-title-${safeId}">${escapeHtml(title)}</title>
       <desc id="scatter-desc-${safeId}">Each point is one tested model. ${escapeHtml(xLabel)} is plotted on the X-axis and ${escapeHtml(yLabel)} is plotted on the Y-axis.</desc>
@@ -1099,20 +1114,39 @@ function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX
           const cy = yFor(point.y);
           const rank = `#${point.row.overall_rank}`;
           const shortLabel = shortModelLabel(point.row);
-          const inlineLabel = showInlineNames ? `${rank} - ${shortLabel}` : rank;
+          // Long inline labels are what collide: the stack absorbs 22 short labels, but 22
+          // "#13 - Model Name" strings overlap horizontally inside the plot. Naming only the
+          // leading entrants keeps the chart readable while every point stays identifiable
+          // through its compact rank label and hover card.
+          const labelled = showInlineNames && Number(point.row.overall_rank) <= inlineNameLimit;
+          const inlineLabel = labelled ? `${rank} - ${shortLabel}` : rank;
           const labelPosition = labelPositions.get(pointIndex) ?? { x: cx + 10, y: cy - 8, anchor: 'start' };
           const tooltip = tooltipFor(cx, cy);
           const linkId = `scatter-link-${safeId}-${pointIndex}`;
           const tooltipId = `scatter-tooltip-${safeId}-${pointIndex}`;
-          return { point, cx, cy, rank, shortLabel, inlineLabel, labelPosition, tooltip, linkId, tooltipId, extra: point.extra ?? [], className: point.className ?? '' };
+          // Stacking keeps labels apart, but a label pushed far from its marker stops being
+          // attributable to it. A displaced label gets a leader back to its dot. It is computed
+          // here and rendered inside the point's own anchor so hiding the point hides its leader
+          // too, with or without JavaScript.
+          const labelY = labelPosition.y - 4;
+          let leader = '';
+          if (Math.abs(labelY - cy) > 8) {
+            const labelX = labelPosition.anchor === 'end' ? labelPosition.x + 4 : labelPosition.x - 4;
+            const dx = labelX - cx;
+            const dy = labelY - cy;
+            const span = Math.hypot(dx, dy) || 1;
+            leader = `<line class="scatter-leader" x1="${(cx + (dx / span) * 8).toFixed(1)}" y1="${(cy + (dy / span) * 8).toFixed(1)}" x2="${labelX.toFixed(1)}" y2="${labelY.toFixed(1)}"></line>`;
+          }
+          return { point, cx, cy, rank, shortLabel, inlineLabel, labelled, labelPosition, leader, tooltip, linkId, tooltipId, extra: point.extra ?? [], className: point.className ?? '' };
         });
         const hoverRules = pointViews
           .map(({ linkId, tooltipId }) => `#${linkId}:hover ~ .scatter-tooltip-layer #${tooltipId}, #${linkId}:has(.scatter-point:hover) ~ .scatter-tooltip-layer #${tooltipId}, #${linkId}:focus ~ .scatter-tooltip-layer #${tooltipId}, #${linkId}:focus-visible ~ .scatter-tooltip-layer #${tooltipId} { opacity: 1; }`)
           .join('\n');
         return `${hoverRules ? `<style>${hoverRules}</style>` : ''}
-      ${pointViews.map(({ point, cx, cy, rank, shortLabel, inlineLabel, labelPosition, linkId, tooltipId, className }) => `<a id="${linkId}" class="scatter-link" data-tooltip-target="${tooltipId}" href="../${modelPath(point.row)}" aria-label="Open ${escapeHtml(point.row.label)} result">
+      ${pointViews.map(({ point, cx, cy, rank, shortLabel, inlineLabel, labelled, labelPosition, leader, linkId, tooltipId, className }) => `<a id="${linkId}" class="scatter-link${Number(point.row.overall_rank) > defaultVisible ? ' is-filtered-out' : ''}" data-tooltip-target="${tooltipId}" data-overall-rank="${escapeHtml(point.row.overall_rank)}" href="../${modelPath(point.row)}" aria-label="Open ${escapeHtml(point.row.label)} result">
+          ${leader}
           <circle class="scatter-point ${Number(point.row.overall_rank) <= 3 ? 'leader' : ''} ${escapeHtml(className)}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="7"><title>${escapeHtml(rank)} - ${escapeHtml(shortLabel)} · ${escapeHtml(point.row.label)} · ${escapeHtml(xLabel)} ${escapeHtml(formatX(point.x))} · ${escapeHtml(yLabel)} ${escapeHtml(formatY(point.y))}</title></circle>
-          <text class="scatter-rank-label ${showInlineNames ? 'with-name' : 'compact'}" x="${labelPosition.x.toFixed(1)}" y="${labelPosition.y.toFixed(1)}" text-anchor="${labelPosition.anchor}">${escapeHtml(inlineLabel)}</text>
+          <text class="scatter-rank-label ${labelled ? 'with-name' : 'compact'}" x="${labelPosition.x.toFixed(1)}" y="${labelPosition.y.toFixed(1)}" text-anchor="${labelPosition.anchor}">${escapeHtml(inlineLabel)}</text>
         </a>`).join('\n')}
       <text class="axis-title scatter-x-title" x="${margin.left + plotWidth / 2}" y="${height - 18}" text-anchor="middle">${escapeHtml(xLabel)}</text>
       <text class="axis-title scatter-y-title" x="20" y="${margin.top + plotHeight / 2}" transform="rotate(-90 20 ${margin.top + plotHeight / 2})" text-anchor="middle">${escapeHtml(yLabel)}</text>
@@ -1149,6 +1183,25 @@ function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX
           link.addEventListener('focus', show);
           link.addEventListener('blur', hide);
         });
+
+        // Density control. The panel renders every entrant so the data is complete without
+        // JavaScript; the build already marks points past the default as filtered out. This only
+        // re-applies that class when the reader picks a different view, and hides any hover card
+        // whose point just disappeared so a stale tooltip cannot outlive its marker.
+        const figure = document.currentScript?.parentElement;
+        const select = figure?.querySelector('.scatter-filter');
+        if (!select) return;
+        const applyFilter = () => {
+          const limit = Number(select.value);
+          svg.querySelectorAll('.scatter-link[data-overall-rank]').forEach((link) => {
+            const filtered = Number(link.dataset.overallRank) > limit;
+            link.classList.toggle('is-filtered-out', filtered);
+            if (filtered) svg.querySelector('#' + link.dataset.tooltipTarget)?.classList.remove('is-visible');
+          });
+          hideAll();
+        };
+        select.addEventListener('change', applyFilter);
+        applyFilter();
       })();
     </script>
   </figure>`;

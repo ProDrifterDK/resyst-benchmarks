@@ -256,8 +256,29 @@ const hoverLayerRules = (rankingHtml.match(/:hover ~ \.scatter-tooltip-layer/g) 
 const hoverHasRules = (rankingHtml.match(/:has\(\.scatter-point:hover\) ~ \.scatter-tooltip-layer/g) ?? []).length;
 const scatterChartBlocks = rankingHtml.match(/<svg class="scatter-chart"[\s\S]*?<\/svg>/g) ?? [];
 if (laneBalanceRows !== rankedCount) throw new Error(`expected Lane balance pressure rows for every ranked entrant; saw ${laneBalanceRows}`);
-if (namedScatterLabels !== rankedCount * 2) throw new Error(`expected inline short names only on Cost and Runtime scatter plots; saw ${namedScatterLabels}`);
-if (compactScatterLabels !== rankedCount) throw new Error(`expected compact rank-only labels on Recorded tokens/item × cost; saw ${compactScatterLabels}`);
+// Inline names are bounded to the leading entrants, because naming all 22 collides inside the
+// plot. The limit is stated in the rendered panel copy, so this assertion follows the build
+// instead of pinning a number the markup could silently drift away from.
+const inlineNameLimitMatch = rankingHtml.match(/Names stay on the top (\d+);/);
+if (!inlineNameLimitMatch) throw new Error('scatter panels must state how many entrants keep inline names');
+const inlineNameLimit = Number(inlineNameLimitMatch[1]);
+if (!(inlineNameLimit > 0 && inlineNameLimit < rankedCount)) throw new Error(`inline name limit must be a strict subset of the ranked entrants; saw ${inlineNameLimit}`);
+if (namedScatterLabels !== inlineNameLimit * 2) throw new Error(`expected inline short names only on the top ${inlineNameLimit} of the Cost and Runtime scatter plots; saw ${namedScatterLabels}`);
+if (compactScatterLabels !== rankedCount * 3 - inlineNameLimit * 2) throw new Error(`expected rank-only labels on every remaining scatter point; saw ${compactScatterLabels}`);
+const scatterFilterSelects = (rankingHtml.match(/class="scatter-filter"/g) ?? []).length;
+if (scatterFilterSelects !== 3) throw new Error(`expected one density control per scatter plot; saw ${scatterFilterSelects}`);
+const selectedFilterOptions = rankingHtml.match(/<option value="\d+" selected>Top 10<\/option>/g) ?? [];
+if (selectedFilterOptions.length !== 3) throw new Error(`expected every scatter density control to default to Top 10; saw ${selectedFilterOptions.length}`);
+const defaultFilteredPoints = (rankingHtml.match(/class="scatter-link is-filtered-out"/g) ?? []).length;
+if (defaultFilteredPoints !== (rankedCount - 10) * 3) throw new Error(`expected every scatter to open with the same entrants hidden by default; saw ${defaultFilteredPoints}`);
+if (!rankingHtml.includes('All 22</option>')) throw new Error('scatter density controls must offer the full entrant set');
+// Leader lines must live inside their own point anchor. In a shared layer they would survive
+// the density filter and leave orphan lines pointing at markers the reader chose to hide.
+if (rankingHtml.includes('scatter-leader-layer')) throw new Error('leader lines must not sit in a shared layer; filtering a point would leave its leader behind');
+const leaderLines = (rankingHtml.match(/class="scatter-leader"/g) ?? []).length;
+const anchoredLeaderLines = (rankingHtml.match(/<a id="scatter-link-[^"]*"[^>]*>(?:(?!<\/a>)[\s\S])*?class="scatter-leader"/g) ?? []).length;
+if (leaderLines === 0) throw new Error('expected leader lines connecting displaced scatter labels to their markers');
+if (leaderLines !== anchoredLeaderLines) throw new Error(`every leader line must be anchored to a point; saw ${leaderLines} leaders and ${anchoredLeaderLines} anchored`);
 if (hoverCards !== rankedCount * 3) throw new Error(`expected hover cards for every scatter point; saw ${hoverCards}`);
 if (tooltipLayers !== 3) throw new Error(`expected one final tooltip layer per scatter plot; saw ${tooltipLayers}`);
 if (hoverLayerRules !== rankedCount * 3) throw new Error(`expected hover/focus rules targeting final tooltip layers; saw ${hoverLayerRules}`);
