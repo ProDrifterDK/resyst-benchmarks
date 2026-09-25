@@ -1117,7 +1117,7 @@
       },
       "token_median_per_scored_item": 1270,
       "overall_rank": 7,
-      "full_rank": 21,
+      "full_rank": 20,
       "swe_rank": 9,
       "hard_rank": 2,
       "telemetry": {
@@ -3180,11 +3180,11 @@
       "quant": "Q4_K_M",
       "full": {
         "suite": "benchmark_core_v1 · full_suite_v3 · 43 prompts · local Vulkan",
-        "final": 80.6,
+        "final": 79.97,
         "capability": 87.07,
         "agentic": 79.75,
         "daily": 77.89,
-        "efficiency": 75,
+        "efficiency": 70.81,
         "performance": 65.95,
         "reliability": 99.53,
         "pass_rate": 88.37,
@@ -3209,7 +3209,11 @@
           "wrong_tool": 1
         },
         "input_tokens": 441388,
-        "reasoning_tokens_estimate": 17232
+        "reasoning_tokens_estimate": 17232,
+        "footprint_score": 91.76,
+        "latency_score": 31.9,
+        "ram_mb": 7251.5148,
+        "efficiency_basis": "local"
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=1 · scorer_v2.8 · local Vulkan",
@@ -3278,7 +3282,7 @@
         "Local model row: benchmarked on local hardware with no API metering.",
         "Strong local Full/Agentic and focused tool-loop behavior; SWE review/audit and Hard Intelligence inquiry/adaptation are weak in this max-thinking run."
       ],
-      "overall_score": 61.1894,
+      "overall_score": 60.9794,
       "token_p90_per_scored_item": 26798,
       "token_median_per_scored_item": 764,
       "overall_rank": 20,
@@ -3292,7 +3296,7 @@
         "avgSeconds": 21.524,
         "tokenVolume": 487960,
         "tokenPerScoredItem": 8270.51,
-        "overall": 61.1894,
+        "overall": 60.9794,
         "scored_items": 59,
         "tokens": {
           "recorded_total": 487960,
@@ -3373,11 +3377,11 @@
       "quant": "Q4_K_M",
       "full": {
         "suite": "benchmark_core_v1 · full_suite_v3 · 43 prompts · local Vulkan",
-        "final": 77.96,
+        "final": 72.39,
         "capability": 88.34,
         "agentic": 79.66,
         "daily": 73.71,
-        "efficiency": 75,
+        "efficiency": 37.88,
         "performance": 52.5,
         "reliability": 100,
         "pass_rate": 79.07,
@@ -3402,7 +3406,11 @@
           "schema_missing_required_field": 1
         },
         "input_tokens": 566448,
-        "reasoning_tokens_estimate": 17875
+        "reasoning_tokens_estimate": 17875,
+        "footprint_score": 55.58,
+        "latency_score": 5,
+        "ram_mb": 20367.509,
+        "efficiency_basis": "local"
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8 · local Vulkan",
@@ -3469,11 +3477,11 @@
         "Strong local Full/Agentic baseline for a 35B MoE GGUF, but SWE implementation/review and Hard Intelligence inquiry/adaptation were weak in this run.",
         "The local entrant shares the unified public tournament table with API-backed entrants while exposing local runtime and cost metadata."
       ],
-      "overall_score": 55.5678,
+      "overall_score": 53.7111,
       "token_p90_per_scored_item": 10537,
       "token_median_per_scored_item": 1192,
-      "overall_rank": 21,
-      "full_rank": 20,
+      "overall_rank": 22,
+      "full_rank": 22,
       "swe_rank": 22,
       "hard_rank": 19,
       "telemetry": {
@@ -3483,7 +3491,7 @@
         "avgSeconds": 117.6592,
         "tokenVolume": 651473,
         "tokenPerScoredItem": 8686.31,
-        "overall": 55.5678,
+        "overall": 53.7111,
         "scored_items": 75,
         "tokens": {
           "recorded_total": 651473,
@@ -3564,11 +3572,11 @@
       "quant": "Q8_0",
       "full": {
         "suite": "benchmark_core_v1 · full_suite_v3 · 43 prompts · local Vulkan",
-        "final": 74.98,
+        "final": 75.79,
         "capability": 84.47,
         "agentic": 80.14,
         "daily": 71.11,
-        "efficiency": 61.63,
+        "efficiency": 67.01,
         "performance": 57.12,
         "reliability": 100,
         "pass_rate": 81.4,
@@ -3592,7 +3600,11 @@
           "wrong_tool": 1
         },
         "input_tokens": 354041,
-        "reasoning_tokens_estimate": 30284
+        "reasoning_tokens_estimate": 30284,
+        "footprint_score": 85.56,
+        "latency_score": 32.57,
+        "ram_mb": 9265.0554,
+        "efficiency_basis": "local"
       },
       "swe": {
         "suite": "software_engineering_mvp_v1 · n=3 · scorer_v2.8 · local Vulkan",
@@ -3661,11 +3673,11 @@
         "256K allocation and runtime fit were verified for this Q8_0 local Vulkan entrant; filled-context retrieval at 256K remains separate/unproven.",
         "Q8 shows stronger full-suite quality than Q6, but SWE and Hard Intelligence diagnostic lanes remain weak."
       ],
-      "overall_score": 55.1321,
+      "overall_score": 55.4021,
       "token_p90_per_scored_item": 19779,
       "token_median_per_scored_item": 1064,
-      "overall_rank": 22,
-      "full_rank": 22,
+      "overall_rank": 21,
+      "full_rank": 21,
       "swe_rank": 21,
       "hard_rank": 21,
       "telemetry": {
@@ -3675,7 +3687,7 @@
         "avgSeconds": 21.1284,
         "tokenVolume": 447467,
         "tokenPerScoredItem": 5966.23,
-        "overall": 55.1321,
+        "overall": 55.4021,
         "scored_items": 75,
         "tokens": {
           "recorded_total": 447467,
