@@ -19,9 +19,14 @@ const readJson = async (relativePath) => JSON.parse(await readFile(path.join(src
 const models = await readJson('data/model-comparison.json');
 const arena = await readJson('data/arena-snapshots.json');
 
+// Editing leftovers (*.bak, *.bak-<stamp>, *.orig, *~) must never be published. The
+// .gitignore only stops git; the build copies src/ wholesale, so it filters here too.
+const isBackupLeftover = (source) => /(\.bak(\b|-|$)|\.orig$|~$)/i.test(path.basename(source));
+const publishableSource = (source) => !isBackupLeftover(source);
+
 await rm(dist, { recursive: true, force: true });
 await mkdir(dist, { recursive: true });
-await cp(src, dist, { recursive: true });
+await cp(src, dist, { recursive: true, filter: publishableSource });
 
 const escapeHtml = (value = '') => String(value)
   .replaceAll('&', '&amp;')

@@ -329,8 +329,8 @@ for (const cssFile of ['src/styles.css', 'dist/styles.css']) {
   }
 }
 
-if (!Array.isArray(models.rows) || models.rows.length !== 23 || models.summary?.row_count !== 23) {
-  throw new Error('model data must expose exactly 23 ranked rows for the GPT-6 Sol publication set');
+if (!Array.isArray(models.rows) || models.rows.length !== 24 || models.summary?.row_count !== 24) {
+  throw new Error('model data must expose exactly 24 ranked rows for the GPT-6 Astra publication set');
 }
 if (!models.rows.every((row) => row.label && row.basis && Number.isFinite(row.overall_rank ?? 999))) {
   throw new Error('each model row needs public label, basis and rank metadata');
@@ -353,29 +353,30 @@ if (localRows.length) {
   }
 }
 const expectedRows = {
-  'deepseek-v4.1-flash-opencode-go': {overallScore: 90.6494, overallRank: 1, fullRank: 3, sweRank: 2, hardScore: 88.1081, hardRank: 6},
-  'gpt-5.5-openrouter-xhigh': {overallScore: 88.277, overallRank: 2, fullRank: 12, sweRank: 8, hardScore: 93.401, hardRank: 1},
-  'gpt-5.6-terra-openrouter-xhigh': {overallScore: 87.5874, overallRank: 3, fullRank: 8, sweRank: 7, hardScore: 88.1823, hardRank: 5},
-  'deepseek-v4-flash-direct': {overallScore: 85.8601, overallRank: 4, fullRank: 2, sweRank: 5, hardScore: 75.4803, hardRank: 13},
-  'gpt-5.6-sol-openrouter-xhigh': {overallScore: 84.6024, overallRank: 5, fullRank: 11, sweRank: 13, hardScore: 91.3073, hardRank: 4},
-  'claude-opus-4.8-openrouter-xhigh': {overallScore: 84.4399, overallRank: 6, fullRank: 15, sweRank: 4, hardScore: 81.3698, hardRank: 10},
-  'claude-fable-5-openrouter-xhigh': {overallScore: 83.7587, overallRank: 7, fullRank: 21, sweRank: 9, hardScore: 92.776, hardRank: 2},
-  'glm-5.2-openrouter-xhigh': {overallScore: 83.3278, overallRank: 8, fullRank: 13, sweRank: 1, hardScore: 74.5833, hardRank: 14},
-  'gemini-3.5-flash-openrouter': {overallScore: 83.1267, overallRank: 9, fullRank: 9, sweRank: 15, hardScore: 87.75, hardRank: 7},
-  'deepseek-v4-pro-direct': {overallScore: 82.965, overallRank: 10, fullRank: 4, sweRank: 11, hardScore: 78.375, hardRank: 12},
-  'claude-sonnet-5-openrouter-xhigh': {overallScore: 82.1253, overallRank: 11, fullRank: 18, sweRank: 12, hardScore: 86.526, hardRank: 8},
-  'gpt-5.6-luna-openrouter-xhigh': {overallScore: 81.8976, overallRank: 12, fullRank: 6, sweRank: 14, hardScore: 80.6628, hardRank: 11},
-  'gpt-6-luna-chatgpt-codex-xhigh': {overallScore: 80.5876, overallRank: 13, fullRank: 1, sweRank: 17, hardScore: 83.8229, hardRank: 9},
-  'qwen3.7-max-openrouter-xhigh': {overallScore: 80.3619, overallRank: 14, fullRank: 17, sweRank: 3, hardScore: 69.8958, hardRank: 16},
-  'minimax-m3-openrouter-xhigh': {overallScore: 79.2803, overallRank: 15, fullRank: 14, sweRank: 6, hardScore: 66.7708, hardRank: 17},
-  'gpt-6-sol-chatgpt-codex-xhigh': {overallScore: 78.2362, overallRank: 16, fullRank: 5, sweRank: 21, hardScore: 92.5885, hardRank: 3},
-  'minimax-m3-direct-anthropic': {overallScore: 74.159, overallRank: 17, fullRank: 16, sweRank: 16, hardScore: 71.7969, hardRank: 15},
-  'kimi-k2.7-code-openrouter-xhigh': {overallScore: 70.7361, overallRank: 18, fullRank: 10, sweRank: 19, hardScore: 66.4583, hardRank: 18},
-  'step-3.7-flash-openrouter-xhigh': {overallScore: 67.7232, overallRank: 19, fullRank: 7, sweRank: 10, hardScore: 33.9896, hardRank: 23},
-  'nemotron-3-ultra-openrouter-xhigh': {overallScore: 67.0724, overallRank: 20, fullRank: 20, sweRank: 18, hardScore: 64.5573, hardRank: 19},
-  'gemma4-12b-coder-fable5-composer25-q4km-local': {overallScore: 60.9794, overallRank: 21, fullRank: 19, sweRank: 20, hardScore: 48.9583, hardRank: 21},
-  'qwythos-9b-q8-vulkan-local': {overallScore: 55.4021, overallRank: 22, fullRank: 22, sweRank: 22, hardScore: 43.9062, hardRank: 22},
-  'ornith-35b-q4km-vulkan-fit-local': {overallScore: 53.7111, overallRank: 23, fullRank: 23, sweRank: 23, hardScore: 49.5833, hardRank: 20},
+  'deepseek-v4.1-flash-opencode-go': {overallScore: 90.6494, overallRank: 1, fullRank: 3, sweRank: 2, hardScore: 88.1081, hardRank: 7},
+  'gpt-5.5-openrouter-xhigh': {overallScore: 88.277, overallRank: 2, fullRank: 12, sweRank: 8, hardScore: 93.401, hardRank: 2},
+  'gpt-5.6-terra-openrouter-xhigh': {overallScore: 87.9541, overallRank: 3, fullRank: 7, sweRank: 7, hardScore: 88.1823, hardRank: 6},
+  'deepseek-v4-flash-direct': {overallScore: 85.8601, overallRank: 4, fullRank: 2, sweRank: 5, hardScore: 75.4803, hardRank: 14},
+  'claude-opus-4.8-openrouter-xhigh': {overallScore: 84.8066, overallRank: 5, fullRank: 15, sweRank: 4, hardScore: 81.3698, hardRank: 11},
+  'gpt-5.6-sol-openrouter-xhigh': {overallScore: 84.6024, overallRank: 6, fullRank: 11, sweRank: 13, hardScore: 91.3073, hardRank: 5},
+  'claude-fable-5-openrouter-xhigh': {overallScore: 84.1253, overallRank: 7, fullRank: 22, sweRank: 9, hardScore: 92.776, hardRank: 3},
+  'glm-5.2-openrouter-xhigh': {overallScore: 83.3278, overallRank: 8, fullRank: 13, sweRank: 1, hardScore: 74.5833, hardRank: 15},
+  'gemini-3.5-flash-openrouter': {overallScore: 83.1267, overallRank: 9, fullRank: 9, sweRank: 15, hardScore: 87.75, hardRank: 8},
+  'deepseek-v4-pro-direct': {overallScore: 82.965, overallRank: 10, fullRank: 4, sweRank: 11, hardScore: 78.375, hardRank: 13},
+  'claude-sonnet-5-openrouter-xhigh': {overallScore: 82.492, overallRank: 11, fullRank: 18, sweRank: 12, hardScore: 86.526, hardRank: 9},
+  'gpt-5.6-luna-openrouter-xhigh': {overallScore: 82.2643, overallRank: 12, fullRank: 6, sweRank: 14, hardScore: 80.6628, hardRank: 12},
+  'gpt-6-luna-chatgpt-codex-xhigh': {overallScore: 80.5876, overallRank: 13, fullRank: 1, sweRank: 17, hardScore: 83.8229, hardRank: 10},
+  'gpt-6-astra-chatgpt-codex-xhigh': {overallScore: 80.5789, overallRank: 14, fullRank: 14, sweRank: 18, hardScore: 95.0768, hardRank: 1},
+  'qwen3.7-max-openrouter-xhigh': {overallScore: 80.3619, overallRank: 15, fullRank: 19, sweRank: 3, hardScore: 69.8958, hardRank: 17},
+  'minimax-m3-openrouter-xhigh': {overallScore: 79.2803, overallRank: 16, fullRank: 16, sweRank: 6, hardScore: 66.7708, hardRank: 18},
+  'gpt-6-sol-chatgpt-codex-xhigh': {overallScore: 78.6028, overallRank: 17, fullRank: 5, sweRank: 22, hardScore: 92.5885, hardRank: 4},
+  'minimax-m3-direct-anthropic': {overallScore: 74.159, overallRank: 18, fullRank: 17, sweRank: 16, hardScore: 71.7969, hardRank: 16},
+  'kimi-k2.7-code-openrouter-xhigh': {overallScore: 70.7361, overallRank: 19, fullRank: 10, sweRank: 20, hardScore: 66.4583, hardRank: 19},
+  'step-3.7-flash-openrouter-xhigh': {overallScore: 67.7232, overallRank: 20, fullRank: 8, sweRank: 10, hardScore: 33.9896, hardRank: 24},
+  'nemotron-3-ultra-openrouter-xhigh': {overallScore: 67.4391, overallRank: 21, fullRank: 21, sweRank: 19, hardScore: 64.5573, hardRank: 20},
+  'gemma4-12b-coder-fable5-composer25-q4km-local': {overallScore: 60.9794, overallRank: 22, fullRank: 20, sweRank: 21, hardScore: 48.9583, hardRank: 22},
+  'qwythos-9b-q8-vulkan-local': {overallScore: 55.4021, overallRank: 23, fullRank: 23, sweRank: 23, hardScore: 43.9062, hardRank: 23},
+  'ornith-35b-q4km-vulkan-fit-local': {overallScore: 53.7111, overallRank: 24, fullRank: 24, sweRank: 24, hardScore: 49.5833, hardRank: 21},
 };
 const hardMeasuredIds = Object.entries(expectedRows)
   .filter(([, expected]) => Number.isFinite(expected.hardScore))
