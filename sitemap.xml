@@ -41,7 +41,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://benchmarks.resyst.cl/models/gpt-5.5-openrouter-xhigh/</loc>
+    <loc>https://benchmarks.resyst.cl/models/gpt-5.6-terra-openrouter-xhigh/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
@@ -51,7 +51,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://benchmarks.resyst.cl/models/gpt-5.6-terra-openrouter-xhigh/</loc>
+    <loc>https://benchmarks.resyst.cl/models/gpt-5.5-openrouter-xhigh/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
@@ -71,16 +71,6 @@
     </image:image>
   </url>
   <url>
-    <loc>https://benchmarks.resyst.cl/models/claude-opus-4.8-openrouter-xhigh/</loc>
-    <lastmod>2026-09-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.72</priority>
-    <image:image>
-      <image:loc>https://benchmarks.resyst.cl/og.png?v=20260613-link-preview</image:loc>
-      <image:title>Resyst Labs Benchmarks</image:title>
-    </image:image>
-  </url>
-  <url>
     <loc>https://benchmarks.resyst.cl/models/gpt-5.6-sol-openrouter-xhigh/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
@@ -91,17 +81,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://benchmarks.resyst.cl/models/claude-fable-5-openrouter-xhigh/</loc>
-    <lastmod>2026-09-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.72</priority>
-    <image:image>
-      <image:loc>https://benchmarks.resyst.cl/og.png?v=20260613-link-preview</image:loc>
-      <image:title>Resyst Labs Benchmarks</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://benchmarks.resyst.cl/models/glm-5.2-openrouter-xhigh/</loc>
+    <loc>https://benchmarks.resyst.cl/models/claude-opus-4.8-openrouter-xhigh/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
@@ -121,17 +101,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://benchmarks.resyst.cl/models/deepseek-v4-pro-direct/</loc>
-    <lastmod>2026-09-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.72</priority>
-    <image:image>
-      <image:loc>https://benchmarks.resyst.cl/og.png?v=20260613-link-preview</image:loc>
-      <image:title>Resyst Labs Benchmarks</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://benchmarks.resyst.cl/models/claude-sonnet-5-openrouter-xhigh/</loc>
+    <loc>https://benchmarks.resyst.cl/models/claude-fable-5-openrouter-xhigh/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
@@ -151,7 +121,27 @@
     </image:image>
   </url>
   <url>
-    <loc>https://benchmarks.resyst.cl/models/gpt-6-astra-chatgpt-codex-xhigh/</loc>
+    <loc>https://benchmarks.resyst.cl/models/glm-5.2-openrouter-xhigh/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
+    <image:image>
+      <image:loc>https://benchmarks.resyst.cl/og.png?v=20260613-link-preview</image:loc>
+      <image:title>Resyst Labs Benchmarks</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://benchmarks.resyst.cl/models/claude-sonnet-5-openrouter-xhigh/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
+    <image:image>
+      <image:loc>https://benchmarks.resyst.cl/og.png?v=20260613-link-preview</image:loc>
+      <image:title>Resyst Labs Benchmarks</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://benchmarks.resyst.cl/models/deepseek-v4-pro-direct/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
@@ -162,6 +152,16 @@
   </url>
   <url>
     <loc>https://benchmarks.resyst.cl/models/gpt-6-luna-chatgpt-codex-xhigh/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
+    <image:image>
+      <image:loc>https://benchmarks.resyst.cl/og.png?v=20260613-link-preview</image:loc>
+      <image:title>Resyst Labs Benchmarks</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://benchmarks.resyst.cl/models/gpt-6-astra-chatgpt-codex-xhigh/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
