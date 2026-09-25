@@ -48,6 +48,7 @@ const shortModelLabels = new Map([
   ['gpt-5.6-terra-openrouter-xhigh', 'Terra'],
   ['gpt-5.6-sol-openrouter-xhigh', 'Sol'],
   ['deepseek-v4-flash-direct', 'DS-V4f'],
+  ['deepseek-v4.1-flash-opencode-go', 'DS-V4.1f'],
   ['claude-opus-4.8-openrouter-xhigh', 'Opus'],
   ['glm-5.2-openrouter-xhigh', 'GLM5.2'],
   ['gemini-3.5-flash-openrouter', 'Gemini'],
