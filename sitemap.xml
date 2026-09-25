@@ -151,6 +151,16 @@
     </image:image>
   </url>
   <url>
+    <loc>https://benchmarks.resyst.cl/models/gpt-6-luna-chatgpt-codex-xhigh/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
+    <image:image>
+      <image:loc>https://benchmarks.resyst.cl/og.png?v=20260613-link-preview</image:loc>
+      <image:title>Resyst Labs Benchmarks</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://benchmarks.resyst.cl/models/qwen3.7-max-openrouter-xhigh/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
