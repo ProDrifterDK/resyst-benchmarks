@@ -4154,17 +4154,17 @@
       "cost_class": "subscription-quota",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 82.03,
+        "final": 81.52,
         "capability": 79.79,
         "agentic": 66.28,
         "daily": 82.67,
-        "efficiency": 65.29,
+        "efficiency": 61.94,
         "performance": 93.4,
         "reliability": 100,
         "pass_rate": 46.51,
         "avg_s": 4.641,
         "decode": 54.69,
-        "cost": 1.500989,
+        "cost": 2.228606,
         "cost_basis": "official_model_pricing_estimate",
         "prompt_count": 43,
         "total_time_s": 199.561,
@@ -4216,9 +4216,9 @@
         "Thinking tokens are spent and billed on this route but are not returned as text, so reasoning content is absent while its token cost is counted.",
         "Hard Intelligence is a public diagnostic, not a hidden official score.",
         "Token median and P90 per scored item are intentionally omitted: their derivation could not be reproduced on the same basis as the published rows.",
-        "Cache writes are priced at the one-hour duration ($8.00/1M), which is the TTL this route writes with; the five-minute rate is $5.00/1M. The first publication priced them at the short duration, which understated the recorded cost by 0.1% on Full, 10.8% on SWE, and 31.3% on the Hard diagnostic. The correction moves no score: the overall and every rank are unchanged."
+        "Cache writes are priced at the one-hour duration, which is the TTL this route writes with. The first publication priced every write at the short five-minute duration. That duration was reached through the records carrying an explicit cache breakdown, which is the Full lane's direct prompts, the SWE lane, and the Hard diagnostic. The Full lane's agentic prompts store no per-turn cache breakdown and priced their input at the write rate as a whole, so the first correction did not reach them and they stayed on the short rate. Correcting all three lanes moves the total from $2.269694 to $3.119018, with Full carrying $0.73 of that. The overall goes from 81.0355 to 80.8655; the overall rank stays at 10, and every sub-rank is unchanged."
       ],
-      "overall_score": 81.0355,
+      "overall_score": 80.8655,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 96.0964,
@@ -4256,12 +4256,12 @@
       "hard_rank": 1,
       "telemetry": {
         "scoring_role": "telemetry_only",
-        "cost": 2.3914009999999997,
-        "cost_per_scored_item": 0.028812,
+        "cost": 3.119018,
+        "cost_per_scored_item": 0.037579,
         "avgSeconds": 6.4741,
         "tokenVolume": 341821,
         "tokenPerScoredItem": 4118.33,
-        "overall": 81.0355,
+        "overall": 80.8655,
         "scored_items": 83,
         "tokens": {
           "recorded_total": 341821,
