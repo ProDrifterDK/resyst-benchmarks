@@ -4227,7 +4227,7 @@
         "cost_basis": "official_model_pricing_estimate",
         "input_tokens": 18549,
         "output_tokens": 4245,
-        "reasoning_tokens": 0,
+        "reasoning_tokens": 1250,
         "runtime_seconds": 78.0813,
         "api_status": {
           "ok": 16
@@ -4258,17 +4258,17 @@
         "cost": 2.269694,
         "cost_per_scored_item": 0.027346,
         "avgSeconds": 6.4741,
-        "tokenVolume": 340571,
-        "tokenPerScoredItem": 4103.27,
+        "tokenVolume": 341821,
+        "tokenPerScoredItem": 4118.33,
         "overall": 81.0355,
         "scored_items": 83,
         "tokens": {
-          "recorded_total": 340571,
-          "per_scored_item_recorded": 4103.27,
-          "mean_per_scored_item": 4103.27,
+          "recorded_total": 341821,
+          "per_scored_item_recorded": 4118.33,
+          "mean_per_scored_item": 4118.33,
           "median_per_scored_item": null,
           "p90_per_scored_item": null,
-          "per_covered_item": 4103.27,
+          "per_covered_item": 4118.33,
           "covered_items": 83,
           "coverage_pct": 100,
           "status": "complete",
@@ -4289,8 +4289,8 @@
             },
             "hard": {
               "item_count": 16,
-              "recorded_total": 22794,
-              "per_item_recorded": 1424.63,
+              "recorded_total": 24044,
+              "per_item_recorded": 1502.75,
               "status": "recorded",
               "basis": "direct_fields"
             }
