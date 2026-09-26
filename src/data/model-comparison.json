@@ -27,8 +27,8 @@
       "cost_class": "subscription-quota",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 89.79,
-        "capability": 98.52,
+        "final": 90.14,
+        "capability": 99.15,
         "agentic": 95.4,
         "daily": 87.46,
         "efficiency": 86.04,
@@ -82,7 +82,7 @@
         "No effort level is published: the relay reports effectively flat reasoning-token counts across levels, so no effort label is claimed.",
         "Hard Intelligence is a public diagnostic, not a hidden official score."
       ],
-      "overall_score": 89.1394,
+      "overall_score": 89.256,
       "token_p90_per_scored_item": 23122.4,
       "token_median_per_scored_item": 4074,
       "hard_intelligence": {
@@ -133,8 +133,8 @@
       "cost_class": "paid-api",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 86.18,
-        "capability": 94.01,
+        "final": 86.52,
+        "capability": 94.64,
         "agentic": 89.16,
         "daily": 82.87,
         "efficiency": 66.43,
@@ -189,7 +189,7 @@
         "Hard Intelligence is a public diagnostic, not a hidden official score.",
         "Full long-context probe rescored under suite v4 (rubric: correct answer zeroed by the phrase list)."
       ],
-      "overall_score": 86.8141,
+      "overall_score": 86.9274,
       "token_p90_per_scored_item": 14890.0,
       "token_median_per_scored_item": 1055,
       "hard_intelligence": {
@@ -238,8 +238,8 @@
       "basis": "DeepSeek direct API · refreshed Hard Intelligence telemetry",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · rubric-calibrated-e55eb55",
-        "final": 94.13,
-        "capability": 99.3,
+        "final": 94.48,
+        "capability": 99.93,
         "agentic": 95.36,
         "daily": 91.99,
         "efficiency": 90.26,
@@ -277,7 +277,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 85.5201,
+      "overall_score": 85.6368,
       "token_p90_per_scored_item": 9278,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -324,8 +324,8 @@
       "cost_class": "paid-api",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 84.42,
-        "capability": 97.27,
+        "final": 84.76,
+        "capability": 97.9,
         "agentic": 93.25,
         "daily": 79.47,
         "efficiency": 57.82,
@@ -381,7 +381,7 @@
         "Measured with OpenRouter extra-high reasoning across Full/Agentic, SWE MVP, and Hard Intelligence.",
         "Hard Intelligence is a public diagnostic, not a hidden official score."
       ],
-      "overall_score": 83.9491,
+      "overall_score": 84.0624,
       "token_p90_per_scored_item": 15046.0,
       "token_median_per_scored_item": 1075,
       "hard_intelligence": {
@@ -430,8 +430,8 @@
       "basis": "OpenRouter · extra-high reasoning · Hard Intelligence",
       "full": {
         "suite": "Prior models use full_suite_v2 with v3 16K/32K native-tool patch; Qwen3.7 Max uses full_suite_v3.",
-        "final": 78.66,
-        "capability": 96.37,
+        "final": 78.96,
+        "capability": 96.9,
         "agentic": 92.39,
         "daily": 71.29,
         "efficiency": 44.17,
@@ -467,7 +467,7 @@
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking.",
         "Full long-context probe rescored under suite v4 (rubric: correct answer zeroed by the phrase list)."
       ],
-      "overall_score": 82.8999,
+      "overall_score": 82.9999,
       "token_p90_per_scored_item": 30841,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -512,8 +512,8 @@
       "basis": "OpenRouter · extra-high reasoning · Full + SWE + Hard measured",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · full_suite_v3",
-        "final": 71.83,
-        "capability": 90.5,
+        "final": 72.17,
+        "capability": 91.13,
         "agentic": 79.17,
         "daily": 62.81,
         "efficiency": 37.04,
@@ -561,7 +561,7 @@
         "Hard Intelligence is a public diagnostic, not a hidden official score.",
         "Full long-context probe rescored under suite v4 (ambiguous probe: provider content filter returned empty)."
       ],
-      "overall_score": 82.0087,
+      "overall_score": 82.122,
       "token_p90_per_scored_item": 30791.4,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -612,8 +612,8 @@
       "basis": "OpenRouter · z-ai/glm-5.2 · maximum reasoning · Full + SWE + Hard measured",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 77.45,
-        "capability": 99.37,
+        "final": 77.8,
+        "capability": 100.0,
         "agentic": 92.89,
         "daily": 70.51,
         "efficiency": 55.9,
@@ -676,7 +676,7 @@
         "GLM‑5.2 used OpenRouter maximum reasoning across the public benchmark suites.",
         "SWE score reflects all prompt outcomes from the public software-engineering suite."
       ],
-      "overall_score": 80.5378,
+      "overall_score": 80.6544,
       "token_median_per_scored_item": 5593,
       "token_p90_per_scored_item": 64361.4,
       "overall_rank": 13,
@@ -690,8 +690,8 @@
       "basis": "OpenRouter · extra-high reasoning · Hard Intelligence",
       "full": {
         "suite": "full_suite_v3 · scorer_v2.8_gemini35_swe_aliases",
-        "final": 84.74,
-        "capability": 93.55,
+        "final": 85.11,
+        "capability": 94.23,
         "agentic": 90.55,
         "daily": 82.37,
         "efficiency": 64.59,
@@ -727,7 +727,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 82.0267,
+      "overall_score": 82.15,
       "token_p90_per_scored_item": 15620,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -769,8 +769,8 @@
       "basis": "DeepSeek direct API · maximum-reasoning Hard IQ",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · rubric-calibrated-e55eb55",
-        "final": 83.23,
-        "capability": 99.37,
+        "final": 83.58,
+        "capability": 100.0,
         "agentic": 94.14,
         "daily": 78.63,
         "efficiency": 72.18,
@@ -806,7 +806,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 80.4283,
+      "overall_score": 80.545,
       "token_p90_per_scored_item": 22805.69,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -851,8 +851,8 @@
       "cost_class": "paid-api",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 87.05,
-        "capability": 95.41,
+        "final": 87.4,
+        "capability": 96.04,
         "agentic": 90.72,
         "daily": 84.0,
         "efficiency": 72.08,
@@ -912,7 +912,7 @@
         "Hard Intelligence is a public diagnostic, not a hidden official score.",
         "Full long-context probe rescored under suite v4 (ambiguous probe: silent under literal compliance)."
       ],
-      "overall_score": 81.1843,
+      "overall_score": 81.3009,
       "token_p90_per_scored_item": 15121.6,
       "token_median_per_scored_item": 1567,
       "hard_intelligence": {
@@ -961,8 +961,8 @@
       "basis": "OpenRouter · extra-high reasoning · Full + SWE + Hard measured",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 76.72,
-        "capability": 88.48,
+        "final": 77.06,
+        "capability": 89.11,
         "agentic": 79.12,
         "daily": 71.13,
         "efficiency": 55.27,
@@ -1013,7 +1013,7 @@
         "Hard Intelligence is a public diagnostic, not a hidden official score.",
         "Full long-context probe rescored under suite v4 (rubric: correct answer zeroed by the phrase list)."
       ],
-      "overall_score": 80.442,
+      "overall_score": 80.5553,
       "token_p90_per_scored_item": 31009,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -1050,7 +1050,7 @@
       },
       "token_median_per_scored_item": 1824,
       "overall_rank": 14,
-      "full_rank": 21,
+      "full_rank": 20,
       "swe_rank": 12,
       "hard_rank": 12
     },
@@ -1064,8 +1064,8 @@
       "cost_class": "subscription-quota",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 90.85,
-        "capability": 99.37,
+        "final": 91.19,
+        "capability": 100.0,
         "agentic": 96.03,
         "daily": 88.01,
         "efficiency": 90.28,
@@ -1121,7 +1121,7 @@
         "Hard Intelligence is a public diagnostic, not a hidden official score.",
         "Token median and P90 per scored item are intentionally omitted: their derivation could not be reproduced on the same basis as the published rows."
       ],
-      "overall_score": 79.0876,
+      "overall_score": 79.201,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 83.8229,
@@ -1167,8 +1167,8 @@
       "basis": "OpenRouter · extra-high reasoning · Hard Intelligence",
       "full": {
         "suite": "Prior models use full_suite_v2 with v3 16K/32K native-tool patch; Qwen3.7 Max uses full_suite_v3.",
-        "final": 73.83,
-        "capability": 92.37,
+        "final": 74.18,
+        "capability": 93.0,
         "agentic": 90.65,
         "daily": 68.0,
         "efficiency": 56.8,
@@ -1203,7 +1203,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 77.5719,
+      "overall_score": 77.6886,
       "token_p90_per_scored_item": 17071,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -1247,8 +1247,8 @@
       "basis": "OpenRouter · extra-high reasoning",
       "full": {
         "suite": "Prior models use full_suite_v2 with v3 16K/32K native-tool patch; Qwen3.7 Max uses full_suite_v3.",
-        "final": 78.84,
-        "capability": 94.6,
+        "final": 79.11,
+        "capability": 95.09,
         "agentic": 78.48,
         "daily": 72.13,
         "efficiency": 74.58,
@@ -1285,7 +1285,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 77.4969,
+      "overall_score": 77.5869,
       "token_p90_per_scored_item": 17299.54,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -1322,8 +1322,8 @@
       "basis": "MiniMax direct API · extra-high reasoning · costed at MiniMax's published M3 API rates",
       "full": {
         "suite": "Prior models use full_suite_v2 with v3 16K/32K native-tool patch; Qwen3.7 Max uses full_suite_v3.",
-        "final": 77.17,
-        "capability": 92.74,
+        "final": 77.44,
+        "capability": 93.24,
         "agentic": 76.47,
         "daily": 70.86,
         "efficiency": 74.82,
@@ -1367,7 +1367,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 72.2456,
+      "overall_score": 72.3356,
       "token_p90_per_scored_item": 12788,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -1413,8 +1413,8 @@
       "basis": "OpenRouter · Kimi K2.7 Code · extra-high Hard IQ",
       "full": {
         "suite": "benchmark_core_v1 · full_suite_v3 · 43 prompts",
-        "final": 79.58,
-        "capability": 99.37,
+        "final": 79.92,
+        "capability": 100.0,
         "agentic": 88.65,
         "daily": 72.08,
         "efficiency": 64.17,
@@ -1452,7 +1452,7 @@
       "notes": [
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking."
       ],
-      "overall_score": 68.2161,
+      "overall_score": 68.3294,
       "token_p90_per_scored_item": 15362.09,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -1539,12 +1539,12 @@
           "ignored_all_retrieved_evidence": 2
         }
       },
-      "overall_score": 67.2732,
+      "overall_score": 67.3932,
       "token_p90_per_scored_item": 32369,
       "full": {
         "suite": "benchmark_core_v1 · full_suite_v3 · 43 prompts",
-        "final": 87.44,
-        "capability": 92.47,
+        "final": 87.8,
+        "capability": 93.11,
         "agentic": 83.02,
         "daily": 85.72,
         "efficiency": 82.77,
@@ -1604,8 +1604,8 @@
       "basis": "OpenRouter · nvidia/nemotron-3-ultra-550b-a55b · extra-high reasoning",
       "full": {
         "suite": "full_suite_v3 · benchmark_core_v1 · scorer_v2.8_gemini35_swe_aliases",
-        "final": 67.27,
-        "capability": 97.29,
+        "final": 67.64,
+        "capability": 97.95,
         "agentic": 87.83,
         "daily": 56.89,
         "efficiency": 49.96,
@@ -1648,7 +1648,7 @@
         "Hard Intelligence is published alongside Full/Agentic and SWE for the current ranking.",
         "Full long-context probe rescored under suite v4 (rubric: correct answer zeroed by the phrase list)."
       ],
-      "overall_score": 63.4858,
+      "overall_score": 63.6091,
       "token_p90_per_scored_item": 17722.49,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
@@ -1701,8 +1701,8 @@
       "quant": "Q4_K_M",
       "full": {
         "suite": "benchmark_core_v1 · full_suite_v3 · 43 prompts · local Vulkan",
-        "final": 69.95,
-        "capability": 87.07,
+        "final": 70.27,
+        "capability": 87.65,
         "agentic": 75.74,
         "daily": 63.86,
         "efficiency": 70.81,
@@ -1803,7 +1803,7 @@
         "Local model row: benchmarked on local hardware with no API metering.",
         "Strong local Full/Agentic and focused tool-loop behavior; SWE review/audit and Hard Intelligence inquiry/adaptation are weak in this max-thinking run."
       ],
-      "overall_score": 57.6394,
+      "overall_score": 57.7461,
       "token_p90_per_scored_item": 26798,
       "token_median_per_scored_item": 764,
       "overall_rank": 25,
@@ -1823,8 +1823,8 @@
       "quant": "Q4_K_M",
       "full": {
         "suite": "benchmark_core_v1 · full_suite_v3 · 43 prompts · local Vulkan",
-        "final": 61.62,
-        "capability": 90.84,
+        "final": 61.94,
+        "capability": 91.41,
         "agentic": 74.8,
         "daily": 56.71,
         "efficiency": 37.88,
@@ -1925,7 +1925,7 @@
         "Strong local Full/Agentic baseline for a 35B MoE GGUF, but SWE implementation/review and Hard Intelligence inquiry/adaptation were weak in this run.",
         "The local entrant shares the unified public tournament table with API-backed entrants while exposing local runtime and cost metadata."
       ],
-      "overall_score": 50.1211,
+      "overall_score": 50.2278,
       "token_p90_per_scored_item": 10537,
       "token_median_per_scored_item": 1192,
       "overall_rank": 27,
@@ -1945,8 +1945,8 @@
       "quant": "Q8_0",
       "full": {
         "suite": "benchmark_core_v1 · full_suite_v3 · 43 prompts · local Vulkan",
-        "final": 68.31,
-        "capability": 84.47,
+        "final": 68.63,
+        "capability": 85.04,
         "agentic": 77.15,
         "daily": 60.65,
         "efficiency": 67.01,
@@ -2046,7 +2046,7 @@
         "256K allocation and runtime fit were verified for this Q8_0 local Vulkan entrant; filled-context retrieval at 256K remains separate/unproven.",
         "Q8 shows stronger full-suite quality than Q6, but SWE and Hard Intelligence diagnostic lanes remain weak."
       ],
-      "overall_score": 52.9087,
+      "overall_score": 53.0154,
       "token_p90_per_scored_item": 19779,
       "token_median_per_scored_item": 1064,
       "overall_rank": 26,
@@ -2064,8 +2064,8 @@
       "cost_class": "subscription-quota",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 83.2,
-        "capability": 99.37,
+        "final": 83.55,
+        "capability": 100.0,
         "agentic": 94.62,
         "daily": 76.29,
         "efficiency": 63.19,
@@ -2125,7 +2125,7 @@
         "Token median and P90 per scored item are intentionally omitted: their derivation could not be reproduced on the same basis as the published rows.",
         "Full long-context probe rescored under suite v4 (ambiguous probe: silent under literal compliance)."
       ],
-      "overall_score": 76.1162,
+      "overall_score": 76.2328,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 92.5885,
@@ -2172,8 +2172,8 @@
       "cost_class": "subscription-quota",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 77.82,
-        "capability": 97.51,
+        "final": 78.16,
+        "capability": 98.14,
         "agentic": 86.33,
         "daily": 68.6,
         "efficiency": 46.61,
@@ -2232,7 +2232,7 @@
         "Full long-context probe scored under suite v4 (explicit absence instruction, broadened rubric).",
         "Hard Intelligence is a public diagnostic, not a hidden official score."
       ],
-      "overall_score": 78.2723,
+      "overall_score": 78.3856,
       "token_p90_per_scored_item": 30791.4,
       "token_median_per_scored_item": 4074,
       "hard_intelligence": {
@@ -2281,7 +2281,7 @@
       "cost_class": "subscription-quota",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 81.52,
+        "final": 81.53,
         "capability": 79.79,
         "agentic": 66.28,
         "daily": 82.67,
@@ -2345,7 +2345,7 @@
         "Token median and P90 per scored item are intentionally omitted: their derivation could not be reproduced on the same basis as the published rows.",
         "Cache writes are priced at the one-hour duration, which is the TTL this route writes with. The first publication priced every write at the short five-minute duration. That duration was reached through the records carrying an explicit cache breakdown, which is the Full lane's direct prompts, the SWE lane, and the Hard diagnostic. The Full lane's agentic prompts store no per-turn cache breakdown and priced their input at the write rate as a whole, so the first correction did not reach them and they stayed on the short rate. Correcting all three lanes moves the total from $2.269694 to $3.119018, with Full carrying $0.73 of that. The overall goes from 81.0355 to 80.8655; the overall rank stays at 10, and every sub-rank is unchanged."
       ],
-      "overall_score": 80.8655,
+      "overall_score": 80.8688,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 96.0964,
@@ -2490,7 +2490,7 @@
         ]
       },
       "overall_rank": 12,
-      "full_rank": 20,
+      "full_rank": 21,
       "swe_rank": 17,
       "hard_rank": 2
     },
@@ -2504,8 +2504,8 @@
       "cost_class": "subscription-quota",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 85.86,
-        "capability": 95.02,
+        "final": 86.21,
+        "capability": 95.65,
         "agentic": 90.93,
         "daily": 82.31,
         "efficiency": 74.2,
@@ -2565,7 +2565,7 @@
         "Hard Intelligence is a public diagnostic, not a hidden official score.",
         "Token median and P90 per scored item are intentionally omitted: their derivation could not be reproduced on the same basis as the published rows."
       ],
-      "overall_score": 84.4387,
+      "overall_score": 84.5554,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 95.7761,
@@ -2612,8 +2612,8 @@
       "cost_class": "subscription-quota",
       "full": {
         "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
-        "final": 90.75,
-        "capability": 99.37,
+        "final": 91.09,
+        "capability": 100.0,
         "agentic": 97.92,
         "daily": 87.7,
         "efficiency": 57.92,
@@ -2667,7 +2667,7 @@
         "Hard Intelligence is a public diagnostic, not a hidden official score.",
         "Token median and P90 per scored item are intentionally omitted: their derivation could not be reproduced on the same basis as the published rows."
       ],
-      "overall_score": 87.188,
+      "overall_score": 87.3013,
       "hard_intelligence": {
         "suite": "hard_intelligence_v1.alpha · public diagnostic",
         "diagnostic_score": 88.2839,
