@@ -5,7 +5,7 @@
     "title": "Resyst Labs LLM Benchmark Rankings",
     "formula": "Overall = average of measured major lanes: Full/Agentic, SWE MVP, and Hard Intelligence when published",
     "public_note": "Local and API-backed models share one tournament table. Blank Hard Intelligence cells mean that lane is not yet measured for that entrant.",
-    "row_count": 24
+    "row_count": 25
   },
   "notes": [
     "Full/Agentic, SWE, and Hard Intelligence are separate benchmark lanes; overall uses the average of measured major lanes.",
@@ -121,7 +121,7 @@
       "overall_rank": 1,
       "full_rank": 3,
       "swe_rank": 2,
-      "hard_rank": 7,
+      "hard_rank": 8,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.183175,
@@ -267,9 +267,9 @@
       },
       "token_median_per_scored_item": 1091,
       "overall_rank": 3,
-      "full_rank": 11,
+      "full_rank": 12,
       "swe_rank": 8,
-      "hard_rank": 2,
+      "hard_rank": 3,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 4.0713550000000005,
@@ -453,7 +453,7 @@
       "overall_rank": 2,
       "full_rank": 6,
       "swe_rank": 7,
-      "hard_rank": 6,
+      "hard_rank": 7,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 1.867345,
@@ -610,7 +610,7 @@
       "overall_rank": 4,
       "full_rank": 1,
       "swe_rank": 5,
-      "hard_rank": 14,
+      "hard_rank": 15,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.29006304,
@@ -795,7 +795,7 @@
       "overall_rank": 5,
       "full_rank": 8,
       "swe_rank": 13,
-      "hard_rank": 5,
+      "hard_rank": 6,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 3.857706,
@@ -950,9 +950,9 @@
       },
       "token_median_per_scored_item": 1132,
       "overall_rank": 6,
-      "full_rank": 14,
+      "full_rank": 15,
       "swe_rank": 4,
-      "hard_rank": 11,
+      "hard_rank": 12,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 6.11454,
@@ -1125,9 +1125,9 @@
       },
       "token_median_per_scored_item": 1270,
       "overall_rank": 8,
-      "full_rank": 20,
+      "full_rank": 21,
       "swe_rank": 9,
-      "hard_rank": 3,
+      "hard_rank": 4,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 12.2854,
@@ -1277,10 +1277,10 @@
       "overall_score": 80.5378,
       "token_median_per_scored_item": 5593,
       "token_p90_per_scored_item": 64361.4,
-      "overall_rank": 10,
-      "full_rank": 16,
+      "overall_rank": 11,
+      "full_rank": 17,
       "swe_rank": 1,
-      "hard_rank": 15,
+      "hard_rank": 16,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 2.76764848,
@@ -1434,7 +1434,7 @@
       "overall_rank": 7,
       "full_rank": 7,
       "swe_rank": 15,
-      "hard_rank": 8,
+      "hard_rank": 9,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 1.6457935,
@@ -1584,10 +1584,10 @@
         }
       },
       "token_median_per_scored_item": 1931,
-      "overall_rank": 12,
+      "overall_rank": 13,
       "full_rank": 9,
       "swe_rank": 11,
-      "hard_rank": 13,
+      "hard_rank": 14,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.33487897,
@@ -1776,7 +1776,7 @@
       "overall_rank": 9,
       "full_rank": 5,
       "swe_rank": 14,
-      "hard_rank": 12,
+      "hard_rank": 13,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 1.000343,
@@ -1947,10 +1947,10 @@
         ]
       },
       "token_median_per_scored_item": 1824,
-      "overall_rank": 11,
-      "full_rank": 18,
+      "overall_rank": 12,
+      "full_rank": 19,
       "swe_rank": 12,
-      "hard_rank": 9,
+      "hard_rank": 10,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 2.811962,
@@ -2129,10 +2129,10 @@
           "insufficient_seed_count"
         ]
       },
-      "overall_rank": 13,
+      "overall_rank": 14,
       "full_rank": 2,
-      "swe_rank": 17,
-      "hard_rank": 10,
+      "swe_rank": 18,
+      "hard_rank": 11,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.06963780000000001,
@@ -2284,10 +2284,10 @@
         }
       },
       "token_median_per_scored_item": 2099,
-      "overall_rank": 15,
-      "full_rank": 19,
+      "overall_rank": 16,
+      "full_rank": 20,
       "swe_rank": 3,
-      "hard_rank": 17,
+      "hard_rank": 18,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.9062727500000001,
@@ -2434,10 +2434,10 @@
         }
       },
       "token_median_per_scored_item": 1876,
-      "overall_rank": 16,
-      "full_rank": 13,
+      "overall_rank": 17,
+      "full_rank": 14,
       "swe_rank": 6,
-      "hard_rank": 18,
+      "hard_rank": 19,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.1823699,
@@ -2600,10 +2600,10 @@
         "cost_basis": "official_model_pricing_estimate"
       },
       "token_median_per_scored_item": 1373,
-      "overall_rank": 18,
-      "full_rank": 17,
+      "overall_rank": 19,
+      "full_rank": 18,
       "swe_rank": 16,
-      "hard_rank": 16,
+      "hard_rank": 17,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.169117,
@@ -2758,10 +2758,10 @@
         }
       },
       "token_median_per_scored_item": 1593,
-      "overall_rank": 19,
-      "full_rank": 12,
-      "swe_rank": 20,
-      "hard_rank": 19,
+      "overall_rank": 20,
+      "full_rank": 13,
+      "swe_rank": 21,
+      "hard_rank": 20,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.7322077499999999,
@@ -2941,10 +2941,10 @@
         }
       },
       "token_median_per_scored_item": 4395,
-      "overall_rank": 20,
+      "overall_rank": 21,
       "full_rank": 4,
       "swe_rank": 10,
-      "hard_rank": 24,
+      "hard_rank": 25,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.49386395,
@@ -3107,10 +3107,10 @@
         }
       },
       "token_median_per_scored_item": 984,
-      "overall_rank": 21,
-      "full_rank": 23,
-      "swe_rank": 19,
-      "hard_rank": 20,
+      "overall_rank": 22,
+      "full_rank": 24,
+      "swe_rank": 20,
+      "hard_rank": 21,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0.4891468,
@@ -3304,10 +3304,10 @@
       "overall_score": 57.6394,
       "token_p90_per_scored_item": 26798,
       "token_median_per_scored_item": 764,
-      "overall_rank": 22,
-      "full_rank": 21,
-      "swe_rank": 21,
-      "hard_rank": 22,
+      "overall_rank": 23,
+      "full_rank": 22,
+      "swe_rank": 22,
+      "hard_rank": 23,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0,
@@ -3501,10 +3501,10 @@
       "overall_score": 50.1211,
       "token_p90_per_scored_item": 10537,
       "token_median_per_scored_item": 1192,
-      "overall_rank": 24,
-      "full_rank": 24,
-      "swe_rank": 24,
-      "hard_rank": 21,
+      "overall_rank": 25,
+      "full_rank": 25,
+      "swe_rank": 25,
+      "hard_rank": 22,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0,
@@ -3697,10 +3697,10 @@
       "overall_score": 52.9087,
       "token_p90_per_scored_item": 19779,
       "token_median_per_scored_item": 1064,
-      "overall_rank": 23,
-      "full_rank": 22,
-      "swe_rank": 23,
-      "hard_rank": 23,
+      "overall_rank": 24,
+      "full_rank": 23,
+      "swe_rank": 24,
+      "hard_rank": 24,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 0,
@@ -3880,10 +3880,10 @@
           "insufficient_seed_count"
         ]
       },
-      "overall_rank": 17,
+      "overall_rank": 18,
       "full_rank": 10,
-      "swe_rank": 22,
-      "hard_rank": 4,
+      "swe_rank": 23,
+      "hard_rank": 5,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 1.309818,
@@ -4064,10 +4064,10 @@
           "insufficient_seed_count"
         ]
       },
-      "full_rank": 15,
-      "swe_rank": 18,
-      "hard_rank": 1,
-      "overall_rank": 14,
+      "full_rank": 16,
+      "swe_rank": 19,
+      "hard_rank": 2,
+      "overall_rank": 15,
       "telemetry": {
         "scoring_role": "telemetry_only",
         "cost": 6.77572,
@@ -4137,6 +4137,191 @@
               "item_count": 16,
               "recorded_seconds": 170.7399,
               "seconds_per_item": 10.6712,
+              "status": "recorded",
+              "basis": "total_seconds"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "claude-opus-5-5-claude-max-xhigh",
+      "label": "Claude Opus 5.5",
+      "basis": "Claude Max subscription · extra-high reasoning · Full + SWE + Hard measured",
+      "provider": "claude-max",
+      "runtime": "api",
+      "location": "remote",
+      "cost_class": "subscription-quota",
+      "full": {
+        "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
+        "final": 82.03,
+        "capability": 79.79,
+        "agentic": 66.28,
+        "daily": 82.67,
+        "efficiency": 65.3,
+        "performance": 93.4,
+        "reliability": 100,
+        "pass_rate": 46.51,
+        "avg_s": 4.641,
+        "decode": 54.69,
+        "cost": 1.49912,
+        "cost_basis": "official_model_pricing_estimate",
+        "prompt_count": 43,
+        "total_time_s": 199.561,
+        "prompt_tokens": 252935,
+        "output_tokens": 12213,
+        "reasoning_tokens": 2672,
+        "failure_modes": {
+          "field_value_mismatch": 1,
+          "invalid_output": 21,
+          "missing_extract_fact": 21,
+          "missing_native_tool_call": 21,
+          "missing_required_concept": 1,
+          "missing_search_docs": 21,
+          "missing_transform_value": 21
+        }
+      },
+      "swe": {
+        "suite": "software_engineering_mvp_v1 · n=3 · public SWE MVP",
+        "swe_score": 64.98,
+        "focused_final": 66.71,
+        "capability": 59.38,
+        "daily": 68.83,
+        "performance": 80.62,
+        "efficiency": 59.28,
+        "reliability": 100,
+        "cost": 0.592977,
+        "cost_basis": "official_model_pricing_estimate",
+        "time_s": 259.706,
+        "prompt_count": 24,
+        "prompt_tokens": 21493,
+        "output_tokens": 24278,
+        "reasoning_tokens": 4186,
+        "failure_modes": {
+          "low_precision": 6,
+          "patch_rejected": 8
+        },
+        "task_type_scores": {
+          "component_creation": 33.33,
+          "edge_case_discovery": 83.05,
+          "multi_file_patch": 33.33,
+          "security_supply_chain": 91.67,
+          "software_audit_review": 83.51
+        }
+      },
+      "notes": [
+        "Runs on the Claude Max subscription; the transport is the official Claude Code CLI rather than a metered API key, so the subscription bills no marginal per-token charge.",
+        "Reasoning effort is extra-high on every lane, matching the published extra-high baselines.",
+        "Costed at the model’s published Standard API rates ($4.00/1M input, $20.00/1M output, $0.20/1M cache reads, $5.00/1M cache writes) as a comparable basis, not an invoice. The prompt prefix is cached by the subscription route, so pricing only the uncached remainder would understate each call.",
+        "Thinking tokens are spent and billed on this route but are not returned as text, so reasoning content is absent while its token cost is counted.",
+        "Hard Intelligence is a public diagnostic, not a hidden official score.",
+        "Token median and P90 per scored item are intentionally omitted: their derivation could not be reproduced on the same basis as the published rows."
+      ],
+      "overall_score": 81.0355,
+      "hard_intelligence": {
+        "suite": "hard_intelligence_v1.alpha · public diagnostic",
+        "diagnostic_score": 96.0964,
+        "overall_included": true,
+        "record_count": 16,
+        "cost": 0.177597,
+        "cost_basis": "official_model_pricing_estimate",
+        "input_tokens": 18549,
+        "output_tokens": 4245,
+        "reasoning_tokens": 0,
+        "runtime_seconds": 78.0813,
+        "api_status": {
+          "ok": 16
+        },
+        "finish_reasons": {
+          "end_turn": 16
+        },
+        "output_budget_valid": true,
+        "lanes": {
+          "active_information_acquisition": 99.2812,
+          "authority_salience_constraint_integrity": 100,
+          "evidence_driven_self_repair": 86.3542,
+          "online_adaptation_fast_learning": 98.75
+        },
+        "failure_modes": {},
+        "limitations": [
+          "public_fixture_only",
+          "incomplete_difficulty_curve",
+          "insufficient_seed_count"
+        ]
+      },
+      "overall_rank": 10,
+      "full_rank": 11,
+      "swe_rank": 17,
+      "hard_rank": 1,
+      "telemetry": {
+        "scoring_role": "telemetry_only",
+        "cost": 2.269694,
+        "cost_per_scored_item": 0.027346,
+        "avgSeconds": 6.4741,
+        "tokenVolume": 340571,
+        "tokenPerScoredItem": 4103.27,
+        "overall": 81.0355,
+        "scored_items": 83,
+        "tokens": {
+          "recorded_total": 340571,
+          "per_scored_item_recorded": 4103.27,
+          "mean_per_scored_item": 4103.27,
+          "median_per_scored_item": null,
+          "p90_per_scored_item": null,
+          "per_covered_item": 4103.27,
+          "covered_items": 83,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_total": 267820,
+              "per_item_recorded": 6228.37,
+              "status": "recorded",
+              "basis": "direct_fields"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_total": 49957,
+              "per_item_recorded": 2081.54,
+              "status": "recorded",
+              "basis": "direct_fields"
+            },
+            "hard": {
+              "item_count": 16,
+              "recorded_total": 22794,
+              "per_item_recorded": 1424.63,
+              "status": "recorded",
+              "basis": "direct_fields"
+            }
+          }
+        },
+        "runtime": {
+          "recorded_seconds": 537.3483,
+          "seconds_per_timed_item": 6.4741,
+          "seconds_per_scored_item_recorded": 6.4741,
+          "covered_items": 83,
+          "coverage_pct": 100,
+          "status": "complete",
+          "lanes": {
+            "full": {
+              "item_count": 43,
+              "recorded_seconds": 199.561,
+              "seconds_per_item": 4.641,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "swe": {
+              "item_count": 24,
+              "recorded_seconds": 259.706,
+              "seconds_per_item": 10.8211,
+              "status": "recorded",
+              "basis": "total_seconds"
+            },
+            "hard": {
+              "item_count": 16,
+              "recorded_seconds": 78.0813,
+              "seconds_per_item": 4.8801,
               "status": "recorded",
               "basis": "total_seconds"
             }

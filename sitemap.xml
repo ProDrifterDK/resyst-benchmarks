@@ -121,6 +121,16 @@
     </image:image>
   </url>
   <url>
+    <loc>https://benchmarks.resyst.cl/models/claude-opus-5-5-claude-max-xhigh/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
+    <image:image>
+      <image:loc>https://benchmarks.resyst.cl/og.png?v=20260613-link-preview</image:loc>
+      <image:title>Resyst Labs Benchmarks</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://benchmarks.resyst.cl/models/glm-5.2-openrouter-xhigh/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
