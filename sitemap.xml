@@ -41,7 +41,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://benchmarks.resyst.cl/models/gpt-5.6-terra-openrouter-xhigh/</loc>
+    <loc>https://benchmarks.resyst.cl/models/gpt-5.5-chatgpt-codex-xhigh/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
@@ -51,7 +51,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://benchmarks.resyst.cl/models/gpt-5.5-openrouter-xhigh/</loc>
+    <loc>https://benchmarks.resyst.cl/models/gpt-5.6-terra-openrouter-xhigh/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.72</priority>
