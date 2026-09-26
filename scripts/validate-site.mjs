@@ -372,7 +372,7 @@ const expectedRows = {
   "gemini-3.5-flash-openrouter": {overallScore: 82.0267, overallRank: 7, fullRank: 7, sweRank: 15, hardScore: 87.75, hardRank: 9},
   "claude-fable-5-openrouter-xhigh": {overallScore: 82.0087, overallRank: 8, fullRank: 21, sweRank: 9, hardScore: 92.776, hardRank: 4},
   "gpt-5.6-luna-openrouter-xhigh": {overallScore: 81.1843, overallRank: 9, fullRank: 5, sweRank: 14, hardScore: 80.6628, hardRank: 13},
-  "claude-opus-5-5-claude-max-xhigh": {overallScore: 81.0355, overallRank: 10, fullRank: 11, sweRank: 17, hardScore: 96.0964, hardRank: 1},
+  "claude-opus-5-5-claude-max-xhigh": {overallScore: 80.8655, overallRank: 10, fullRank: 11, sweRank: 17, hardScore: 96.0964, hardRank: 1},
   "glm-5.2-openrouter-xhigh": {overallScore: 80.5378, overallRank: 11, fullRank: 17, sweRank: 1, hardScore: 74.5833, hardRank: 16},
   "claude-sonnet-5-openrouter-xhigh": {overallScore: 80.442, overallRank: 12, fullRank: 19, sweRank: 12, hardScore: 86.526, hardRank: 10},
   "deepseek-v4-pro-direct": {overallScore: 80.4283, overallRank: 13, fullRank: 9, sweRank: 11, hardScore: 78.375, hardRank: 14},
