@@ -55,6 +55,7 @@ const shortModelLabels = new Map([
   ['deepseek-v4-flash-direct', 'DS-V4f'],
   ['deepseek-v4.1-flash-opencode-go', 'DS-V4.1f'],
   ['claude-opus-4.8-openrouter-xhigh', 'Opus'],
+  ['claude-opus-5-5-claude-max-xhigh', 'Opus 5.5'],
   ['glm-5.2-openrouter-xhigh', 'GLM5.2'],
   ['gemini-3.5-flash-openrouter', 'Gemini'],
   ['deepseek-v4-pro-direct', 'DS-V4p'],
