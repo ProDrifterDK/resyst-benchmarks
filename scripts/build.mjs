@@ -48,7 +48,7 @@ const sideValue = (map, side) => map?.[side] ?? 0;
 const prettyReason = (value = 'resolved') => String(value).replaceAll('_', ' ');
 const modelPath = (row) => `models/${slug(row.id)}/`;
 const shortModelLabels = new Map([
-  ['gpt-5.5-openrouter-xhigh', 'GPT5.5'],
+  ['gpt-5.5-chatgpt-codex-xhigh', 'GPT5.5'],
   ['gpt-5.6-luna-openrouter-xhigh', 'Luna'],
   ['gpt-5.6-terra-openrouter-xhigh', 'Terra'],
   ['gpt-5.6-sol-openrouter-xhigh', 'Sol'],

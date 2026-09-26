@@ -363,29 +363,29 @@ if (localRows.length) {
   }
 }
 const expectedRows = {
-  "deepseek-v4.1-flash-opencode-go": {overallScore: 89.1394, overallRank: 1, fullRank: 3, sweRank: 2, hardScore: 88.1081, hardRank: 10 },
-  "gpt-5.6-terra-openrouter-xhigh": {overallScore: 86.8141, overallRank: 2, fullRank: 6, sweRank: 7, hardScore: 88.1823, hardRank: 9 },
-  "gpt-5.5-openrouter-xhigh": {overallScore: 86.477, overallRank: 3, fullRank: 13, sweRank: 8, hardScore: 93.401, hardRank: 5 },
+  "deepseek-v4.1-flash-opencode-go": {overallScore: 89.1394, overallRank: 1, fullRank: 4, sweRank: 2, hardScore: 88.1081, hardRank: 10 },
+  "gpt-5.5-chatgpt-codex-xhigh": {overallScore: 87.188, overallRank: 2, fullRank: 3, sweRank: 8, hardScore: 88.2839, hardRank: 8 },
+  "gpt-5.6-terra-openrouter-xhigh": {overallScore: 86.8141, overallRank: 3, fullRank: 7, sweRank: 7, hardScore: 88.1823, hardRank: 9 },
   "deepseek-v4-flash-direct": {overallScore: 85.5201, overallRank: 4, fullRank: 1, sweRank: 5, hardScore: 75.4803, hardRank: 17 },
-  "glm-5.3-flash-zai-coding-xhigh": {overallScore: 84.4387, overallRank: 5, fullRank: 7, sweRank: 16, hardScore: 95.7761, hardRank: 3 },
-  "gpt-5.6-sol-openrouter-xhigh": {overallScore: 83.9491, overallRank: 6, fullRank: 9, sweRank: 13, hardScore: 91.3073, hardRank: 8 },
+  "glm-5.3-flash-zai-coding-xhigh": {overallScore: 84.4387, overallRank: 5, fullRank: 8, sweRank: 16, hardScore: 95.7761, hardRank: 3 },
+  "gpt-5.6-sol-openrouter-xhigh": {overallScore: 83.9491, overallRank: 6, fullRank: 10, sweRank: 13, hardScore: 91.3073, hardRank: 7 },
   "claude-opus-4.8-openrouter-xhigh": {overallScore: 82.8999, overallRank: 7, fullRank: 16, sweRank: 4, hardScore: 81.3698, hardRank: 14 },
-  "gemini-3.5-flash-openrouter": {overallScore: 82.0267, overallRank: 8, fullRank: 8, sweRank: 15, hardScore: 87.75, hardRank: 11 },
-  "claude-fable-5-openrouter-xhigh": {overallScore: 82.0087, overallRank: 9, fullRank: 23, sweRank: 9, hardScore: 92.776, hardRank: 6 },
-  "gpt-5.6-luna-openrouter-xhigh": {overallScore: 81.1843, overallRank: 10, fullRank: 5, sweRank: 14, hardScore: 80.6628, hardRank: 15 },
-  "claude-opus-5-5-claude-max-xhigh": {overallScore: 80.8655, overallRank: 11, fullRank: 12, sweRank: 19, hardScore: 96.0964, hardRank: 1 },
+  "gemini-3.5-flash-openrouter": {overallScore: 82.0267, overallRank: 8, fullRank: 9, sweRank: 15, hardScore: 87.75, hardRank: 11 },
+  "claude-fable-5-openrouter-xhigh": {overallScore: 82.0087, overallRank: 9, fullRank: 23, sweRank: 9, hardScore: 92.776, hardRank: 5 },
+  "gpt-5.6-luna-openrouter-xhigh": {overallScore: 81.1843, overallRank: 10, fullRank: 6, sweRank: 14, hardScore: 80.6628, hardRank: 15 },
+  "claude-opus-5-5-claude-max-xhigh": {overallScore: 80.8655, overallRank: 11, fullRank: 13, sweRank: 19, hardScore: 96.0964, hardRank: 1 },
   "claude-fable-5-1-claude-max-xhigh": {overallScore: 80.8376, overallRank: 12, fullRank: 20, sweRank: 17, hardScore: 95.8229, hardRank: 2 },
   "glm-5.2-openrouter-xhigh": {overallScore: 80.5378, overallRank: 13, fullRank: 18, sweRank: 1, hardScore: 74.5833, hardRank: 18 },
   "claude-sonnet-5-openrouter-xhigh": {overallScore: 80.442, overallRank: 14, fullRank: 21, sweRank: 12, hardScore: 86.526, hardRank: 12 },
-  "deepseek-v4-pro-direct": {overallScore: 80.4283, overallRank: 15, fullRank: 10, sweRank: 11, hardScore: 78.375, hardRank: 16 },
+  "deepseek-v4-pro-direct": {overallScore: 80.4283, overallRank: 15, fullRank: 11, sweRank: 11, hardScore: 78.375, hardRank: 16 },
   "gpt-6-luna-chatgpt-codex-xhigh": {overallScore: 79.0876, overallRank: 16, fullRank: 2, sweRank: 20, hardScore: 83.8229, hardRank: 13 },
   "gpt-6-astra-chatgpt-codex-xhigh": {overallScore: 78.2723, overallRank: 17, fullRank: 17, sweRank: 21, hardScore: 95.0768, hardRank: 4 },
   "qwen3.7-max-openrouter-xhigh": {overallScore: 77.5719, overallRank: 18, fullRank: 22, sweRank: 3, hardScore: 69.8958, hardRank: 20 },
   "minimax-m3-openrouter-xhigh": {overallScore: 77.4969, overallRank: 19, fullRank: 15, sweRank: 6, hardScore: 66.7708, hardRank: 21 },
-  "gpt-6-sol-chatgpt-codex-xhigh": {overallScore: 76.1162, overallRank: 20, fullRank: 11, sweRank: 25, hardScore: 92.5885, hardRank: 7 },
+  "gpt-6-sol-chatgpt-codex-xhigh": {overallScore: 76.1162, overallRank: 20, fullRank: 12, sweRank: 25, hardScore: 92.5885, hardRank: 6 },
   "minimax-m3-direct-anthropic": {overallScore: 72.2456, overallRank: 21, fullRank: 19, sweRank: 18, hardScore: 71.7969, hardRank: 19 },
   "kimi-k2.7-code-openrouter-xhigh": {overallScore: 68.2161, overallRank: 22, fullRank: 14, sweRank: 23, hardScore: 66.4583, hardRank: 22 },
-  "step-3.7-flash-openrouter-xhigh": {overallScore: 67.2732, overallRank: 23, fullRank: 4, sweRank: 10, hardScore: 33.9896, hardRank: 27 },
+  "step-3.7-flash-openrouter-xhigh": {overallScore: 67.2732, overallRank: 23, fullRank: 5, sweRank: 10, hardScore: 33.9896, hardRank: 27 },
   "nemotron-3-ultra-openrouter-xhigh": {overallScore: 63.4858, overallRank: 24, fullRank: 26, sweRank: 22, hardScore: 64.5573, hardRank: 23 },
   "gemma4-12b-coder-fable5-composer25-q4km-local": {overallScore: 57.6394, overallRank: 25, fullRank: 24, sweRank: 24, hardScore: 48.9583, hardRank: 25 },
   "qwythos-9b-q8-vulkan-local": {overallScore: 52.9087, overallRank: 26, fullRank: 25, sweRank: 26, hardScore: 43.9062, hardRank: 26 },
@@ -507,7 +507,7 @@ for (const row of publicRows) {
   if (!Number.isFinite(Number(telemetry.tokens?.p90_per_scored_item))) throw new Error(`${row.id} missing token P90 per scored item`);
   if (Number(row.overall_score) !== Number(models.rows.find((source) => source.id === row.id)?.overall_score)) throw new Error(`${row.id} public telemetry rewrite changed overall score`);
 }
-const gpt55Telemetry = publicRows.find((row) => row.id === 'gpt-5.5-openrouter-xhigh')?.telemetry;
+const gpt55Telemetry = publicRows.find((row) => row.id === 'gpt-5.5-chatgpt-codex-xhigh')?.telemetry;
 if (gpt55Telemetry?.tokens.status !== 'complete' || gpt55Telemetry.tokens.lanes.full.status !== 'recorded' || gpt55Telemetry.tokens.lanes.swe.status !== 'recorded') {
   throw new Error('GPT-5.5 token telemetry must be complete after recovered Full/SWE token totals are recorded');
 }
