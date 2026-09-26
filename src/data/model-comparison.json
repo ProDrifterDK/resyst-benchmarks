@@ -5,7 +5,7 @@
     "title": "Resyst Labs LLM Benchmark Rankings",
     "formula": "Overall = average of measured major lanes: Full/Agentic, SWE MVP, and Hard Intelligence when published",
     "public_note": "Local and API-backed models share one tournament table. Blank Hard Intelligence cells mean that lane is not yet measured for that entrant.",
-    "row_count": 26
+    "row_count": 27
   },
   "notes": [
     "Full/Agentic, SWE, and Hard Intelligence are separate benchmark lanes; overall uses the average of measured major lanes.",
@@ -121,7 +121,7 @@
       "overall_rank": 1,
       "full_rank": 3,
       "swe_rank": 2,
-      "hard_rank": 9
+      "hard_rank": 10
     },
     {
       "id": "gpt-5.5-openrouter-xhigh",
@@ -192,9 +192,9 @@
       },
       "token_median_per_scored_item": 1091,
       "overall_rank": 3,
-      "full_rank": 12,
+      "full_rank": 13,
       "swe_rank": 8,
-      "hard_rank": 4
+      "hard_rank": 5
     },
     {
       "id": "gpt-5.6-terra-openrouter-xhigh",
@@ -303,7 +303,7 @@
       "overall_rank": 2,
       "full_rank": 6,
       "swe_rank": 7,
-      "hard_rank": 8
+      "hard_rank": 9
     },
     {
       "id": "deepseek-v4-flash-direct",
@@ -385,7 +385,7 @@
       "overall_rank": 4,
       "full_rank": 1,
       "swe_rank": 5,
-      "hard_rank": 16
+      "hard_rank": 17
     },
     {
       "id": "gpt-5.6-sol-openrouter-xhigh",
@@ -492,10 +492,10 @@
           "insufficient_seed_count"
         ]
       },
-      "overall_rank": 5,
-      "full_rank": 8,
+      "overall_rank": 6,
+      "full_rank": 9,
       "swe_rank": 13,
-      "hard_rank": 7
+      "hard_rank": 8
     },
     {
       "id": "claude-opus-4.8-openrouter-xhigh",
@@ -574,10 +574,10 @@
         }
       },
       "token_median_per_scored_item": 1132,
-      "overall_rank": 6,
-      "full_rank": 15,
+      "overall_rank": 7,
+      "full_rank": 16,
       "swe_rank": 4,
-      "hard_rank": 13
+      "hard_rank": 14
     },
     {
       "id": "claude-fable-5-openrouter-xhigh",
@@ -674,10 +674,10 @@
         ]
       },
       "token_median_per_scored_item": 1270,
-      "overall_rank": 8,
-      "full_rank": 22,
+      "overall_rank": 9,
+      "full_rank": 23,
       "swe_rank": 9,
-      "hard_rank": 5
+      "hard_rank": 6
     },
     {
       "id": "glm-5.2-openrouter-xhigh",
@@ -752,10 +752,10 @@
       "overall_score": 80.5378,
       "token_median_per_scored_item": 5593,
       "token_p90_per_scored_item": 64361.4,
-      "overall_rank": 12,
-      "full_rank": 17,
+      "overall_rank": 13,
+      "full_rank": 18,
       "swe_rank": 1,
-      "hard_rank": 17
+      "hard_rank": 18
     },
     {
       "id": "gemini-3.5-flash-openrouter",
@@ -831,10 +831,10 @@
         "failure_modes": {}
       },
       "token_median_per_scored_item": 2443,
-      "overall_rank": 7,
-      "full_rank": 7,
+      "overall_rank": 8,
+      "full_rank": 8,
       "swe_rank": 15,
-      "hard_rank": 10
+      "hard_rank": 11
     },
     {
       "id": "deepseek-v4-pro-direct",
@@ -909,10 +909,10 @@
         }
       },
       "token_median_per_scored_item": 1931,
-      "overall_rank": 14,
-      "full_rank": 9,
+      "overall_rank": 15,
+      "full_rank": 10,
       "swe_rank": 11,
-      "hard_rank": 15
+      "hard_rank": 16
     },
     {
       "id": "gpt-5.6-luna-openrouter-xhigh",
@@ -1023,10 +1023,10 @@
           "insufficient_seed_count"
         ]
       },
-      "overall_rank": 9,
+      "overall_rank": 10,
       "full_rank": 5,
       "swe_rank": 14,
-      "hard_rank": 14
+      "hard_rank": 15
     },
     {
       "id": "claude-sonnet-5-openrouter-xhigh",
@@ -1122,10 +1122,10 @@
         ]
       },
       "token_median_per_scored_item": 1824,
-      "overall_rank": 13,
-      "full_rank": 20,
+      "overall_rank": 14,
+      "full_rank": 21,
       "swe_rank": 12,
-      "hard_rank": 11
+      "hard_rank": 12
     },
     {
       "id": "gpt-6-luna-chatgpt-codex-xhigh",
@@ -1229,10 +1229,10 @@
           "insufficient_seed_count"
         ]
       },
-      "overall_rank": 15,
+      "overall_rank": 16,
       "full_rank": 2,
-      "swe_rank": 19,
-      "hard_rank": 12
+      "swe_rank": 20,
+      "hard_rank": 13
     },
     {
       "id": "qwen3.7-max-openrouter-xhigh",
@@ -1309,10 +1309,10 @@
         }
       },
       "token_median_per_scored_item": 2099,
-      "overall_rank": 17,
-      "full_rank": 21,
+      "overall_rank": 18,
+      "full_rank": 22,
       "swe_rank": 3,
-      "hard_rank": 19
+      "hard_rank": 20
     },
     {
       "id": "minimax-m3-openrouter-xhigh",
@@ -1384,10 +1384,10 @@
         }
       },
       "token_median_per_scored_item": 1876,
-      "overall_rank": 18,
-      "full_rank": 14,
+      "overall_rank": 19,
+      "full_rank": 15,
       "swe_rank": 6,
-      "hard_rank": 20
+      "hard_rank": 21
     },
     {
       "id": "minimax-m3-direct-anthropic",
@@ -1475,10 +1475,10 @@
         "cost_basis": "official_model_pricing_estimate"
       },
       "token_median_per_scored_item": 1373,
-      "overall_rank": 20,
-      "full_rank": 18,
-      "swe_rank": 17,
-      "hard_rank": 18
+      "overall_rank": 21,
+      "full_rank": 19,
+      "swe_rank": 18,
+      "hard_rank": 19
     },
     {
       "id": "kimi-k2.7-code-openrouter-xhigh",
@@ -1558,10 +1558,10 @@
         }
       },
       "token_median_per_scored_item": 1593,
-      "overall_rank": 21,
-      "full_rank": 13,
-      "swe_rank": 22,
-      "hard_rank": 21
+      "overall_rank": 22,
+      "full_rank": 14,
+      "swe_rank": 23,
+      "hard_rank": 22
     },
     {
       "id": "step-3.7-flash-openrouter-xhigh",
@@ -1666,10 +1666,10 @@
         }
       },
       "token_median_per_scored_item": 4395,
-      "overall_rank": 22,
+      "overall_rank": 23,
       "full_rank": 4,
       "swe_rank": 10,
-      "hard_rank": 26
+      "hard_rank": 27
     },
     {
       "id": "nemotron-3-ultra-openrouter-xhigh",
@@ -1757,10 +1757,10 @@
         }
       },
       "token_median_per_scored_item": 984,
-      "overall_rank": 23,
-      "full_rank": 25,
-      "swe_rank": 21,
-      "hard_rank": 22
+      "overall_rank": 24,
+      "full_rank": 26,
+      "swe_rank": 22,
+      "hard_rank": 23
     },
     {
       "id": "gemma4-12b-coder-fable5-composer25-q4km-local",
@@ -1879,10 +1879,10 @@
       "overall_score": 57.6394,
       "token_p90_per_scored_item": 26798,
       "token_median_per_scored_item": 764,
-      "overall_rank": 24,
-      "full_rank": 23,
-      "swe_rank": 23,
-      "hard_rank": 24
+      "overall_rank": 25,
+      "full_rank": 24,
+      "swe_rank": 24,
+      "hard_rank": 25
     },
     {
       "id": "ornith-35b-q4km-vulkan-fit-local",
@@ -2001,10 +2001,10 @@
       "overall_score": 50.1211,
       "token_p90_per_scored_item": 10537,
       "token_median_per_scored_item": 1192,
-      "overall_rank": 26,
-      "full_rank": 26,
-      "swe_rank": 26,
-      "hard_rank": 23
+      "overall_rank": 27,
+      "full_rank": 27,
+      "swe_rank": 27,
+      "hard_rank": 24
     },
     {
       "id": "qwythos-9b-q8-vulkan-local",
@@ -2122,10 +2122,10 @@
       "overall_score": 52.9087,
       "token_p90_per_scored_item": 19779,
       "token_median_per_scored_item": 1064,
-      "overall_rank": 25,
-      "full_rank": 24,
-      "swe_rank": 25,
-      "hard_rank": 25
+      "overall_rank": 26,
+      "full_rank": 25,
+      "swe_rank": 26,
+      "hard_rank": 26
     },
     {
       "id": "gpt-6-sol-chatgpt-codex-xhigh",
@@ -2230,10 +2230,10 @@
           "insufficient_seed_count"
         ]
       },
-      "overall_rank": 19,
-      "full_rank": 10,
-      "swe_rank": 24,
-      "hard_rank": 6
+      "overall_rank": 20,
+      "full_rank": 11,
+      "swe_rank": 25,
+      "hard_rank": 7
     },
     {
       "id": "gpt-6-astra-chatgpt-codex-xhigh",
@@ -2339,10 +2339,10 @@
           "insufficient_seed_count"
         ]
       },
-      "full_rank": 16,
-      "swe_rank": 20,
-      "hard_rank": 3,
-      "overall_rank": 16
+      "full_rank": 17,
+      "swe_rank": 21,
+      "hard_rank": 4,
+      "overall_rank": 17
     },
     {
       "id": "claude-opus-5-5-claude-max-xhigh",
@@ -2450,9 +2450,9 @@
           "insufficient_seed_count"
         ]
       },
-      "overall_rank": 10,
-      "full_rank": 11,
-      "swe_rank": 18,
+      "overall_rank": 11,
+      "full_rank": 12,
+      "swe_rank": 19,
       "hard_rank": 1
     },
     {
@@ -2562,10 +2562,118 @@
           "insufficient_seed_count"
         ]
       },
-      "overall_rank": 11,
-      "full_rank": 19,
-      "swe_rank": 16,
+      "overall_rank": 12,
+      "full_rank": 20,
+      "swe_rank": 17,
       "hard_rank": 2
+    },
+    {
+      "id": "glm-5.3-flash-zai-coding-xhigh",
+      "label": "GLM 5.3 Flash",
+      "basis": "z.ai Coding Plan · glm-5.3-flash · maximum reasoning with thinking enabled · Full + SWE + Hard measured",
+      "provider": "zai-coding-plan",
+      "runtime": "api",
+      "location": "remote",
+      "cost_class": "subscription-quota",
+      "full": {
+        "suite": "benchmark_core_v1 · 43 prompts · public Full/Agentic suite",
+        "final": 85.86,
+        "capability": 95.02,
+        "agentic": 90.93,
+        "daily": 82.31,
+        "efficiency": 74.2,
+        "performance": 69.89,
+        "reliability": 100.0,
+        "pass_rate": 95.35,
+        "avg_s": 18.132,
+        "decode": 23.44,
+        "cost": 0.075064,
+        "cost_basis": "official_model_pricing_estimate",
+        "prompt_count": 43,
+        "total_time_s": 779.686,
+        "prompt_tokens": 523630,
+        "output_tokens": 15756,
+        "reasoning_tokens": 11636,
+        "failure_modes": {
+          "field_value_mismatch": 1,
+          "missing_required_concept": 1
+        }
+      },
+      "swe": {
+        "suite": "software_engineering_mvp_v1 · n=3 · public SWE MVP",
+        "swe_score": 71.68,
+        "focused_final": 64.26,
+        "capability": 66.41,
+        "daily": 62.77,
+        "performance": 52.5,
+        "efficiency": 64.34,
+        "reliability": 99.17,
+        "cost": 0.030548,
+        "cost_basis": "official_model_pricing_estimate",
+        "time_s": 1514.001,
+        "prompt_count": 24,
+        "prompt_tokens": 7425,
+        "output_tokens": 59918,
+        "reasoning_tokens": 49549,
+        "failure_modes": {
+          "RemoteDisconnected": 1,
+          "low_precision": 5,
+          "nonzero_exit": 2,
+          "patch_rejected": 6,
+          "tests_failed": 1
+        },
+        "task_type_scores": {
+          "component_creation": 30.13,
+          "edge_case_discovery": 90.47,
+          "multi_file_patch": 66.67,
+          "security_supply_chain": 95.0,
+          "software_audit_review": 76.11
+        }
+      },
+      "notes": [
+        "Runs on the z.ai Coding Plan subscription rather than a metered API key.",
+        "Reasoning effort is max with thinking enabled on every lane, which is the strongest setting this route exposes.",
+        "Costed at z.ai’s published rates ($0.15/1M input, $0.50/1M output, $0.03/1M cached input) as a comparable basis, not an invoice. Implicit prompt caching is billed at the cached rate.",
+        "Thinking cannot be disabled on this route, so reasoning tokens dominate the output; on the Hard diagnostic they were 93.9% of all emitted output tokens.",
+        "Hard Intelligence is a public diagnostic, not a hidden official score.",
+        "Token median and P90 per scored item are intentionally omitted: their derivation could not be reproduced on the same basis as the published rows."
+      ],
+      "overall_score": 84.4387,
+      "hard_intelligence": {
+        "suite": "hard_intelligence_v1.alpha · public diagnostic",
+        "diagnostic_score": 95.7761,
+        "overall_included": true,
+        "record_count": 16,
+        "cost": 0.011693,
+        "cost_basis": "official_model_pricing_estimate",
+        "input_tokens": 6574,
+        "output_tokens": 21414,
+        "reasoning_tokens": 19836,
+        "runtime_seconds": 648.919,
+        "api_status": {
+          "ok": 16
+        },
+        "finish_reasons": {
+          "stop": 16
+        },
+        "output_budget_valid": true,
+        "lanes": {
+          "active_information_acquisition": 99.75,
+          "authority_salience_constraint_integrity": 100.0,
+          "evidence_driven_self_repair": 85.3855,
+          "online_adaptation_fast_learning": 97.9688
+        },
+        "failure_modes": {},
+        "limitations": [
+          "public_fixture_only",
+          "incomplete_difficulty_curve",
+          "insufficient_seed_count"
+        ]
+      },
+      "overall_rank": 5,
+      "full_rank": 7,
+      "swe_rank": 16,
+      "hard_rank": 3
     }
   ],
   "schema_type": "resyst_labs_benchmark_rankings"
