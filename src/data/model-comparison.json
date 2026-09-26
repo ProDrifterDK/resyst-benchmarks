@@ -2427,7 +2427,7 @@
         "cost_basis": "official_model_pricing_estimate",
         "input_tokens": 18549,
         "output_tokens": 4245,
-        "reasoning_tokens": 0,
+        "reasoning_tokens": 1250,
         "runtime_seconds": 78.0813,
         "api_status": {
           "ok": 16
