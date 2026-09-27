@@ -18,6 +18,7 @@ if (!existsSync(src)) {
 const readJson = async (relativePath) => JSON.parse(await readFile(path.join(src, relativePath), 'utf8'));
 const models = await readJson('data/model-comparison.json');
 const arena = await readJson('data/arena-snapshots.json');
+const hardAgentic = await readJson('data/hard-agentic-tool.json');
 
 // Editing leftovers (*.bak, *.bak-<stamp>, *.orig, *~) must never be published. The
 // .gitignore only stops git; the build copies src/ wholesale, so it filters here too.
@@ -137,6 +138,7 @@ function header(prefix = '') {
       </a>
       <nav aria-label="Primary navigation">
         <a href="${prefix}ranking/">Ranking</a>
+        <a href="${prefix}hard-agentic/">Hard Agentic</a>
         <a href="${prefix}arena/">Arena</a>
         <a href="${prefix}#methodology">Methodology</a>
         <a href="${prefix}#evidence">Evidence</a>
@@ -1519,6 +1521,134 @@ async function hydrateOverviewHtml() {
   await writeFile(indexPath, html);
 }
 
+
+function hardAgenticDatasetSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Dataset',
+    name: hardAgentic.summary?.title ?? 'Hard Agentic Tool Benchmark',
+    description: 'Separate native tool benchmark lane for field disambiguation, authority rules, retries, hostile data, and source-of-record handling.',
+    url: `${site}hard-agentic/`,
+    license: `${site}#methodology`,
+    creator: organizationSchema(),
+    distribution: {
+      '@type': 'DataDownload',
+      encodingFormat: 'application/json',
+      contentUrl: `${site}data/hard-agentic-tool.json`,
+    },
+  };
+}
+
+function hardAgenticRows() {
+  return [...(hardAgentic.rows ?? [])]
+    .sort((a, b) => Number(a.rank ?? 999) - Number(b.rank ?? 999))
+    .map((row) => `<tr>
+      <td class="rank-cell">#${escapeHtml(row.rank)}</td>
+      <td class="model-cell"><strong>${escapeHtml(row.label)}</strong><small>${escapeHtml(row.provider)} · ${escapeHtml(row.runtime)}</small></td>
+      <td class="score-cell">${fmt(row.score)}</td>
+      <td>${fmt(row.task_min)} – ${fmt(row.task_max)}</td>
+      <td>${fmt(row.pass_rate_pct, 0)}%</td>
+      <td>${row.native_tool_valid ? 'valid' : 'excluded'}</td>
+    </tr>`).join('\n');
+}
+
+function hardAgenticControlRows() {
+  return (hardAgentic.controls ?? [])
+    .map((control) => `<div class="bar-row hard-agentic-control ${control.passed ? 'control-pass' : 'control-fail'}" style="--bar:${Math.max(2, Math.min(100, Number(control.score) || 0)).toFixed(2)}%">
+      <strong>${escapeHtml(control.label)}</strong>
+      <div class="bar-track" aria-hidden="true"><i></i></div>
+      <span>${fmt(control.score)} / limit ${fmt(control.limit, 0)}</span>
+      <small>${control.passed ? 'below guardrail' : 'above guardrail'}</small>
+    </div>`).join('\n');
+}
+
+function hardAgenticTaskRows() {
+  return [...(hardAgentic.tasks ?? [])]
+    .sort((a, b) => Number(b.spread ?? 0) - Number(a.spread ?? 0))
+    .map((task) => `<div class="bar-row hard-agentic-task" style="--bar:${Math.max(2, Math.min(100, Number(task.spread) || 0)).toFixed(2)}%">
+      <strong>${escapeHtml(task.label)}</strong>
+      <div class="bar-track" aria-hidden="true"><i></i></div>
+      <span>${fmt(task.spread)}</span>
+      <small>best ${fmt(task.best)} · worst ${fmt(task.worst)}</small>
+    </div>`).join('\n');
+}
+
+async function writeHardAgenticPage() {
+  const summary = hardAgentic.summary ?? {};
+  const rows = [...(hardAgentic.rows ?? [])].sort((a, b) => Number(a.rank ?? 999) - Number(b.rank ?? 999));
+  const leader = rows[0];
+  const content = `<main class="detail-main hard-agentic-page" id="top">
+    <section class="detail-hero section-shell hard-agentic-hero">
+      <a class="back-link" href="../ranking/">← Ranking</a>
+      <p class="eyebrow">Hard Agentic Tool Benchmark · separate lane</p>
+      <h1>Hard native tool tasks, reported separately.</h1>
+      <p class="hero-lead">This lane targets native-tool-capable models with ambiguous operational data: similar fields, production versus staging, date and status authority, retries, units, policy lookup, hostile data, and fallback ownership. It does not change the global overall ranking yet.</p>
+      <div class="detail-actions">
+        <a class="button primary" href="#hard-agentic-table">Read the lane table</a>
+        <a class="button secondary" href="../data/hard-agentic-tool.json">Download lane JSON</a>
+      </div>
+    </section>
+
+    <section class="section-shell result-stat-grid" aria-label="Hard Agentic summary">
+      ${statCard('Measured rows', String(summary.row_count ?? rows.length), 'native tool rows only')}
+      ${statCard('Lane leader', leader?.label ?? 'Pending', `score ${fmt(leader?.score)}`)}
+      ${statCard('Score spread', fmt(summary.score_spread), `${fmt(summary.score_min)} to ${fmt(summary.score_max)}`)}
+      ${statCard('Dispersion', fmt(summary.stddev_population), 'population standard deviation')}
+      ${statCard('Flat perfect tasks', String(summary.all_rows_perfect_tasks ?? 0), 'tasks where every row scored 100')}
+      ${statCard('High-spread tasks', String(summary.tasks_with_spread_gte_25 ?? 0), 'tasks with spread at least 25')}
+    </section>
+
+    <section class="section-shell ranking-insight-grid" aria-label="Hard Agentic interpretation cards">
+      <article class="ranking-insight-card glass-panel"><h2>Why it is separate</h2><p>The global ranking remains unchanged while this lane matures. It is a harder tool-use slice, not a silent replacement for Full, SWE, or Hard Intelligence.</p></article>
+      <article class="ranking-insight-card glass-panel"><h2>What it measures</h2><p>Models must choose authority, follow pointers, recover from transient tool failures, reject misleading snippets, convert units, and ignore injected instructions inside data fields.</p></article>
+      <article class="ranking-insight-card glass-panel"><h2>What does not count</h2><p>Rows that cannot produce native tool calls are excluded from difficulty claims. Protocol failure is not model weakness under this lane.</p></article>
+      <article class="ranking-insight-card glass-panel"><h2>Control guardrails</h2><p>Snippet reading, blind guessing, first-hit extraction, and broad tool spraying all stay below their limits, so the lane is not solved by cheap shortcuts.</p></article>
+    </section>
+
+    <section id="hard-agentic-table" class="section-shell ranking-section ranking-page-table" aria-labelledby="hard-agentic-table-title">
+      <div class="section-kicker">Separate lane table</div>
+      <div class="section-head">
+        <div>
+          <h2 id="hard-agentic-table-title">Native-tool rows on the hard agentic lane.</h2>
+          <p>Scores are capability averages across 14 tasks. The public overall score is unchanged.</p>
+        </div>
+        <a class="data-link" href="../data/hard-agentic-tool.json">Lane data</a>
+      </div>
+      <div class="table-wrap glass-panel ranking-explained-table hard-agentic-table">
+        <table aria-label="Hard Agentic Tool Benchmark lane results">
+          <thead><tr><th>Rank</th><th>Model</th><th>Score</th><th>Task range</th><th>Pass rate</th><th>Native tools</th></tr></thead>
+          <tbody>${hardAgenticRows()}</tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section-shell ranking-chart-grid hard-agentic-grid" aria-label="Hard Agentic controls and task spread">
+      ${rankingChartCard('Shortcut controls', 'All control bots remain below their guardrail limits.', `<div class="bar-chart compact">${hardAgenticControlRows()}</div>`, 'These controls protect against answers from snippets, guessing, first hits, or broad tool spraying.')}
+      ${rankingChartCard('Task spread', 'Tasks ordered by model-score spread.', `<div class="bar-chart compact">${hardAgenticTaskRows()}</div>`, 'Ten of the fourteen tasks separate rows by at least 25 points in this measured set.')}
+    </section>
+  </main>`;
+  const outDir = path.join(dist, 'hard-agentic');
+  await mkdir(outDir, { recursive: true });
+  const title = 'Hard Agentic Tool Benchmark | Resyst Labs';
+  const description = 'Separate hard native-tool benchmark lane for agentic AI models, covering authority, retries, unit handling, hostile data, and shortcut controls.';
+  await writeFile(path.join(outDir, 'index.html'), pageShell({
+    title,
+    description,
+    canonicalPath: 'hard-agentic/',
+    prefix: '../',
+    bodyClass: 'detail-page hard-agentic-page-body',
+    content,
+    structuredData: [
+      webPageSchema({ title, description, url: `${site}hard-agentic/` }),
+      breadcrumbSchema([
+        { name: 'Resyst Labs Benchmarks', url: site },
+        { name: 'Hard Agentic Tool Benchmark', url: `${site}hard-agentic/` },
+      ]),
+      hardAgenticDatasetSchema(),
+    ],
+  }));
+}
+
 async function writeArenaPage() {
   const matches = arena.matches ?? [];
   const encounterGroups = buildEncounterGroups(matches);
@@ -1574,9 +1704,11 @@ async function writeArenaPage() {
 }
 
 await writeFile(path.join(dist, 'data/model-comparison.json'), `${JSON.stringify(models, null, 2)}\n`);
+await writeFile(path.join(dist, 'data/hard-agentic-tool.json'), `${JSON.stringify(hardAgentic, null, 2)}\n`);
 
 await writeModelPages();
 await writeRankingPage();
+await writeHardAgenticPage();
 await writeArenaPage();
 await hydrateOverviewHtml();
 
@@ -1584,6 +1716,7 @@ const today = dataDate;
 const urls = [
   ['', '1.0'],
   ['ranking/', '0.96'],
+  ['hard-agentic/', '0.92'],
   ['arena/', '0.9'],
   ...rankedRows.map((row) => [modelPath(row), '0.72']),
 ];

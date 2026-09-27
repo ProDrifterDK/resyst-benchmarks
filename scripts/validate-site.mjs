@@ -195,13 +195,15 @@ if (!manifest.icons?.some((icon) => icon.sizes === '192x192') || !manifest.icons
   throw new Error('web manifest must include 192x192 and 512x512 icons');
 }
 const sitemap = await readText('dist/sitemap.xml');
-for (const required of ['https://benchmarks.resyst.cl/', 'https://benchmarks.resyst.cl/ranking/', 'https://benchmarks.resyst.cl/arena/', 'xmlns:image=', '<image:loc>https://benchmarks.resyst.cl/og.png?v=20260613-link-preview</image:loc>']) {
+for (const required of ['https://benchmarks.resyst.cl/', 'https://benchmarks.resyst.cl/ranking/', 'https://benchmarks.resyst.cl/hard-agentic/', 'https://benchmarks.resyst.cl/arena/', 'xmlns:image=', '<image:loc>https://benchmarks.resyst.cl/og.png?v=20260613-link-preview</image:loc>']) {
   if (!sitemap.includes(required)) throw new Error(`sitemap.xml missing SEO marker: ${required}`);
 }
 if (/<loc>http:\/\//.test(sitemap) || /<image:loc>http:\/\//.test(sitemap)) throw new Error('sitemap.xml canonical URL entries must use HTTPS only');
 
 const models = JSON.parse(await readText('src/data/model-comparison.json'));
 const publicModels = JSON.parse(await readText('dist/data/model-comparison.json'));
+const hardAgentic = JSON.parse(await readText('src/data/hard-agentic-tool.json'));
+const publicHardAgentic = JSON.parse(await readText('dist/data/hard-agentic-tool.json'));
 const arena = JSON.parse(await readText('src/data/arena-snapshots.json'));
 
 const rankingHtml = await readText('dist/ranking/index.html');
@@ -306,6 +308,51 @@ for (const [index, chart] of scatterChartBlocks.entries()) {
     throw new Error(`scatter chart ${index + 1} renders tooltip layer before points, which lets points cover tooltips`);
   }
 }
+
+
+const hardAgenticHtml = await readText('dist/hard-agentic/index.html');
+assertSeoBasics('dist/hard-agentic/index.html', hardAgenticHtml, 'https://benchmarks.resyst.cl/hard-agentic/');
+for (const required of [
+  'Hard Agentic Tool Benchmark | Resyst Labs',
+  'Hard native tool tasks, reported separately.',
+  'Hard Agentic Tool Benchmark',
+  'separate lane',
+  'native tool rows only',
+  'Score spread',
+  'Flat perfect tasks',
+  'High-spread tasks',
+  'Shortcut controls',
+  'Snippet-only control',
+  'Guess control',
+  'First-hit control',
+  'Spray control',
+  'Task spread',
+  'data/hard-agentic-tool.json',
+  'Dataset',
+]) {
+  if (!hardAgenticHtml.includes(required)) throw new Error(`hard-agentic page missing required content: ${required}`);
+}
+if (!Array.isArray(hardAgentic.rows) || hardAgentic.rows.length !== 5 || hardAgentic.summary?.row_count !== 5) {
+  throw new Error('hard-agentic data must expose the five measured native-tool rows');
+}
+if (!Array.isArray(publicHardAgentic.rows) || publicHardAgentic.rows.length !== hardAgentic.rows.length) {
+  throw new Error('public hard-agentic data must preserve row count');
+}
+for (const row of hardAgentic.rows) {
+  if (!Number.isFinite(Number(row.score)) || !Number.isFinite(Number(row.rank))) throw new Error(`${row.id} hard-agentic row missing score or rank`);
+  if (!hardAgenticHtml.includes(row.label) || !hardAgenticHtml.includes(Number(row.score).toFixed(2))) {
+    throw new Error(`hard-agentic page does not render ${row.label} score ${Number(row.score).toFixed(2)}`);
+  }
+}
+for (const control of hardAgentic.controls ?? []) {
+  if (!control.passed) throw new Error(`${control.id} control must stay below its guardrail`);
+  if (!hardAgenticHtml.includes(control.label) || !hardAgenticHtml.includes(Number(control.score).toFixed(2))) {
+    throw new Error(`hard-agentic page does not render ${control.label}`);
+  }
+}
+if (Number(hardAgentic.summary?.all_rows_perfect_tasks) !== 0) throw new Error('hard-agentic lane should have zero all-perfect tasks in the measured set');
+if (Number(hardAgentic.summary?.tasks_with_spread_gte_25) < 4) throw new Error('hard-agentic lane must keep at least four high-spread tasks');
+if (Number(hardAgentic.summary?.stddev_population) < 10) throw new Error('hard-agentic lane must keep at least 10 points of population standard deviation');
 
 const arenaHtml = await readText('dist/arena/index.html');
 assertSeoBasics('dist/arena/index.html', arenaHtml, 'https://benchmarks.resyst.cl/arena/');
