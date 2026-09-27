@@ -1,0 +1,279 @@
+{
+  "generated_at": "2026-09-27T14:15:00Z",
+  "schema_type": "resyst_hard_agentic_tool_v1",
+  "summary": {
+    "title": "Hard Agentic Tool Benchmark",
+    "public_note": "A separate hard-agentic lane for native-tool-capable models. It is not part of the global overall score yet.",
+    "formula": "Score = capability average across 14 hard native-tool tasks.",
+    "row_count": 5,
+    "task_count": 14,
+    "score_min": 53.09,
+    "score_max": 82.15,
+    "score_spread": 29.06,
+    "stddev_population": 11.39,
+    "stddev_sample": 12.73,
+    "all_rows_perfect_tasks": 0,
+    "tasks_with_spread_gte_25": 10
+  },
+  "notes": [
+    "The global ranking remains unchanged while this lane is reported separately.",
+    "Rows that cannot make native tool calls are not used as difficulty evidence.",
+    "Controls check that snippets, guessing, first-hit extraction, and tool spraying do not solve the lane.",
+    "The lane stresses field disambiguation, environment selection, authority rules, retries, unit conversion, policy lookup, and hostile data fields."
+  ],
+  "controls": [
+    {
+      "id": "snippet_control",
+      "label": "Snippet-only control",
+      "score": 26.6,
+      "limit": 35,
+      "passed": true
+    },
+    {
+      "id": "guess_control",
+      "label": "Guess control",
+      "score": 2.33,
+      "limit": 20,
+      "passed": true
+    },
+    {
+      "id": "first_hit_control",
+      "label": "First-hit control",
+      "score": 40.46,
+      "limit": 50,
+      "passed": true
+    },
+    {
+      "id": "spray_control",
+      "label": "Spray control",
+      "score": 31.6,
+      "limit": 45,
+      "passed": true
+    }
+  ],
+  "tasks": [
+    {
+      "id": "hard_agentic_field_choice_p95",
+      "label": "Similar field selection",
+      "spread": 100,
+      "best": 100,
+      "worst": 0,
+      "all_rows_perfect": false
+    },
+    {
+      "id": "hard_agentic_retrieval_hijack",
+      "label": "Retrieval hijack resistance",
+      "spread": 86.17,
+      "best": 100,
+      "worst": 13.83,
+      "all_rows_perfect": false
+    },
+    {
+      "id": "hard_agentic_snippet_bait_tight_budget",
+      "label": "Snippet bait under tight budget",
+      "spread": 79.5,
+      "best": 100,
+      "worst": 20.5,
+      "all_rows_perfect": false
+    },
+    {
+      "id": "hard_agentic_authority_by_date",
+      "label": "Date and status authority",
+      "spread": 71.67,
+      "best": 100,
+      "worst": 28.33,
+      "all_rows_perfect": false
+    },
+    {
+      "id": "hard_agentic_retry_transient",
+      "label": "Transient retry plus comparison",
+      "spread": 59,
+      "best": 86.67,
+      "worst": 27.67,
+      "all_rows_perfect": false
+    },
+    {
+      "id": "hard_agentic_source_of_record",
+      "label": "Source-of-record policy",
+      "spread": 56.5,
+      "best": 85,
+      "worst": 28.5,
+      "all_rows_perfect": false
+    },
+    {
+      "id": "hard_agentic_budget_tight_max_of_three",
+      "label": "Max-of-three decision",
+      "spread": 54.92,
+      "best": 86.67,
+      "worst": 31.75,
+      "all_rows_perfect": false
+    },
+    {
+      "id": "hard_agentic_env_disambiguation",
+      "label": "Production vs staging",
+      "spread": 54,
+      "best": 100,
+      "worst": 46,
+      "all_rows_perfect": false
+    },
+    {
+      "id": "hard_agentic_registry_fallback_owner",
+      "label": "Registry fallback ownership",
+      "spread": 48.75,
+      "best": 96.25,
+      "worst": 47.5,
+      "all_rows_perfect": false
+    },
+    {
+      "id": "hard_agentic_unit_mixed_compare",
+      "label": "Mixed units comparison",
+      "spread": 31.25,
+      "best": 86.67,
+      "worst": 55.42,
+      "all_rows_perfect": false
+    },
+    {
+      "id": "hard_agentic_injection_in_field",
+      "label": "Injected instruction in data field",
+      "spread": 24,
+      "best": 100,
+      "worst": 76,
+      "all_rows_perfect": false
+    },
+    {
+      "id": "hard_agentic_pointer_hop_owner",
+      "label": "Ownership pointer hop",
+      "spread": 20,
+      "best": 86.67,
+      "worst": 66.67,
+      "all_rows_perfect": false
+    },
+    {
+      "id": "hard_agentic_no_such_metric",
+      "label": "Real metric absence",
+      "spread": 17.84,
+      "best": 86.67,
+      "worst": 68.83,
+      "all_rows_perfect": false
+    },
+    {
+      "id": "hard_agentic_conditional_branch",
+      "label": "Conditional branch and team lookup",
+      "spread": 17,
+      "best": 90,
+      "worst": 73,
+      "all_rows_perfect": false
+    }
+  ],
+  "rows": [
+    {
+      "id": "gpt-6-sol-chatgpt-codex",
+      "label": "GPT-6 Sol",
+      "provider": "ChatGPT Codex subscription",
+      "runtime": "remote api",
+      "score": 82.15,
+      "final_score_observed": 66.16,
+      "prompt_count": 14,
+      "task_mean": 82.15,
+      "task_min": 47.5,
+      "task_max": 100,
+      "pass_rate_pct": 71.43,
+      "failure_modes": {
+        "extra_tool_steps": 5,
+        "missing_extract_fact": 2,
+        "missing_search_docs": 4,
+        "premature_final_after_extract_fact": 5
+      },
+      "native_tool_valid": true,
+      "rank": 1
+    },
+    {
+      "id": "minimax-m3-openrouter-medium",
+      "label": "MiniMax M3",
+      "provider": "OpenRouter",
+      "runtime": "remote api",
+      "score": 81.82,
+      "final_score_observed": 72.68,
+      "prompt_count": 14,
+      "task_mean": 81.82,
+      "task_min": 28.33,
+      "task_max": 100,
+      "pass_rate_pct": 78.57,
+      "failure_modes": {
+        "extra_tool_steps": 4,
+        "missing_extract_fact": 2,
+        "missing_search_docs": 2,
+        "premature_final_after_extract_fact": 3
+      },
+      "native_tool_valid": true,
+      "rank": 2
+    },
+    {
+      "id": "qwen3.7-max-openrouter-extra-high",
+      "label": "Qwen3.7 Max",
+      "provider": "OpenRouter",
+      "runtime": "remote api",
+      "score": 80.72,
+      "final_score_observed": 71.33,
+      "prompt_count": 14,
+      "task_mean": 80.72,
+      "task_min": 27.67,
+      "task_max": 100,
+      "pass_rate_pct": 71.43,
+      "failure_modes": {
+        "extra_tool_steps": 7,
+        "missing_extract_fact": 3,
+        "missing_search_docs": 1,
+        "premature_final_after_extract_fact": 3,
+        "tool_error": 1
+      },
+      "native_tool_valid": true,
+      "rank": 3
+    },
+    {
+      "id": "kimi-k2.7-code-openrouter-extra-high",
+      "label": "Kimi K2.7 Code",
+      "provider": "OpenRouter",
+      "runtime": "remote api",
+      "score": 67.44,
+      "final_score_observed": 68.39,
+      "prompt_count": 14,
+      "task_mean": 67.44,
+      "task_min": 31.75,
+      "task_max": 86.67,
+      "pass_rate_pct": 64.29,
+      "failure_modes": {
+        "extra_tool_steps": 3,
+        "missing_extract_fact": 3,
+        "missing_search_docs": 2,
+        "premature_final_after_extract_fact": 3,
+        "premature_final_after_search_docs": 1
+      },
+      "native_tool_valid": true,
+      "rank": 4
+    },
+    {
+      "id": "gemini-2.5-flash-openrouter",
+      "label": "Gemini 2.5 Flash",
+      "provider": "OpenRouter",
+      "runtime": "remote api",
+      "score": 53.09,
+      "final_score_observed": 66.48,
+      "prompt_count": 14,
+      "task_mean": 53.09,
+      "task_min": 0,
+      "task_max": 100,
+      "pass_rate_pct": 42.86,
+      "failure_modes": {
+        "extra_tool_steps": 6,
+        "missing_extract_fact": 4,
+        "missing_search_docs": 1,
+        "missing_transform_value": 1,
+        "premature_final_after_extract_fact": 4,
+        "tool_error": 3
+      },
+      "native_tool_valid": true,
+      "rank": 5
+    }
+  ]
+}
