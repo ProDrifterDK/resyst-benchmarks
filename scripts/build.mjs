@@ -9,7 +9,7 @@ const site = 'https://benchmarks.resyst.cl/';
 const logoUrl = `${site}assets/ResystLabs-Logo.png`;
 const ogImageVersion = '20260613-link-preview';
 const ogImageUrl = `${site}og.png?v=${ogImageVersion}`;
-const assetVersion = '20260615-ranking-local-badge';
+const assetVersion = '20260928-visual-overhaul';
 
 if (!existsSync(src)) {
   throw new Error('src directory is missing');
@@ -126,12 +126,277 @@ const rankedRows = [...models.rows]
 const dataDate = (models.generated_at ? new Date(models.generated_at) : new Date()).toISOString().slice(0, 10);
 const dataDateLabel = new Intl.DateTimeFormat('en', { month: 'short', day: '2-digit', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${dataDate}T00:00:00Z`));
 
+// ---------------------------------------------------------------------------
+// Visual helpers. Every mark below is drawn from a measured number in the data
+// files; nothing here is decorative geometry.
+// ---------------------------------------------------------------------------
+const clampNumber = (value, min, max) => Math.max(min, Math.min(max, value));
+const pctOf = (value, max = 100) => `${clampNumber((Number(value) / max) * 100, 0, 100).toFixed(1)}%`;
+const finiteOrNull = (value) => (Number.isFinite(Number(value)) ? Number(value) : null);
+const median = (values) => {
+  const sorted = values.filter((value) => value !== null).sort((a, b) => a - b);
+  if (!sorted.length) return null;
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+};
+
+function figureBlock({ number, title, note = '', body, className = '', id = '', wide = false }) {
+  return `<figure class="fig${wide ? ' fig-wide' : ''}${className ? ` ${className}` : ''}"${id ? ` id="${escapeHtml(id)}"` : ''}>
+    <figcaption>
+      <span class="fig-n">Figure ${escapeHtml(number)}</span>
+      <span class="fig-title">${escapeHtml(title)}</span>
+      ${note ? `<span class="fig-note">${escapeHtml(note)}</span>` : ''}
+    </figcaption>
+    ${body}
+  </figure>`;
+}
+
+function microBar(value, className = '') {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return '';
+  return `<i class="micro-bar${className ? ` ${className}` : ''}" style="--v:${pctOf(number)}" aria-hidden="true"></i>`;
+}
+
+function scoreCell(value, { label, className = '', rank = null, extra = '', blankLabel = 'Not measured' } = {}) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) {
+    return `<td class="score-cell is-blank${className ? ` ${className}` : ''}" data-label="${escapeHtml(label)}" aria-label="${escapeHtml(blankLabel)}"></td>`;
+  }
+  return `<td class="score-cell${className ? ` ${className}` : ''}" data-label="${escapeHtml(label)}"><span class="score-value">${fmt(number)}</span>${rank ? `<small class="score-rank">#${escapeHtml(rank)}</small>` : ''}${microBar(number)}${extra}</td>`;
+}
+
+const hardLaneMeta = [
+  ['active_information_acquisition', 'Active inquiry'],
+  ['online_adaptation_fast_learning', 'Online adaptation'],
+  ['evidence_driven_self_repair', 'Self-repair'],
+  ['authority_salience_constraint_integrity', 'Authority integrity'],
+];
+
+function hardSublaneBars(row) {
+  const lanes = row.hard_intelligence?.lanes;
+  if (!lanes) return '';
+  const title = hardLaneMeta.map(([key, label]) => `${label} ${fmt(lanes[key])}`).join(', ');
+  return `<span class="sublanes" title="${escapeHtml(title)}" aria-label="${escapeHtml(title)}">${hardLaneMeta.map(([key]) => `<i style="--v:${pctOf(lanes[key])}"></i>`).join('')}</span>`;
+}
+
+// The hero instrument: every ranked model placed on one axis at its overall score. Marks
+// closer than `gap` score points stack upward so the dense 80 to 83 band stays legible.
+function spectrumMarkup(rows) {
+  const scored = rows.filter((row) => Number.isFinite(Number(row.overall_score)));
+  const scores = scored.map((row) => Number(row.overall_score));
+  const min = Math.max(0, Math.floor(Math.min(...scores) / 10) * 10 - 2);
+  const max = Math.min(100, Math.ceil(Math.max(...scores) / 10) * 10 + 2);
+  const span = Math.max(1, max - min);
+  const xFor = (score) => ((score - min) / span) * 100;
+  // Marks closer than the sum of their half-widths (in score points) stack upward. The
+  // top three draw larger, so they claim more room than the rest.
+  const halfWidth = (row) => (Number(row.overall_rank) <= 3 ? 1.1 : 0.55);
+  const levels = [];
+  const marks = [...scored]
+    .sort((a, b) => Number(a.overall_score) - Number(b.overall_score))
+    .map((row, index) => {
+      const score = Number(row.overall_score);
+      const mine = halfWidth(row);
+      let level = 0;
+      while ((levels[level] ?? []).some((other) => Math.abs(other.score - score) < mine + other.half)) level += 1;
+      (levels[level] ??= []).push({ score, half: mine });
+      return { row, score, level, index };
+    });
+  const ticks = [];
+  for (let tick = Math.ceil(min / 10) * 10; tick <= max; tick += 10) ticks.push(tick);
+  const top = [...scored].sort((a, b) => Number(a.overall_rank) - Number(b.overall_rank)).slice(0, 3);
+  return `<div class="spectrum-plot" style="--levels:${levels.length}">
+      <div class="spectrum-axis" aria-hidden="true">${ticks.map((tick) => `<span style="--x:${xFor(tick).toFixed(2)}%"><i></i>${tick}</span>`).join('')}</div>
+      <ul class="spectrum-marks" aria-label="Ranked models by overall score">
+        ${marks.map(({ row, score, level, index }) => {
+          const rank = Number(row.overall_rank);
+          const classes = ['spectrum-mark', isLocalModel(row) ? 'is-local' : '', rank <= 3 ? 'is-top' : '', rank === 1 ? 'is-leader' : ''].filter(Boolean).join(' ');
+          return `<li style="--x:${xFor(score).toFixed(2)}%;--level:${level};--i:${index}"><a class="${classes}" href="${modelPath(row)}" data-rank="${escapeHtml(rank)}" data-label="#${escapeHtml(rank)} ${escapeHtml(row.label)} ${fmt(score)}" aria-label="Rank ${escapeHtml(rank)}, ${escapeHtml(row.label)}, overall ${fmt(score)}"></a></li>`;
+        }).join('\n        ')}
+      </ul>
+    </div>
+    <ol class="spectrum-key" aria-label="Top three">
+      ${top.map((row) => `<li><b>${escapeHtml(row.overall_rank)}</b><a href="${modelPath(row)}">${escapeHtml(row.label)}</a><span>${fmt(row.overall_score)}</span></li>`).join('\n      ')}
+    </ol>`;
+}
+
+// One strip per scored lane: all ranked models as ticks on a shared 30 to 100 axis.
+function laneStripsMarkup(rows, matches) {
+  const lanes = [
+    { title: 'Agentic discipline', lane: 'Full / Agentic lane', text: 'Structured outputs, tool-use boundaries, instruction following, grounded reasoning, and hallucination resistance.', value: (row) => row.full?.final, rank: (row) => row.full_rank },
+    { title: 'Software execution', lane: 'SWE MVP lane', text: 'Practical implementation quality, final-answer usefulness, source handling, and architecture cleanliness.', value: (row) => row.swe?.swe_score, rank: (row) => row.swe_rank },
+    { title: 'Hard Intelligence', lane: 'Hard Intelligence lane', text: 'Active inquiry, online adaptation, evidence-driven self-repair, and authority integrity under a public hard-reasoning diagnostic.', value: (row) => row.hard_intelligence?.diagnostic_score, rank: (row) => row.hard_rank },
+  ];
+  const axisMin = 30;
+  const axisMax = 100;
+  const xFor = (value) => ((clampNumber(value, axisMin, axisMax) - axisMin) / (axisMax - axisMin)) * 100;
+  const laneRow = (lane) => {
+    const points = rows
+      .map((row) => ({ row, value: finiteOrNull(lane.value(row)) }))
+      .filter((point) => point.value !== null);
+    const leader = points.reduce((best, point) => (!best || point.value > best.value ? point : best), null);
+    const low = Math.min(...points.map((point) => point.value));
+    return `<article class="lane-row">
+      <div class="lane-name">
+        <h3>${escapeHtml(lane.title)}</h3>
+        <span class="lane-tag">${escapeHtml(lane.lane)}</span>
+        <p>${escapeHtml(lane.text)}</p>
+      </div>
+      <div class="lane-strip">
+        <span class="visually-hidden">${points.length} models measured, from ${fmt(low, 1)} to ${fmt(leader.value, 1)}.</span>
+        <span class="lane-axis" aria-hidden="true"><i>${axisMin}</i><i>${axisMax}</i></span>
+        ${points.map((point) => `<a class="lane-tick${point === leader ? ' is-leader' : ''}${isLocalModel(point.row) ? ' is-local' : ''}" style="--x:${xFor(point.value).toFixed(2)}%" href="${modelPath(point.row)}" data-label="#${escapeHtml(lane.rank(point.row) ?? '—')} ${escapeHtml(point.row.label)} ${fmt(point.value)}" aria-label="${escapeHtml(point.row.label)}, ${escapeHtml(lane.lane)} ${fmt(point.value)}, lane rank ${escapeHtml(lane.rank(point.row) ?? '—')}"></a>`).join('\n        ')}
+      </div>
+      <div class="lane-leader">
+        <span>Lane leader</span>
+        <strong><a href="${modelPath(leader.row)}">${escapeHtml(leader.row.label)}</a></strong>
+        <b>${fmt(leader.value, 1)}</b>
+      </div>
+    </article>`;
+  };
+  const groups = buildEncounterGroups(matches);
+  const turns = matches.reduce((sum, match) => sum + (Number(match.turns) || 0), 0);
+  const arenaRow = `<article class="lane-row lane-row-arena">
+      <div class="lane-name">
+        <h3>Resyst Arena</h3>
+        <span class="lane-tag">Tactical testbed</span>
+        <p>Turn-based spatial duels where legal action discipline and tactical continuity are measured separately from runtime telemetry.</p>
+      </div>
+      <div class="lane-arena-facts">
+        <span><b>${matches.length}</b> replays</span>
+        <span><b>${groups.length}</b> encounters</span>
+        <span><b>${turns}</b> recorded turns</span>
+      </div>
+      <div class="lane-leader">
+        <span>Replay room</span>
+        <strong><a href="arena/">Open Resyst Arena</a></strong>
+      </div>
+    </article>`;
+  return `${lanes.map(laneRow).join('\n')}\n${arenaRow}`;
+}
+
+// A real final board position, drawn from the replay file rather than an illustration.
+async function finalBoardFigure(match, prefix = '') {
+  const replayPath = match?.replay_files?.public_replay;
+  if (!replayPath) return '';
+  const replay = await readJson(replayPath);
+  const state = replay.final_state ?? replay.frames?.at(-1)?.state;
+  if (!state) return '';
+  const width = Number(state.width ?? 8);
+  const height = Number(state.height ?? 8);
+  const cell = 64;
+  const pad = 4;
+  const size = { w: width * cell + pad * 2, h: height * cell + pad * 2 };
+  const cx = (x) => pad + Number(x) * cell + cell / 2;
+  const cy = (y) => pad + Number(y) * cell + cell / 2;
+  const lastEvents = replay.frames?.at(-1)?.events ?? [];
+  const zone = (lastEvents.find((event) => event?.type === 'center_control' && Array.isArray(event.zone))?.zone
+    ?? [[Math.floor(width / 2) - 1, Math.floor(height / 2)], [Math.floor(width / 2), Math.floor(height / 2) - 1]])
+    .map(([x, y]) => ({ x: Number(x), y: Number(y) }));
+  const cells = [];
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      cells.push(`<rect class="fb-cell${(x + y) % 2 ? ' odd' : ''}" x="${pad + x * cell}" y="${pad + y * cell}" width="${cell}" height="${cell}"></rect>`);
+    }
+  }
+  const zoneMarks = zone.map(({ x, y }) => `<rect class="fb-zone" x="${pad + x * cell + 4}" y="${pad + y * cell + 4}" width="${cell - 8}" height="${cell - 8}" rx="6"></rect>`);
+  const obstacles = (state.obstacles ?? []).map((item) => `<rect class="fb-obstacle" x="${pad + Number(item.x) * cell + 10}" y="${pad + Number(item.y) * cell + 10}" width="${cell - 20}" height="${cell - 20}" rx="4"></rect>`);
+  const resources = (state.resources ?? []).map((item) => {
+    const x = cx(item.x);
+    const y = cy(item.y);
+    const r = 12;
+    return `<path class="fb-resource${item.contested ? ' contested' : ''}${Number(item.amount ?? 0) > 0 ? '' : ' depleted'}" d="M${x} ${y - r} L${x + r} ${y} L${x} ${y + r} L${x - r} ${y} Z"></path>`;
+  });
+  const cores = ['A', 'B'].map((side) => {
+    const core = state.players?.[side]?.core;
+    if (!core) return '';
+    const hp = clampNumber(Number(core.hp ?? 0) / Number(core.max_hp ?? 30), 0, 1);
+    const x = pad + Number(core.x) * cell;
+    const y = pad + Number(core.y) * cell;
+    return `<g class="fb-core side-${side}">
+      <rect x="${x + 8}" y="${y + 8}" width="${cell - 16}" height="${cell - 16}" rx="8"></rect>
+      <rect class="fb-core-hp" x="${x + 12}" y="${y + cell - 16}" width="${((cell - 24) * hp).toFixed(1)}" height="4" rx="2"></rect>
+      <text x="${cx(core.x)}" y="${cy(core.y) + 2}" text-anchor="middle">${side}</text>
+    </g>`;
+  });
+  const units = (state.units ?? []).map((unit) => {
+    const alive = Number(unit.hp ?? 1) > 0;
+    const glyph = unit.type === 'worker' ? 'W' : unit.type === 'striker' ? 'S' : 'U';
+    return `<g class="fb-unit side-${escapeHtml(unit.player ?? 'N')}${alive ? '' : ' destroyed'}">
+      <circle cx="${cx(unit.x)}" cy="${cy(unit.y)}" r="15"></circle>
+      <text x="${cx(unit.x)}" y="${cy(unit.y) + 4}" text-anchor="middle">${alive ? glyph : '×'}</text>
+    </g>`;
+  });
+  const [entrantA, entrantB] = encounterLabels(match);
+  const winner = compactEntrant(match.winner_label);
+  const caption = `Final position after ${escapeHtml(match.turns)} turns. ${escapeHtml(winner)} won by ${escapeHtml(prettyReason(match.winner_reason))}. Core integrity ${escapeHtml(sideValue(match.core_hp, 'A'))} for ${escapeHtml(entrantA)} (A) and ${escapeHtml(sideValue(match.core_hp, 'B'))} for ${escapeHtml(entrantB)} (B), out of 30.`;
+  return `<figure class="fig board-fig">
+      <figcaption>
+        <span class="fig-n">Figure 3</span>
+        <span class="fig-title">${escapeHtml(entrantA)} vs ${escapeHtml(entrantB)}</span>
+        <span class="fig-note">${caption}</span>
+      </figcaption>
+      <a class="final-board-link" href="${prefix}arena/#${encodeURIComponent(match.id)}" aria-label="Open the replay for ${escapeHtml(entrantA)} vs ${escapeHtml(entrantB)}">
+        <svg class="final-board" viewBox="0 0 ${size.w} ${size.h}" role="img" aria-hidden="true">
+          ${cells.join('')}
+          ${zoneMarks.join('')}
+          ${obstacles.join('')}
+          ${resources.join('')}
+          ${cores.join('')}
+          ${units.join('')}
+        </svg>
+      </a>
+      <ul class="board-key" aria-label="Board key">
+        <li><i class="key-core side-A"></i>Side A core</li>
+        <li><i class="key-core side-B"></i>Side B core</li>
+        <li><i class="key-unit"></i>Unit, W worker, S striker</li>
+        <li><i class="key-resource"></i>Resource</li>
+        <li><i class="key-zone"></i>Control zone</li>
+      </ul>
+    </figure>`;
+}
+
+// Model page: the model's three lane scores against the cohort median and best.
+function laneProfileFigure(row, number) {
+  const cohort = rankedRows;
+  const lanes = [
+    { label: 'Full / Agentic', value: finiteOrNull(row.full?.final), rank: row.full_rank, values: cohort.map((entry) => finiteOrNull(entry.full?.final)) },
+    { label: 'SWE MVP', value: finiteOrNull(row.swe?.swe_score), rank: row.swe_rank, values: cohort.map((entry) => finiteOrNull(entry.swe?.swe_score)) },
+    { label: 'Hard Intelligence', value: finiteOrNull(row.hard_intelligence?.diagnostic_score), rank: row.hard_rank, values: cohort.map((entry) => finiteOrNull(entry.hard_intelligence?.diagnostic_score)) },
+  ];
+  const body = `<div class="profile-chart">
+      ${lanes.map((lane) => {
+        const measured = lane.values.filter((value) => value !== null);
+        const best = measured.length ? Math.max(...measured) : null;
+        const mid = median(measured);
+        if (lane.value === null) {
+          return `<div class="profile-row is-blank"><span class="profile-label">${escapeHtml(lane.label)}</span><div class="profile-track"></div><strong>Not measured</strong></div>`;
+        }
+        return `<div class="profile-row">
+          <span class="profile-label">${escapeHtml(lane.label)}<small>lane rank #${escapeHtml(lane.rank ?? '—')} of ${measured.length}</small></span>
+          <div class="profile-track">
+            <i class="profile-bar" style="--v:${pctOf(lane.value)}"></i>
+            ${mid === null ? '' : `<b class="profile-median" style="--x:${pctOf(mid)}" title="Cohort median ${fmt(mid)}"></b>`}
+            ${best === null ? '' : `<b class="profile-best" style="--x:${pctOf(best)}" title="Cohort best ${fmt(best)}"></b>`}
+          </div>
+          <strong>${fmt(lane.value)}</strong>
+        </div>`;
+      }).join('\n')}
+    </div>
+    <ul class="profile-key" aria-label="Profile key">
+      <li><i class="key-bar"></i>${escapeHtml(row.label)}</li>
+      <li><i class="key-median"></i>Cohort median</li>
+      <li><i class="key-best"></i>Cohort best</li>
+    </ul>`;
+  return figureBlock({ number, title: 'Lane profile against the cohort', note: 'Each bar is one measured lane on the shared 0 to 100 scale. The thin mark is the cohort median; the bright mark is the best score any ranked model reached on that lane.', body, className: 'profile-fig' });
+}
+
 function header(prefix = '') {
   return `
     <header class="site-header">
       <a class="brand" href="${prefix}" aria-label="Resyst Labs Benchmarks home">
-        <img class="brand-logo" src="${prefix}assets/ResystLabs-Logo.png" alt="Resyst Labs logo" width="42" height="42" />
-        <span>
+        <img class="brand-logo" src="${prefix}assets/ResystLabs-Logo.png" alt="Resyst Labs logo" width="40" height="40" />
+        <span class="brand-text">
           <strong>Resyst Labs</strong>
           <small>Benchmarks</small>
         </span>
@@ -224,12 +489,13 @@ function pageShell({ title, description, canonicalPath = '', prefix = '', bodyCl
     <meta name="application-name" content="Resyst Labs Benchmarks" />
     <meta name="author" content="Resyst Labs" />
     <meta name="color-scheme" content="dark" />
-    <meta name="theme-color" content="#050508" />
+    <meta name="theme-color" content="#07060b" />
     <link rel="canonical" href="${canonical}" />
     <link rel="alternate" hreflang="en" href="${canonical}" />
     <link rel="alternate" hreflang="x-default" href="${canonical}" />
     <link rel="icon" href="${prefix}favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="${prefix}site.webmanifest" />
+    <link rel="preload" href="${prefix}assets/fonts/archivo-variable.woff2" as="font" type="font/woff2" crossorigin />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="${canonical}" />
@@ -246,17 +512,14 @@ function pageShell({ title, description, canonicalPath = '', prefix = '', bodyCl
     ${structuredData.map(schemaScript).join('\n    ')}
   </head>
   <body class="${escapeHtml(bodyClass)}">
-    <canvas id="signal-field" aria-hidden="true"></canvas>
     <div class="grain" aria-hidden="true"></div>
-    <div class="aurora aurora-a" aria-hidden="true"></div>
-    <div class="aurora aurora-b" aria-hidden="true"></div>
     ${header(prefix)}
     ${content}
     <footer class="site-footer">
       <span>Resyst Labs Benchmarks</span>
       <span>Independent evaluation for AI systems that act.</span>
+      <span class="footer-links"><a href="${prefix}data/model-comparison.json">Ranking JSON</a><a href="${prefix}data/arena-snapshots.json">Arena JSON</a><a href="${prefix}data/hard-agentic-tool.json">Hard Agentic JSON</a></span>
     </footer>
-    <script type="module" src="${prefix}background.js"></script>
     ${extraScript}
   </body>
 </html>
@@ -379,19 +642,30 @@ async function writeModelPages() {
     const reliability = row.swe?.reliability ?? row.full?.reliability;
     const telemetry = row.telemetry ?? publicTelemetry(row);
     const content = `<main class="detail-main model-detail" id="top">
-      <section class="detail-hero section-shell">
-        <a class="back-link" href="../../ranking/">← Back to ranking</a>
-        <p class="eyebrow">Model result · rank #${escapeHtml(row.overall_rank)}</p>
-        <h1>${escapeHtml(row.label)}</h1>
-        ${modelBadgeMarkup(row)}
-        <p class="hero-lead">${escapeHtml(row.basis)}. Public result card with the model’s overall score, lane measurements, runtime/cost telemetry, and ranking formula.</p>
-        <div class="detail-actions">
-          <a class="button primary" href="../../data/model-comparison.json">Download public JSON</a>
-          <a class="button secondary" href="../../ranking/">Compare all models</a>
+      <section class="page-hero model-hero">
+        <div class="model-hero-copy">
+          <a class="back-link" href="../../ranking/">Back to the ranking</a>
+          <p class="kicker">Model result, rank ${escapeHtml(row.overall_rank)} of ${rankedRows.length}</p>
+          <h1>${escapeHtml(row.label)}</h1>
+          ${modelBadgeMarkup(row)}
+          <p class="hero-lead">${escapeHtml(row.basis)}. Public result card with the model’s overall score, lane measurements, runtime and cost telemetry, and the ranking formula.</p>
+          <div class="detail-actions">
+            <a class="button primary" href="../../ranking/">Compare all models</a>
+            <a class="button secondary" href="../../data/model-comparison.json">Download public JSON</a>
+          </div>
         </div>
+        <aside class="leader-plate model-plate" aria-label="Overall score">
+          <span class="plate-label">Overall score</span>
+          <span class="plate-score"><b>${fmt(row.overall_score)}</b><i>of 100</i></span>
+          <small class="plate-basis">${escapeHtml(overallFormula(row))}</small>
+        </aside>
       </section>
 
-      <section class="section-shell result-stat-grid" aria-label="Headline metrics">
+      <section class="section" aria-label="Lane profile">
+        ${laneProfileFigure(row, 1)}
+      </section>
+
+      <section class="section result-stat-grid" aria-label="Headline metrics">
         ${statCard('Overall score', fmt(row.overall_score), `Rank #${row.overall_rank}`)}
         ${statCard('Full / Agentic', fmt(row.full?.final), `Full rank #${row.full_rank ?? '—'}`)}
         ${statCard('SWE MVP', fmt(row.swe?.swe_score), `SWE rank #${row.swe_rank ?? '—'}`)}
@@ -399,7 +673,7 @@ async function writeModelPages() {
         ${statCard('Measured cost', fmtCost(totalCost), `${fmtOne(reliability)}% reliability`)}
       </section>
 
-      <section class="section-shell result-card-grid" aria-label="Result cards">
+      <section class="section result-card-grid" aria-label="Result cards">
         ${metricCard('All-around publication view', 'Overall', [
           ['Score', fmt(row.overall_score)],
           ['Formula', overallFormula(row)],
@@ -436,10 +710,10 @@ async function writeModelPages() {
         ], 'Cost, time, and token basis are normalized telemetry. They explain tradeoffs; they do not overwrite the capability score yet.')}
       </section>
 
-      <section class="section-shell result-explainer glass-panel">
+      <section class="section result-explainer">
         <div>
           <span class="panel-label">Interpretation</span>
-          <h2>Why this result lands here.</h2>
+          <h2>Why the result lands here.</h2>
         </div>
         <p>${escapeHtml(buildModelInterpretation(row))}</p>
       </section>
@@ -561,7 +835,7 @@ function encounterCard(group, groupIndex, selectedMatchId) {
       ${metricPill('Turns', totalTurns)}
       ${metricPill('Seeds', seeds.length || '—')}
     </div>
-    <p class="encounter-meta">${escapeHtml(encounterMeta(group))}</p>
+    ${encounterFacts(group)}
     <div class="encounter-replay-tabs" role="tablist" aria-label="${escapeHtml(group.title)} replays">
       ${group.matches.map((match, index) => matchTab(match, index, group, selectedMatchId)).join('\n')}
     </div>
@@ -609,14 +883,13 @@ function matchCard(match) {
   return `<article id="${escapeHtml(match.id)}" class="match-replay glass-panel" data-replay-src="../${escapeHtml(replay)}">
     <div class="match-replay-head">
       <div class="match-title-block">
-        <span class="match-label">Seed ${escapeHtml(match.seed ?? 'fixed')} · ${escapeHtml(match.mode ?? 'duel')} · ${escapeHtml(match.turns)} turns</span>
+        <span class="match-label"><span>Seed ${escapeHtml(match.seed ?? 'fixed')}</span><span>${escapeHtml(match.mode ?? 'duel')}</span><span>${escapeHtml(match.turns)} turns</span></span>
         <h2>${escapeHtml(compactEntrant(match.entrants?.A))} <span class="versus-inline">vs</span> ${escapeHtml(compactEntrant(match.entrants?.B))}</h2>
-        <p class="entrant-ids"><span>A:</span> ${escapeHtml(compactEntrant(match.entrants?.A))} <span>B:</span> ${escapeHtml(compactEntrant(match.entrants?.B))}</p>
       </div>
       <aside class="winner-card" aria-label="Match winner">
         <span>Winner</span>
         <strong>${escapeHtml(compactEntrant(match.winner_label))}</strong>
-        <small>${escapeHtml(prettyReason(match.winner_reason))}</small>
+        <small>by ${escapeHtml(prettyReason(match.winner_reason))}</small>
         <a class="data-link" href="../${escapeHtml(replay)}">Replay JSON</a>
       </aside>
     </div>
@@ -637,7 +910,7 @@ function matchCard(match) {
           <div class="board-topbar">
             <span class="live-dot"></span>
             <strong data-bot-label>Loading model</strong>
-            <small>Board state · legal actions · event telemetry</small>
+            <small>Board state, legal actions, event telemetry</small>
           </div>
           <div class="control-deck">
             <div class="transport-head">
@@ -673,9 +946,9 @@ function matchCard(match) {
           <div class="board-wrap">
             <div class="replay-board-live" data-board aria-label="Replay board for ${escapeHtml(title)}"></div>
             <div class="victory-overlay" data-victory hidden>
-              <span>✦ Victory</span>
+              <span>Victory</span>
               <strong>${escapeHtml(compactEntrant(match.winner_label))}</strong>
-              <small>${escapeHtml(prettyReason(match.winner_reason))} · ${escapeHtml(match.turns)} turns</small>
+              <small>${escapeHtml(prettyReason(match.winner_reason))} after ${escapeHtml(match.turns)} turns</small>
               <button class="button secondary" type="button" data-restart>Replay from start</button>
             </div>
           </div>
@@ -701,23 +974,32 @@ function matchCard(match) {
 function matchTab(match, index, group, selectedMatchId) {
   const selected = match.id === selectedMatchId;
   const tabLabel = match.series_id ? `Round ${index + 1}` : group.matches.length > 1 ? `Replay ${index + 1}` : 'Replay';
-  const detail = `${prettyReason(match.winner_reason)} · seed ${match.seed ?? 'fixed'}`;
   return `<button class="match-tab ${selected ? 'is-active' : ''}" type="button" role="tab" id="tab-${escapeHtml(match.id)}" data-match-tab="${escapeHtml(match.id)}" data-encounter-id="${escapeHtml(group.id)}" aria-controls="${escapeHtml(match.id)}" aria-selected="${selected ? 'true' : 'false'}">
     <span>${escapeHtml(tabLabel)}</span>
     <strong>${escapeHtml(compactEntrant(match.winner_label))}</strong>
-    <small>${escapeHtml(detail)}</small>
+    <small>${escapeHtml(prettyReason(match.winner_reason))}, seed ${escapeHtml(match.seed ?? 'fixed')}</small>
   </button>`;
 }
 
 function overviewPodiumCard(row) {
-  return `<article class="podium-card">
+  const lanes = [
+    ['Full', row.full?.final],
+    ['SWE', row.swe?.swe_score],
+    ['Hard Intelligence', row.hard_intelligence?.diagnostic_score],
+  ];
+  return `<article class="podium-card rank-${escapeHtml(row.overall_rank)}">
       <a class="podium-link" href="${modelPath(row)}" aria-label="Open benchmark result for ${escapeHtml(row.label)}"></a>
-      <span class="podium-rank">#${escapeHtml(row.overall_rank)}</span>
-      <h3>${escapeHtml(row.label)}</h3>
-      ${modelBadgeMarkup(row)}
-      <p>${escapeHtml(row.basis)}</p>
-      <span class="podium-cta">Open result →</span>
-      <span class="podium-score">${fmtOne(row.overall_score)}</span>
+      <span class="podium-rank">${escapeHtml(row.overall_rank)}</span>
+      <div class="podium-body">
+        <h3>${escapeHtml(row.label)}</h3>
+        ${modelBadgeMarkup(row)}
+        <p class="podium-basis">${escapeHtml(row.basis)}</p>
+      </div>
+      <span class="podium-score"><b>${fmt(row.overall_score)}</b><i>overall</i></span>
+      <dl class="podium-lanes">
+        ${lanes.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${Number.isFinite(Number(value)) ? `${fmt(value)}${microBar(value)}` : '<span class="blank">not measured</span>'}</dd></div>`).join('')}
+      </dl>
+      <span class="podium-cta">Open result</span>
     </article>`;
 }
 
@@ -725,25 +1007,20 @@ function overviewRankingRow(row) {
   const reliability = row.swe?.reliability ?? row.full?.reliability;
   const cost = totalMeasuredCost(row);
   const hard = row.hard_intelligence;
-  const hardAttrs = hardCellAttrs(row);
   return `<tr>
-        <td class="rank-cell">#${escapeHtml(row.overall_rank)}</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">${escapeHtml(row.overall_rank)}</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="${modelPath(row)}"><strong>${escapeHtml(row.label)}</strong></a>
           ${modelBadgeMarkup(row)}
+          <small class="model-basis">${escapeHtml(row.basis)}</small>
         </td>
-        <td>${escapeHtml(row.basis)}</td>
-        <td class="score-cell">${fmt(row.overall_score)}</td>
-        <td>${fmt(row.full?.final)}</td>
-        <td>${fmt(row.swe?.swe_score)}</td>
-        <td${hardAttrs}>${fmtOptional(hard?.diagnostic_score)}</td>
-        <td${hardAttrs}>${fmtOptional(hard?.lanes?.active_information_acquisition)}</td>
-        <td${hardAttrs}>${fmtOptional(hard?.lanes?.online_adaptation_fast_learning)}</td>
-        <td${hardAttrs}>${fmtOptional(hard?.lanes?.evidence_driven_self_repair)}</td>
-        <td${hardAttrs}>${fmtOptional(hard?.lanes?.authority_salience_constraint_integrity)}</td>
-        <td>${fmtCost(cost)}</td>
-        <td>${fmtOne(reliability)}%</td>
-        <td><a class="row-action" href="${modelPath(row)}">Result</a></td>
+        ${scoreCell(row.overall_score, { label: 'Overall', className: 'overall-cell' })}
+        ${scoreCell(row.full?.final, { label: 'Full', rank: row.full_rank })}
+        ${scoreCell(row.swe?.swe_score, { label: 'SWE', rank: row.swe_rank })}
+        ${scoreCell(hard?.diagnostic_score, { label: 'Hard Intelligence', rank: hard ? row.hard_rank : null, extra: hardSublaneBars(row), blankLabel: hard ? 'Diagnostic telemetry; not part of overall' : 'Not measured' })}
+        <td class="num-cell" data-label="Cost">${fmtCost(cost)}</td>
+        <td class="num-cell" data-label="Reliability">${fmtOne(reliability)}%</td>
+        <td class="action-cell"><a class="row-action" href="${modelPath(row)}">Result</a></td>
       </tr>`;
 }
 
@@ -816,17 +1093,14 @@ function rankingBarRows(rows, getScore, getMeta = () => '') {
   }).join('\n');
 }
 
-function rankingChartCard(title, subtitle, body, note = '', className = '') {
-  const classes = ['ranking-chart-card', className, 'glass-panel'].filter(Boolean).join(' ');
-  return `<article class="${escapeHtml(classes)}">
-    <div class="ranking-chart-head">
-      <span class="panel-label">Chart</span>
-      <h2>${escapeHtml(title)}</h2>
-      <p>${escapeHtml(subtitle)}</p>
-    </div>
-    ${body}
-    ${note ? `<p class="chart-note">${escapeHtml(note)}</p>` : ''}
-  </article>`;
+function rankingChartCard(number, title, subtitle, body, note = '', className = '') {
+  return figureBlock({
+    number,
+    title,
+    note: subtitle,
+    className: ['ranking-chart-card', className].filter(Boolean).join(' '),
+    body: `${body}${note ? `<p class="chart-note">${escapeHtml(note)}</p>` : ''}`,
+  });
 }
 
 function metricValue(value) {
@@ -1012,13 +1286,13 @@ function fmtCompactNumber(value) {
   return number.toFixed(2);
 }
 
-function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX = fmtCompactNumber, formatY = fmtCompactNumber, showInlineNames = false, inlineNameLimit = 10, defaultVisible = 10, pointClass = () => '', tooltipExtra = () => [] }) {
+function scatterPlotPanel({ number, title, xLabel, yLabel, rows, xValue, yValue, formatX = fmtCompactNumber, formatY = fmtCompactNumber, showInlineNames = false, inlineNameLimit = 10, defaultVisible = 10, pointClass = () => '', tooltipExtra = () => [] }) {
   const points = rows
     .map((row) => ({ row, x: Number(xValue(row)), y: Number(yValue(row)), className: pointClass(row), extra: tooltipExtra(row) }))
     .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y));
-  const width = 520;
-  const height = 360;
-  const margin = { top: 26, right: 28, bottom: 72, left: 70 };
+  const width = 760;
+  const height = 440;
+  const margin = { top: 28, right: 32, bottom: 74, left: 72 };
   const plotWidth = width - margin.left - margin.right;
   const plotHeight = height - margin.top - margin.bottom;
   const xValues = points.map((point) => point.x);
@@ -1039,7 +1313,8 @@ function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX
   const yFor = (value) => margin.top + ((yMax - value) / yRange) * plotHeight;
   const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
   const tooltipWidth = 230;
-  const tooltipHeight = 142;
+  const tooltipLines = Math.max(0, ...points.map((point) => Math.min(4, (point.extra ?? []).length)));
+  const tooltipHeight = 78 + tooltipLines * 14;
   const tooltipFor = (cx, cy) => {
     const preferRight = cx + tooltipWidth + 18 <= width - margin.right;
     const x = preferRight ? cx + 16 : cx - tooltipWidth - 16;
@@ -1062,7 +1337,7 @@ function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX
     // Vertical step between stacked label rows, tightened as entrants are added so the column
     // still fits the band. The floor keeps the type legible: past that the overflow shift below
     // distributes the remainder instead of collapsing labels onto each other.
-    const labelRowStep = Math.max(9, Math.min(11, (maxLabelY - minLabelY) / Math.max(1, points.length - 1)));
+    const labelRowStep = Math.max(9, Math.min(13, (maxLabelY - minLabelY) / Math.max(1, points.length - 1)));
     const labelRows = points
       .map((point, index) => {
         const cx = xFor(point.x);
@@ -1086,8 +1361,12 @@ function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX
     }
     for (const row of labelRows) labelPositions.set(row.index, row);
   }
-  return `<figure class="scatter-panel">
-    <figcaption>${escapeHtml(title)}</figcaption>
+  return `<figure class="fig scatter-panel">
+    <figcaption>
+      <span class="fig-n">Figure ${escapeHtml(number)}</span>
+      <span class="fig-title">${escapeHtml(title)}</span>
+      <span class="fig-note">${escapeHtml(yLabel)} against ${escapeHtml(xLabel.toLowerCase())}. Each point is one tested model; hover or focus a point for its card.</span>
+    </figcaption>
     <div class="scatter-controls">
       <label class="scatter-control">
         <span class="scatter-control-label">Entrants shown</span>
@@ -1099,6 +1378,7 @@ function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX
       </label>
       <small class="scatter-control-note">Names stay on the top ${inlineNameLimit}; every visible point keeps its rank label and hover detail.</small>
     </div>
+    <div class="scatter-scroll">
     <svg class="scatter-chart" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="scatter-title-${safeId} scatter-desc-${safeId}">
       <title id="scatter-title-${safeId}">${escapeHtml(title)}</title>
       <desc id="scatter-desc-${safeId}">Each point is one tested model. ${escapeHtml(xLabel)} is plotted on the X-axis and ${escapeHtml(yLabel)} is plotted on the Y-axis.</desc>
@@ -1170,9 +1450,10 @@ function scatterPlotPanel({ title, xLabel, yLabel, rows, xValue, yValue, formatX
       </g>`;
       })()}
     </svg>
+    </div>
     <script>
       (() => {
-        const svg = document.currentScript?.previousElementSibling;
+        const svg = document.currentScript?.parentElement?.querySelector('svg.scatter-chart');
         if (!svg) return;
         const hideAll = () => svg.querySelectorAll('.scatter-hover-card.is-visible').forEach((card) => card.classList.remove('is-visible'));
         svg.querySelectorAll('.scatter-link[data-tooltip-target]').forEach((link) => {
@@ -1231,6 +1512,7 @@ function tradeoffScatterMaps(rows) {
   };
   return `<div class="tradeoff-scatter-grid">
     ${scatterPlotPanel({
+      number: 2,
       title: 'Cost × overall',
       xLabel: 'Measured cost',
       yLabel: 'Overall score',
@@ -1242,6 +1524,7 @@ function tradeoffScatterMaps(rows) {
       showInlineNames: true,
     })}
     ${scatterPlotPanel({
+      number: 3,
       title: 'Runtime × overall',
       xLabel: 'Seconds / timed item',
       yLabel: 'Overall score',
@@ -1255,6 +1538,7 @@ function tradeoffScatterMaps(rows) {
       tooltipExtra: (row) => [coverageLine('Runtime', getTelemetry(row).runtime.coverage_pct)],
     })}
     ${scatterPlotPanel({
+      number: 4,
       title: 'Recorded tokens/item × cost',
       xLabel: 'Recorded tokens / scored item',
       yLabel: 'Measured cost',
@@ -1341,21 +1625,22 @@ function rankingInsightCards() {
   if (hardDrag) {
     cards.push(['The clearest drag is visible', `${hardDrag.row.label} has a Full/SWE average near ${fmt((Number(hardDrag.row.full.final) + Number(hardDrag.row.swe.swe_score)) / 2)}, but Hard Intelligence is ${fmt(hardDrag.row.hard_intelligence.diagnostic_score)}, so the blended overall lands at ${fmt(hardDrag.row.overall_score)}.`]);
   }
-  return cards.map(([title, text]) => `<article class="ranking-insight-card glass-panel"><h2>${escapeHtml(title)}</h2><p>${escapeHtml(text)}</p></article>`).join('\n');
+  return cards.map(([title, text]) => `<article class="ranking-insight-card"><h3>${escapeHtml(title)}</h3><p>${escapeHtml(text)}</p></article>`).join('\n');
 }
 
 function rankingDetailedTableRow(row) {
   const telemetry = row.telemetry ?? publicTelemetry(row);
+  const hard = row.hard_intelligence;
   return `<tr>
-    <td class="rank-cell">#${escapeHtml(row.overall_rank)}</td>
-    <td class="model-cell"><a class="model-link" href="../${modelPath(row)}"><strong>${escapeHtml(row.label)}</strong></a>${modelBadgeMarkup(row)}</td>
-    <td class="score-cell">${fmt(row.overall_score)}</td>
-    <td>${fmt(row.full?.final)} <small>#${escapeHtml(row.full_rank ?? '—')}</small></td>
-    <td>${fmt(row.swe?.swe_score)} <small>#${escapeHtml(row.swe_rank ?? '—')}</small></td>
-    <td${hardCellAttrs(row)}>${fmtOptional(row.hard_intelligence?.diagnostic_score)}${row.hard_intelligence ? ` <small>#${escapeHtml(row.hard_rank ?? '—')}</small>` : ''}</td>
-    <td>${escapeHtml(overallFormula(row))}</td>
-    <td>${fmtCost(totalMeasuredCost(row))} <small>${telemetry.runtime.seconds_per_timed_item === null ? 'runtime —' : `${fmt(telemetry.runtime.seconds_per_timed_item)}s/item`} · tokens ${telemetry.tokens.status}</small></td>
-    <td class="reason-cell">${escapeHtml(rankingReason(row))}</td>
+    <td class="rank-cell" data-label="Rank">${escapeHtml(row.overall_rank)}</td>
+    <td class="model-cell" data-label="Model"><a class="model-link" href="../${modelPath(row)}"><strong>${escapeHtml(row.label)}</strong></a>${modelBadgeMarkup(row)}<small class="model-basis">${escapeHtml(row.basis)}</small></td>
+    ${scoreCell(row.overall_score, { label: 'Overall', className: 'overall-cell' })}
+    ${scoreCell(row.full?.final, { label: 'Full', rank: row.full_rank })}
+    ${scoreCell(row.swe?.swe_score, { label: 'SWE', rank: row.swe_rank })}
+    ${scoreCell(hard?.diagnostic_score, { label: 'Hard Intelligence', rank: hard ? row.hard_rank : null, extra: hardSublaneBars(row), blankLabel: hard ? 'Diagnostic telemetry; not part of overall' : 'Not measured' })}
+    <td class="formula-cell" data-label="Formula">${escapeHtml(overallFormula(row))}</td>
+    <td class="num-cell telemetry-cell" data-label="Cost and telemetry">${fmtCost(totalMeasuredCost(row))}<small>${telemetry.runtime.seconds_per_timed_item === null ? 'runtime not recorded' : `${fmt(telemetry.runtime.seconds_per_timed_item)}s per item`}</small><small>tokens ${escapeHtml(telemetry.tokens.status)}</small></td>
+    <td class="reason-cell" data-label="Why here">${escapeHtml(rankingReason(row))}</td>
   </tr>`;
 }
 
@@ -1366,9 +1651,9 @@ async function writeRankingPage() {
   const chartRows = rankedRows;
   const topLaneRows = rankedRows.slice(0, 8);
   const content = `<main class="detail-main ranked-detail-page" id="top">
-    <section class="detail-hero section-shell ranking-hero-page">
-      <a class="back-link" href="../#ranking">← Overview</a>
-      <p class="eyebrow">Unified ranking · lane-aware explanation</p>
+    <section class="page-hero">
+      <a class="back-link" href="../#ranking">Back to the overview</a>
+      <p class="kicker">Unified ranking, lane-aware explanation</p>
       <h1>Why the ranking looks like this.</h1>
       <p class="hero-lead">The public ranking is not a single vibe score. It orders measured entrants by a transparent overall formula while keeping Full / Agentic, SWE MVP, Hard Intelligence, cost, and reliability visible.</p>
       <div class="detail-actions">
@@ -1377,7 +1662,7 @@ async function writeRankingPage() {
       </div>
     </section>
 
-    <section class="section-shell result-stat-grid" aria-label="Ranking summary">
+    <section class="section result-stat-grid" aria-label="Ranking summary">
       ${statCard('Ranked entrants', String(rankedRows.length), `${hardMeasured} with Hard Intelligence data`)}
       ${statCard('Current leader', leader.label, `Overall ${fmt(leader.overall_score)}`)}
       ${statCard('Score spread', fmt(spread), `#1 to #${rankedRows.at(-1)?.overall_rank ?? '—'}`)}
@@ -1385,20 +1670,30 @@ async function writeRankingPage() {
       ${statCard('Data refresh', dataDateLabel, 'Static HTML plus public JSON')}
     </section>
 
-    <section class="section-shell ranking-chart-grid" aria-label="Ranking charts">
-      ${rankingChartCard('Overall ladder', 'Every ranked entrant ordered by public overall score.', `<div class="bar-chart">${rankingBarRows(chartRows, (row) => row.overall_score, (row) => `rank #${row.overall_rank}`)}</div>`, 'Overall is a lane mean, not a hidden replacement for source measurements.')}
-      ${rankingChartCard('Tradeoff scatter maps', 'Each point is one tested model at the intersection of two public telemetry axes.', tradeoffScatterMaps(chartRows), 'Use these maps to read quality versus cost, speed, and recorded token use. Runtime and token axes are normalized per item and show coverage in hover cards; they are telemetry, not current overall score inputs.', 'axis-chart-card')}
-      ${rankingChartCard('Lane contrast', 'Top eight entrants with Full, SWE, and Hard Intelligence shown side by side.', `<div class="lane-compare-chart">${laneComparisonRows(topLaneRows)}</div>`, 'Hard Intelligence is shown as its own lane so cross-lane strengths and weaknesses stay visible.')}
-      ${rankingChartCard('Measured cost context', 'Cost is shown because deployment economics matter, but it does not secretly rewrite capability scores.', `<div class="bar-chart compact">${costRows(chartRows)}</div>`, 'Very expensive rows are not punished twice; cost is visible telemetry and part of the public interpretation.')}
-      ${rankingChartCard('Lane balance pressure', 'Largest gap between each entrant’s strongest and weakest measured major lane.', `<div class="bar-chart compact">${laneBalancePressureRows(chartRows)}</div>`, 'Lower pressure means a more even profile; higher pressure explains why one strong lane may not lift the overall rank by itself.', 'balance-chart-card')}
+    <section class="section ranking-chart-grid" aria-label="Ranking charts">
+      ${rankingChartCard(1, 'Overall ladder', 'Every ranked entrant ordered by public overall score.', `<div class="bar-chart">${rankingBarRows(chartRows, (row) => row.overall_score, (row) => `rank #${row.overall_rank}`)}</div>`, 'Overall is a lane mean, not a hidden replacement for source measurements.')}
+
+      <div class="section-head scatter-head">
+        <div>
+          <h2>Tradeoff scatter maps</h2>
+          <p>Each point is one tested model at the intersection of two public telemetry axes. Use the maps to read quality against cost, speed, and recorded token use. Runtime and token axes are normalized per item and show coverage in the hover cards; they are telemetry, not current overall score inputs.</p>
+        </div>
+      </div>
+      ${tradeoffScatterMaps(chartRows)}
+
+      ${rankingChartCard(5, 'Lane contrast', 'Top eight entrants with Full, SWE, and Hard Intelligence shown side by side.', `<div class="lane-compare-chart">${laneComparisonRows(topLaneRows)}</div>`, 'Hard Intelligence is shown as its own lane so cross-lane strengths and weaknesses stay visible.')}
+      ${rankingChartCard(6, 'Measured cost context', 'Cost is shown because deployment economics matter, but it does not secretly rewrite capability scores.', `<div class="bar-chart compact">${costRows(chartRows)}</div>`, 'Very expensive rows are not punished twice; cost is visible telemetry and part of the public interpretation.')}
+      ${rankingChartCard(7, 'Lane balance pressure', 'Largest gap between each entrant’s strongest and weakest measured major lane.', `<div class="bar-chart compact">${laneBalancePressureRows(chartRows)}</div>`, 'Lower pressure means a more even profile; higher pressure explains why one strong lane may not lift the overall rank by itself.', 'balance-chart-card')}
     </section>
 
-    <section class="section-shell ranking-insight-grid" aria-label="Ranking explanation cards">
-      ${rankingInsightCards()}
+    <section class="section ranking-insight-grid" aria-label="Ranking explanation notes">
+      <div class="section-head"><h2>Reading notes</h2></div>
+      <div class="insight-list">
+        ${rankingInsightCards()}
+      </div>
     </section>
 
-    <section id="ranking-table" class="section-shell ranking-section ranking-page-table" aria-labelledby="ranking-page-table-title">
-      <div class="section-kicker">Full ranking table</div>
+    <section id="ranking-table" class="section ranking-section ranking-page-table" aria-labelledby="ranking-page-table-title">
       <div class="section-head">
         <div>
           <h2 id="ranking-page-table-title">Table with reasons, not just numbers.</h2>
@@ -1406,19 +1701,19 @@ async function writeRankingPage() {
         </div>
         <a class="data-link" href="../data/model-comparison.json">Ranking data</a>
       </div>
-      <div class="table-wrap glass-panel ranking-explained-table">
-        <table aria-label="Explained Resyst Labs model ranking">
+      <div class="table-wrap ranking-explained-table">
+        <table class="ranking-table explained-table" aria-label="Explained Resyst Labs model ranking">
           <thead>
             <tr>
-              <th>Rank</th>
-              <th>Model</th>
-              <th>Overall</th>
-              <th>Full</th>
-              <th>SWE</th>
-              <th>Hard IQ</th>
-              <th>Formula</th>
-              <th>Cost + telemetry</th>
-              <th>Why here</th>
+              <th scope="col">Rank</th>
+              <th scope="col">Model</th>
+              <th scope="col">Overall</th>
+              <th scope="col">Full</th>
+              <th scope="col">SWE</th>
+              <th scope="col">Hard Intelligence</th>
+              <th scope="col">Formula</th>
+              <th scope="col">Cost and telemetry</th>
+              <th scope="col">Why here</th>
             </tr>
           </thead>
           <tbody>
@@ -1428,7 +1723,7 @@ async function writeRankingPage() {
       </div>
     </section>
 
-    <section class="section-shell result-card-grid ranking-method-grid" aria-label="Ranking method explanation">
+    <section class="section result-card-grid ranking-method-grid" aria-label="Ranking method explanation">
       ${metricCard('Why the leader leads', 'Interpretation', [
         ['Leader', leader.label],
         ['Overall', fmt(leader.overall_score)],
@@ -1473,50 +1768,67 @@ async function writeRankingPage() {
   }));
 }
 
-function overviewEncounterCard(group, groupIndex) {
+function encounterFacts(group) {
   const totalTurns = group.matches.reduce((sum, match) => sum + (Number(match.turns) || 0), 0);
-  const seeds = [...new Set(group.matches.map((match) => match.seed).filter((seed) => seed !== undefined && seed !== null))];
+  const latestDate = group.matches.map(matchDateLabel).filter(Boolean).sort().at(-1) ?? 'undated';
+  const lanes = [...new Set(group.matches.map((match) => match.lane).filter(Boolean))];
+  return `<ul class="encounter-facts">
+            <li><b>${group.matches.length}</b> ${group.matches.length === 1 ? 'replay' : 'replays'}</li>
+            <li><b>${totalTurns}</b> turns</li>
+            <li>latest ${escapeHtml(latestDate)}</li>
+            ${lanes.map((lane) => `<li>${escapeHtml(lane)}</li>`).join('')}
+          </ul>`;
+}
+
+function overviewEncounterCard(group, groupIndex) {
   const firstMatch = group.matches[0];
-  return `<article class="match-card encounter-summary-card" id="highlight-${escapeHtml(group.id)}">
-        <div>
-          <span class="match-label">Encounter ${groupIndex + 1} · ${escapeHtml(encounterMeta(group))}</span>
+  return `<article class="encounter-summary-card" id="highlight-${escapeHtml(group.id)}">
+        <div class="encounter-summary-head">
+          <span class="match-label">Encounter ${groupIndex + 1}</span>
           <h3>${escapeHtml(group.title)}</h3>
-          <p><strong>${escapeHtml(encounterWinnerSummary(group))}</strong>. Replays stay grouped under this model-vs-model encounter, including side-swapped rounds.</p>
-          <div class="home-replay-tabs" aria-label="${escapeHtml(group.title)} replay shortcuts">
-            ${group.matches.map((match, index) => {
-              const label = match.series_id ? `Round ${index + 1}` : group.matches.length > 1 ? `Replay ${index + 1}` : 'Replay';
-              const detail = `${prettyReason(match.winner_reason)} · seed ${match.seed ?? 'fixed'}`;
-              return `<a class="home-replay-link" href="arena/#${encodeURIComponent(match.id)}">
-                <span>${escapeHtml(label)}</span>
-                <strong>${escapeHtml(compactEntrant(match.winner_label))}</strong>
-                <small>${escapeHtml(detail)}</small>
-              </a>`;
-            }).join('')}
-          </div>
+          <p><strong>${escapeHtml(encounterWinnerSummary(group))}</strong>. Replays stay grouped under the model-vs-model encounter, including side-swapped rounds.</p>
+          ${encounterFacts(group)}
         </div>
-        <div class="match-metrics encounter-summary-metrics">
-          <div class="metric"><span class="metric-label">Replays</span><strong>${group.matches.length}</strong></div>
-          <div class="metric"><span class="metric-label">Turns</span><strong>${totalTurns}</strong></div>
-          <div class="metric"><span class="metric-label">Seeds</span><strong>${seeds.length || '—'}</strong></div>
-          <a class="row-action match-action" href="arena/#${encodeURIComponent(firstMatch?.id ?? group.id)}">Open encounter →</a>
+        <div class="home-replay-tabs" aria-label="${escapeHtml(group.title)} replay shortcuts">
+          ${group.matches.map((match, index) => {
+            const label = match.series_id ? `Round ${index + 1}` : group.matches.length > 1 ? `Replay ${index + 1}` : 'Replay';
+            return `<a class="home-replay-link" href="arena/#${encodeURIComponent(match.id)}">
+              <span>${escapeHtml(label)}</span>
+              <strong>${escapeHtml(compactEntrant(match.winner_label))}</strong>
+              <small>${escapeHtml(prettyReason(match.winner_reason))}</small>
+              <small>seed ${escapeHtml(match.seed ?? 'fixed')}</small>
+            </a>`;
+          }).join('')}
         </div>
+        <a class="row-action match-action" href="arena/#${encodeURIComponent(firstMatch?.id ?? group.id)}">Open encounter</a>
       </article>`;
 }
 
 async function hydrateOverviewHtml() {
   const indexPath = path.join(dist, 'index.html');
   const leader = rankedRows[0];
-  const encounterGroups = buildEncounterGroups(arena.matches ?? []).slice(0, 3);
+  const matches = arena.matches ?? [];
+  const encounterGroups = buildEncounterGroups(matches).slice(0, 3);
+  const fill = (html, id, inner) => {
+    const pattern = new RegExp(`(<(\\w+) id="${id}"[^>]*>)[\\s\\S]*?(</\\2>)`);
+    if (!pattern.test(html)) throw new Error(`index.html is missing the #${id} hydration target`);
+    return html.replace(pattern, (_, open, tag, close) => `${open}${inner}${close}`);
+  };
   let html = await readFile(indexPath, 'utf8');
+  html = fill(html, 'leader-name', escapeHtml(leader?.label ?? 'Pending data'));
+  html = fill(html, 'leader-score-value', leader ? fmt(leader.overall_score) : '—');
+  html = fill(html, 'leader-score', leader ? escapeHtml(leader.basis) : 'No ranked data loaded');
+  html = fill(html, 'model-count', String(rankedRows.length));
+  html = fill(html, 'arena-count', String(matches.length));
+  html = fill(html, 'data-date', escapeHtml(dataDateLabel));
+  html = fill(html, 'score-spectrum', spectrumMarkup(rankedRows));
+  html = fill(html, 'lane-strips', laneStripsMarkup(rankedRows, matches));
+  html = fill(html, 'podium', `\n${rankedRows.slice(0, 3).map(overviewPodiumCard).join('\n')}\n        `);
+  html = fill(html, 'ranking-body', `\n${rankedRows.map(overviewRankingRow).join('\n')}\n            `);
+  html = fill(html, 'arena-board-figure', await finalBoardFigure(matches[0]));
+  html = fill(html, 'arena-matches', `\n${encounterGroups.map(overviewEncounterCard).join('\n')}\n        `);
   html = html
-    .replace('<strong id="leader-name">Loading…</strong>', `<strong id="leader-name">${escapeHtml(leader?.label ?? 'Pending data')}</strong>`)
-    .replace('<small id="leader-score">Loading benchmark data</small>', `<small id="leader-score">${leader ? `Overall ${fmt(leader.overall_score)} · ${escapeHtml(leader.basis)}` : 'No ranked data loaded'}</small>`)
-    .replace('<span id="model-count">—</span>', `<span id="model-count">${rankedRows.length}</span>`)
-    .replace('<span id="arena-count">—</span>', `<span id="arena-count">${arena.matches?.length ?? 0}</span>`)
-    .replace('<span id="data-date">—</span>', `<span id="data-date">${escapeHtml(dataDateLabel)}</span>`)
-    .replace('<div id="podium" class="podium" aria-label="Top ranked models"></div>', `<div id="podium" class="podium" aria-label="Top ranked models">\n${rankedRows.slice(0, 3).map(overviewPodiumCard).join('\n')}\n        </div>`)
-    .replace(/<tbody id="ranking-body">[\s\S]*?<\/tbody>/, `<tbody id="ranking-body">\n${rankedRows.map(overviewRankingRow).join('\n')}\n            </tbody>`)
-    .replace('<div id="arena-matches" class="match-grid" aria-label="Highlighted Arena matches"></div>', `<div id="arena-matches" class="match-grid" aria-label="Highlighted Arena matches">\n${encounterGroups.map(overviewEncounterCard).join('\n')}\n        </div>`)
+    .replace('<body class="home-page">', '<body class="home-page" data-hydrated="true">')
     .replace('</head>', `    ${schemaScript(rankingItemListSchema())}\n  </head>`);
   await writeFile(indexPath, html);
 }
@@ -1543,12 +1855,12 @@ function hardAgenticRows() {
   return [...(hardAgentic.rows ?? [])]
     .sort((a, b) => Number(a.rank ?? 999) - Number(b.rank ?? 999))
     .map((row) => `<tr>
-      <td class="rank-cell">#${escapeHtml(row.rank)}</td>
-      <td class="model-cell"><strong>${escapeHtml(row.label)}</strong><small>${escapeHtml(row.provider)} · ${escapeHtml(row.runtime)}</small></td>
-      <td class="score-cell">${fmt(row.score)}</td>
-      <td>${fmt(row.task_min)} – ${fmt(row.task_max)}</td>
-      <td>${fmt(row.pass_rate_pct, 0)}%</td>
-      <td>${row.native_tool_valid ? 'valid' : 'excluded'}</td>
+      <td class="rank-cell" data-label="Rank">${escapeHtml(row.rank)}</td>
+      <td class="model-cell" data-label="Model"><strong>${escapeHtml(row.label)}</strong><small class="model-basis">${escapeHtml(row.provider)}, ${escapeHtml(row.runtime)}</small></td>
+      ${scoreCell(row.score, { label: 'Score', className: 'overall-cell' })}
+      <td class="num-cell" data-label="Task range">${fmt(row.task_min)} to ${fmt(row.task_max)}</td>
+      <td class="num-cell" data-label="Pass rate">${fmt(row.pass_rate_pct, 0)}%</td>
+      <td data-label="Native tools">${row.native_tool_valid ? 'valid' : 'excluded'}</td>
     </tr>`).join('\n');
 }
 
@@ -1578,9 +1890,9 @@ async function writeHardAgenticPage() {
   const rows = [...(hardAgentic.rows ?? [])].sort((a, b) => Number(a.rank ?? 999) - Number(b.rank ?? 999));
   const leader = rows[0];
   const content = `<main class="detail-main hard-agentic-page" id="top">
-    <section class="detail-hero section-shell hard-agentic-hero">
-      <a class="back-link" href="../ranking/">← Ranking</a>
-      <p class="eyebrow">Hard Agentic Tool Benchmark · separate lane</p>
+    <section class="page-hero">
+      <a class="back-link" href="../ranking/">Back to the ranking</a>
+      <p class="kicker">Hard Agentic Tool Benchmark, a separate lane</p>
       <h1>Hard native tool tasks, reported separately.</h1>
       <p class="hero-lead">This lane targets native-tool-capable models with ambiguous operational data: similar fields, production versus staging, date and status authority, retries, units, policy lookup, hostile data, and fallback ownership. It does not change the global overall ranking yet.</p>
       <div class="detail-actions">
@@ -1589,7 +1901,7 @@ async function writeHardAgenticPage() {
       </div>
     </section>
 
-    <section class="section-shell result-stat-grid" aria-label="Hard Agentic summary">
+    <section class="section result-stat-grid" aria-label="Hard Agentic summary">
       ${statCard('Measured rows', String(summary.row_count ?? rows.length), 'native tool rows only')}
       ${statCard('Lane leader', leader?.label ?? 'Pending', `score ${fmt(leader?.score)}`)}
       ${statCard('Score spread', fmt(summary.score_spread), `${fmt(summary.score_min)} to ${fmt(summary.score_max)}`)}
@@ -1598,33 +1910,35 @@ async function writeHardAgenticPage() {
       ${statCard('High-spread tasks', String(summary.tasks_with_spread_gte_25 ?? 0), 'tasks with spread at least 25')}
     </section>
 
-    <section class="section-shell ranking-insight-grid" aria-label="Hard Agentic interpretation cards">
-      <article class="ranking-insight-card glass-panel"><h2>Why it is separate</h2><p>The global ranking remains unchanged while this lane matures. It is a harder tool-use slice, not a silent replacement for Full, SWE, or Hard Intelligence.</p></article>
-      <article class="ranking-insight-card glass-panel"><h2>What it measures</h2><p>Models must choose authority, follow pointers, recover from transient tool failures, reject misleading snippets, convert units, and ignore injected instructions inside data fields.</p></article>
-      <article class="ranking-insight-card glass-panel"><h2>What does not count</h2><p>Rows that cannot produce native tool calls are excluded from difficulty claims. Protocol failure is not model weakness under this lane.</p></article>
-      <article class="ranking-insight-card glass-panel"><h2>Control guardrails</h2><p>Snippet reading, blind guessing, first-hit extraction, and broad tool spraying all stay below their limits, so the lane is not solved by cheap shortcuts.</p></article>
-    </section>
-
-    <section id="hard-agentic-table" class="section-shell ranking-section ranking-page-table" aria-labelledby="hard-agentic-table-title">
-      <div class="section-kicker">Separate lane table</div>
+    <section id="hard-agentic-table" class="section ranking-section ranking-page-table" aria-labelledby="hard-agentic-table-title">
       <div class="section-head">
         <div>
           <h2 id="hard-agentic-table-title">Native-tool rows on the hard agentic lane.</h2>
-          <p>Scores are capability averages across 14 tasks. The public overall score is unchanged.</p>
+          <p>Scores are capability averages across ${escapeHtml(summary.task_count ?? 14)} tasks. The public overall score is unchanged.</p>
         </div>
         <a class="data-link" href="../data/hard-agentic-tool.json">Lane data</a>
       </div>
-      <div class="table-wrap glass-panel ranking-explained-table hard-agentic-table">
-        <table aria-label="Hard Agentic Tool Benchmark lane results">
-          <thead><tr><th>Rank</th><th>Model</th><th>Score</th><th>Task range</th><th>Pass rate</th><th>Native tools</th></tr></thead>
+      <div class="table-wrap ranking-explained-table hard-agentic-table">
+        <table class="ranking-table" aria-label="Hard Agentic Tool Benchmark lane results">
+          <thead><tr><th scope="col">Rank</th><th scope="col">Model</th><th scope="col">Score</th><th scope="col">Task range</th><th scope="col">Pass rate</th><th scope="col">Native tools</th></tr></thead>
           <tbody>${hardAgenticRows()}</tbody>
         </table>
       </div>
     </section>
 
-    <section class="section-shell ranking-chart-grid hard-agentic-grid" aria-label="Hard Agentic controls and task spread">
-      ${rankingChartCard('Shortcut controls', 'All control bots remain below their guardrail limits.', `<div class="bar-chart compact">${hardAgenticControlRows()}</div>`, 'These controls protect against answers from snippets, guessing, first hits, or broad tool spraying.')}
-      ${rankingChartCard('Task spread', 'Tasks ordered by model-score spread.', `<div class="bar-chart compact">${hardAgenticTaskRows()}</div>`, 'Ten of the fourteen tasks separate rows by at least 25 points in this measured set.')}
+    <section class="section ranking-chart-grid hard-agentic-grid" aria-label="Hard Agentic controls and task spread">
+      ${rankingChartCard(1, 'Task spread', 'Tasks ordered by the spread between the best and worst measured row.', `<div class="bar-chart compact">${hardAgenticTaskRows()}</div>`, `${escapeHtml(summary.tasks_with_spread_gte_25 ?? 0)} of the ${escapeHtml(summary.task_count ?? 14)} tasks separate rows by at least 25 points in the measured set.`)}
+      ${rankingChartCard(2, 'Shortcut controls', 'All control bots remain below their guardrail limits.', `<div class="bar-chart compact">${hardAgenticControlRows()}</div>`, 'These controls protect against answers from snippets, guessing, first hits, or broad tool spraying.')}
+    </section>
+
+    <section class="section ranking-insight-grid" aria-label="Hard Agentic interpretation notes">
+      <div class="section-head"><h2>Reading notes</h2></div>
+      <div class="insight-list">
+        <article class="ranking-insight-card"><h3>Why it is separate</h3><p>The global ranking remains unchanged while the lane matures. It is a harder tool-use slice, not a silent replacement for Full, SWE, or Hard Intelligence.</p></article>
+        <article class="ranking-insight-card"><h3>What it measures</h3><p>Models must choose authority, follow pointers, recover from transient tool failures, reject misleading snippets, convert units, and ignore injected instructions inside data fields.</p></article>
+        <article class="ranking-insight-card"><h3>What does not count</h3><p>Rows that cannot produce native tool calls are excluded from difficulty claims. Protocol failure is not model weakness under the lane.</p></article>
+        <article class="ranking-insight-card"><h3>Control guardrails</h3><p>Snippet reading, blind guessing, first-hit extraction, and broad tool spraying all stay below their limits, so the lane is not solved by cheap shortcuts.</p></article>
+      </div>
     </section>
   </main>`;
   const outDir = path.join(dist, 'hard-agentic');
@@ -1654,9 +1968,9 @@ async function writeArenaPage() {
   const encounterGroups = buildEncounterGroups(matches);
   const selectedMatchId = matches[0]?.id;
   const content = `<main class="detail-main arena-detail" id="top">
-    <section class="detail-hero section-shell arena-hero-page">
-      <a class="back-link" href="../#arena">← Back to overview</a>
-      <p class="eyebrow">Resyst Arena · replay room</p>
+    <section class="page-hero">
+      <a class="back-link" href="../#arena">Back to the overview</a>
+      <p class="kicker">Resyst Arena replay room</p>
       <h1>Tactical evidence you can replay.</h1>
       <p class="hero-lead">Resyst Arena is a deterministic turn-based evaluation environment for spatial strategy, legal-action discipline, and long-horizon tactical continuity. Replays are grouped by encounter so historical DeepSeek vs Step, DeepSeek vs Gemini, and DeepSeek vs Kimi runs stay readable instead of collapsing into one flat match list.</p>
       <div class="detail-actions">
@@ -1665,13 +1979,13 @@ async function writeArenaPage() {
       </div>
     </section>
 
-    <section class="section-shell arena-rule-grid" aria-label="Arena method principles">
+    <section class="section result-stat-grid arena-rule-grid" aria-label="Arena method principles">
       ${statCard('Score boundary', 'Outcome first', 'Latency, token use, and cost are telemetry, not hidden score modifiers.')}
       ${statCard('Encounter grouping', 'Pairing first', 'Replay buttons live under the model-vs-model encounter they belong to, including side-swapped rounds.')}
       ${statCard('Replay contract', 'Sanitized state', 'Replay JSON exposes board states, actions, events, and telemetry while excluding raw model text outputs.')}
     </section>
 
-    <section id="replays" class="section-shell replay-list" aria-label="Arena encounters and replays">
+    <section id="replays" class="section replay-list" aria-label="Arena encounters and replays">
       <div class="encounter-switcher" aria-label="Grouped Arena encounters">
         ${encounterGroups.map((group, index) => encounterCard(group, index, selectedMatchId)).join('\n')}
       </div>
