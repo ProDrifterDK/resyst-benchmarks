@@ -232,7 +232,7 @@ function renderArena(arena) {
         <div class="encounter-summary-head">
           <span class="match-label">Encounter ${groupIndex + 1}</span>
           <h3>${escapeHtml(group.title)}</h3>
-          <p><strong>${escapeHtml(encounterWinnerSummary(group))}</strong>. Replays stay grouped under the model-vs-model encounter, including side-swapped rounds.</p>
+          <p><strong>${escapeHtml(encounterWinnerSummary(group))}</strong>. <span class="encounter-note">Replays stay grouped under the model-vs-model encounter, including side-swapped rounds.</span></p>
           ${encounterFacts(group)}
         </div>
         <div class="home-replay-tabs" aria-label="${escapeHtml(group.title)} replay shortcuts">
@@ -252,8 +252,31 @@ function renderArena(arena) {
   }).join('');
 }
 
+// On narrow viewports the ranking table opens on its top 10 and a button reveals the rest.
+// Every row stays in the markup; the stylesheet only hides rows past ten while the figure carries
+// is-collapsed, and only shows the button once this has marked the figure collapsible, so a page
+// without scripting keeps every row visible.
+function setupRankingToggle() {
+  const toggle = document.querySelector('#ranking-toggle');
+  const figure = toggle?.closest('.table-fig');
+  const body = document.querySelector('#ranking-body');
+  if (!toggle || !figure || !body) return;
+  const apply = (expanded) => {
+    const total = body.querySelectorAll('tr').length;
+    figure.classList.toggle('is-collapsed', !expanded);
+    toggle.setAttribute('aria-expanded', String(expanded));
+    toggle.textContent = expanded ? 'Show the top 10 only' : `Show all ${total} ranked models`;
+  };
+  figure.classList.add('is-collapsible');
+  apply(false);
+  toggle.addEventListener('click', () => apply(toggle.getAttribute('aria-expanded') !== 'true'));
+}
+
 async function main() {
-  if (document.body.dataset.hydrated === 'true') return;
+  if (document.body.dataset.hydrated === 'true') {
+    setupRankingToggle();
+    return;
+  }
   const [models, arena] = await Promise.all([
     loadJson('data/model-comparison.json'),
     loadJson('data/arena-snapshots.json'),
@@ -262,6 +285,7 @@ async function main() {
   renderPodium(models);
   renderRanking(models);
   renderArena(arena);
+  setupRankingToggle();
 }
 
 main().catch((error) => {
