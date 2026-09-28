@@ -742,6 +742,25 @@ main { display: block; }
 /* ---------- tables ---------- */
 
 .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+/* Shown only on narrow viewports once scripting has collapsed the home table (see the 760px rules). */
+.table-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 2.6rem;
+  margin-top: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--void-2);
+  color: var(--gold-hi);
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 560;
+  cursor: pointer;
+}
+.table-toggle:hover { border-color: var(--rule-strong); background: var(--void-3); }
 
 table {
   width: 100%;
@@ -1593,6 +1612,75 @@ th:last-child, td:last-child { padding-right: 0; }
   .ranking-table .action-cell { grid-column: 1 / -1; text-align: left; }
   .ranking-table .score-cell.is-blank::after { display: block; }
   .reason-cell { min-width: 0; max-width: none; }
+
+  /* The home ranking is a leaderboard on a phone: rank, model and overall on one line, the
+     three lanes on the next, cost and reliability as a footnote. The Result button goes; the
+     model name is already the link. */
+  .table-fig .ranking-table tr {
+    grid-template-columns: 2.2rem repeat(3, minmax(0, 1fr));
+    grid-template-areas:
+      "rank model model overall"
+      "rank full swe hard"
+      "rank cost rel rel";
+    gap: 0.35rem 0.6rem;
+    padding: 0.75rem 0;
+  }
+  .table-fig .ranking-table .rank-cell { grid-area: rank; position: static; font-size: 1.35rem; padding-top: 0.15rem; }
+  .table-fig .ranking-table .model-cell { grid-area: model; }
+  .table-fig .ranking-table .model-cell strong { font-size: 0.98rem; }
+  .table-fig .ranking-table .overall-cell { grid-area: overall; text-align: right; }
+  .table-fig .ranking-table .overall-cell .score-value { font-size: 1.15rem; }
+  .table-fig .ranking-table .overall-cell .micro-bar { margin-left: auto; }
+  .table-fig .ranking-table td[data-label="Full"] { grid-area: full; }
+  .table-fig .ranking-table td[data-label="SWE"] { grid-area: swe; }
+  .table-fig .ranking-table td[data-label="Hard Intelligence"] { grid-area: hard; }
+  .table-fig .ranking-table td[data-label="Cost"] { grid-area: cost; }
+  .table-fig .ranking-table td[data-label="Reliability"] { grid-area: rel; }
+  .table-fig .ranking-table .score-value { font-size: 0.95rem; }
+  .table-fig .ranking-table .score-rank { margin-left: 0.25rem; font-size: 0.7rem; }
+  .table-fig .ranking-table .num-cell { font-size: 0.84rem; color: var(--ink-2); }
+  .table-fig .ranking-table .num-cell::before { display: inline; margin-right: 0.35rem; }
+  .table-fig .ranking-table .action-cell { display: none; }
+
+  /* Progressive disclosure: with scripting, the home table opens on the top 10 and a button
+     reveals the rest. Every row stays in the markup; only its display changes. */
+  .table-fig.is-collapsed .ranking-table tbody tr:nth-child(n + 11) { display: none; }
+  .table-fig.is-collapsible .table-toggle { display: inline-flex; }
+
+  /* Podium cards fold to one line of identity plus the lane row. */
+  .podium { gap: 0.6rem; }
+  .podium-card {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    grid-template-areas: "rank body score" "rank lanes lanes";
+    gap: 0.55rem 0.9rem;
+    padding: 0.95rem 1rem 0.9rem;
+    align-items: start;
+  }
+  .podium-rank { grid-area: rank; font-size: 1.9rem; line-height: 1; }
+  .podium-body { grid-area: body; gap: 0.25rem; }
+  .podium-card h3 { font-size: 1.1rem; }
+  .podium-basis { display: none; }
+  .podium-score { grid-area: score; }
+  .podium-score b { font-size: 1.7rem; }
+  .podium-lanes { grid-area: lanes; padding-top: 0.55rem; }
+  .podium-cta { display: none; }
+
+  /* Lane leader reads as one line under its strip. */
+  .lane-row { padding: 1.1rem 0; gap: 0.9rem; }
+  .lane-leader { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.15rem 0.6rem; }
+  .lane-leader b { font-size: 1.5rem; }
+
+  /* The encounter cards keep the winner line; the repeated grouping note is desktop context. */
+  .encounter-note { display: none; }
+  .encounter-summary-card { padding: 1.1rem 0; gap: 0.9rem; }
+
+  /* Section rhythm tightens a step on a phone; the rules still separate the sections. */
+  .section { padding-block: 2.2rem; }
+  .hero { padding-block: 2.2rem 1.6rem; }
+  .hero-strip div { padding-top: 0.8rem; padding-bottom: 0.3rem; }
+  .fig + .fig, .fig + .section-head, .section-head + .fig { margin-top: 2rem; }
+  .match-grid { margin-top: 2rem; }
 }
 
 @media (max-width: 480px) {

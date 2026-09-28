@@ -9,7 +9,7 @@ const site = 'https://benchmarks.resyst.cl/';
 const logoUrl = `${site}assets/ResystLabs-Logo.png`;
 const ogImageVersion = '20260928-visual-overhaul';
 const ogImageUrl = `${site}og.png?v=${ogImageVersion}`;
-const assetVersion = '20260928-visual-overhaul';
+const assetVersion = '20260928-pass2';
 
 if (!existsSync(src)) {
   throw new Error('src directory is missing');
@@ -1299,6 +1299,91 @@ function fmtCompactNumber(value) {
   return number.toFixed(2);
 }
 
+// Places one label per visible scatter point so that no label overlaps another label or a
+// visible marker. Candidates sit at eighteen directions around the marker (right first, then the
+// diagonals, above, below, left) at growing distances. Each candidate that clears the hard rules
+// (inside the plot, off every marker, off every placed label) is scored by its distance plus
+// penalties when its leader line would cross another marker, a placed label or another leader;
+// the cheapest wins. A label further than a marker's width from its point gets that leader line
+// back to it. Entries are placed by priority (rank), so the leading entrants keep the closest
+// spots; a second pass then re-places each label against the finished layout, which untangles
+// leaders that the first pass could not see yet.
+function placeScatterLabels(entries, bounds) {
+  const markerPad = 9;
+  const markers = entries.map((entry) => ({ id: entry.id, x0: entry.cx - markerPad, y0: entry.cy - markerPad, x1: entry.cx + markerPad, y1: entry.cy + markerPad }));
+  const hits = (box, other, pad = 0) => box.x0 < other.x1 + pad && box.x1 + pad > other.x0 && box.y0 < other.y1 + pad && box.y1 + pad > other.y0;
+  const segmentCrossings = (x1, y1, x2, y2, boxes) => {
+    const steps = Math.max(1, Math.ceil(Math.hypot(x2 - x1, y2 - y1) / 4));
+    const crossed = new Set();
+    for (let step = 0; step <= steps; step += 1) {
+      const x = x1 + ((x2 - x1) * step) / steps;
+      const y = y1 + ((y2 - y1) * step) / steps;
+      boxes.forEach((box, index) => {
+        if (x > box.x0 && x < box.x1 && y > box.y0 && y < box.y1) crossed.add(index);
+      });
+    }
+    return crossed.size;
+  };
+  const orientation = (ax, ay, bx, by, cx, cy) => Math.sign((bx - ax) * (cy - ay) - (by - ay) * (cx - ax));
+  const segmentsCross = (a, b) => orientation(a.x1, a.y1, a.x2, a.y2, b.x1, b.y1) !== orientation(a.x1, a.y1, a.x2, a.y2, b.x2, b.y2)
+    && orientation(b.x1, b.y1, b.x2, b.y2, a.x1, a.y1) !== orientation(b.x1, b.y1, b.x2, b.y2, a.x2, a.y2);
+  const radii = [11, 15, 20, 26, 33, 42, 53, 66, 82, 100, 122, 148, 178, 212, 250, 300];
+  const angles = [0, -20, 20, -40, 40, -60, 60, -80, 80, -100, 100, 180, -160, 160, -140, 140, -120, 120];
+  const placements = new Map();
+  const placeOne = (entry) => {
+    const others = [...placements.values()].filter((placement) => placement.id !== entry.id);
+    const placed = others.map((placement) => placement.box);
+    const leaders = others.map((placement) => placement.leader).filter(Boolean);
+    const otherMarkers = markers.filter((marker) => marker.id !== entry.id);
+    let best = null;
+    for (const radius of radii) {
+      // Cost is at least the radius, so once the radius passes the best cost nothing can beat it.
+      if (best && radius >= best.cost) break;
+      angles.forEach((degrees, angleIndex) => {
+        const radians = (degrees * Math.PI) / 180;
+        const cos = Math.cos(radians);
+        const ax = entry.cx + radius * cos;
+        const ay = entry.cy + radius * Math.sin(radians);
+        const anchor = cos > 0.3 ? 'start' : cos < -0.3 ? 'end' : 'middle';
+        const x0 = anchor === 'start' ? ax : anchor === 'end' ? ax - entry.w : ax - entry.w / 2;
+        const box = { x0, x1: x0 + entry.w, y0: ay - entry.h / 2, y1: ay + entry.h / 2 };
+        if (box.x0 < bounds.x0 || box.x1 > bounds.x1 || box.y0 < bounds.y0 || box.y1 > bounds.y1) return;
+        if (markers.some((marker) => hits(box, marker))) return;
+        if (placed.some((other) => hits(box, other, 2))) return;
+        let cost = radius + angleIndex;
+        let leader = null;
+        if (radius > 14) {
+          const tx = anchor === 'start' ? box.x0 - 2 : anchor === 'end' ? box.x1 + 2 : ax;
+          const ty = anchor === 'middle' ? (ay < entry.cy ? box.y1 + 1 : box.y0 - 1) : ay;
+          const dx = tx - entry.cx;
+          const dy = ty - entry.cy;
+          const span = Math.hypot(dx, dy) || 1;
+          leader = { x1: entry.cx + (dx / span) * 8, y1: entry.cy + (dy / span) * 8, x2: tx, y2: ty };
+          // A leader through another marker suggests the wrong owner; one through a label or
+          // across another leader is merely harder to follow.
+          cost += segmentCrossings(leader.x1, leader.y1, tx, ty, otherMarkers) * 60
+            + segmentCrossings(leader.x1, leader.y1, tx, ty, placed) * 60
+            + leaders.filter((other) => segmentsCross(leader, other)).length * 35;
+        }
+        if (!best || cost < best.cost) best = { id: entry.id, cost, box, anchor, x: ax, y: ay + entry.h * 0.31, leader };
+      });
+    }
+    if (!best) {
+      // Every candidate collided; keep the label attributable rather than dropping it.
+      console.warn(`scatter label ${entry.id} found no free spot; placing it beside its marker`);
+      best = { id: entry.id, cost: Infinity, box: { x0: entry.cx + 11, x1: entry.cx + 11 + entry.w, y0: entry.cy - entry.h / 2, y1: entry.cy + entry.h / 2 }, anchor: 'start', x: entry.cx + 11, y: entry.cy + entry.h * 0.31, leader: null };
+    }
+    return best;
+  };
+  const ordered = [...entries].sort((a, b) => a.priority - b.priority);
+  for (const entry of ordered) placements.set(entry.id, placeOne(entry));
+  for (const entry of ordered) {
+    const again = placeOne(entry);
+    if (again.cost < placements.get(entry.id).cost) placements.set(entry.id, again);
+  }
+  return placements;
+}
+
 function scatterPlotPanel({ number, title, xLabel, yLabel, rows, xValue, yValue, formatX = fmtCompactNumber, formatY = fmtCompactNumber, showInlineNames = false, inlineNameLimit = 10, defaultVisible = 10, pointClass = () => '', tooltipExtra = () => [] }) {
   const points = rows
     .map((row) => ({ row, x: Number(xValue(row)), y: Number(yValue(row)), className: pointClass(row), extra: tooltipExtra(row) }))
@@ -1340,40 +1425,37 @@ function scatterPlotPanel({ number, title, xLabel, yLabel, rows, xValue, yValue,
   };
   const ticks = [0, 0.25, 0.5, 0.75, 1];
   const safeId = slug(title);
-  const labelPositions = new Map();
-  {
-    // Collision avoidance applies to every panel, not just the ones that carry names. The
-    // token/cost panel is rank-only but has the same 22 labels competing for the same band, and
-    // leaving it unstacked was what made it the most crowded of the three.
-    const minLabelY = margin.top + 13;
-    const maxLabelY = height - margin.bottom - 8;
-    // Vertical step between stacked label rows, tightened as entrants are added so the column
-    // still fits the band. The floor keeps the type legible: past that the overflow shift below
-    // distributes the remainder instead of collapsing labels onto each other.
-    const labelRowStep = Math.max(9, Math.min(13, (maxLabelY - minLabelY) / Math.max(1, points.length - 1)));
-    const labelRows = points
-      .map((point, index) => {
-        const cx = xFor(point.x);
-        const cy = yFor(point.y);
-        const anchor = cx > width - 150 ? 'end' : 'start';
-        return {
-          index,
-          anchor,
-          x: anchor === 'end' ? cx - 11 : cx + 11,
-          desiredY: clamp(cy - 8, minLabelY, maxLabelY),
-          y: clamp(cy - 8, minLabelY, maxLabelY),
-        };
-      })
-      .sort((a, b) => a.desiredY - b.desiredY);
-    for (let index = 1; index < labelRows.length; index += 1) {
-      labelRows[index].y = Math.max(labelRows[index].y, labelRows[index - 1].y + labelRowStep);
-    }
-    const overflow = (labelRows.at(-1)?.y ?? 0) - maxLabelY;
-    if (overflow > 0) {
-      for (const row of labelRows) row.y = Math.max(minLabelY, row.y - overflow);
-    }
-    for (const row of labelRows) labelPositions.set(row.index, row);
-  }
+  // Long inline labels are what collide: 27 "#13 - Model Name" strings cannot share the plot, so
+  // only the leading entrants carry a name while every point keeps its compact rank label and
+  // hover card.
+  const labelTextFor = (point) => {
+    const labelled = showInlineNames && Number(point.row.overall_rank) <= inlineNameLimit;
+    return { labelled, text: labelled ? `#${point.row.overall_rank} - ${shortModelLabel(point.row)}` : `#${point.row.overall_rank}` };
+  };
+  // Label boxes in viewBox units, calibrated against Chromium's getBBox() of the rendered page:
+  // named labels measure 4.8 to 5.4 px per character at 11.5 px, compact rank labels 5.9 px per
+  // character at 10.5 px. The 3 px paint-order stroke widens the visible box a little.
+  const labelSize = (text, labelled) => ({ w: text.length * (labelled ? 5.6 : 6.1) + 3, h: labelled ? 13 : 12 });
+  // One layout per density option. The set of visible markers changes with the density select,
+  // so a layout computed for all entrants would push Top 10 labels away from empty space, and a
+  // Top 10 layout would let All 27 labels land on markers that were hidden when it was computed.
+  const densityOptions = [{ value: 10, label: 'Top 10' }, { value: 15, label: 'Top 15' }, { value: 9999, label: `All ${points.length}` }];
+  const labelBounds = { x0: margin.left + 1, x1: width - 3, y0: 3, y1: height - margin.bottom - 3 };
+  const layouts = new Map(densityOptions.map(({ value }) => {
+    const entries = points
+      .map((point, index) => ({ point, index }))
+      .filter(({ point }) => Number(point.row.overall_rank) <= value)
+      .map(({ point, index }) => {
+        const { text, labelled } = labelTextFor(point);
+        return { id: index, cx: xFor(point.x), cy: yFor(point.y), ...labelSize(text, labelled), priority: Number(point.row.overall_rank) };
+      });
+    return [value, placeScatterLabels(entries, labelBounds)];
+  }));
+  const layoutSpec = (placement) => {
+    if (!placement) return '';
+    const leader = placement.leader ? [placement.leader.x1, placement.leader.y1, placement.leader.x2, placement.leader.y2].map((v) => v.toFixed(1)) : ['', '', '', ''];
+    return [placement.x.toFixed(1), placement.y.toFixed(1), placement.anchor, ...leader].join(',');
+  };
   return `<figure class="fig scatter-panel">
     <figcaption>
       <span class="fig-n">Figure ${escapeHtml(number)}</span>
@@ -1384,9 +1466,7 @@ function scatterPlotPanel({ number, title, xLabel, yLabel, rows, xValue, yValue,
       <label class="scatter-control">
         <span class="scatter-control-label">Entrants shown</span>
         <select class="scatter-filter" data-scatter="${safeId}" aria-label="How many entrants to plot in ${escapeHtml(title)}">
-          <option value="10"${defaultVisible === 10 ? ' selected' : ''}>Top 10</option>
-          <option value="15"${defaultVisible === 15 ? ' selected' : ''}>Top 15</option>
-          <option value="9999"${defaultVisible > 15 ? ' selected' : ''}>All ${points.length}</option>
+          ${densityOptions.map(({ value, label }) => `<option value="${value}"${(value === 9999 ? defaultVisible > 15 : defaultVisible === value) ? ' selected' : ''}>${escapeHtml(label)}</option>`).join('\n          ')}
         </select>
       </label>
       <small class="scatter-control-note">Names stay on the top ${inlineNameLimit}; every visible point keeps its rank label and hover detail.</small>
@@ -1415,36 +1495,33 @@ function scatterPlotPanel({ number, title, xLabel, yLabel, rows, xValue, yValue,
           const cy = yFor(point.y);
           const rank = `#${point.row.overall_rank}`;
           const shortLabel = shortModelLabel(point.row);
-          // Long inline labels are what collide: the stack absorbs 22 short labels, but 22
-          // "#13 - Model Name" strings overlap horizontally inside the plot. Naming only the
-          // leading entrants keeps the chart readable while every point stays identifiable
-          // through its compact rank label and hover card.
-          const labelled = showInlineNames && Number(point.row.overall_rank) <= inlineNameLimit;
-          const inlineLabel = labelled ? `${rank} - ${shortLabel}` : rank;
-          const labelPosition = labelPositions.get(pointIndex) ?? { x: cx + 10, y: cy - 8, anchor: 'start' };
+          const { text: inlineLabel, labelled } = labelTextFor(point);
+          // The static markup carries the default density's layout so the page reads correctly
+          // without JavaScript; the other densities ride along as data attributes for the select.
+          // A point outside the default view takes its all-entrants spot until the select shows it.
+          const labelPosition = layouts.get(defaultVisible)?.get(pointIndex) ?? layouts.get(9999).get(pointIndex);
+          const layoutAttrs = densityOptions.map(({ value }) => {
+            const spec = layoutSpec(layouts.get(value).get(pointIndex));
+            return spec ? ` data-lay-${value}="${spec}"` : '';
+          }).join('');
           const tooltip = tooltipFor(cx, cy);
           const linkId = `scatter-link-${safeId}-${pointIndex}`;
           const tooltipId = `scatter-tooltip-${safeId}-${pointIndex}`;
-          // Stacking keeps labels apart, but a label pushed far from its marker stops being
-          // attributable to it. A displaced label gets a leader back to its dot. It is computed
-          // here and rendered inside the point's own anchor so hiding the point hides its leader
-          // too, with or without JavaScript.
-          const labelY = labelPosition.y - 4;
-          let leader = '';
-          if (Math.abs(labelY - cy) > 8) {
-            const labelX = labelPosition.anchor === 'end' ? labelPosition.x + 4 : labelPosition.x - 4;
-            const dx = labelX - cx;
-            const dy = labelY - cy;
-            const span = Math.hypot(dx, dy) || 1;
-            leader = `<line class="scatter-leader" x1="${(cx + (dx / span) * 8).toFixed(1)}" y1="${(cy + (dy / span) * 8).toFixed(1)}" x2="${labelX.toFixed(1)}" y2="${labelY.toFixed(1)}"></line>`;
-          }
-          return { point, cx, cy, rank, shortLabel, inlineLabel, labelled, labelPosition, leader, tooltip, linkId, tooltipId, extra: point.extra ?? [], className: point.className ?? '' };
+          // A label pushed away from its marker stops being attributable to it, so a displaced
+          // label gets a leader back to its dot. The leader is rendered inside the point's own
+          // anchor so hiding the point hides its leader too, with or without JavaScript; it is
+          // present but hidden when the current layout keeps the label beside the marker.
+          const leaderLine = labelPosition.leader;
+          const leader = leaderLine
+            ? `<line class="scatter-leader" x1="${leaderLine.x1.toFixed(1)}" y1="${leaderLine.y1.toFixed(1)}" x2="${leaderLine.x2.toFixed(1)}" y2="${leaderLine.y2.toFixed(1)}"></line>`
+            : '<line class="scatter-leader" visibility="hidden"></line>';
+          return { point, cx, cy, rank, shortLabel, inlineLabel, labelled, labelPosition, layoutAttrs, leader, tooltip, linkId, tooltipId, extra: point.extra ?? [], className: point.className ?? '' };
         });
         const hoverRules = pointViews
           .map(({ linkId, tooltipId }) => `#${linkId}:hover ~ .scatter-tooltip-layer #${tooltipId}, #${linkId}:has(.scatter-point:hover) ~ .scatter-tooltip-layer #${tooltipId}, #${linkId}:focus ~ .scatter-tooltip-layer #${tooltipId}, #${linkId}:focus-visible ~ .scatter-tooltip-layer #${tooltipId} { opacity: 1; }`)
           .join('\n');
         return `${hoverRules ? `<style>${hoverRules}</style>` : ''}
-      ${pointViews.map(({ point, cx, cy, rank, shortLabel, inlineLabel, labelled, labelPosition, leader, linkId, tooltipId, className }) => `<a id="${linkId}" class="scatter-link${Number(point.row.overall_rank) > defaultVisible ? ' is-filtered-out' : ''}" data-tooltip-target="${tooltipId}" data-overall-rank="${escapeHtml(point.row.overall_rank)}" href="../${modelPath(point.row)}" aria-label="Open ${escapeHtml(point.row.label)} result">
+      ${pointViews.map(({ point, cx, cy, rank, shortLabel, inlineLabel, labelled, labelPosition, layoutAttrs, leader, linkId, tooltipId, className }) => `<a id="${linkId}" class="scatter-link${Number(point.row.overall_rank) > defaultVisible ? ' is-filtered-out' : ''}" data-tooltip-target="${tooltipId}" data-overall-rank="${escapeHtml(point.row.overall_rank)}"${layoutAttrs} href="../${modelPath(point.row)}" aria-label="Open ${escapeHtml(point.row.label)} result">
           ${leader}
           <circle class="scatter-point ${Number(point.row.overall_rank) <= 3 ? 'leader' : ''} ${escapeHtml(className)}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="7"><title>${escapeHtml(rank)} - ${escapeHtml(shortLabel)} · ${escapeHtml(point.row.label)} · ${escapeHtml(xLabel)} ${escapeHtml(formatX(point.x))} · ${escapeHtml(yLabel)} ${escapeHtml(formatY(point.y))}</title></circle>
           <text class="scatter-rank-label ${labelled ? 'with-name' : 'compact'}" x="${labelPosition.x.toFixed(1)}" y="${labelPosition.y.toFixed(1)}" text-anchor="${labelPosition.anchor}">${escapeHtml(inlineLabel)}</text>
@@ -1493,12 +1570,38 @@ function scatterPlotPanel({ number, title, xLabel, yLabel, rows, xValue, yValue,
         const figure = document.currentScript?.parentElement;
         const select = figure?.querySelector('.scatter-filter');
         if (!select) return;
+        // Each density has its own label layout (computed at build time against the markers that
+        // density shows), carried on the anchor as data-lay-<limit>: label x, y, anchor, then the
+        // leader line endpoints, empty when the label sits beside its marker.
+        const applyLayout = (link, limit) => {
+          const spec = link.getAttribute('data-lay-' + limit);
+          if (!spec) return;
+          const [x, y, anchor, x1, y1, x2, y2] = spec.split(',');
+          const label = link.querySelector('.scatter-rank-label');
+          const leader = link.querySelector('.scatter-leader');
+          if (label) {
+            label.setAttribute('x', x);
+            label.setAttribute('y', y);
+            label.setAttribute('text-anchor', anchor);
+          }
+          if (!leader) return;
+          if (x1) {
+            leader.setAttribute('x1', x1);
+            leader.setAttribute('y1', y1);
+            leader.setAttribute('x2', x2);
+            leader.setAttribute('y2', y2);
+            leader.removeAttribute('visibility');
+          } else {
+            leader.setAttribute('visibility', 'hidden');
+          }
+        };
         const applyFilter = () => {
           const limit = Number(select.value);
           svg.querySelectorAll('.scatter-link[data-overall-rank]').forEach((link) => {
             const filtered = Number(link.dataset.overallRank) > limit;
             link.classList.toggle('is-filtered-out', filtered);
             if (filtered) svg.querySelector('#' + link.dataset.tooltipTarget)?.classList.remove('is-visible');
+            else applyLayout(link, limit);
           });
           hideAll();
         };
@@ -1800,7 +1903,7 @@ function overviewEncounterCard(group, groupIndex) {
         <div class="encounter-summary-head">
           <span class="match-label">Encounter ${groupIndex + 1}</span>
           <h3>${escapeHtml(group.title)}</h3>
-          <p><strong>${escapeHtml(encounterWinnerSummary(group))}</strong>. Replays stay grouped under the model-vs-model encounter, including side-swapped rounds.</p>
+          <p><strong>${escapeHtml(encounterWinnerSummary(group))}</strong>. <span class="encounter-note">Replays stay grouped under the model-vs-model encounter, including side-swapped rounds.</span></p>
           ${encounterFacts(group)}
         </div>
         <div class="home-replay-tabs" aria-label="${escapeHtml(group.title)} replay shortcuts">
