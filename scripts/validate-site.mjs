@@ -96,8 +96,8 @@ function assertSeoBasics(file, content, canonical) {
     `<link rel="canonical" href="${canonical}"`,
     `<link rel="alternate" hreflang="en" href="${canonical}"`,
     `<link rel="alternate" hreflang="x-default" href="${canonical}"`,
-    '<meta property="og:image" content="https://benchmarks.resyst.cl/og.png?v=20260613-link-preview"',
-    '<meta property="og:image:secure_url" content="https://benchmarks.resyst.cl/og.png?v=20260613-link-preview"',
+    '<meta property="og:image" content="https://benchmarks.resyst.cl/og.png?v=20260928-visual-overhaul"',
+    '<meta property="og:image:secure_url" content="https://benchmarks.resyst.cl/og.png?v=20260928-visual-overhaul"',
     '<meta property="og:image:type" content="image/png"',
     '<meta property="og:image:width" content="1200"',
     '<meta property="og:image:height" content="630"',
@@ -195,7 +195,7 @@ if (!manifest.icons?.some((icon) => icon.sizes === '192x192') || !manifest.icons
   throw new Error('web manifest must include 192x192 and 512x512 icons');
 }
 const sitemap = await readText('dist/sitemap.xml');
-for (const required of ['https://benchmarks.resyst.cl/', 'https://benchmarks.resyst.cl/ranking/', 'https://benchmarks.resyst.cl/hard-agentic/', 'https://benchmarks.resyst.cl/arena/', 'xmlns:image=', '<image:loc>https://benchmarks.resyst.cl/og.png?v=20260613-link-preview</image:loc>']) {
+for (const required of ['https://benchmarks.resyst.cl/', 'https://benchmarks.resyst.cl/ranking/', 'https://benchmarks.resyst.cl/hard-agentic/', 'https://benchmarks.resyst.cl/arena/', 'xmlns:image=', '<image:loc>https://benchmarks.resyst.cl/og.png?v=20260928-visual-overhaul</image:loc>']) {
   if (!sitemap.includes(required)) throw new Error(`sitemap.xml missing SEO marker: ${required}`);
 }
 if (/<loc>http:\/\//.test(sitemap) || /<image:loc>http:\/\//.test(sitemap)) throw new Error('sitemap.xml canonical URL entries must use HTTPS only');

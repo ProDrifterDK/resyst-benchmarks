@@ -7,7 +7,7 @@ const src = path.join(root, 'src');
 const dist = path.join(root, 'dist');
 const site = 'https://benchmarks.resyst.cl/';
 const logoUrl = `${site}assets/ResystLabs-Logo.png`;
-const ogImageVersion = '20260613-link-preview';
+const ogImageVersion = '20260928-visual-overhaul';
 const ogImageUrl = `${site}og.png?v=${ogImageVersion}`;
 const assetVersion = '20260928-visual-overhaul';
 
@@ -391,7 +391,8 @@ function laneProfileFigure(row, number) {
   return figureBlock({ number, title: 'Lane profile against the cohort', note: 'Each bar is one measured lane on the shared 0 to 100 scale. The thin mark is the cohort median; the bright mark is the best score any ranked model reached on that lane.', body, className: 'profile-fig' });
 }
 
-function header(prefix = '') {
+function header(prefix = '', current = '') {
+  const navLink = (key, href, label) => `<a href="${href}"${current === key ? ' aria-current="page"' : ''}>${label}</a>`;
   return `
     <header class="site-header">
       <a class="brand" href="${prefix}" aria-label="Resyst Labs Benchmarks home">
@@ -402,9 +403,9 @@ function header(prefix = '') {
         </span>
       </a>
       <nav aria-label="Primary navigation">
-        <a href="${prefix}ranking/">Ranking</a>
-        <a href="${prefix}hard-agentic/">Hard Agentic</a>
-        <a href="${prefix}arena/">Arena</a>
+        ${navLink('ranking', `${prefix}ranking/`, 'Ranking')}
+        ${navLink('hard-agentic', `${prefix}hard-agentic/`, 'Hard Agentic')}
+        ${navLink('arena', `${prefix}arena/`, 'Arena')}
         <a href="${prefix}#methodology">Methodology</a>
         <a href="${prefix}#evidence">Evidence</a>
       </nav>
@@ -475,7 +476,7 @@ function breadcrumbSchema(items) {
   };
 }
 
-function pageShell({ title, description, canonicalPath = '', prefix = '', bodyClass = '', content = '', extraScript = '', structuredData = [] }) {
+function pageShell({ title, description, canonicalPath = '', prefix = '', bodyClass = '', content = '', extraScript = '', structuredData = [], navCurrent = '' }) {
   const canonical = `${site}${canonicalPath}`;
   return `<!doctype html>
 <html lang="en">
@@ -513,7 +514,7 @@ function pageShell({ title, description, canonicalPath = '', prefix = '', bodyCl
   </head>
   <body class="${escapeHtml(bodyClass)}">
     <div class="grain" aria-hidden="true"></div>
-    ${header(prefix)}
+    ${header(prefix, navCurrent)}
     ${content}
     <footer class="site-footer">
       <span>Resyst Labs Benchmarks</span>
@@ -729,6 +730,7 @@ async function writeModelPages() {
       canonicalPath: modelPath(row),
       prefix: '../../',
       bodyClass: 'detail-page',
+      navCurrent: 'ranking',
       content,
       structuredData: [
         webPageSchema({ title: modelTitle, description: modelDescription, url: `${site}${modelPath(row)}` }),
@@ -979,6 +981,17 @@ function matchTab(match, index, group, selectedMatchId) {
     <strong>${escapeHtml(compactEntrant(match.winner_label))}</strong>
     <small>${escapeHtml(prettyReason(match.winner_reason))}, seed ${escapeHtml(match.seed ?? 'fixed')}</small>
   </button>`;
+}
+
+function laneMiniList(row, className) {
+  const lanes = [
+    ['Full', row.full?.final],
+    ['SWE', row.swe?.swe_score],
+    ['Hard Intelligence', row.hard_intelligence?.diagnostic_score],
+  ];
+  return `<dl class="${className}">
+        ${lanes.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${Number.isFinite(Number(value)) ? `${fmt(value)}${microBar(value)}` : '<span class="blank">not measured</span>'}</dd></div>`).join('')}
+      </dl>`;
 }
 
 function overviewPodiumCard(row) {
@@ -1755,6 +1768,7 @@ async function writeRankingPage() {
     canonicalPath: 'ranking/',
     prefix: '../',
     bodyClass: 'detail-page ranking-explained-page',
+    navCurrent: 'ranking',
     content,
     structuredData: [
       webPageSchema({ title: rankingTitle, description: rankingDescription, url: `${site}ranking/` }),
@@ -1818,6 +1832,7 @@ async function hydrateOverviewHtml() {
   html = fill(html, 'leader-name', escapeHtml(leader?.label ?? 'Pending data'));
   html = fill(html, 'leader-score-value', leader ? fmt(leader.overall_score) : '—');
   html = fill(html, 'leader-score', leader ? escapeHtml(leader.basis) : 'No ranked data loaded');
+  html = fill(html, 'leader-lanes', leader ? laneMiniList(leader, 'plate-lanes') : '');
   html = fill(html, 'model-count', String(rankedRows.length));
   html = fill(html, 'arena-count', String(matches.length));
   html = fill(html, 'data-date', escapeHtml(dataDateLabel));
@@ -1951,6 +1966,7 @@ async function writeHardAgenticPage() {
     canonicalPath: 'hard-agentic/',
     prefix: '../',
     bodyClass: 'detail-page hard-agentic-page-body',
+    navCurrent: 'hard-agentic',
     content,
     structuredData: [
       webPageSchema({ title, description, url: `${site}hard-agentic/` }),
@@ -2004,6 +2020,7 @@ async function writeArenaPage() {
     canonicalPath: 'arena/',
     prefix: '../',
     bodyClass: 'detail-page arena-replay-page',
+    navCurrent: 'arena',
     content,
     extraScript: '<script type="module" src="../replay.js"></script>',
     structuredData: [

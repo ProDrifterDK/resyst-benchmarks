@@ -152,6 +152,10 @@ function renderHero(models, arena) {
   document.querySelector('#model-count').textContent = rows.length;
   document.querySelector('#arena-count').textContent = arena.matches?.length ?? 0;
   document.querySelector('#data-date').textContent = shortDate(models.generated_at);
+  const lanes = leader ? [['Full', leader.full?.final], ['SWE', leader.swe?.swe_score], ['Hard Intelligence', leader.hard_intelligence?.diagnostic_score]] : [];
+  document.querySelector('#leader-lanes').innerHTML = lanes.length
+    ? `<dl class="plate-lanes">${lanes.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${Number.isFinite(Number(value)) ? `${formatNumber(value, 2)}${microBar(value)}` : '<span class="blank">not measured</span>'}</dd></div>`).join('')}</dl>`
+    : '';
 }
 
 function renderPodium(models) {
