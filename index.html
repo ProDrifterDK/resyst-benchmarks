@@ -13,12 +13,13 @@
     <meta name="application-name" content="Resyst Labs Benchmarks" />
     <meta name="author" content="Resyst Labs" />
     <meta name="color-scheme" content="dark" />
-    <meta name="theme-color" content="#050508" />
+    <meta name="theme-color" content="#07060b" />
     <link rel="canonical" href="https://benchmarks.resyst.cl/" />
     <link rel="alternate" hreflang="en" href="https://benchmarks.resyst.cl/" />
     <link rel="alternate" hreflang="x-default" href="https://benchmarks.resyst.cl/" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="site.webmanifest" />
+    <link rel="preload" href="assets/fonts/archivo-variable.woff2" as="font" type="font/woff2" crossorigin />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://benchmarks.resyst.cl/" />
@@ -27,14 +28,14 @@
       property="og:description"
       content="Public AI model rankings, software-engineering scores, agentic reliability measurements, runtime cost, and replayable Resyst Arena duels."
     />
-    <meta property="og:image" content="https://benchmarks.resyst.cl/og.png?v=20260613-link-preview" />
-    <meta property="og:image:secure_url" content="https://benchmarks.resyst.cl/og.png?v=20260613-link-preview" />
+    <meta property="og:image" content="https://benchmarks.resyst.cl/og.png?v=20260928-visual-overhaul" />
+    <meta property="og:image:secure_url" content="https://benchmarks.resyst.cl/og.png?v=20260928-visual-overhaul" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Resyst Labs Benchmarks: independent AI model rankings and Arena evidence" />
     <meta property="og:site_name" content="Resyst Labs Benchmarks" />
-    <link rel="stylesheet" href="styles.css?v=20260615-ranking-local-badge" />
+    <link rel="stylesheet" href="styles.css?v=20260928-visual-overhaul" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -254,22 +255,20 @@
 }
 </script>
   </head>
-  <body>
-    <canvas id="signal-field" aria-hidden="true"></canvas>
+  <body class="home-page" data-hydrated="true">
     <div class="grain" aria-hidden="true"></div>
-    <div class="aurora aurora-a" aria-hidden="true"></div>
-    <div class="aurora aurora-b" aria-hidden="true"></div>
 
     <header class="site-header">
       <a class="brand" href="#top" aria-label="Resyst Labs Benchmarks home">
-        <img class="brand-logo" src="assets/ResystLabs-Logo.png" alt="Resyst Labs logo" width="42" height="42" />
-        <span>
+        <img class="brand-logo" src="assets/ResystLabs-Logo.png" alt="Resyst Labs logo" width="40" height="40" />
+        <span class="brand-text">
           <strong>Resyst Labs</strong>
           <small>Benchmarks</small>
         </span>
       </a>
       <nav aria-label="Primary navigation">
         <a href="ranking/">Ranking</a>
+        <a href="hard-agentic/">Hard Agentic</a>
         <a href="arena/">Arena</a>
         <a href="#methodology">Methodology</a>
         <a href="#evidence">Evidence</a>
@@ -277,660 +276,731 @@
     </header>
 
     <main id="top">
-      <section class="hero section-shell" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <p class="eyebrow">Independent model evaluation · public evidence · tactical replays</p>
-          <h1 id="hero-title">
-            AI model benchmarks with <em>rules</em>, receipts, and Arena replays.
-          </h1>
-          <p class="hero-lead">
-            Resyst Labs Benchmarks is a public evidence surface for comparing AI systems across agentic reasoning, software engineering, reliability, runtime economics, and Resyst Arena duels.
-          </p>
-          <div class="hero-actions">
-            <a class="button primary" href="ranking/">Explore the ranking</a>
-            <a class="button secondary" href="arena/">Enter Resyst Arena</a>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <p class="kicker">Independent model evaluation from Resyst Labs</p>
+            <h1 id="hero-title">AI model benchmarks, with receipts.</h1>
+            <p class="hero-lead">
+              Every ranked model is measured on agentic discipline, software engineering, and Hard Intelligence, and every score is published beside the data that produced it. Resyst Arena adds turn-by-turn duels you can replay.
+            </p>
+            <div class="hero-actions">
+              <a class="button primary" href="ranking/">Explore the ranking</a>
+              <a class="button secondary" href="arena/">Enter Resyst Arena</a>
+            </div>
           </div>
+
+          <aside class="leader-plate" aria-label="Current leader">
+            <span class="plate-label">Current leader</span>
+            <strong id="leader-name" class="plate-name">DeepSeek V4.1 Flash</strong>
+            <span class="plate-score"><b id="leader-score-value">89.15</b><i>overall</i></span>
+            <small id="leader-score" class="plate-basis">OpenCode Go relay · Full + SWE + Hard measured</small>
+            <div id="leader-lanes"><dl class="plate-lanes">
+        <div><dt>Full</dt><dd>89.83<i class="micro-bar" style="--v:89.8%" aria-hidden="true"></i></dd></div><div><dt>SWE</dt><dd>89.52<i class="micro-bar" style="--v:89.5%" aria-hidden="true"></i></dd></div><div><dt>Hard Intelligence</dt><dd>88.11<i class="micro-bar" style="--v:88.1%" aria-hidden="true"></i></dd></div>
+      </dl></div>
+          </aside>
         </div>
 
-        <div class="hero-instrument" aria-label="Live benchmark instrument summary">
-          <div class="instrument-orbit" aria-hidden="true">
-            <div class="orbit-ring ring-a"></div>
-            <div class="orbit-ring ring-b"></div>
-            <div class="orbit-core">✦</div>
-          </div>
-          <div class="instrument-panel glass-panel">
-            <span class="panel-label">Current leader</span>
-            <strong id="leader-name">DeepSeek V4.1 Flash</strong>
-            <small id="leader-score">Overall 89.15 · OpenCode Go relay · Full + SWE + Hard measured</small>
-          </div>
-          <div class="instrument-strip">
-            <div>
-              <span id="model-count">27</span>
-              <small>ranked entrants</small>
-            </div>
-            <div>
-              <span id="arena-count">5</span>
-              <small>Arena matches</small>
-            </div>
-            <div>
-              <span id="data-date">Sep 25, 2026</span>
-              <small>data refresh</small>
-            </div>
-          </div>
+        <figure class="fig spectrum-fig" aria-labelledby="spectrum-caption">
+          <figcaption id="spectrum-caption">
+            <span class="fig-n">Figure 1</span>
+            <span class="fig-title">Overall score spectrum</span>
+            <span class="fig-note">Every ranked model at its overall score. Gold marks API-backed systems, cyan marks local hardware. Hover or focus a mark for the model.</span>
+          </figcaption>
+          <div id="score-spectrum" class="spectrum"><div class="spectrum-plot" style="--levels:6">
+      <div class="spectrum-axis" aria-hidden="true"><span style="--x:4.55%"><i></i>50</span><span style="--x:27.27%"><i></i>60</span><span style="--x:50.00%"><i></i>70</span><span style="--x:72.73%"><i></i>80</span><span style="--x:95.45%"><i></i>90</span></div>
+      <ul class="spectrum-marks" aria-label="Ranked models by overall score">
+        <li style="--x:4.79%;--level:0;--i:0"><a class="spectrum-mark is-local" href="models/ornith-35b-q4km-vulkan-fit-local/" data-rank="27" data-label="#27 Ornith‑1.0‑35B Q4_K_M 50.11" aria-label="Rank 27, Ornith‑1.0‑35B Q4_K_M, overall 50.11"></a></li>
+        <li style="--x:11.04%;--level:0;--i:1"><a class="spectrum-mark is-local" href="models/qwythos-9b-q8-vulkan-local/" data-rank="26" data-label="#26 Qwythos‑9B Claude Mythos Q8_0 52.86" aria-label="Rank 26, Qwythos‑9B Claude Mythos Q8_0, overall 52.86"></a></li>
+        <li style="--x:21.86%;--level:0;--i:2"><a class="spectrum-mark is-local" href="models/gemma4-12b-coder-fable5-composer25-q4km-local/" data-rank="25" data-label="#25 Gemma4‑12B‑Coder Fable5/Composer2.5 Q4_K_M 57.62" aria-label="Rank 25, Gemma4‑12B‑Coder Fable5/Composer2.5 Q4_K_M, overall 57.62"></a></li>
+        <li style="--x:35.10%;--level:0;--i:3"><a class="spectrum-mark" href="models/nemotron-3-ultra-openrouter-xhigh/" data-rank="24" data-label="#24 NVIDIA Nemotron 3 Ultra 63.45" aria-label="Rank 24, NVIDIA Nemotron 3 Ultra, overall 63.45"></a></li>
+        <li style="--x:43.54%;--level:0;--i:4"><a class="spectrum-mark" href="models/step-3.7-flash-openrouter-xhigh/" data-rank="23" data-label="#23 Step 3.7 Flash 67.16" aria-label="Rank 23, Step 3.7 Flash, overall 67.16"></a></li>
+        <li style="--x:45.86%;--level:1;--i:5"><a class="spectrum-mark" href="models/kimi-k2.7-code-openrouter-xhigh/" data-rank="22" data-label="#22 Kimi K2.7 Code 68.18" aria-label="Rank 22, Kimi K2.7 Code, overall 68.18"></a></li>
+        <li style="--x:51.16%;--level:0;--i:6"><a class="spectrum-mark" href="models/minimax-m3-direct-anthropic/" data-rank="21" data-label="#21 MiniMax M3 Direct Plus 70.51" aria-label="Rank 21, MiniMax M3 Direct Plus, overall 70.51"></a></li>
+        <li style="--x:61.35%;--level:0;--i:7"><a class="spectrum-mark" href="models/gpt-6-luna-chatgpt-codex-xhigh/" data-rank="20" data-label="#20 GPT‑6 Luna 74.99" aria-label="Rank 20, GPT‑6 Luna, overall 74.99"></a></li>
+        <li style="--x:63.85%;--level:1;--i:8"><a class="spectrum-mark" href="models/gpt-6-sol-chatgpt-codex-xhigh/" data-rank="19" data-label="#19 GPT‑6 Sol 76.09" aria-label="Rank 19, GPT‑6 Sol, overall 76.09"></a></li>
+        <li style="--x:66.34%;--level:0;--i:9"><a class="spectrum-mark" href="models/minimax-m3-openrouter-xhigh/" data-rank="18" data-label="#18 MiniMax M3 77.19" aria-label="Rank 18, MiniMax M3, overall 77.19"></a></li>
+        <li style="--x:67.09%;--level:1;--i:10"><a class="spectrum-mark" href="models/qwen3.7-max-openrouter-xhigh/" data-rank="17" data-label="#17 Qwen3.7 Max 77.52" aria-label="Rank 17, Qwen3.7 Max, overall 77.52"></a></li>
+        <li style="--x:68.83%;--level:2;--i:11"><a class="spectrum-mark" href="models/gpt-6-astra-chatgpt-codex-xhigh/" data-rank="16" data-label="#16 GPT‑6 Astra 78.29" aria-label="Rank 16, GPT‑6 Astra, overall 78.29"></a></li>
+        <li style="--x:71.30%;--level:0;--i:12"><a class="spectrum-mark" href="models/deepseek-v4-pro-direct/" data-rank="15" data-label="#15 DeepSeek V4 Pro 79.37" aria-label="Rank 15, DeepSeek V4 Pro, overall 79.37"></a></li>
+        <li style="--x:73.73%;--level:1;--i:13"><a class="spectrum-mark" href="models/claude-sonnet-5-openrouter-xhigh/" data-rank="14" data-label="#14 Claude Sonnet 5 80.44" aria-label="Rank 14, Claude Sonnet 5, overall 80.44"></a></li>
+        <li style="--x:73.87%;--level:0;--i:14"><a class="spectrum-mark" href="models/glm-5.2-openrouter-xhigh/" data-rank="13" data-label="#13 GLM‑5.2 80.50" aria-label="Rank 13, GLM‑5.2, overall 80.50"></a></li>
+        <li style="--x:73.93%;--level:2;--i:15"><a class="spectrum-mark" href="models/claude-fable-5-1-claude-max-xhigh/" data-rank="12" data-label="#12 Claude Fable 5.1 80.53" aria-label="Rank 12, Claude Fable 5.1, overall 80.53"></a></li>
+        <li style="--x:74.71%;--level:3;--i:16"><a class="spectrum-mark" href="models/claude-opus-5-5-claude-max-xhigh/" data-rank="11" data-label="#11 Claude Opus 5.5 80.87" aria-label="Rank 11, Claude Opus 5.5, overall 80.87"></a></li>
+        <li style="--x:75.34%;--level:4;--i:17"><a class="spectrum-mark" href="models/gpt-5.6-luna-openrouter-xhigh/" data-rank="10" data-label="#10 GPT‑5.6 Luna 81.15" aria-label="Rank 10, GPT‑5.6 Luna, overall 81.15"></a></li>
+        <li style="--x:75.72%;--level:5;--i:18"><a class="spectrum-mark" href="models/glm-5.3-flash-zai-coding-xhigh/" data-rank="9" data-label="#9 GLM 5.3 Flash 81.32" aria-label="Rank 9, GLM 5.3 Flash, overall 81.32"></a></li>
+        <li style="--x:77.31%;--level:0;--i:19"><a class="spectrum-mark" href="models/gemini-3.5-flash-openrouter/" data-rank="8" data-label="#8 Gemini 3.5 Flash 82.02" aria-label="Rank 8, Gemini 3.5 Flash, overall 82.02"></a></li>
+        <li style="--x:77.46%;--level:1;--i:20"><a class="spectrum-mark" href="models/claude-fable-5-openrouter-xhigh/" data-rank="7" data-label="#7 Claude Fable 5 82.08" aria-label="Rank 7, Claude Fable 5, overall 82.08"></a></li>
+        <li style="--x:78.95%;--level:2;--i:21"><a class="spectrum-mark" href="models/claude-opus-4.8-openrouter-xhigh/" data-rank="6" data-label="#6 Claude Opus 4.8 82.74" aria-label="Rank 6, Claude Opus 4.8, overall 82.74"></a></li>
+        <li style="--x:81.60%;--level:0;--i:22"><a class="spectrum-mark" href="models/gpt-5.6-sol-openrouter-xhigh/" data-rank="5" data-label="#5 GPT‑5.6 Sol 83.91" aria-label="Rank 5, GPT‑5.6 Sol, overall 83.91"></a></li>
+        <li style="--x:82.61%;--level:1;--i:23"><a class="spectrum-mark" href="models/deepseek-v4-flash-direct/" data-rank="4" data-label="#4 DeepSeek V4 Flash 84.35" aria-label="Rank 4, DeepSeek V4 Flash, overall 84.35"></a></li>
+        <li style="--x:84.20%;--level:2;--i:24"><a class="spectrum-mark is-top" href="models/gpt-5.5-chatgpt-codex-xhigh/" data-rank="3" data-label="#3 GPT‑5.5 85.05" aria-label="Rank 3, GPT‑5.5, overall 85.05"></a></li>
+        <li style="--x:87.99%;--level:0;--i:25"><a class="spectrum-mark is-top" href="models/gpt-5.6-terra-openrouter-xhigh/" data-rank="2" data-label="#2 GPT‑5.6 Terra 86.72" aria-label="Rank 2, GPT‑5.6 Terra, overall 86.72"></a></li>
+        <li style="--x:93.53%;--level:0;--i:26"><a class="spectrum-mark is-top is-leader" href="models/deepseek-v4.1-flash-opencode-go/" data-rank="1" data-label="#1 DeepSeek V4.1 Flash 89.15" aria-label="Rank 1, DeepSeek V4.1 Flash, overall 89.15"></a></li>
+      </ul>
+    </div>
+    <ol class="spectrum-key" aria-label="Top three">
+      <li><b>1</b><a href="models/deepseek-v4.1-flash-opencode-go/">DeepSeek V4.1 Flash</a><span>89.15</span></li>
+      <li><b>2</b><a href="models/gpt-5.6-terra-openrouter-xhigh/">GPT‑5.6 Terra</a><span>86.72</span></li>
+      <li><b>3</b><a href="models/gpt-5.5-chatgpt-codex-xhigh/">GPT‑5.5</a><span>85.05</span></li>
+    </ol></div>
+        </figure>
+
+        <dl class="hero-strip" aria-label="Benchmark summary">
+          <div><dd id="model-count">27</dd><dt>ranked models</dt></div>
+          <div><dd>3</dd><dt>scored lanes</dt></div>
+          <div><dd id="arena-count">5</dd><dt>Arena replays</dt></div>
+          <div><dd id="data-date">Sep 25, 2026</dd><dt>data refresh</dt></div>
+        </dl>
+      </section>
+
+      <section class="lanes section" aria-labelledby="lanes-title">
+        <div class="section-head">
+          <h2 id="lanes-title">What is measured</h2>
+          <p>Three scored lanes and one tactical testbed. Each strip plots every ranked model on that lane; the brightest mark is the lane leader.</p>
         </div>
+        <div id="lane-strips" class="lane-strips"><article class="lane-row">
+      <div class="lane-name">
+        <h3>Agentic discipline</h3>
+        <span class="lane-tag">Full / Agentic lane</span>
+        <p>Structured outputs, tool-use boundaries, instruction following, grounded reasoning, and hallucination resistance.</p>
+      </div>
+      <div class="lane-strip">
+        <span class="visually-hidden">27 models measured, from 61.6 to 90.6.</span>
+        <span class="lane-axis" aria-hidden="true"><i>30</i><i>100</i></span>
+        <a class="lane-tick" style="--x:85.47%" href="models/deepseek-v4.1-flash-opencode-go/" data-label="#2 DeepSeek V4.1 Flash 89.83" aria-label="DeepSeek V4.1 Flash, Full / Agentic lane 89.83, lane rank 2"></a>
+        <a class="lane-tick" style="--x:79.84%" href="models/gpt-5.6-terra-openrouter-xhigh/" data-label="#5 GPT‑5.6 Terra 85.89" aria-label="GPT‑5.6 Terra, Full / Agentic lane 85.89, lane rank 5"></a>
+        <a class="lane-tick" style="--x:77.61%" href="models/gpt-5.5-chatgpt-codex-xhigh/" data-label="#7 GPT‑5.5 84.33" aria-label="GPT‑5.5, Full / Agentic lane 84.33, lane rank 7"></a>
+        <a class="lane-tick is-leader" style="--x:86.60%" href="models/deepseek-v4-flash-direct/" data-label="#1 DeepSeek V4 Flash 90.62" aria-label="DeepSeek V4 Flash, Full / Agentic lane 90.62, lane rank 1"></a>
+        <a class="lane-tick" style="--x:77.56%" href="models/gpt-5.6-sol-openrouter-xhigh/" data-label="#8 GPT‑5.6 Sol 84.29" aria-label="GPT‑5.6 Sol, Full / Agentic lane 84.29, lane rank 8"></a>
+        <a class="lane-tick" style="--x:68.81%" href="models/claude-opus-4.8-openrouter-xhigh/" data-label="#14 Claude Opus 4.8 78.17" aria-label="Claude Opus 4.8, Full / Agentic lane 78.17, lane rank 14"></a>
+        <a class="lane-tick" style="--x:60.07%" href="models/claude-fable-5-openrouter-xhigh/" data-label="#22 Claude Fable 5 72.05" aria-label="Claude Fable 5, Full / Agentic lane 72.05, lane rank 22"></a>
+        <a class="lane-tick" style="--x:78.16%" href="models/gemini-3.5-flash-openrouter/" data-label="#6 Gemini 3.5 Flash 84.71" aria-label="Gemini 3.5 Flash, Full / Agentic lane 84.71, lane rank 6"></a>
+        <a class="lane-tick" style="--x:66.41%" href="models/glm-5.3-flash-zai-coding-xhigh/" data-label="#19 GLM 5.3 Flash 76.49" aria-label="GLM 5.3 Flash, Full / Agentic lane 76.49, lane rank 19"></a>
+        <a class="lane-tick" style="--x:81.34%" href="models/gpt-5.6-luna-openrouter-xhigh/" data-label="#4 GPT‑5.6 Luna 86.94" aria-label="GPT‑5.6 Luna, Full / Agentic lane 86.94, lane rank 4"></a>
+        <a class="lane-tick" style="--x:73.63%" href="models/claude-opus-5-5-claude-max-xhigh/" data-label="#10 Claude Opus 5.5 81.54" aria-label="Claude Opus 5.5, Full / Agentic lane 81.54, lane rank 10"></a>
+        <a class="lane-tick" style="--x:65.49%" href="models/claude-fable-5-1-claude-max-xhigh/" data-label="#20 Claude Fable 5.1 75.84" aria-label="Claude Fable 5.1, Full / Agentic lane 75.84, lane rank 20"></a>
+        <a class="lane-tick" style="--x:67.64%" href="models/glm-5.2-openrouter-xhigh/" data-label="#17 GLM‑5.2 77.35" aria-label="GLM‑5.2, Full / Agentic lane 77.35, lane rank 17"></a>
+        <a class="lane-tick" style="--x:66.74%" href="models/claude-sonnet-5-openrouter-xhigh/" data-label="#18 Claude Sonnet 5 76.72" aria-label="Claude Sonnet 5, Full / Agentic lane 76.72, lane rank 18"></a>
+        <a class="lane-tick" style="--x:71.51%" href="models/deepseek-v4-pro-direct/" data-label="#11 DeepSeek V4 Pro 80.06" aria-label="DeepSeek V4 Pro, Full / Agentic lane 80.06, lane rank 11"></a>
+        <a class="lane-tick" style="--x:68.37%" href="models/gpt-6-astra-chatgpt-codex-xhigh/" data-label="#16 GPT‑6 Astra 77.86" aria-label="GPT‑6 Astra, Full / Agentic lane 77.86, lane rank 16"></a>
+        <a class="lane-tick" style="--x:62.39%" href="models/qwen3.7-max-openrouter-xhigh/" data-label="#21 Qwen3.7 Max 73.67" aria-label="Qwen3.7 Max, Full / Agentic lane 73.67, lane rank 21"></a>
+        <a class="lane-tick" style="--x:68.46%" href="models/minimax-m3-openrouter-xhigh/" data-label="#15 MiniMax M3 77.92" aria-label="MiniMax M3, Full / Agentic lane 77.92, lane rank 15"></a>
+        <a class="lane-tick" style="--x:75.90%" href="models/gpt-6-sol-chatgpt-codex-xhigh/" data-label="#9 GPT‑6 Sol 83.13" aria-label="GPT‑6 Sol, Full / Agentic lane 83.13, lane rank 9"></a>
+        <a class="lane-tick" style="--x:69.39%" href="models/gpt-6-luna-chatgpt-codex-xhigh/" data-label="#13 GPT‑6 Luna 78.57" aria-label="GPT‑6 Luna, Full / Agentic lane 78.57, lane rank 13"></a>
+        <a class="lane-tick" style="--x:59.94%" href="models/minimax-m3-direct-anthropic/" data-label="#23 MiniMax M3 Direct Plus 71.96" aria-label="MiniMax M3 Direct Plus, Full / Agentic lane 71.96, lane rank 23"></a>
+        <a class="lane-tick" style="--x:70.67%" href="models/kimi-k2.7-code-openrouter-xhigh/" data-label="#12 Kimi K2.7 Code 79.47" aria-label="Kimi K2.7 Code, Full / Agentic lane 79.47, lane rank 12"></a>
+        <a class="lane-tick" style="--x:81.56%" href="models/step-3.7-flash-openrouter-xhigh/" data-label="#3 Step 3.7 Flash 87.09" aria-label="Step 3.7 Flash, Full / Agentic lane 87.09, lane rank 3"></a>
+        <a class="lane-tick" style="--x:53.07%" href="models/nemotron-3-ultra-openrouter-xhigh/" data-label="#26 NVIDIA Nemotron 3 Ultra 67.15" aria-label="NVIDIA Nemotron 3 Ultra, Full / Agentic lane 67.15, lane rank 26"></a>
+        <a class="lane-tick is-local" style="--x:56.99%" href="models/gemma4-12b-coder-fable5-composer25-q4km-local/" data-label="#24 Gemma4‑12B‑Coder Fable5/Composer2.5 Q4_K_M 69.89" aria-label="Gemma4‑12B‑Coder Fable5/Composer2.5 Q4_K_M, Full / Agentic lane 69.89, lane rank 24"></a>
+        <a class="lane-tick is-local" style="--x:54.50%" href="models/qwythos-9b-q8-vulkan-local/" data-label="#25 Qwythos‑9B Claude Mythos Q8_0 68.15" aria-label="Qwythos‑9B Claude Mythos Q8_0, Full / Agentic lane 68.15, lane rank 25"></a>
+        <a class="lane-tick is-local" style="--x:45.11%" href="models/ornith-35b-q4km-vulkan-fit-local/" data-label="#27 Ornith‑1.0‑35B Q4_K_M 61.58" aria-label="Ornith‑1.0‑35B Q4_K_M, Full / Agentic lane 61.58, lane rank 27"></a>
+      </div>
+      <div class="lane-leader">
+        <span>Lane leader</span>
+        <strong><a href="models/deepseek-v4-flash-direct/">DeepSeek V4 Flash</a></strong>
+        <b>90.6</b>
+      </div>
+    </article>
+<article class="lane-row">
+      <div class="lane-name">
+        <h3>Software execution</h3>
+        <span class="lane-tag">SWE MVP lane</span>
+        <p>Practical implementation quality, final-answer usefulness, source handling, and architecture cleanliness.</p>
+      </div>
+      <div class="lane-strip">
+        <span class="visually-hidden">27 models measured, from 39.2 to 89.6.</span>
+        <span class="lane-axis" aria-hidden="true"><i>30</i><i>100</i></span>
+        <a class="lane-tick" style="--x:85.03%" href="models/deepseek-v4.1-flash-opencode-go/" data-label="#2 DeepSeek V4.1 Flash 89.52" aria-label="DeepSeek V4.1 Flash, SWE MVP lane 89.52, lane rank 2"></a>
+        <a class="lane-tick" style="--x:80.11%" href="models/gpt-5.6-terra-openrouter-xhigh/" data-label="#7 GPT‑5.6 Terra 86.08" aria-label="GPT‑5.6 Terra, SWE MVP lane 86.08, lane rank 7"></a>
+        <a class="lane-tick" style="--x:75.04%" href="models/gpt-5.5-chatgpt-codex-xhigh/" data-label="#8 GPT‑5.5 82.53" aria-label="GPT‑5.5, SWE MVP lane 82.53, lane rank 8"></a>
+        <a class="lane-tick" style="--x:81.36%" href="models/deepseek-v4-flash-direct/" data-label="#5 DeepSeek V4 Flash 86.95" aria-label="DeepSeek V4 Flash, SWE MVP lane 86.95, lane rank 5"></a>
+        <a class="lane-tick" style="--x:65.89%" href="models/gpt-5.6-sol-openrouter-xhigh/" data-label="#13 GPT‑5.6 Sol 76.12" aria-label="GPT‑5.6 Sol, SWE MVP lane 76.12, lane rank 13"></a>
+        <a class="lane-tick" style="--x:83.81%" href="models/claude-opus-4.8-openrouter-xhigh/" data-label="#4 Claude Opus 4.8 88.67" aria-label="Claude Opus 4.8, SWE MVP lane 88.67, lane rank 4"></a>
+        <a class="lane-tick" style="--x:73.46%" href="models/claude-fable-5-openrouter-xhigh/" data-label="#9 Claude Fable 5 81.42" aria-label="Claude Fable 5, SWE MVP lane 81.42, lane rank 9"></a>
+        <a class="lane-tick" style="--x:62.27%" href="models/gemini-3.5-flash-openrouter/" data-label="#15 Gemini 3.5 Flash 73.59" aria-label="Gemini 3.5 Flash, SWE MVP lane 73.59, lane rank 15"></a>
+        <a class="lane-tick" style="--x:59.54%" href="models/glm-5.3-flash-zai-coding-xhigh/" data-label="#16 GLM 5.3 Flash 71.68" aria-label="GLM 5.3 Flash, SWE MVP lane 71.68, lane rank 16"></a>
+        <a class="lane-tick" style="--x:65.49%" href="models/gpt-5.6-luna-openrouter-xhigh/" data-label="#14 GPT‑5.6 Luna 75.84" aria-label="GPT‑5.6 Luna, SWE MVP lane 75.84, lane rank 14"></a>
+        <a class="lane-tick" style="--x:49.97%" href="models/claude-opus-5-5-claude-max-xhigh/" data-label="#19 Claude Opus 5.5 64.98" aria-label="Claude Opus 5.5, SWE MVP lane 64.98, lane rank 19"></a>
+        <a class="lane-tick" style="--x:57.03%" href="models/claude-fable-5-1-claude-max-xhigh/" data-label="#17 Claude Fable 5.1 69.92" aria-label="Claude Fable 5.1, SWE MVP lane 69.92, lane rank 17"></a>
+        <a class="lane-tick is-leader" style="--x:85.11%" href="models/glm-5.2-openrouter-xhigh/" data-label="#1 GLM‑5.2 89.58" aria-label="GLM‑5.2, SWE MVP lane 89.58, lane rank 1"></a>
+        <a class="lane-tick" style="--x:68.69%" href="models/claude-sonnet-5-openrouter-xhigh/" data-label="#12 Claude Sonnet 5 78.08" aria-label="Claude Sonnet 5, SWE MVP lane 78.08, lane rank 12"></a>
+        <a class="lane-tick" style="--x:70.97%" href="models/deepseek-v4-pro-direct/" data-label="#11 DeepSeek V4 Pro 79.68" aria-label="DeepSeek V4 Pro, SWE MVP lane 79.68, lane rank 11"></a>
+        <a class="lane-tick" style="--x:45.60%" href="models/gpt-6-astra-chatgpt-codex-xhigh/" data-label="#21 GPT‑6 Astra 61.92" aria-label="GPT‑6 Astra, SWE MVP lane 61.92, lane rank 21"></a>
+        <a class="lane-tick" style="--x:84.27%" href="models/qwen3.7-max-openrouter-xhigh/" data-label="#3 Qwen3.7 Max 88.99" aria-label="Qwen3.7 Max, SWE MVP lane 88.99, lane rank 3"></a>
+        <a class="lane-tick" style="--x:81.26%" href="models/minimax-m3-openrouter-xhigh/" data-label="#6 MiniMax M3 86.88" aria-label="MiniMax M3, SWE MVP lane 86.88, lane rank 6"></a>
+        <a class="lane-tick" style="--x:32.23%" href="models/gpt-6-sol-chatgpt-codex-xhigh/" data-label="#25 GPT‑6 Sol 52.56" aria-label="GPT‑6 Sol, SWE MVP lane 52.56, lane rank 25"></a>
+        <a class="lane-tick" style="--x:46.56%" href="models/gpt-6-luna-chatgpt-codex-xhigh/" data-label="#20 GPT‑6 Luna 62.59" aria-label="GPT‑6 Luna, SWE MVP lane 62.59, lane rank 20"></a>
+        <a class="lane-tick" style="--x:53.96%" href="models/minimax-m3-direct-anthropic/" data-label="#18 MiniMax M3 Direct Plus 67.77" aria-label="MiniMax M3 Direct Plus, SWE MVP lane 67.77, lane rank 18"></a>
+        <a class="lane-tick" style="--x:40.87%" href="models/kimi-k2.7-code-openrouter-xhigh/" data-label="#23 Kimi K2.7 Code 58.61" aria-label="Kimi K2.7 Code, SWE MVP lane 58.61, lane rank 23"></a>
+        <a class="lane-tick" style="--x:71.99%" href="models/step-3.7-flash-openrouter-xhigh/" data-label="#10 Step 3.7 Flash 80.39" aria-label="Step 3.7 Flash, SWE MVP lane 80.39, lane rank 10"></a>
+        <a class="lane-tick" style="--x:40.90%" href="models/nemotron-3-ultra-openrouter-xhigh/" data-label="#22 NVIDIA Nemotron 3 Ultra 58.63" aria-label="NVIDIA Nemotron 3 Ultra, SWE MVP lane 58.63, lane rank 22"></a>
+        <a class="lane-tick is-local" style="--x:34.30%" href="models/gemma4-12b-coder-fable5-composer25-q4km-local/" data-label="#24 Gemma4‑12B‑Coder Fable5/Composer2.5 Q4_K_M 54.01" aria-label="Gemma4‑12B‑Coder Fable5/Composer2.5 Q4_K_M, SWE MVP lane 54.01, lane rank 24"></a>
+        <a class="lane-tick is-local" style="--x:23.59%" href="models/qwythos-9b-q8-vulkan-local/" data-label="#26 Qwythos‑9B Claude Mythos Q8_0 46.51" aria-label="Qwythos‑9B Claude Mythos Q8_0, SWE MVP lane 46.51, lane rank 26"></a>
+        <a class="lane-tick is-local" style="--x:13.09%" href="models/ornith-35b-q4km-vulkan-fit-local/" data-label="#27 Ornith‑1.0‑35B Q4_K_M 39.16" aria-label="Ornith‑1.0‑35B Q4_K_M, SWE MVP lane 39.16, lane rank 27"></a>
+      </div>
+      <div class="lane-leader">
+        <span>Lane leader</span>
+        <strong><a href="models/glm-5.2-openrouter-xhigh/">GLM‑5.2</a></strong>
+        <b>89.6</b>
+      </div>
+    </article>
+<article class="lane-row">
+      <div class="lane-name">
+        <h3>Hard Intelligence</h3>
+        <span class="lane-tag">Hard Intelligence lane</span>
+        <p>Active inquiry, online adaptation, evidence-driven self-repair, and authority integrity under a public hard-reasoning diagnostic.</p>
+      </div>
+      <div class="lane-strip">
+        <span class="visually-hidden">27 models measured, from 34.0 to 96.1.</span>
+        <span class="lane-axis" aria-hidden="true"><i>30</i><i>100</i></span>
+        <a class="lane-tick" style="--x:83.01%" href="models/deepseek-v4.1-flash-opencode-go/" data-label="#10 DeepSeek V4.1 Flash 88.11" aria-label="DeepSeek V4.1 Flash, Hard Intelligence lane 88.11, lane rank 10"></a>
+        <a class="lane-tick" style="--x:83.12%" href="models/gpt-5.6-terra-openrouter-xhigh/" data-label="#9 GPT‑5.6 Terra 88.18" aria-label="GPT‑5.6 Terra, Hard Intelligence lane 88.18, lane rank 9"></a>
+        <a class="lane-tick" style="--x:83.26%" href="models/gpt-5.5-chatgpt-codex-xhigh/" data-label="#8 GPT‑5.5 88.28" aria-label="GPT‑5.5, Hard Intelligence lane 88.28, lane rank 8"></a>
+        <a class="lane-tick" style="--x:64.97%" href="models/deepseek-v4-flash-direct/" data-label="#17 DeepSeek V4 Flash 75.48" aria-label="DeepSeek V4 Flash, Hard Intelligence lane 75.48, lane rank 17"></a>
+        <a class="lane-tick" style="--x:87.58%" href="models/gpt-5.6-sol-openrouter-xhigh/" data-label="#7 GPT‑5.6 Sol 91.31" aria-label="GPT‑5.6 Sol, Hard Intelligence lane 91.31, lane rank 7"></a>
+        <a class="lane-tick" style="--x:73.39%" href="models/claude-opus-4.8-openrouter-xhigh/" data-label="#14 Claude Opus 4.8 81.37" aria-label="Claude Opus 4.8, Hard Intelligence lane 81.37, lane rank 14"></a>
+        <a class="lane-tick" style="--x:89.68%" href="models/claude-fable-5-openrouter-xhigh/" data-label="#5 Claude Fable 5 92.78" aria-label="Claude Fable 5, Hard Intelligence lane 92.78, lane rank 5"></a>
+        <a class="lane-tick" style="--x:82.50%" href="models/gemini-3.5-flash-openrouter/" data-label="#11 Gemini 3.5 Flash 87.75" aria-label="Gemini 3.5 Flash, Hard Intelligence lane 87.75, lane rank 11"></a>
+        <a class="lane-tick" style="--x:93.97%" href="models/glm-5.3-flash-zai-coding-xhigh/" data-label="#3 GLM 5.3 Flash 95.78" aria-label="GLM 5.3 Flash, Hard Intelligence lane 95.78, lane rank 3"></a>
+        <a class="lane-tick" style="--x:72.38%" href="models/gpt-5.6-luna-openrouter-xhigh/" data-label="#15 GPT‑5.6 Luna 80.66" aria-label="GPT‑5.6 Luna, Hard Intelligence lane 80.66, lane rank 15"></a>
+        <a class="lane-tick is-leader" style="--x:94.42%" href="models/claude-opus-5-5-claude-max-xhigh/" data-label="#1 Claude Opus 5.5 96.10" aria-label="Claude Opus 5.5, Hard Intelligence lane 96.10, lane rank 1"></a>
+        <a class="lane-tick" style="--x:94.03%" href="models/claude-fable-5-1-claude-max-xhigh/" data-label="#2 Claude Fable 5.1 95.82" aria-label="Claude Fable 5.1, Hard Intelligence lane 95.82, lane rank 2"></a>
+        <a class="lane-tick" style="--x:63.69%" href="models/glm-5.2-openrouter-xhigh/" data-label="#18 GLM‑5.2 74.58" aria-label="GLM‑5.2, Hard Intelligence lane 74.58, lane rank 18"></a>
+        <a class="lane-tick" style="--x:80.75%" href="models/claude-sonnet-5-openrouter-xhigh/" data-label="#12 Claude Sonnet 5 86.53" aria-label="Claude Sonnet 5, Hard Intelligence lane 86.53, lane rank 12"></a>
+        <a class="lane-tick" style="--x:69.11%" href="models/deepseek-v4-pro-direct/" data-label="#16 DeepSeek V4 Pro 78.38" aria-label="DeepSeek V4 Pro, Hard Intelligence lane 78.38, lane rank 16"></a>
+        <a class="lane-tick" style="--x:92.97%" href="models/gpt-6-astra-chatgpt-codex-xhigh/" data-label="#4 GPT‑6 Astra 95.08" aria-label="GPT‑6 Astra, Hard Intelligence lane 95.08, lane rank 4"></a>
+        <a class="lane-tick" style="--x:56.99%" href="models/qwen3.7-max-openrouter-xhigh/" data-label="#20 Qwen3.7 Max 69.90" aria-label="Qwen3.7 Max, Hard Intelligence lane 69.90, lane rank 20"></a>
+        <a class="lane-tick" style="--x:52.53%" href="models/minimax-m3-openrouter-xhigh/" data-label="#21 MiniMax M3 66.77" aria-label="MiniMax M3, Hard Intelligence lane 66.77, lane rank 21"></a>
+        <a class="lane-tick" style="--x:89.41%" href="models/gpt-6-sol-chatgpt-codex-xhigh/" data-label="#6 GPT‑6 Sol 92.59" aria-label="GPT‑6 Sol, Hard Intelligence lane 92.59, lane rank 6"></a>
+        <a class="lane-tick" style="--x:76.89%" href="models/gpt-6-luna-chatgpt-codex-xhigh/" data-label="#13 GPT‑6 Luna 83.82" aria-label="GPT‑6 Luna, Hard Intelligence lane 83.82, lane rank 13"></a>
+        <a class="lane-tick" style="--x:59.71%" href="models/minimax-m3-direct-anthropic/" data-label="#19 MiniMax M3 Direct Plus 71.80" aria-label="MiniMax M3 Direct Plus, Hard Intelligence lane 71.80, lane rank 19"></a>
+        <a class="lane-tick" style="--x:52.08%" href="models/kimi-k2.7-code-openrouter-xhigh/" data-label="#22 Kimi K2.7 Code 66.46" aria-label="Kimi K2.7 Code, Hard Intelligence lane 66.46, lane rank 22"></a>
+        <a class="lane-tick" style="--x:5.70%" href="models/step-3.7-flash-openrouter-xhigh/" data-label="#27 Step 3.7 Flash 33.99" aria-label="Step 3.7 Flash, Hard Intelligence lane 33.99, lane rank 27"></a>
+        <a class="lane-tick" style="--x:49.37%" href="models/nemotron-3-ultra-openrouter-xhigh/" data-label="#23 NVIDIA Nemotron 3 Ultra 64.56" aria-label="NVIDIA Nemotron 3 Ultra, Hard Intelligence lane 64.56, lane rank 23"></a>
+        <a class="lane-tick is-local" style="--x:27.08%" href="models/gemma4-12b-coder-fable5-composer25-q4km-local/" data-label="#25 Gemma4‑12B‑Coder Fable5/Composer2.5 Q4_K_M 48.96" aria-label="Gemma4‑12B‑Coder Fable5/Composer2.5 Q4_K_M, Hard Intelligence lane 48.96, lane rank 25"></a>
+        <a class="lane-tick is-local" style="--x:19.87%" href="models/qwythos-9b-q8-vulkan-local/" data-label="#26 Qwythos‑9B Claude Mythos Q8_0 43.91" aria-label="Qwythos‑9B Claude Mythos Q8_0, Hard Intelligence lane 43.91, lane rank 26"></a>
+        <a class="lane-tick is-local" style="--x:27.98%" href="models/ornith-35b-q4km-vulkan-fit-local/" data-label="#24 Ornith‑1.0‑35B Q4_K_M 49.58" aria-label="Ornith‑1.0‑35B Q4_K_M, Hard Intelligence lane 49.58, lane rank 24"></a>
+      </div>
+      <div class="lane-leader">
+        <span>Lane leader</span>
+        <strong><a href="models/claude-opus-5-5-claude-max-xhigh/">Claude Opus 5.5</a></strong>
+        <b>96.1</b>
+      </div>
+    </article>
+<article class="lane-row lane-row-arena">
+      <div class="lane-name">
+        <h3>Resyst Arena</h3>
+        <span class="lane-tag">Tactical testbed</span>
+        <p>Turn-based spatial duels where legal action discipline and tactical continuity are measured separately from runtime telemetry.</p>
+      </div>
+      <div class="lane-arena-facts">
+        <span><b>5</b> replays</span>
+        <span><b>3</b> encounters</span>
+        <span><b>483</b> recorded turns</span>
+      </div>
+      <div class="lane-leader">
+        <span>Replay room</span>
+        <strong><a href="arena/">Open Resyst Arena</a></strong>
+      </div>
+    </article></div>
       </section>
 
-      <section class="section-shell signal-grid" aria-label="Benchmark lanes">
-        <article class="lane-card">
-          <span>01</span>
-          <h2>Agentic discipline</h2>
-          <p>Structured outputs, tool-use boundaries, instruction following, grounded reasoning, and hallucination resistance.</p>
-        </article>
-        <article class="lane-card">
-          <span>02</span>
-          <h2>Software execution</h2>
-          <p>Practical implementation quality, final-answer usefulness, source handling, and architecture cleanliness.</p>
-        </article>
-        <article class="lane-card emphasized">
-          <span>03</span>
-          <h2>Hard Intelligence</h2>
-          <p>Active inquiry, online adaptation, self-repair, and authority integrity under a public hard-reasoning diagnostic lane.</p>
-        </article>
-        <article class="lane-card">
-          <span>04</span>
-          <h2>Resyst Arena</h2>
-          <p>Turn-based spatial duels where legal action discipline and tactical continuity are measured separately from runtime telemetry.</p>
-        </article>
-      </section>
-
-      <section id="ranking" class="section-shell ranking-section" aria-labelledby="ranking-title">
-        <div class="section-kicker">Unified ranking</div>
+      <section id="ranking" class="section ranking-section" aria-labelledby="ranking-title">
         <div class="section-head">
           <div>
             <h2 id="ranking-title">One table, visible tradeoffs.</h2>
             <p>
-              Local and API-backed systems share a single tournament view. Provider, runtime, cost, latency, reliability, and lane basis remain visible so comparisons stay honest.
+              Local and API-backed systems share a single tournament view. Provider, runtime, cost, reliability, and lane basis remain visible so comparisons stay honest.
             </p>
           </div>
           <div class="section-actions">
-            <a class="data-link" href="ranking/">Open ranking explainer</a>
+            <a class="data-link" href="ranking/">Open the ranking explainer</a>
             <a class="data-link" href="data/model-comparison.json">Download ranking JSON</a>
           </div>
         </div>
 
         <div id="podium" class="podium" aria-label="Top ranked models">
-<article class="podium-card">
+<article class="podium-card rank-1">
       <a class="podium-link" href="models/deepseek-v4.1-flash-opencode-go/" aria-label="Open benchmark result for DeepSeek V4.1 Flash"></a>
-      <span class="podium-rank">#1</span>
-      <h3>DeepSeek V4.1 Flash</h3>
-      
-      <p>OpenCode Go relay · Full + SWE + Hard measured</p>
-      <span class="podium-cta">Open result →</span>
-      <span class="podium-score">89.2</span>
+      <span class="podium-rank">1</span>
+      <div class="podium-body">
+        <h3>DeepSeek V4.1 Flash</h3>
+        
+        <p class="podium-basis">OpenCode Go relay · Full + SWE + Hard measured</p>
+      </div>
+      <span class="podium-score"><b>89.15</b><i>overall</i></span>
+      <dl class="podium-lanes">
+        <div><dt>Full</dt><dd>89.83<i class="micro-bar" style="--v:89.8%" aria-hidden="true"></i></dd></div><div><dt>SWE</dt><dd>89.52<i class="micro-bar" style="--v:89.5%" aria-hidden="true"></i></dd></div><div><dt>Hard Intelligence</dt><dd>88.11<i class="micro-bar" style="--v:88.1%" aria-hidden="true"></i></dd></div>
+      </dl>
+      <span class="podium-cta">Open result</span>
     </article>
-<article class="podium-card">
+<article class="podium-card rank-2">
       <a class="podium-link" href="models/gpt-5.6-terra-openrouter-xhigh/" aria-label="Open benchmark result for GPT‑5.6 Terra"></a>
-      <span class="podium-rank">#2</span>
-      <h3>GPT‑5.6 Terra</h3>
-      
-      <p>OpenRouter · extra-high reasoning · Full + SWE + Hard measured</p>
-      <span class="podium-cta">Open result →</span>
-      <span class="podium-score">86.7</span>
+      <span class="podium-rank">2</span>
+      <div class="podium-body">
+        <h3>GPT‑5.6 Terra</h3>
+        
+        <p class="podium-basis">OpenRouter · extra-high reasoning · Full + SWE + Hard measured</p>
+      </div>
+      <span class="podium-score"><b>86.72</b><i>overall</i></span>
+      <dl class="podium-lanes">
+        <div><dt>Full</dt><dd>85.89<i class="micro-bar" style="--v:85.9%" aria-hidden="true"></i></dd></div><div><dt>SWE</dt><dd>86.08<i class="micro-bar" style="--v:86.1%" aria-hidden="true"></i></dd></div><div><dt>Hard Intelligence</dt><dd>88.18<i class="micro-bar" style="--v:88.2%" aria-hidden="true"></i></dd></div>
+      </dl>
+      <span class="podium-cta">Open result</span>
     </article>
-<article class="podium-card">
+<article class="podium-card rank-3">
       <a class="podium-link" href="models/gpt-5.5-chatgpt-codex-xhigh/" aria-label="Open benchmark result for GPT‑5.5"></a>
-      <span class="podium-rank">#3</span>
-      <h3>GPT‑5.5</h3>
-      
-      <p>ChatGPT Codex subscription · gpt-5.5 · extra-high reasoning · Full + SWE + Hard measured</p>
-      <span class="podium-cta">Open result →</span>
-      <span class="podium-score">85.0</span>
+      <span class="podium-rank">3</span>
+      <div class="podium-body">
+        <h3>GPT‑5.5</h3>
+        
+        <p class="podium-basis">ChatGPT Codex subscription · gpt-5.5 · extra-high reasoning · Full + SWE + Hard measured</p>
+      </div>
+      <span class="podium-score"><b>85.05</b><i>overall</i></span>
+      <dl class="podium-lanes">
+        <div><dt>Full</dt><dd>84.33<i class="micro-bar" style="--v:84.3%" aria-hidden="true"></i></dd></div><div><dt>SWE</dt><dd>82.53<i class="micro-bar" style="--v:82.5%" aria-hidden="true"></i></dd></div><div><dt>Hard Intelligence</dt><dd>88.28<i class="micro-bar" style="--v:88.3%" aria-hidden="true"></i></dd></div>
+      </dl>
+      <span class="podium-cta">Open result</span>
     </article>
         </div>
 
-        <div class="table-wrap glass-panel">
-          <table aria-label="Resyst Labs model ranking">
-            <thead>
-              <tr>
-                <th>Rank</th>
-                <th>Model</th>
-                <th>Basis</th>
-                <th>Overall</th>
-                <th>Full</th>
-                <th>SWE</th>
-                <th>Hard IQ</th>
-                <th>Inquiry</th>
-                <th>Adapt</th>
-                <th>Repair</th>
-                <th>Authority</th>
-                <th>Cost</th>
-                <th>Reliability</th>
-                <th>Details</th>
-              </tr>
-            </thead>
-            <tbody id="ranking-body">
+        <figure class="fig table-fig">
+          <figcaption>
+            <span class="fig-n">Figure 2</span>
+            <span class="fig-title">Unified ranking</span>
+            <span class="fig-note">Overall is the mean of the measured lanes. Bars are drawn to the same 0 to 100 scale in every column. Hard Intelligence shows its four sub-lanes beneath the score.</span>
+          </figcaption>
+          <div class="table-wrap">
+            <table class="ranking-table" aria-label="Resyst Labs model ranking">
+              <thead>
+                <tr>
+                  <th scope="col">Rank</th>
+                  <th scope="col">Model</th>
+                  <th scope="col">Overall</th>
+                  <th scope="col">Full</th>
+                  <th scope="col">SWE</th>
+                  <th scope="col">Hard Intelligence</th>
+                  <th scope="col">Cost</th>
+                  <th scope="col">Reliability</th>
+                  <th scope="col"><span class="visually-hidden">Result page</span></th>
+                </tr>
+              </thead>
+              <tbody id="ranking-body">
 <tr>
-        <td class="rank-cell">#1</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">1</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/deepseek-v4.1-flash-opencode-go/"><strong>DeepSeek V4.1 Flash</strong></a>
           
+          <small class="model-basis">OpenCode Go relay · Full + SWE + Hard measured</small>
         </td>
-        <td>OpenCode Go relay · Full + SWE + Hard measured</td>
-        <td class="score-cell">89.15</td>
-        <td>89.83</td>
-        <td>89.52</td>
-        <td>88.11</td>
-        <td>99.75</td>
-        <td>97.34</td>
-        <td>85.34</td>
-        <td>70.00</td>
-        <td>$0.183</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/deepseek-v4.1-flash-opencode-go/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">89.15</span><i class="micro-bar" style="--v:89.2%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">89.83</span><small class="score-rank">#2</small><i class="micro-bar" style="--v:89.8%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">89.52</span><small class="score-rank">#2</small><i class="micro-bar" style="--v:89.5%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">88.11</span><small class="score-rank">#10</small><i class="micro-bar" style="--v:88.1%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 99.75, Online adaptation 97.34, Self-repair 85.34, Authority integrity 70.00" aria-label="Active inquiry 99.75, Online adaptation 97.34, Self-repair 85.34, Authority integrity 70.00"><i style="--v:99.8%"></i><i style="--v:97.3%"></i><i style="--v:85.3%"></i><i style="--v:70.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$0.183</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/deepseek-v4.1-flash-opencode-go/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#2</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">2</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/gpt-5.6-terra-openrouter-xhigh/"><strong>GPT‑5.6 Terra</strong></a>
           
+          <small class="model-basis">OpenRouter · extra-high reasoning · Full + SWE + Hard measured</small>
         </td>
-        <td>OpenRouter · extra-high reasoning · Full + SWE + Hard measured</td>
-        <td class="score-cell">86.72</td>
-        <td>85.89</td>
-        <td>86.08</td>
-        <td>88.18</td>
-        <td>99.75</td>
-        <td>97.50</td>
-        <td>85.48</td>
-        <td>70.00</td>
-        <td>$1.867</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/gpt-5.6-terra-openrouter-xhigh/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">86.72</span><i class="micro-bar" style="--v:86.7%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">85.89</span><small class="score-rank">#5</small><i class="micro-bar" style="--v:85.9%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">86.08</span><small class="score-rank">#7</small><i class="micro-bar" style="--v:86.1%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">88.18</span><small class="score-rank">#9</small><i class="micro-bar" style="--v:88.2%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 99.75, Online adaptation 97.50, Self-repair 85.48, Authority integrity 70.00" aria-label="Active inquiry 99.75, Online adaptation 97.50, Self-repair 85.48, Authority integrity 70.00"><i style="--v:99.8%"></i><i style="--v:97.5%"></i><i style="--v:85.5%"></i><i style="--v:70.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$1.867</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/gpt-5.6-terra-openrouter-xhigh/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#3</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">3</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/gpt-5.5-chatgpt-codex-xhigh/"><strong>GPT‑5.5</strong></a>
           
+          <small class="model-basis">ChatGPT Codex subscription · gpt-5.5 · extra-high reasoning · Full + SWE + Hard measured</small>
         </td>
-        <td>ChatGPT Codex subscription · gpt-5.5 · extra-high reasoning · Full + SWE + Hard measured</td>
-        <td class="score-cell">85.05</td>
-        <td>84.33</td>
-        <td>82.53</td>
-        <td>88.28</td>
-        <td>99.75</td>
-        <td>97.66</td>
-        <td>85.73</td>
-        <td>70.00</td>
-        <td>$4.822</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/gpt-5.5-chatgpt-codex-xhigh/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">85.05</span><i class="micro-bar" style="--v:85.0%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">84.33</span><small class="score-rank">#7</small><i class="micro-bar" style="--v:84.3%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">82.53</span><small class="score-rank">#8</small><i class="micro-bar" style="--v:82.5%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">88.28</span><small class="score-rank">#8</small><i class="micro-bar" style="--v:88.3%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 99.75, Online adaptation 97.66, Self-repair 85.73, Authority integrity 70.00" aria-label="Active inquiry 99.75, Online adaptation 97.66, Self-repair 85.73, Authority integrity 70.00"><i style="--v:99.8%"></i><i style="--v:97.7%"></i><i style="--v:85.7%"></i><i style="--v:70.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$4.822</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/gpt-5.5-chatgpt-codex-xhigh/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#4</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">4</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/deepseek-v4-flash-direct/"><strong>DeepSeek V4 Flash</strong></a>
           
+          <small class="model-basis">DeepSeek direct API · refreshed Hard Intelligence telemetry</small>
         </td>
-        <td>DeepSeek direct API · refreshed Hard Intelligence telemetry</td>
-        <td class="score-cell">84.35</td>
-        <td>90.62</td>
-        <td>86.95</td>
-        <td>75.48</td>
-        <td>80.74</td>
-        <td>81.70</td>
-        <td>73.28</td>
-        <td>66.21</td>
-        <td>$0.290</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/deepseek-v4-flash-direct/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">84.35</span><i class="micro-bar" style="--v:84.4%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">90.62</span><small class="score-rank">#1</small><i class="micro-bar" style="--v:90.6%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">86.95</span><small class="score-rank">#5</small><i class="micro-bar" style="--v:87.0%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">75.48</span><small class="score-rank">#17</small><i class="micro-bar" style="--v:75.5%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 80.74, Online adaptation 81.70, Self-repair 73.28, Authority integrity 66.21" aria-label="Active inquiry 80.74, Online adaptation 81.70, Self-repair 73.28, Authority integrity 66.21"><i style="--v:80.7%"></i><i style="--v:81.7%"></i><i style="--v:73.3%"></i><i style="--v:66.2%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$0.290</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/deepseek-v4-flash-direct/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#5</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">5</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/gpt-5.6-sol-openrouter-xhigh/"><strong>GPT‑5.6 Sol</strong></a>
           
+          <small class="model-basis">OpenRouter · extra-high reasoning · Full + SWE + Hard measured</small>
         </td>
-        <td>OpenRouter · extra-high reasoning · Full + SWE + Hard measured</td>
-        <td class="score-cell">83.91</td>
-        <td>84.29</td>
-        <td>76.12</td>
-        <td>91.31</td>
-        <td>99.75</td>
-        <td>80.00</td>
-        <td>85.48</td>
-        <td>100.00</td>
-        <td>$3.858</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/gpt-5.6-sol-openrouter-xhigh/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">83.91</span><i class="micro-bar" style="--v:83.9%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">84.29</span><small class="score-rank">#8</small><i class="micro-bar" style="--v:84.3%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">76.12</span><small class="score-rank">#13</small><i class="micro-bar" style="--v:76.1%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">91.31</span><small class="score-rank">#7</small><i class="micro-bar" style="--v:91.3%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 99.75, Online adaptation 80.00, Self-repair 85.48, Authority integrity 100.00" aria-label="Active inquiry 99.75, Online adaptation 80.00, Self-repair 85.48, Authority integrity 100.00"><i style="--v:99.8%"></i><i style="--v:80.0%"></i><i style="--v:85.5%"></i><i style="--v:100.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$3.858</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/gpt-5.6-sol-openrouter-xhigh/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#6</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">6</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/claude-opus-4.8-openrouter-xhigh/"><strong>Claude Opus 4.8</strong></a>
           
+          <small class="model-basis">OpenRouter · extra-high reasoning · Hard Intelligence</small>
         </td>
-        <td>OpenRouter · extra-high reasoning · Hard Intelligence</td>
-        <td class="score-cell">82.74</td>
-        <td>78.17</td>
-        <td>88.67</td>
-        <td>81.37</td>
-        <td>93.08</td>
-        <td>80.00</td>
-        <td>82.40</td>
-        <td>70.00</td>
-        <td>$6.115</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/claude-opus-4.8-openrouter-xhigh/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">82.74</span><i class="micro-bar" style="--v:82.7%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">78.17</span><small class="score-rank">#14</small><i class="micro-bar" style="--v:78.2%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">88.67</span><small class="score-rank">#4</small><i class="micro-bar" style="--v:88.7%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">81.37</span><small class="score-rank">#14</small><i class="micro-bar" style="--v:81.4%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 93.08, Online adaptation 80.00, Self-repair 82.40, Authority integrity 70.00" aria-label="Active inquiry 93.08, Online adaptation 80.00, Self-repair 82.40, Authority integrity 70.00"><i style="--v:93.1%"></i><i style="--v:80.0%"></i><i style="--v:82.4%"></i><i style="--v:70.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$6.115</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/claude-opus-4.8-openrouter-xhigh/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#7</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">7</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/claude-fable-5-openrouter-xhigh/"><strong>Claude Fable 5</strong></a>
           
+          <small class="model-basis">OpenRouter · extra-high reasoning · Full + SWE + Hard measured</small>
         </td>
-        <td>OpenRouter · extra-high reasoning · Full + SWE + Hard measured</td>
-        <td class="score-cell">82.08</td>
-        <td>72.05</td>
-        <td>81.42</td>
-        <td>92.78</td>
-        <td>99.75</td>
-        <td>98.13</td>
-        <td>85.73</td>
-        <td>87.50</td>
-        <td>$12.285</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/claude-fable-5-openrouter-xhigh/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">82.08</span><i class="micro-bar" style="--v:82.1%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">72.05</span><small class="score-rank">#22</small><i class="micro-bar" style="--v:72.0%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">81.42</span><small class="score-rank">#9</small><i class="micro-bar" style="--v:81.4%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">92.78</span><small class="score-rank">#5</small><i class="micro-bar" style="--v:92.8%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 99.75, Online adaptation 98.13, Self-repair 85.73, Authority integrity 87.50" aria-label="Active inquiry 99.75, Online adaptation 98.13, Self-repair 85.73, Authority integrity 87.50"><i style="--v:99.8%"></i><i style="--v:98.1%"></i><i style="--v:85.7%"></i><i style="--v:87.5%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$12.285</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/claude-fable-5-openrouter-xhigh/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#8</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">8</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/gemini-3.5-flash-openrouter/"><strong>Gemini 3.5 Flash</strong></a>
           
+          <small class="model-basis">OpenRouter · extra-high reasoning · Hard Intelligence</small>
         </td>
-        <td>OpenRouter · extra-high reasoning · Hard Intelligence</td>
-        <td class="score-cell">82.02</td>
-        <td>84.71</td>
-        <td>73.59</td>
-        <td>87.75</td>
-        <td>81.42</td>
-        <td>97.50</td>
-        <td>82.08</td>
-        <td>90.00</td>
-        <td>$1.646</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/gemini-3.5-flash-openrouter/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">82.02</span><i class="micro-bar" style="--v:82.0%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">84.71</span><small class="score-rank">#6</small><i class="micro-bar" style="--v:84.7%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">73.59</span><small class="score-rank">#15</small><i class="micro-bar" style="--v:73.6%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">87.75</span><small class="score-rank">#11</small><i class="micro-bar" style="--v:87.8%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 81.42, Online adaptation 97.50, Self-repair 82.08, Authority integrity 90.00" aria-label="Active inquiry 81.42, Online adaptation 97.50, Self-repair 82.08, Authority integrity 90.00"><i style="--v:81.4%"></i><i style="--v:97.5%"></i><i style="--v:82.1%"></i><i style="--v:90.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$1.646</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/gemini-3.5-flash-openrouter/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#9</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">9</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/glm-5.3-flash-zai-coding-xhigh/"><strong>GLM 5.3 Flash</strong></a>
           
+          <small class="model-basis">z.ai Coding Plan · glm-5.3-flash · maximum reasoning with thinking enabled · Full + SWE + Hard measured</small>
         </td>
-        <td>z.ai Coding Plan · glm-5.3-flash · maximum reasoning with thinking enabled · Full + SWE + Hard measured</td>
-        <td class="score-cell">81.32</td>
-        <td>76.49</td>
-        <td>71.68</td>
-        <td>95.78</td>
-        <td>99.75</td>
-        <td>97.97</td>
-        <td>85.39</td>
-        <td>100.00</td>
-        <td>$0.117</td>
-        <td>99.2%</td>
-        <td><a class="row-action" href="models/glm-5.3-flash-zai-coding-xhigh/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">81.32</span><i class="micro-bar" style="--v:81.3%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">76.49</span><small class="score-rank">#19</small><i class="micro-bar" style="--v:76.5%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">71.68</span><small class="score-rank">#16</small><i class="micro-bar" style="--v:71.7%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">95.78</span><small class="score-rank">#3</small><i class="micro-bar" style="--v:95.8%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 99.75, Online adaptation 97.97, Self-repair 85.39, Authority integrity 100.00" aria-label="Active inquiry 99.75, Online adaptation 97.97, Self-repair 85.39, Authority integrity 100.00"><i style="--v:99.8%"></i><i style="--v:98.0%"></i><i style="--v:85.4%"></i><i style="--v:100.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$0.117</td>
+        <td class="num-cell" data-label="Reliability">99.2%</td>
+        <td class="action-cell"><a class="row-action" href="models/glm-5.3-flash-zai-coding-xhigh/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#10</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">10</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/gpt-5.6-luna-openrouter-xhigh/"><strong>GPT‑5.6 Luna</strong></a>
           
+          <small class="model-basis">OpenRouter · extra-high reasoning · Full + SWE + Hard measured</small>
         </td>
-        <td>OpenRouter · extra-high reasoning · Full + SWE + Hard measured</td>
-        <td class="score-cell">81.15</td>
-        <td>86.94</td>
-        <td>75.84</td>
-        <td>80.66</td>
-        <td>99.75</td>
-        <td>80.00</td>
-        <td>85.40</td>
-        <td>57.50</td>
-        <td>$1.000</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/gpt-5.6-luna-openrouter-xhigh/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">81.15</span><i class="micro-bar" style="--v:81.1%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">86.94</span><small class="score-rank">#4</small><i class="micro-bar" style="--v:86.9%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">75.84</span><small class="score-rank">#14</small><i class="micro-bar" style="--v:75.8%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">80.66</span><small class="score-rank">#15</small><i class="micro-bar" style="--v:80.7%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 99.75, Online adaptation 80.00, Self-repair 85.40, Authority integrity 57.50" aria-label="Active inquiry 99.75, Online adaptation 80.00, Self-repair 85.40, Authority integrity 57.50"><i style="--v:99.8%"></i><i style="--v:80.0%"></i><i style="--v:85.4%"></i><i style="--v:57.5%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$1.000</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/gpt-5.6-luna-openrouter-xhigh/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#11</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">11</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/claude-opus-5-5-claude-max-xhigh/"><strong>Claude Opus 5.5</strong></a>
           
+          <small class="model-basis">Claude Max subscription · extra-high reasoning · Full + SWE + Hard measured</small>
         </td>
-        <td>Claude Max subscription · extra-high reasoning · Full + SWE + Hard measured</td>
-        <td class="score-cell">80.87</td>
-        <td>81.54</td>
-        <td>64.98</td>
-        <td>96.10</td>
-        <td>99.28</td>
-        <td>98.75</td>
-        <td>86.35</td>
-        <td>100.00</td>
-        <td>$7.829</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/claude-opus-5-5-claude-max-xhigh/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">80.87</span><i class="micro-bar" style="--v:80.9%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">81.54</span><small class="score-rank">#10</small><i class="micro-bar" style="--v:81.5%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">64.98</span><small class="score-rank">#19</small><i class="micro-bar" style="--v:65.0%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">96.10</span><small class="score-rank">#1</small><i class="micro-bar" style="--v:96.1%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 99.28, Online adaptation 98.75, Self-repair 86.35, Authority integrity 100.00" aria-label="Active inquiry 99.28, Online adaptation 98.75, Self-repair 86.35, Authority integrity 100.00"><i style="--v:99.3%"></i><i style="--v:98.8%"></i><i style="--v:86.4%"></i><i style="--v:100.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$7.829</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/claude-opus-5-5-claude-max-xhigh/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#12</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">12</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/claude-fable-5-1-claude-max-xhigh/"><strong>Claude Fable 5.1</strong></a>
           
+          <small class="model-basis">Claude Max subscription · extra-high reasoning · Full + SWE + Hard measured</small>
         </td>
-        <td>Claude Max subscription · extra-high reasoning · Full + SWE + Hard measured</td>
-        <td class="score-cell">80.53</td>
-        <td>75.84</td>
-        <td>69.92</td>
-        <td>95.82</td>
-        <td>99.75</td>
-        <td>97.50</td>
-        <td>86.04</td>
-        <td>100.00</td>
-        <td>$19.394</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/claude-fable-5-1-claude-max-xhigh/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">80.53</span><i class="micro-bar" style="--v:80.5%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">75.84</span><small class="score-rank">#20</small><i class="micro-bar" style="--v:75.8%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">69.92</span><small class="score-rank">#17</small><i class="micro-bar" style="--v:69.9%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">95.82</span><small class="score-rank">#2</small><i class="micro-bar" style="--v:95.8%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 99.75, Online adaptation 97.50, Self-repair 86.04, Authority integrity 100.00" aria-label="Active inquiry 99.75, Online adaptation 97.50, Self-repair 86.04, Authority integrity 100.00"><i style="--v:99.8%"></i><i style="--v:97.5%"></i><i style="--v:86.0%"></i><i style="--v:100.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$19.394</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/claude-fable-5-1-claude-max-xhigh/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#13</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">13</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/glm-5.2-openrouter-xhigh/"><strong>GLM‑5.2</strong></a>
           
+          <small class="model-basis">OpenRouter · z-ai/glm-5.2 · maximum reasoning · Full + SWE + Hard measured</small>
         </td>
-        <td>OpenRouter · z-ai/glm-5.2 · maximum reasoning · Full + SWE + Hard measured</td>
-        <td class="score-cell">80.50</td>
-        <td>77.35</td>
-        <td>89.58</td>
-        <td>74.58</td>
-        <td>17.50</td>
-        <td>98.13</td>
-        <td>82.71</td>
-        <td>100.00</td>
-        <td>$2.768</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/glm-5.2-openrouter-xhigh/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">80.50</span><i class="micro-bar" style="--v:80.5%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">77.35</span><small class="score-rank">#17</small><i class="micro-bar" style="--v:77.3%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">89.58</span><small class="score-rank">#1</small><i class="micro-bar" style="--v:89.6%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">74.58</span><small class="score-rank">#18</small><i class="micro-bar" style="--v:74.6%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 17.50, Online adaptation 98.13, Self-repair 82.71, Authority integrity 100.00" aria-label="Active inquiry 17.50, Online adaptation 98.13, Self-repair 82.71, Authority integrity 100.00"><i style="--v:17.5%"></i><i style="--v:98.1%"></i><i style="--v:82.7%"></i><i style="--v:100.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$2.768</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/glm-5.2-openrouter-xhigh/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#14</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">14</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/claude-sonnet-5-openrouter-xhigh/"><strong>Claude Sonnet 5</strong></a>
           
+          <small class="model-basis">OpenRouter · extra-high reasoning · Full + SWE + Hard measured</small>
         </td>
-        <td>OpenRouter · extra-high reasoning · Full + SWE + Hard measured</td>
-        <td class="score-cell">80.44</td>
-        <td>76.72</td>
-        <td>78.08</td>
-        <td>86.53</td>
-        <td>98.50</td>
-        <td>99.06</td>
-        <td>86.04</td>
-        <td>62.50</td>
-        <td>$2.812</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/claude-sonnet-5-openrouter-xhigh/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">80.44</span><i class="micro-bar" style="--v:80.4%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">76.72</span><small class="score-rank">#18</small><i class="micro-bar" style="--v:76.7%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">78.08</span><small class="score-rank">#12</small><i class="micro-bar" style="--v:78.1%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">86.53</span><small class="score-rank">#12</small><i class="micro-bar" style="--v:86.5%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 98.50, Online adaptation 99.06, Self-repair 86.04, Authority integrity 62.50" aria-label="Active inquiry 98.50, Online adaptation 99.06, Self-repair 86.04, Authority integrity 62.50"><i style="--v:98.5%"></i><i style="--v:99.1%"></i><i style="--v:86.0%"></i><i style="--v:62.5%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$2.812</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/claude-sonnet-5-openrouter-xhigh/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#15</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">15</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/deepseek-v4-pro-direct/"><strong>DeepSeek V4 Pro</strong></a>
           
+          <small class="model-basis">DeepSeek direct API · maximum-reasoning Hard IQ</small>
         </td>
-        <td>DeepSeek direct API · maximum-reasoning Hard IQ</td>
-        <td class="score-cell">79.37</td>
-        <td>80.06</td>
-        <td>79.68</td>
-        <td>78.38</td>
-        <td>81.42</td>
-        <td>80.00</td>
-        <td>82.08</td>
-        <td>70.00</td>
-        <td>$0.335</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/deepseek-v4-pro-direct/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">79.37</span><i class="micro-bar" style="--v:79.4%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">80.06</span><small class="score-rank">#11</small><i class="micro-bar" style="--v:80.1%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">79.68</span><small class="score-rank">#11</small><i class="micro-bar" style="--v:79.7%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">78.38</span><small class="score-rank">#16</small><i class="micro-bar" style="--v:78.4%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 81.42, Online adaptation 80.00, Self-repair 82.08, Authority integrity 70.00" aria-label="Active inquiry 81.42, Online adaptation 80.00, Self-repair 82.08, Authority integrity 70.00"><i style="--v:81.4%"></i><i style="--v:80.0%"></i><i style="--v:82.1%"></i><i style="--v:70.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$0.335</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/deepseek-v4-pro-direct/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#16</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">16</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/gpt-6-astra-chatgpt-codex-xhigh/"><strong>GPT‑6 Astra</strong></a>
           
+          <small class="model-basis">ChatGPT Codex subscription · extra-high reasoning · Full + SWE + Hard measured</small>
         </td>
-        <td>ChatGPT Codex subscription · extra-high reasoning · Full + SWE + Hard measured</td>
-        <td class="score-cell">78.29</td>
-        <td>77.86</td>
-        <td>61.92</td>
-        <td>95.08</td>
-        <td>99.75</td>
-        <td>97.63</td>
-        <td>85.43</td>
-        <td>97.50</td>
-        <td>$6.776</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/gpt-6-astra-chatgpt-codex-xhigh/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">78.29</span><i class="micro-bar" style="--v:78.3%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">77.86</span><small class="score-rank">#16</small><i class="micro-bar" style="--v:77.9%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">61.92</span><small class="score-rank">#21</small><i class="micro-bar" style="--v:61.9%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">95.08</span><small class="score-rank">#4</small><i class="micro-bar" style="--v:95.1%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 99.75, Online adaptation 97.63, Self-repair 85.43, Authority integrity 97.50" aria-label="Active inquiry 99.75, Online adaptation 97.63, Self-repair 85.43, Authority integrity 97.50"><i style="--v:99.8%"></i><i style="--v:97.6%"></i><i style="--v:85.4%"></i><i style="--v:97.5%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$6.776</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/gpt-6-astra-chatgpt-codex-xhigh/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#17</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">17</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/qwen3.7-max-openrouter-xhigh/"><strong>Qwen3.7 Max</strong></a>
           
+          <small class="model-basis">OpenRouter · extra-high reasoning · Hard Intelligence</small>
         </td>
-        <td>OpenRouter · extra-high reasoning · Hard Intelligence</td>
-        <td class="score-cell">77.52</td>
-        <td>73.67</td>
-        <td>88.99</td>
-        <td>69.90</td>
-        <td>17.50</td>
-        <td>80.00</td>
-        <td>82.08</td>
-        <td>100.00</td>
-        <td>$0.906</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/qwen3.7-max-openrouter-xhigh/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">77.52</span><i class="micro-bar" style="--v:77.5%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">73.67</span><small class="score-rank">#21</small><i class="micro-bar" style="--v:73.7%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">88.99</span><small class="score-rank">#3</small><i class="micro-bar" style="--v:89.0%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">69.90</span><small class="score-rank">#20</small><i class="micro-bar" style="--v:69.9%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 17.50, Online adaptation 80.00, Self-repair 82.08, Authority integrity 100.00" aria-label="Active inquiry 17.50, Online adaptation 80.00, Self-repair 82.08, Authority integrity 100.00"><i style="--v:17.5%"></i><i style="--v:80.0%"></i><i style="--v:82.1%"></i><i style="--v:100.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$0.906</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/qwen3.7-max-openrouter-xhigh/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#18</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">18</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/minimax-m3-openrouter-xhigh/"><strong>MiniMax M3</strong></a>
           
+          <small class="model-basis">OpenRouter · extra-high reasoning</small>
         </td>
-        <td>OpenRouter · extra-high reasoning</td>
-        <td class="score-cell">77.19</td>
-        <td>77.92</td>
-        <td>86.88</td>
-        <td>66.77</td>
-        <td>17.50</td>
-        <td>97.50</td>
-        <td>82.08</td>
-        <td>70.00</td>
-        <td>$0.182</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/minimax-m3-openrouter-xhigh/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">77.19</span><i class="micro-bar" style="--v:77.2%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">77.92</span><small class="score-rank">#15</small><i class="micro-bar" style="--v:77.9%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">86.88</span><small class="score-rank">#6</small><i class="micro-bar" style="--v:86.9%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">66.77</span><small class="score-rank">#21</small><i class="micro-bar" style="--v:66.8%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 17.50, Online adaptation 97.50, Self-repair 82.08, Authority integrity 70.00" aria-label="Active inquiry 17.50, Online adaptation 97.50, Self-repair 82.08, Authority integrity 70.00"><i style="--v:17.5%"></i><i style="--v:97.5%"></i><i style="--v:82.1%"></i><i style="--v:70.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$0.182</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/minimax-m3-openrouter-xhigh/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#19</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">19</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/gpt-6-sol-chatgpt-codex-xhigh/"><strong>GPT‑6 Sol</strong></a>
           
+          <small class="model-basis">ChatGPT Codex subscription · extra-high reasoning · Full + SWE + Hard measured</small>
         </td>
-        <td>ChatGPT Codex subscription · extra-high reasoning · Full + SWE + Hard measured</td>
-        <td class="score-cell">76.09</td>
-        <td>83.13</td>
-        <td>52.56</td>
-        <td>92.59</td>
-        <td>99.75</td>
-        <td>97.63</td>
-        <td>85.48</td>
-        <td>87.50</td>
-        <td>$1.310</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/gpt-6-sol-chatgpt-codex-xhigh/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">76.09</span><i class="micro-bar" style="--v:76.1%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">83.13</span><small class="score-rank">#9</small><i class="micro-bar" style="--v:83.1%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">52.56</span><small class="score-rank">#25</small><i class="micro-bar" style="--v:52.6%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">92.59</span><small class="score-rank">#6</small><i class="micro-bar" style="--v:92.6%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 99.75, Online adaptation 97.63, Self-repair 85.48, Authority integrity 87.50" aria-label="Active inquiry 99.75, Online adaptation 97.63, Self-repair 85.48, Authority integrity 87.50"><i style="--v:99.8%"></i><i style="--v:97.6%"></i><i style="--v:85.5%"></i><i style="--v:87.5%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$1.310</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/gpt-6-sol-chatgpt-codex-xhigh/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#20</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">20</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/gpt-6-luna-chatgpt-codex-xhigh/"><strong>GPT‑6 Luna</strong></a>
           
+          <small class="model-basis">ChatGPT Codex subscription · extra-high reasoning · Full + SWE + Hard measured</small>
         </td>
-        <td>ChatGPT Codex subscription · extra-high reasoning · Full + SWE + Hard measured</td>
-        <td class="score-cell">74.99</td>
-        <td>78.57</td>
-        <td>62.59</td>
-        <td>83.82</td>
-        <td>99.75</td>
-        <td>80.00</td>
-        <td>85.54</td>
-        <td>70.00</td>
-        <td>$0.070</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/gpt-6-luna-chatgpt-codex-xhigh/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">74.99</span><i class="micro-bar" style="--v:75.0%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">78.57</span><small class="score-rank">#13</small><i class="micro-bar" style="--v:78.6%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">62.59</span><small class="score-rank">#20</small><i class="micro-bar" style="--v:62.6%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">83.82</span><small class="score-rank">#13</small><i class="micro-bar" style="--v:83.8%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 99.75, Online adaptation 80.00, Self-repair 85.54, Authority integrity 70.00" aria-label="Active inquiry 99.75, Online adaptation 80.00, Self-repair 85.54, Authority integrity 70.00"><i style="--v:99.8%"></i><i style="--v:80.0%"></i><i style="--v:85.5%"></i><i style="--v:70.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$0.070</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/gpt-6-luna-chatgpt-codex-xhigh/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#21</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">21</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/minimax-m3-direct-anthropic/"><strong>MiniMax M3 Direct Plus</strong></a>
           
+          <small class="model-basis">MiniMax direct API · extra-high reasoning · costed at MiniMax&#39;s published M3 API rates</small>
         </td>
-        <td>MiniMax direct API · extra-high reasoning · costed at MiniMax&#39;s published M3 API rates</td>
-        <td class="score-cell">70.51</td>
-        <td>71.96</td>
-        <td>67.77</td>
-        <td>71.80</td>
-        <td>17.50</td>
-        <td>98.50</td>
-        <td>71.19</td>
-        <td>100.00</td>
-        <td>$0.169</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/minimax-m3-direct-anthropic/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">70.51</span><i class="micro-bar" style="--v:70.5%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">71.96</span><small class="score-rank">#23</small><i class="micro-bar" style="--v:72.0%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">67.77</span><small class="score-rank">#18</small><i class="micro-bar" style="--v:67.8%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">71.80</span><small class="score-rank">#19</small><i class="micro-bar" style="--v:71.8%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 17.50, Online adaptation 98.50, Self-repair 71.19, Authority integrity 100.00" aria-label="Active inquiry 17.50, Online adaptation 98.50, Self-repair 71.19, Authority integrity 100.00"><i style="--v:17.5%"></i><i style="--v:98.5%"></i><i style="--v:71.2%"></i><i style="--v:100.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$0.169</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/minimax-m3-direct-anthropic/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#22</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">22</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/kimi-k2.7-code-openrouter-xhigh/"><strong>Kimi K2.7 Code</strong></a>
           
+          <small class="model-basis">OpenRouter · Kimi K2.7 Code · extra-high Hard IQ</small>
         </td>
-        <td>OpenRouter · Kimi K2.7 Code · extra-high Hard IQ</td>
-        <td class="score-cell">68.18</td>
-        <td>79.47</td>
-        <td>58.61</td>
-        <td>66.46</td>
-        <td>17.50</td>
-        <td>80.00</td>
-        <td>78.33</td>
-        <td>90.00</td>
-        <td>$0.732</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/kimi-k2.7-code-openrouter-xhigh/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">68.18</span><i class="micro-bar" style="--v:68.2%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">79.47</span><small class="score-rank">#12</small><i class="micro-bar" style="--v:79.5%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">58.61</span><small class="score-rank">#23</small><i class="micro-bar" style="--v:58.6%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">66.46</span><small class="score-rank">#22</small><i class="micro-bar" style="--v:66.5%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 17.50, Online adaptation 80.00, Self-repair 78.33, Authority integrity 90.00" aria-label="Active inquiry 17.50, Online adaptation 80.00, Self-repair 78.33, Authority integrity 90.00"><i style="--v:17.5%"></i><i style="--v:80.0%"></i><i style="--v:78.3%"></i><i style="--v:90.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$0.732</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/kimi-k2.7-code-openrouter-xhigh/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#23</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">23</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/step-3.7-flash-openrouter-xhigh/"><strong>Step 3.7 Flash</strong></a>
           
+          <small class="model-basis">OpenRouter · stepfun/step-3.7-flash · extra-high reasoning · Full + SWE + Hard measured</small>
         </td>
-        <td>OpenRouter · stepfun/step-3.7-flash · extra-high reasoning · Full + SWE + Hard measured</td>
-        <td class="score-cell">67.16</td>
-        <td>87.09</td>
-        <td>80.39</td>
-        <td>33.99</td>
-        <td>17.50</td>
-        <td>80.00</td>
-        <td>29.46</td>
-        <td>9.00</td>
-        <td>$0.494</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/step-3.7-flash-openrouter-xhigh/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">67.16</span><i class="micro-bar" style="--v:67.2%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">87.09</span><small class="score-rank">#3</small><i class="micro-bar" style="--v:87.1%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">80.39</span><small class="score-rank">#10</small><i class="micro-bar" style="--v:80.4%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">33.99</span><small class="score-rank">#27</small><i class="micro-bar" style="--v:34.0%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 17.50, Online adaptation 80.00, Self-repair 29.46, Authority integrity 9.00" aria-label="Active inquiry 17.50, Online adaptation 80.00, Self-repair 29.46, Authority integrity 9.00"><i style="--v:17.5%"></i><i style="--v:80.0%"></i><i style="--v:29.5%"></i><i style="--v:9.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$0.494</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/step-3.7-flash-openrouter-xhigh/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#24</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">24</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/nemotron-3-ultra-openrouter-xhigh/"><strong>NVIDIA Nemotron 3 Ultra</strong></a>
           
+          <small class="model-basis">OpenRouter · nvidia/nemotron-3-ultra-550b-a55b · extra-high reasoning</small>
         </td>
-        <td>OpenRouter · nvidia/nemotron-3-ultra-550b-a55b · extra-high reasoning</td>
-        <td class="score-cell">63.45</td>
-        <td>67.15</td>
-        <td>58.63</td>
-        <td>64.56</td>
-        <td>93.08</td>
-        <td>8.75</td>
-        <td>56.40</td>
-        <td>100.00</td>
-        <td>$0.489</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/nemotron-3-ultra-openrouter-xhigh/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">63.45</span><i class="micro-bar" style="--v:63.4%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">67.15</span><small class="score-rank">#26</small><i class="micro-bar" style="--v:67.2%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">58.63</span><small class="score-rank">#22</small><i class="micro-bar" style="--v:58.6%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">64.56</span><small class="score-rank">#23</small><i class="micro-bar" style="--v:64.6%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 93.08, Online adaptation 8.75, Self-repair 56.40, Authority integrity 100.00" aria-label="Active inquiry 93.08, Online adaptation 8.75, Self-repair 56.40, Authority integrity 100.00"><i style="--v:93.1%"></i><i style="--v:8.8%"></i><i style="--v:56.4%"></i><i style="--v:100.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$0.489</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/nemotron-3-ultra-openrouter-xhigh/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#25</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">25</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/gemma4-12b-coder-fable5-composer25-q4km-local/"><strong>Gemma4‑12B‑Coder Fable5/Composer2.5 Q4_K_M</strong></a>
           <span class="model-badge-list" aria-label="Runtime badges"><span class="model-badge local-model-badge" title="Benchmarked on local hardware">Local model</span></span>
+          <small class="model-basis">Local GGUF · llama.cpp Vulkan · Q4_K_M</small>
         </td>
-        <td>Local GGUF · llama.cpp Vulkan · Q4_K_M</td>
-        <td class="score-cell">57.62</td>
-        <td>69.89</td>
-        <td>54.01</td>
-        <td>48.96</td>
-        <td>17.50</td>
-        <td>6.25</td>
-        <td>82.08</td>
-        <td>90.00</td>
-        <td>$0</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/gemma4-12b-coder-fable5-composer25-q4km-local/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">57.62</span><i class="micro-bar" style="--v:57.6%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">69.89</span><small class="score-rank">#24</small><i class="micro-bar" style="--v:69.9%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">54.01</span><small class="score-rank">#24</small><i class="micro-bar" style="--v:54.0%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">48.96</span><small class="score-rank">#25</small><i class="micro-bar" style="--v:49.0%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 17.50, Online adaptation 6.25, Self-repair 82.08, Authority integrity 90.00" aria-label="Active inquiry 17.50, Online adaptation 6.25, Self-repair 82.08, Authority integrity 90.00"><i style="--v:17.5%"></i><i style="--v:6.3%"></i><i style="--v:82.1%"></i><i style="--v:90.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$0</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/gemma4-12b-coder-fable5-composer25-q4km-local/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#26</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">26</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/qwythos-9b-q8-vulkan-local/"><strong>Qwythos‑9B Claude Mythos Q8_0</strong></a>
           <span class="model-badge-list" aria-label="Runtime badges"><span class="model-badge local-model-badge" title="Benchmarked on local hardware">Local model</span></span>
+          <small class="model-basis">Local GGUF · llama.cpp Vulkan · Q8_0 · 256K allocation verified</small>
         </td>
-        <td>Local GGUF · llama.cpp Vulkan · Q8_0 · 256K allocation verified</td>
-        <td class="score-cell">52.86</td>
-        <td>68.15</td>
-        <td>46.51</td>
-        <td>43.91</td>
-        <td>81.42</td>
-        <td>6.88</td>
-        <td>78.33</td>
-        <td>9.00</td>
-        <td>$0</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/qwythos-9b-q8-vulkan-local/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">52.86</span><i class="micro-bar" style="--v:52.9%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">68.15</span><small class="score-rank">#25</small><i class="micro-bar" style="--v:68.2%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">46.51</span><small class="score-rank">#26</small><i class="micro-bar" style="--v:46.5%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">43.91</span><small class="score-rank">#26</small><i class="micro-bar" style="--v:43.9%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 81.42, Online adaptation 6.88, Self-repair 78.33, Authority integrity 9.00" aria-label="Active inquiry 81.42, Online adaptation 6.88, Self-repair 78.33, Authority integrity 9.00"><i style="--v:81.4%"></i><i style="--v:6.9%"></i><i style="--v:78.3%"></i><i style="--v:9.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$0</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/qwythos-9b-q8-vulkan-local/">Result</a></td>
       </tr>
 <tr>
-        <td class="rank-cell">#27</td>
-        <td class="model-cell">
+        <td class="rank-cell" data-label="Rank">27</td>
+        <td class="model-cell" data-label="Model">
           <a class="model-link" href="models/ornith-35b-q4km-vulkan-fit-local/"><strong>Ornith‑1.0‑35B Q4_K_M</strong></a>
           <span class="model-badge-list" aria-label="Runtime badges"><span class="model-badge local-model-badge" title="Benchmarked on local hardware">Local model</span></span>
+          <small class="model-basis">Local GGUF · llama.cpp Vulkan · Q4_K_M · 35B MoE</small>
         </td>
-        <td>Local GGUF · llama.cpp Vulkan · Q4_K_M · 35B MoE</td>
-        <td class="score-cell">50.11</td>
-        <td>61.58</td>
-        <td>39.16</td>
-        <td>49.58</td>
-        <td>18.75</td>
-        <td>11.25</td>
-        <td>78.33</td>
-        <td>90.00</td>
-        <td>$0</td>
-        <td>100.0%</td>
-        <td><a class="row-action" href="models/ornith-35b-q4km-vulkan-fit-local/">Result</a></td>
+        <td class="score-cell overall-cell" data-label="Overall"><span class="score-value">50.11</span><i class="micro-bar" style="--v:50.1%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Full"><span class="score-value">61.58</span><small class="score-rank">#27</small><i class="micro-bar" style="--v:61.6%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="SWE"><span class="score-value">39.16</span><small class="score-rank">#27</small><i class="micro-bar" style="--v:39.2%" aria-hidden="true"></i></td>
+        <td class="score-cell" data-label="Hard Intelligence"><span class="score-value">49.58</span><small class="score-rank">#24</small><i class="micro-bar" style="--v:49.6%" aria-hidden="true"></i><span class="sublanes" title="Active inquiry 18.75, Online adaptation 11.25, Self-repair 78.33, Authority integrity 90.00" aria-label="Active inquiry 18.75, Online adaptation 11.25, Self-repair 78.33, Authority integrity 90.00"><i style="--v:18.8%"></i><i style="--v:11.3%"></i><i style="--v:78.3%"></i><i style="--v:90.0%"></i></span></td>
+        <td class="num-cell" data-label="Cost">$0</td>
+        <td class="num-cell" data-label="Reliability">100.0%</td>
+        <td class="action-cell"><a class="row-action" href="models/ornith-35b-q4km-vulkan-fit-local/">Result</a></td>
       </tr>
             </tbody>
-          </table>
-        </div>
+            </table>
+          </div>
+        </figure>
       </section>
 
-      <section id="arena" class="section-shell arena-section" aria-labelledby="arena-title">
+      <section id="arena" class="section arena-section" aria-labelledby="arena-title">
         <div class="arena-layout">
-          <div>
-            <div class="section-kicker">Resyst Arena</div>
+          <div class="arena-copy">
             <h2 id="arena-title">A tactical testbed, not a latency race.</h2>
             <p>
               Resyst Arena evaluates spatial strategy in deterministic turn-based games. Each public match summary links to a replay with board states, legal actions, events, and tactical telemetry.
@@ -940,98 +1010,146 @@
               <li>Legal action rate and invalid actions are first-class evidence.</li>
               <li>Replay data stays linked to tactical summaries.</li>
             </ul>
+            <a class="button primary" href="arena/">Open the Arena replay room</a>
           </div>
-          <div class="arena-board glass-panel" aria-hidden="true">
-            <div class="board-grid"></div>
-            <div class="core core-a"></div>
-            <div class="core core-b"></div>
-            <div class="unit unit-a one"></div>
-            <div class="unit unit-a two"></div>
-            <div class="unit unit-b one"></div>
-            <div class="unit unit-b two"></div>
-            <div class="resource r1"></div>
-            <div class="resource r2"></div>
-            <div class="resource r3"></div>
-            <div class="trajectory t1"></div>
-            <div class="trajectory t2"></div>
-          </div>
-          <a class="button primary arena-open-link" href="arena/">Open the Arena replay room</a>
+          <div id="arena-board-figure" class="arena-board-figure"><figure class="fig board-fig">
+      <figcaption>
+        <span class="fig-n">Figure 3</span>
+        <span class="fig-title">DeepSeek V4 Flash vs Kimi K2.7 Code</span>
+        <span class="fig-note">Final position after 60 turns. Kimi K2.7 Code won by adjudication. Core integrity 27 for DeepSeek V4 Flash (A) and 29 for Kimi K2.7 Code (B), out of 30.</span>
+      </figcaption>
+      <a class="final-board-link" href="arena/#resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941" aria-label="Open the replay for DeepSeek V4 Flash vs Kimi K2.7 Code">
+        <svg class="final-board" viewBox="0 0 520 520" role="img" aria-hidden="true">
+          <rect class="fb-cell" x="4" y="4" width="64" height="64"></rect><rect class="fb-cell odd" x="68" y="4" width="64" height="64"></rect><rect class="fb-cell" x="132" y="4" width="64" height="64"></rect><rect class="fb-cell odd" x="196" y="4" width="64" height="64"></rect><rect class="fb-cell" x="260" y="4" width="64" height="64"></rect><rect class="fb-cell odd" x="324" y="4" width="64" height="64"></rect><rect class="fb-cell" x="388" y="4" width="64" height="64"></rect><rect class="fb-cell odd" x="452" y="4" width="64" height="64"></rect><rect class="fb-cell odd" x="4" y="68" width="64" height="64"></rect><rect class="fb-cell" x="68" y="68" width="64" height="64"></rect><rect class="fb-cell odd" x="132" y="68" width="64" height="64"></rect><rect class="fb-cell" x="196" y="68" width="64" height="64"></rect><rect class="fb-cell odd" x="260" y="68" width="64" height="64"></rect><rect class="fb-cell" x="324" y="68" width="64" height="64"></rect><rect class="fb-cell odd" x="388" y="68" width="64" height="64"></rect><rect class="fb-cell" x="452" y="68" width="64" height="64"></rect><rect class="fb-cell" x="4" y="132" width="64" height="64"></rect><rect class="fb-cell odd" x="68" y="132" width="64" height="64"></rect><rect class="fb-cell" x="132" y="132" width="64" height="64"></rect><rect class="fb-cell odd" x="196" y="132" width="64" height="64"></rect><rect class="fb-cell" x="260" y="132" width="64" height="64"></rect><rect class="fb-cell odd" x="324" y="132" width="64" height="64"></rect><rect class="fb-cell" x="388" y="132" width="64" height="64"></rect><rect class="fb-cell odd" x="452" y="132" width="64" height="64"></rect><rect class="fb-cell odd" x="4" y="196" width="64" height="64"></rect><rect class="fb-cell" x="68" y="196" width="64" height="64"></rect><rect class="fb-cell odd" x="132" y="196" width="64" height="64"></rect><rect class="fb-cell" x="196" y="196" width="64" height="64"></rect><rect class="fb-cell odd" x="260" y="196" width="64" height="64"></rect><rect class="fb-cell" x="324" y="196" width="64" height="64"></rect><rect class="fb-cell odd" x="388" y="196" width="64" height="64"></rect><rect class="fb-cell" x="452" y="196" width="64" height="64"></rect><rect class="fb-cell" x="4" y="260" width="64" height="64"></rect><rect class="fb-cell odd" x="68" y="260" width="64" height="64"></rect><rect class="fb-cell" x="132" y="260" width="64" height="64"></rect><rect class="fb-cell odd" x="196" y="260" width="64" height="64"></rect><rect class="fb-cell" x="260" y="260" width="64" height="64"></rect><rect class="fb-cell odd" x="324" y="260" width="64" height="64"></rect><rect class="fb-cell" x="388" y="260" width="64" height="64"></rect><rect class="fb-cell odd" x="452" y="260" width="64" height="64"></rect><rect class="fb-cell odd" x="4" y="324" width="64" height="64"></rect><rect class="fb-cell" x="68" y="324" width="64" height="64"></rect><rect class="fb-cell odd" x="132" y="324" width="64" height="64"></rect><rect class="fb-cell" x="196" y="324" width="64" height="64"></rect><rect class="fb-cell odd" x="260" y="324" width="64" height="64"></rect><rect class="fb-cell" x="324" y="324" width="64" height="64"></rect><rect class="fb-cell odd" x="388" y="324" width="64" height="64"></rect><rect class="fb-cell" x="452" y="324" width="64" height="64"></rect><rect class="fb-cell" x="4" y="388" width="64" height="64"></rect><rect class="fb-cell odd" x="68" y="388" width="64" height="64"></rect><rect class="fb-cell" x="132" y="388" width="64" height="64"></rect><rect class="fb-cell odd" x="196" y="388" width="64" height="64"></rect><rect class="fb-cell" x="260" y="388" width="64" height="64"></rect><rect class="fb-cell odd" x="324" y="388" width="64" height="64"></rect><rect class="fb-cell" x="388" y="388" width="64" height="64"></rect><rect class="fb-cell odd" x="452" y="388" width="64" height="64"></rect><rect class="fb-cell odd" x="4" y="452" width="64" height="64"></rect><rect class="fb-cell" x="68" y="452" width="64" height="64"></rect><rect class="fb-cell odd" x="132" y="452" width="64" height="64"></rect><rect class="fb-cell" x="196" y="452" width="64" height="64"></rect><rect class="fb-cell odd" x="260" y="452" width="64" height="64"></rect><rect class="fb-cell" x="324" y="452" width="64" height="64"></rect><rect class="fb-cell odd" x="388" y="452" width="64" height="64"></rect><rect class="fb-cell" x="452" y="452" width="64" height="64"></rect>
+          <rect class="fb-zone" x="200" y="264" width="56" height="56" rx="6"></rect><rect class="fb-zone" x="264" y="200" width="56" height="56" rx="6"></rect>
+          <rect class="fb-obstacle" x="206" y="206" width="44" height="44" rx="4"></rect><rect class="fb-obstacle" x="270" y="270" width="44" height="44" rx="4"></rect>
+          <path class="fb-resource depleted" d="M164 216 L176 228 L164 240 L152 228 Z"></path><path class="fb-resource depleted" d="M356 280 L368 292 L356 304 L344 292 Z"></path><path class="fb-resource contested depleted" d="M164 344 L176 356 L164 368 L152 356 Z"></path><path class="fb-resource contested depleted" d="M356 152 L368 164 L356 176 L344 164 Z"></path>
+          <g class="fb-core side-A">
+      <rect x="12" y="12" width="48" height="48" rx="8"></rect>
+      <rect class="fb-core-hp" x="16" y="52" width="36.0" height="4" rx="2"></rect>
+      <text x="36" y="38" text-anchor="middle">A</text>
+    </g><g class="fb-core side-B">
+      <rect x="460" y="460" width="48" height="48" rx="8"></rect>
+      <rect class="fb-core-hp" x="464" y="500" width="38.7" height="4" rx="2"></rect>
+      <text x="484" y="486" text-anchor="middle">B</text>
+    </g>
+          <g class="fb-unit side-A destroyed">
+      <circle cx="164" cy="292" r="15"></circle>
+      <text x="164" y="296" text-anchor="middle">×</text>
+    </g><g class="fb-unit side-A">
+      <circle cx="228" cy="356" r="15"></circle>
+      <text x="228" y="360" text-anchor="middle">S</text>
+    </g><g class="fb-unit side-B destroyed">
+      <circle cx="420" cy="228" r="15"></circle>
+      <text x="420" y="232" text-anchor="middle">×</text>
+    </g><g class="fb-unit side-B">
+      <circle cx="292" cy="228" r="15"></circle>
+      <text x="292" y="232" text-anchor="middle">S</text>
+    </g><g class="fb-unit side-B">
+      <circle cx="292" cy="164" r="15"></circle>
+      <text x="292" y="168" text-anchor="middle">W</text>
+    </g><g class="fb-unit side-A destroyed">
+      <circle cx="420" cy="228" r="15"></circle>
+      <text x="420" y="232" text-anchor="middle">×</text>
+    </g><g class="fb-unit side-A destroyed">
+      <circle cx="292" cy="164" r="15"></circle>
+      <text x="292" y="168" text-anchor="middle">×</text>
+    </g>
+        </svg>
+      </a>
+      <ul class="board-key" aria-label="Board key">
+        <li><i class="key-core side-A"></i>Side A core</li>
+        <li><i class="key-core side-B"></i>Side B core</li>
+        <li><i class="key-unit"></i>Unit, W worker, S striker</li>
+        <li><i class="key-resource"></i>Resource</li>
+        <li><i class="key-zone"></i>Control zone</li>
+      </ul>
+    </figure></div>
         </div>
         <div id="arena-matches" class="match-grid" aria-label="Highlighted Arena matches">
-<article class="match-card encounter-summary-card" id="highlight-encounter-deepseek-v4-flash-vs-kimi-k2.7-code">
-        <div>
-          <span class="match-label">Encounter 1 · 2 replays · latest 20260612 · extra-high reasoning text actions</span>
+<article class="encounter-summary-card" id="highlight-encounter-deepseek-v4-flash-vs-kimi-k2.7-code">
+        <div class="encounter-summary-head">
+          <span class="match-label">Encounter 1</span>
           <h3>DeepSeek V4 Flash vs Kimi K2.7 Code</h3>
-          <p><strong>Kimi K2.7 Code leads 2–0</strong>. Replays stay grouped under this model-vs-model encounter, including side-swapped rounds.</p>
-          <div class="home-replay-tabs" aria-label="DeepSeek V4 Flash vs Kimi K2.7 Code replay shortcuts">
-            <a class="home-replay-link" href="arena/#resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941">
-                <span>Round 1</span>
-                <strong>Kimi K2.7 Code</strong>
-                <small>adjudication · seed 361605864</small>
-              </a><a class="home-replay-link" href="arena/#resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round2-seed361605864-max60-20260612-233941">
-                <span>Round 2</span>
-                <strong>Kimi K2.7 Code</strong>
-                <small>adjudication · seed 361605864</small>
-              </a>
-          </div>
+          <p><strong>Kimi K2.7 Code leads 2–0</strong>. Replays stay grouped under the model-vs-model encounter, including side-swapped rounds.</p>
+          <ul class="encounter-facts">
+            <li><b>2</b> replays</li>
+            <li><b>120</b> turns</li>
+            <li>latest 20260612</li>
+            <li>extra-high reasoning text actions</li>
+          </ul>
         </div>
-        <div class="match-metrics encounter-summary-metrics">
-          <div class="metric"><span class="metric-label">Replays</span><strong>2</strong></div>
-          <div class="metric"><span class="metric-label">Turns</span><strong>120</strong></div>
-          <div class="metric"><span class="metric-label">Seeds</span><strong>1</strong></div>
-          <a class="row-action match-action" href="arena/#resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941">Open encounter →</a>
+        <div class="home-replay-tabs" aria-label="DeepSeek V4 Flash vs Kimi K2.7 Code replay shortcuts">
+          <a class="home-replay-link" href="arena/#resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941">
+              <span>Round 1</span>
+              <strong>Kimi K2.7 Code</strong>
+              <small>adjudication</small>
+              <small>seed 361605864</small>
+            </a><a class="home-replay-link" href="arena/#resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round2-seed361605864-max60-20260612-233941">
+              <span>Round 2</span>
+              <strong>Kimi K2.7 Code</strong>
+              <small>adjudication</small>
+              <small>seed 361605864</small>
+            </a>
         </div>
+        <a class="row-action match-action" href="arena/#resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941">Open encounter</a>
       </article>
-<article class="match-card encounter-summary-card" id="highlight-encounter-deepseek-v4-flash-vs-step-3.7-flash">
-        <div>
-          <span class="match-label">Encounter 2 · 2 replays · latest 20260531 · 0.3</span>
+<article class="encounter-summary-card" id="highlight-encounter-deepseek-v4-flash-vs-step-3.7-flash">
+        <div class="encounter-summary-head">
+          <span class="match-label">Encounter 2</span>
           <h3>DeepSeek V4 Flash vs Step 3.7 Flash</h3>
-          <p><strong>DeepSeek V4 Flash leads 2–0</strong>. Replays stay grouped under this model-vs-model encounter, including side-swapped rounds.</p>
-          <div class="home-replay-tabs" aria-label="DeepSeek V4 Flash vs Step 3.7 Flash replay shortcuts">
-            <a class="home-replay-link" href="arena/#resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824">
-                <span>Replay 1</span>
-                <strong>DeepSeek V4 Flash</strong>
-                <small>core destroyed · seed 1188878758</small>
-              </a><a class="home-replay-link" href="arena/#resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210">
-                <span>Replay 2</span>
-                <strong>DeepSeek V4 Flash</strong>
-                <small>adjudication · seed 42</small>
-              </a>
-          </div>
+          <p><strong>DeepSeek V4 Flash leads 2–0</strong>. Replays stay grouped under the model-vs-model encounter, including side-swapped rounds.</p>
+          <ul class="encounter-facts">
+            <li><b>2</b> replays</li>
+            <li><b>163</b> turns</li>
+            <li>latest 20260531</li>
+            <li>0.3</li>
+          </ul>
         </div>
-        <div class="match-metrics encounter-summary-metrics">
-          <div class="metric"><span class="metric-label">Replays</span><strong>2</strong></div>
-          <div class="metric"><span class="metric-label">Turns</span><strong>163</strong></div>
-          <div class="metric"><span class="metric-label">Seeds</span><strong>2</strong></div>
-          <a class="row-action match-action" href="arena/#resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824">Open encounter →</a>
+        <div class="home-replay-tabs" aria-label="DeepSeek V4 Flash vs Step 3.7 Flash replay shortcuts">
+          <a class="home-replay-link" href="arena/#resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824">
+              <span>Replay 1</span>
+              <strong>DeepSeek V4 Flash</strong>
+              <small>core destroyed</small>
+              <small>seed 1188878758</small>
+            </a><a class="home-replay-link" href="arena/#resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210">
+              <span>Replay 2</span>
+              <strong>DeepSeek V4 Flash</strong>
+              <small>adjudication</small>
+              <small>seed 42</small>
+            </a>
         </div>
+        <a class="row-action match-action" href="arena/#resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824">Open encounter</a>
       </article>
-<article class="match-card encounter-summary-card" id="highlight-encounter-deepseek-v4-flash-vs-gemini-3-flash-preview">
-        <div>
-          <span class="match-label">Encounter 3 · 1 replay · latest 20260530 · 0.3</span>
+<article class="encounter-summary-card" id="highlight-encounter-deepseek-v4-flash-vs-gemini-3-flash-preview">
+        <div class="encounter-summary-head">
+          <span class="match-label">Encounter 3</span>
           <h3>DeepSeek V4 Flash vs Gemini 3 Flash Preview</h3>
-          <p><strong>Gemini 3 Flash Preview won the replay</strong>. Replays stay grouped under this model-vs-model encounter, including side-swapped rounds.</p>
-          <div class="home-replay-tabs" aria-label="DeepSeek V4 Flash vs Gemini 3 Flash Preview replay shortcuts">
-            <a class="home-replay-link" href="arena/#resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107">
-                <span>Replay</span>
-                <strong>Gemini 3 Flash Preview</strong>
-                <small>adjudication · seed 761168107</small>
-              </a>
-          </div>
+          <p><strong>Gemini 3 Flash Preview won the replay</strong>. Replays stay grouped under the model-vs-model encounter, including side-swapped rounds.</p>
+          <ul class="encounter-facts">
+            <li><b>1</b> replay</li>
+            <li><b>200</b> turns</li>
+            <li>latest 20260530</li>
+            <li>0.3</li>
+          </ul>
         </div>
-        <div class="match-metrics encounter-summary-metrics">
-          <div class="metric"><span class="metric-label">Replays</span><strong>1</strong></div>
-          <div class="metric"><span class="metric-label">Turns</span><strong>200</strong></div>
-          <div class="metric"><span class="metric-label">Seeds</span><strong>1</strong></div>
-          <a class="row-action match-action" href="arena/#resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107">Open encounter →</a>
+        <div class="home-replay-tabs" aria-label="DeepSeek V4 Flash vs Gemini 3 Flash Preview replay shortcuts">
+          <a class="home-replay-link" href="arena/#resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107">
+              <span>Replay</span>
+              <strong>Gemini 3 Flash Preview</strong>
+              <small>adjudication</small>
+              <small>seed 761168107</small>
+            </a>
         </div>
+        <a class="row-action match-action" href="arena/#resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107">Open encounter</a>
       </article>
         </div>
       </section>
 
-      <section id="methodology" class="section-shell methodology" aria-labelledby="method-title">
-        <div class="section-kicker">Methodology</div>
-        <h2 id="method-title">Scores are claims with receipts.</h2>
+      <section id="methodology" class="section methodology" aria-labelledby="method-title">
+        <div class="section-head">
+          <h2 id="method-title">Scores are claims with receipts.</h2>
+        </div>
         <div class="method-grid">
           <article>
             <h3>Separate lanes</h3>
@@ -1048,19 +1166,19 @@
         </div>
       </section>
 
-      <section id="evidence" class="section-shell evidence" aria-labelledby="evidence-title">
-        <div class="evidence-card glass-panel">
+      <section id="evidence" class="section evidence" aria-labelledby="evidence-title">
+        <div class="evidence-grid">
           <div>
-            <div class="section-kicker">Evidence contract</div>
             <h2 id="evidence-title">Public by design. Auditable by default.</h2>
           </div>
           <div class="evidence-copy">
             <p>
-              This site publishes benchmark summaries as versioned data files. The presentation layer is intentionally separate from the scoring harness so rankings can evolve without rewriting the public record.
+              Benchmark summaries are published as versioned data files. The presentation layer is intentionally separate from the scoring harness, so rankings can evolve without rewriting the public record.
             </p>
             <div class="evidence-actions">
               <a class="data-link" href="data/model-comparison.json">Ranking data</a>
               <a class="data-link" href="data/arena-snapshots.json">Arena data</a>
+              <a class="data-link" href="data/hard-agentic-tool.json">Hard Agentic data</a>
             </div>
           </div>
         </div>
@@ -1074,9 +1192,9 @@
 
     <noscript>
       <div class="noscript">
-        Resyst Labs Benchmarks requires JavaScript to render the live ranking table from the public JSON data files. The data files remain available at data/model-comparison.json and data/arena-snapshots.json.
+        The ranking, podium, and Arena summaries on this site are rendered at build time; the public data files remain available at data/model-comparison.json and data/arena-snapshots.json.
       </div>
     </noscript>
-    <script type="module" src="app.js?v=20260615-ranking-local-badge"></script>
+    <script type="module" src="app.js?v=20260928-visual-overhaul"></script>
   </body>
 </html>

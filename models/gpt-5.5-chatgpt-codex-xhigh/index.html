@@ -10,25 +10,26 @@
     <meta name="application-name" content="Resyst Labs Benchmarks" />
     <meta name="author" content="Resyst Labs" />
     <meta name="color-scheme" content="dark" />
-    <meta name="theme-color" content="#050508" />
+    <meta name="theme-color" content="#07060b" />
     <link rel="canonical" href="https://benchmarks.resyst.cl/models/gpt-5.5-chatgpt-codex-xhigh/" />
     <link rel="alternate" hreflang="en" href="https://benchmarks.resyst.cl/models/gpt-5.5-chatgpt-codex-xhigh/" />
     <link rel="alternate" hreflang="x-default" href="https://benchmarks.resyst.cl/models/gpt-5.5-chatgpt-codex-xhigh/" />
     <link rel="icon" href="../../favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="../../site.webmanifest" />
+    <link rel="preload" href="../../assets/fonts/archivo-variable.woff2" as="font" type="font/woff2" crossorigin />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://benchmarks.resyst.cl/models/gpt-5.5-chatgpt-codex-xhigh/" />
     <meta property="og:title" content="GPT‑5.5 Benchmark Result | Resyst Labs" />
     <meta property="og:description" content="Compare GPT‑5.5: overall rank, Full/Agentic, SWE MVP, Hard Intelligence, cost, reliability, and public Resyst Labs benchmark evidence." />
-    <meta property="og:image" content="https://benchmarks.resyst.cl/og.png?v=20260613-link-preview" />
-    <meta property="og:image:secure_url" content="https://benchmarks.resyst.cl/og.png?v=20260613-link-preview" />
+    <meta property="og:image" content="https://benchmarks.resyst.cl/og.png?v=20260928-visual-overhaul" />
+    <meta property="og:image:secure_url" content="https://benchmarks.resyst.cl/og.png?v=20260928-visual-overhaul" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Resyst Labs Benchmarks: independent AI model rankings and Arena evidence" />
     <meta property="og:site_name" content="Resyst Labs Benchmarks" />
-    <link rel="stylesheet" href="../../styles.css?v=20260615-ranking-local-badge" />
+    <link rel="stylesheet" href="../../styles.css?v=20260928-visual-overhaul" />
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -56,7 +57,7 @@
   "dateModified": "2026-09-25",
   "primaryImageOfPage": {
     "@type": "ImageObject",
-    "url": "https://benchmarks.resyst.cl/og.png?v=20260613-link-preview",
+    "url": "https://benchmarks.resyst.cl/og.png?v=20260928-visual-overhaul",
     "width": 1200,
     "height": 630
   }
@@ -171,21 +172,18 @@
 </script>
   </head>
   <body class="detail-page">
-    <canvas id="signal-field" aria-hidden="true"></canvas>
     <div class="grain" aria-hidden="true"></div>
-    <div class="aurora aurora-a" aria-hidden="true"></div>
-    <div class="aurora aurora-b" aria-hidden="true"></div>
     
     <header class="site-header">
       <a class="brand" href="../../" aria-label="Resyst Labs Benchmarks home">
-        <img class="brand-logo" src="../../assets/ResystLabs-Logo.png" alt="Resyst Labs logo" width="42" height="42" />
-        <span>
+        <img class="brand-logo" src="../../assets/ResystLabs-Logo.png" alt="Resyst Labs logo" width="40" height="40" />
+        <span class="brand-text">
           <strong>Resyst Labs</strong>
           <small>Benchmarks</small>
         </span>
       </a>
       <nav aria-label="Primary navigation">
-        <a href="../../ranking/">Ranking</a>
+        <a href="../../ranking/" aria-current="page">Ranking</a>
         <a href="../../hard-agentic/">Hard Agentic</a>
         <a href="../../arena/">Arena</a>
         <a href="../../#methodology">Methodology</a>
@@ -193,19 +191,70 @@
       </nav>
     </header>
     <main class="detail-main model-detail" id="top">
-      <section class="detail-hero section-shell">
-        <a class="back-link" href="../../ranking/">← Back to ranking</a>
-        <p class="eyebrow">Model result · rank #3</p>
-        <h1>GPT‑5.5</h1>
-        
-        <p class="hero-lead">ChatGPT Codex subscription · gpt-5.5 · extra-high reasoning · Full + SWE + Hard measured. Public result card with the model’s overall score, lane measurements, runtime/cost telemetry, and ranking formula.</p>
-        <div class="detail-actions">
-          <a class="button primary" href="../../data/model-comparison.json">Download public JSON</a>
-          <a class="button secondary" href="../../ranking/">Compare all models</a>
+      <section class="page-hero model-hero">
+        <div class="model-hero-copy">
+          <a class="back-link" href="../../ranking/">Back to the ranking</a>
+          <p class="kicker">Model result, rank 3 of 27</p>
+          <h1>GPT‑5.5</h1>
+          
+          <p class="hero-lead">ChatGPT Codex subscription · gpt-5.5 · extra-high reasoning · Full + SWE + Hard measured. Public result card with the model’s overall score, lane measurements, runtime and cost telemetry, and the ranking formula.</p>
+          <div class="detail-actions">
+            <a class="button primary" href="../../ranking/">Compare all models</a>
+            <a class="button secondary" href="../../data/model-comparison.json">Download public JSON</a>
+          </div>
         </div>
+        <aside class="leader-plate model-plate" aria-label="Overall score">
+          <span class="plate-label">Overall score</span>
+          <span class="plate-score"><b>85.05</b><i>of 100</i></span>
+          <small class="plate-basis">mean(Full, SWE, Hard Intelligence)</small>
+        </aside>
       </section>
 
-      <section class="section-shell result-stat-grid" aria-label="Headline metrics">
+      <section class="section" aria-label="Lane profile">
+        <figure class="fig profile-fig">
+    <figcaption>
+      <span class="fig-n">Figure 1</span>
+      <span class="fig-title">Lane profile against the cohort</span>
+      <span class="fig-note">Each bar is one measured lane on the shared 0 to 100 scale. The thin mark is the cohort median; the bright mark is the best score any ranked model reached on that lane.</span>
+    </figcaption>
+    <div class="profile-chart">
+      <div class="profile-row">
+          <span class="profile-label">Full / Agentic<small>lane rank #7 of 27</small></span>
+          <div class="profile-track">
+            <i class="profile-bar" style="--v:84.3%"></i>
+            <b class="profile-median" style="--x:78.2%" title="Cohort median 78.17"></b>
+            <b class="profile-best" style="--x:90.6%" title="Cohort best 90.62"></b>
+          </div>
+          <strong>84.33</strong>
+        </div>
+<div class="profile-row">
+          <span class="profile-label">SWE MVP<small>lane rank #8 of 27</small></span>
+          <div class="profile-track">
+            <i class="profile-bar" style="--v:82.5%"></i>
+            <b class="profile-median" style="--x:75.8%" title="Cohort median 75.84"></b>
+            <b class="profile-best" style="--x:89.6%" title="Cohort best 89.58"></b>
+          </div>
+          <strong>82.53</strong>
+        </div>
+<div class="profile-row">
+          <span class="profile-label">Hard Intelligence<small>lane rank #8 of 27</small></span>
+          <div class="profile-track">
+            <i class="profile-bar" style="--v:88.3%"></i>
+            <b class="profile-median" style="--x:81.4%" title="Cohort median 81.37"></b>
+            <b class="profile-best" style="--x:96.1%" title="Cohort best 96.10"></b>
+          </div>
+          <strong>88.28</strong>
+        </div>
+    </div>
+    <ul class="profile-key" aria-label="Profile key">
+      <li><i class="key-bar"></i>GPT‑5.5</li>
+      <li><i class="key-median"></i>Cohort median</li>
+      <li><i class="key-best"></i>Cohort best</li>
+    </ul>
+  </figure>
+      </section>
+
+      <section class="section result-stat-grid" aria-label="Headline metrics">
         <article class="result-stat-card"><span>Overall score</span><strong>85.05</strong><p>Rank #3</p></article>
         <article class="result-stat-card"><span>Full / Agentic</span><strong>84.33</strong><p>Full rank #7</p></article>
         <article class="result-stat-card"><span>SWE MVP</span><strong>82.53</strong><p>SWE rank #8</p></article>
@@ -213,7 +262,7 @@
         <article class="result-stat-card"><span>Measured cost</span><strong>$4.822</strong><p>100.0% reliability</p></article>
       </section>
 
-      <section class="section-shell result-card-grid" aria-label="Result cards">
+      <section class="section result-card-grid" aria-label="Result cards">
         <article class="result-card glass-panel">
     <span class="panel-label">Overall</span>
     <h2>All-around publication view</h2>
@@ -256,10 +305,10 @@
   </article>
       </section>
 
-      <section class="section-shell result-explainer glass-panel">
+      <section class="section result-explainer">
         <div>
           <span class="panel-label">Interpretation</span>
-          <h2>Why this result lands here.</h2>
+          <h2>Why the result lands here.</h2>
         </div>
         <p>This is a top-tier all-around entrant: the aggregate score remains close to the leader, with lane-level tradeoffs shown separately. Hard Intelligence score is 88.28 and contributes to the overall score alongside Full/Agentic and SWE. Runs on the ChatGPT Codex subscription; the transport is the Codex Responses route rather than a metered API key. Reasoning effort is extra-high on every lane. OpenAI documents none/low/medium/high/xhigh for gpt-5.5, so this is the model&#39;s ceiling and no higher level exists to leave unused. Costed at the model’s published Standard API rates ($5.00/1M input, $30.00/1M output) as a comparable basis, not an invoice: the subscription bills no marginal per-token charge. Hard Intelligence is a public diagnostic, not a hidden official score. Token median and P90 per scored item are intentionally omitted: their derivation could not be reproduced on the same basis as the published rows.</p>
       </section>
@@ -267,8 +316,8 @@
     <footer class="site-footer">
       <span>Resyst Labs Benchmarks</span>
       <span>Independent evaluation for AI systems that act.</span>
+      <span class="footer-links"><a href="../../data/model-comparison.json">Ranking JSON</a><a href="../../data/arena-snapshots.json">Arena JSON</a><a href="../../data/hard-agentic-tool.json">Hard Agentic JSON</a></span>
     </footer>
-    <script type="module" src="../../background.js"></script>
     
   </body>
 </html>

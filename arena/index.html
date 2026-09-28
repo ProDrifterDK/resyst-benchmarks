@@ -10,25 +10,26 @@
     <meta name="application-name" content="Resyst Labs Benchmarks" />
     <meta name="author" content="Resyst Labs" />
     <meta name="color-scheme" content="dark" />
-    <meta name="theme-color" content="#050508" />
+    <meta name="theme-color" content="#07060b" />
     <link rel="canonical" href="https://benchmarks.resyst.cl/arena/" />
     <link rel="alternate" hreflang="en" href="https://benchmarks.resyst.cl/arena/" />
     <link rel="alternate" hreflang="x-default" href="https://benchmarks.resyst.cl/arena/" />
     <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="../site.webmanifest" />
+    <link rel="preload" href="../assets/fonts/archivo-variable.woff2" as="font" type="font/woff2" crossorigin />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://benchmarks.resyst.cl/arena/" />
     <meta property="og:title" content="Resyst Arena AI Replays | Tactical LLM Benchmark" />
     <meta property="og:description" content="Replay Resyst Arena AI model duels with board states, legal actions, winners, seeds, telemetry, and grouped tactical benchmark evidence." />
-    <meta property="og:image" content="https://benchmarks.resyst.cl/og.png?v=20260613-link-preview" />
-    <meta property="og:image:secure_url" content="https://benchmarks.resyst.cl/og.png?v=20260613-link-preview" />
+    <meta property="og:image" content="https://benchmarks.resyst.cl/og.png?v=20260928-visual-overhaul" />
+    <meta property="og:image:secure_url" content="https://benchmarks.resyst.cl/og.png?v=20260928-visual-overhaul" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Resyst Labs Benchmarks: independent AI model rankings and Arena evidence" />
     <meta property="og:site_name" content="Resyst Labs Benchmarks" />
-    <link rel="stylesheet" href="../styles.css?v=20260615-ranking-local-badge" />
+    <link rel="stylesheet" href="../styles.css?v=20260928-visual-overhaul" />
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -56,7 +57,7 @@
   "dateModified": "2026-09-25",
   "primaryImageOfPage": {
     "@type": "ImageObject",
-    "url": "https://benchmarks.resyst.cl/og.png?v=20260613-link-preview",
+    "url": "https://benchmarks.resyst.cl/og.png?v=20260928-visual-overhaul",
     "width": 1200,
     "height": 630
   }
@@ -145,15 +146,12 @@
 </script>
   </head>
   <body class="detail-page arena-replay-page">
-    <canvas id="signal-field" aria-hidden="true"></canvas>
     <div class="grain" aria-hidden="true"></div>
-    <div class="aurora aurora-a" aria-hidden="true"></div>
-    <div class="aurora aurora-b" aria-hidden="true"></div>
     
     <header class="site-header">
       <a class="brand" href="../" aria-label="Resyst Labs Benchmarks home">
-        <img class="brand-logo" src="../assets/ResystLabs-Logo.png" alt="Resyst Labs logo" width="42" height="42" />
-        <span>
+        <img class="brand-logo" src="../assets/ResystLabs-Logo.png" alt="Resyst Labs logo" width="40" height="40" />
+        <span class="brand-text">
           <strong>Resyst Labs</strong>
           <small>Benchmarks</small>
         </span>
@@ -161,15 +159,15 @@
       <nav aria-label="Primary navigation">
         <a href="../ranking/">Ranking</a>
         <a href="../hard-agentic/">Hard Agentic</a>
-        <a href="../arena/">Arena</a>
+        <a href="../arena/" aria-current="page">Arena</a>
         <a href="../#methodology">Methodology</a>
         <a href="../#evidence">Evidence</a>
       </nav>
     </header>
     <main class="detail-main arena-detail" id="top">
-    <section class="detail-hero section-shell arena-hero-page">
-      <a class="back-link" href="../#arena">← Back to overview</a>
-      <p class="eyebrow">Resyst Arena · replay room</p>
+    <section class="page-hero">
+      <a class="back-link" href="../#arena">Back to the overview</a>
+      <p class="kicker">Resyst Arena replay room</p>
       <h1>Tactical evidence you can replay.</h1>
       <p class="hero-lead">Resyst Arena is a deterministic turn-based evaluation environment for spatial strategy, legal-action discipline, and long-horizon tactical continuity. Replays are grouped by encounter so historical DeepSeek vs Step, DeepSeek vs Gemini, and DeepSeek vs Kimi runs stay readable instead of collapsing into one flat match list.</p>
       <div class="detail-actions">
@@ -178,13 +176,13 @@
       </div>
     </section>
 
-    <section class="section-shell arena-rule-grid" aria-label="Arena method principles">
+    <section class="section result-stat-grid arena-rule-grid" aria-label="Arena method principles">
       <article class="result-stat-card"><span>Score boundary</span><strong>Outcome first</strong><p>Latency, token use, and cost are telemetry, not hidden score modifiers.</p></article>
       <article class="result-stat-card"><span>Encounter grouping</span><strong>Pairing first</strong><p>Replay buttons live under the model-vs-model encounter they belong to, including side-swapped rounds.</p></article>
       <article class="result-stat-card"><span>Replay contract</span><strong>Sanitized state</strong><p>Replay JSON exposes board states, actions, events, and telemetry while excluding raw model text outputs.</p></article>
     </section>
 
-    <section id="replays" class="section-shell replay-list" aria-label="Arena encounters and replays">
+    <section id="replays" class="section replay-list" aria-label="Arena encounters and replays">
       <div class="encounter-switcher" aria-label="Grouped Arena encounters">
         <article id="encounter-deepseek-v4-flash-vs-kimi-k2.7-code" class="encounter-card is-active" data-encounter-group="encounter-deepseek-v4-flash-vs-kimi-k2.7-code" aria-labelledby="encounter-deepseek-v4-flash-vs-kimi-k2.7-code-title">
     <div class="encounter-card-head">
@@ -197,17 +195,22 @@
       <div class="score-pill"><span>Turns</span><strong>120</strong></div>
       <div class="score-pill"><span>Seeds</span><strong>1</strong></div>
     </div>
-    <p class="encounter-meta">2 replays · latest 20260612 · extra-high reasoning text actions</p>
+    <ul class="encounter-facts">
+            <li><b>2</b> replays</li>
+            <li><b>120</b> turns</li>
+            <li>latest 20260612</li>
+            <li>extra-high reasoning text actions</li>
+          </ul>
     <div class="encounter-replay-tabs" role="tablist" aria-label="DeepSeek V4 Flash vs Kimi K2.7 Code replays">
       <button class="match-tab is-active" type="button" role="tab" id="tab-resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941" data-match-tab="resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941" data-encounter-id="encounter-deepseek-v4-flash-vs-kimi-k2.7-code" aria-controls="resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941" aria-selected="true">
     <span>Round 1</span>
     <strong>Kimi K2.7 Code</strong>
-    <small>adjudication · seed 361605864</small>
+    <small>adjudication, seed 361605864</small>
   </button>
 <button class="match-tab " type="button" role="tab" id="tab-resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round2-seed361605864-max60-20260612-233941" data-match-tab="resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round2-seed361605864-max60-20260612-233941" data-encounter-id="encounter-deepseek-v4-flash-vs-kimi-k2.7-code" aria-controls="resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round2-seed361605864-max60-20260612-233941" aria-selected="false">
     <span>Round 2</span>
     <strong>Kimi K2.7 Code</strong>
-    <small>adjudication · seed 361605864</small>
+    <small>adjudication, seed 361605864</small>
   </button>
     </div>
   </article>
@@ -222,17 +225,22 @@
       <div class="score-pill"><span>Turns</span><strong>163</strong></div>
       <div class="score-pill"><span>Seeds</span><strong>2</strong></div>
     </div>
-    <p class="encounter-meta">2 replays · latest 20260531 · 0.3</p>
+    <ul class="encounter-facts">
+            <li><b>2</b> replays</li>
+            <li><b>163</b> turns</li>
+            <li>latest 20260531</li>
+            <li>0.3</li>
+          </ul>
     <div class="encounter-replay-tabs" role="tablist" aria-label="DeepSeek V4 Flash vs Step 3.7 Flash replays">
       <button class="match-tab " type="button" role="tab" id="tab-resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824" data-match-tab="resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824" data-encounter-id="encounter-deepseek-v4-flash-vs-step-3.7-flash" aria-controls="resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824" aria-selected="false">
     <span>Replay 1</span>
     <strong>DeepSeek V4 Flash</strong>
-    <small>core destroyed · seed 1188878758</small>
+    <small>core destroyed, seed 1188878758</small>
   </button>
 <button class="match-tab " type="button" role="tab" id="tab-resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210" data-match-tab="resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210" data-encounter-id="encounter-deepseek-v4-flash-vs-step-3.7-flash" aria-controls="resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210" aria-selected="false">
     <span>Replay 2</span>
     <strong>DeepSeek V4 Flash</strong>
-    <small>adjudication · seed 42</small>
+    <small>adjudication, seed 42</small>
   </button>
     </div>
   </article>
@@ -247,12 +255,17 @@
       <div class="score-pill"><span>Turns</span><strong>200</strong></div>
       <div class="score-pill"><span>Seeds</span><strong>1</strong></div>
     </div>
-    <p class="encounter-meta">1 replay · latest 20260530 · 0.3</p>
+    <ul class="encounter-facts">
+            <li><b>1</b> replay</li>
+            <li><b>200</b> turns</li>
+            <li>latest 20260530</li>
+            <li>0.3</li>
+          </ul>
     <div class="encounter-replay-tabs" role="tablist" aria-label="DeepSeek V4 Flash vs Gemini 3 Flash Preview replays">
       <button class="match-tab " type="button" role="tab" id="tab-resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107" data-match-tab="resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107" data-encounter-id="encounter-deepseek-v4-flash-vs-gemini-3-flash-preview" aria-controls="resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107" aria-selected="false">
     <span>Replay</span>
     <strong>Gemini 3 Flash Preview</strong>
-    <small>adjudication · seed 761168107</small>
+    <small>adjudication, seed 761168107</small>
   </button>
     </div>
   </article>
@@ -261,14 +274,13 @@
         <article id="resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941" class="match-replay glass-panel is-active" role="tabpanel" aria-labelledby="tab-resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941"  data-replay-src="../data/replays/resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941.json">
     <div class="match-replay-head">
       <div class="match-title-block">
-        <span class="match-label">Seed 361605864 · duel · 60 turns</span>
+        <span class="match-label"><span>Seed 361605864</span><span>duel</span><span>60 turns</span></span>
         <h2>DeepSeek V4 Flash <span class="versus-inline">vs</span> Kimi K2.7 Code</h2>
-        <p class="entrant-ids"><span>A:</span> DeepSeek V4 Flash <span>B:</span> Kimi K2.7 Code</p>
       </div>
       <aside class="winner-card" aria-label="Match winner">
         <span>Winner</span>
         <strong>Kimi K2.7 Code</strong>
-        <small>adjudication</small>
+        <small>by adjudication</small>
         <a class="data-link" href="../data/replays/resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round1-seed361605864-max60-20260612-233941.json">Replay JSON</a>
       </aside>
     </div>
@@ -341,7 +353,7 @@
           <div class="board-topbar">
             <span class="live-dot"></span>
             <strong data-bot-label>Loading model</strong>
-            <small>Board state · legal actions · event telemetry</small>
+            <small>Board state, legal actions, event telemetry</small>
           </div>
           <div class="control-deck">
             <div class="transport-head">
@@ -377,9 +389,9 @@
           <div class="board-wrap">
             <div class="replay-board-live" data-board aria-label="Replay board for DeepSeek V4 Flash vs Kimi K2.7 Code"></div>
             <div class="victory-overlay" data-victory hidden>
-              <span>✦ Victory</span>
+              <span>Victory</span>
               <strong>Kimi K2.7 Code</strong>
-              <small>adjudication · 60 turns</small>
+              <small>adjudication after 60 turns</small>
               <button class="button secondary" type="button" data-restart>Replay from start</button>
             </div>
           </div>
@@ -403,14 +415,13 @@
 <article id="resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round2-seed361605864-max60-20260612-233941" class="match-replay glass-panel " role="tabpanel" aria-labelledby="tab-resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round2-seed361605864-max60-20260612-233941" hidden data-replay-src="../data/replays/resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round2-seed361605864-max60-20260612-233941.json">
     <div class="match-replay-head">
       <div class="match-title-block">
-        <span class="match-label">Seed 361605864 · duel · 60 turns</span>
+        <span class="match-label"><span>Seed 361605864</span><span>duel</span><span>60 turns</span></span>
         <h2>Kimi K2.7 Code <span class="versus-inline">vs</span> DeepSeek V4 Flash</h2>
-        <p class="entrant-ids"><span>A:</span> Kimi K2.7 Code <span>B:</span> DeepSeek V4 Flash</p>
       </div>
       <aside class="winner-card" aria-label="Match winner">
         <span>Winner</span>
         <strong>Kimi K2.7 Code</strong>
-        <small>adjudication</small>
+        <small>by adjudication</small>
         <a class="data-link" href="../data/replays/resyst-arena-deepseekv4flashdirect-xhigh-vs-kimik27openrouter-xhigh-series1-round2-seed361605864-max60-20260612-233941.json">Replay JSON</a>
       </aside>
     </div>
@@ -483,7 +494,7 @@
           <div class="board-topbar">
             <span class="live-dot"></span>
             <strong data-bot-label>Loading model</strong>
-            <small>Board state · legal actions · event telemetry</small>
+            <small>Board state, legal actions, event telemetry</small>
           </div>
           <div class="control-deck">
             <div class="transport-head">
@@ -519,9 +530,9 @@
           <div class="board-wrap">
             <div class="replay-board-live" data-board aria-label="Replay board for Kimi K2.7 Code vs DeepSeek V4 Flash"></div>
             <div class="victory-overlay" data-victory hidden>
-              <span>✦ Victory</span>
+              <span>Victory</span>
               <strong>Kimi K2.7 Code</strong>
-              <small>adjudication · 60 turns</small>
+              <small>adjudication after 60 turns</small>
               <button class="button secondary" type="button" data-restart>Replay from start</button>
             </div>
           </div>
@@ -545,14 +556,13 @@
 <article id="resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824" class="match-replay glass-panel " role="tabpanel" aria-labelledby="tab-resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824" hidden data-replay-src="../data/replays/resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824.json">
     <div class="match-replay-head">
       <div class="match-title-block">
-        <span class="match-label">Seed 1188878758 · duel · 63 turns</span>
+        <span class="match-label"><span>Seed 1188878758</span><span>duel</span><span>63 turns</span></span>
         <h2>DeepSeek V4 Flash <span class="versus-inline">vs</span> Step 3.7 Flash</h2>
-        <p class="entrant-ids"><span>A:</span> DeepSeek V4 Flash <span>B:</span> Step 3.7 Flash</p>
       </div>
       <aside class="winner-card" aria-label="Match winner">
         <span>Winner</span>
         <strong>DeepSeek V4 Flash</strong>
-        <small>core destroyed</small>
+        <small>by core destroyed</small>
         <a class="data-link" href="../data/replays/resyst-arena-tiebreaker-deepseekv4flash-vs-step37flash-native-high-random-seed1188878758-max100-20260531-202824.json">Replay JSON</a>
       </aside>
     </div>
@@ -625,7 +635,7 @@
           <div class="board-topbar">
             <span class="live-dot"></span>
             <strong data-bot-label>Loading model</strong>
-            <small>Board state · legal actions · event telemetry</small>
+            <small>Board state, legal actions, event telemetry</small>
           </div>
           <div class="control-deck">
             <div class="transport-head">
@@ -661,9 +671,9 @@
           <div class="board-wrap">
             <div class="replay-board-live" data-board aria-label="Replay board for deepseek-v4-flash-openrouter-native-high vs step-3.7-flash-openrouter-native-high"></div>
             <div class="victory-overlay" data-victory hidden>
-              <span>✦ Victory</span>
+              <span>Victory</span>
               <strong>DeepSeek V4 Flash</strong>
-              <small>core destroyed · 63 turns</small>
+              <small>core destroyed after 63 turns</small>
               <button class="button secondary" type="button" data-restart>Replay from start</button>
             </div>
           </div>
@@ -687,14 +697,13 @@
 <article id="resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210" class="match-replay glass-panel " role="tabpanel" aria-labelledby="tab-resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210" hidden data-replay-src="../data/replays/resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210.json">
     <div class="match-replay-head">
       <div class="match-title-block">
-        <span class="match-label">Seed 42 · duel · 100 turns</span>
+        <span class="match-label"><span>Seed 42</span><span>duel</span><span>100 turns</span></span>
         <h2>DeepSeek V4 Flash <span class="versus-inline">vs</span> Step 3.7 Flash</h2>
-        <p class="entrant-ids"><span>A:</span> DeepSeek V4 Flash <span>B:</span> Step 3.7 Flash</p>
       </div>
       <aside class="winner-card" aria-label="Match winner">
         <span>Winner</span>
         <strong>DeepSeek V4 Flash</strong>
-        <small>adjudication</small>
+        <small>by adjudication</small>
         <a class="data-link" href="../data/replays/resyst-arena-deepseekv4flash-vs-step37flash-native-medium-seed42-max100-20260531-190210.json">Replay JSON</a>
       </aside>
     </div>
@@ -767,7 +776,7 @@
           <div class="board-topbar">
             <span class="live-dot"></span>
             <strong data-bot-label>Loading model</strong>
-            <small>Board state · legal actions · event telemetry</small>
+            <small>Board state, legal actions, event telemetry</small>
           </div>
           <div class="control-deck">
             <div class="transport-head">
@@ -803,9 +812,9 @@
           <div class="board-wrap">
             <div class="replay-board-live" data-board aria-label="Replay board for deepseek-v4-flash-openrouter-native-medium vs step-3.7-flash-openrouter-native-medium"></div>
             <div class="victory-overlay" data-victory hidden>
-              <span>✦ Victory</span>
+              <span>Victory</span>
               <strong>DeepSeek V4 Flash</strong>
-              <small>adjudication · 100 turns</small>
+              <small>adjudication after 100 turns</small>
               <button class="button secondary" type="button" data-restart>Replay from start</button>
             </div>
           </div>
@@ -829,14 +838,13 @@
 <article id="resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107" class="match-replay glass-panel " role="tabpanel" aria-labelledby="tab-resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107" hidden data-replay-src="../data/replays/resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107.json">
     <div class="match-replay-head">
       <div class="match-title-block">
-        <span class="match-label">Seed 761168107 · duel · 200 turns</span>
+        <span class="match-label"><span>Seed 761168107</span><span>duel</span><span>200 turns</span></span>
         <h2>DeepSeek V4 Flash <span class="versus-inline">vs</span> Gemini 3 Flash Preview</h2>
-        <p class="entrant-ids"><span>A:</span> DeepSeek V4 Flash <span>B:</span> Gemini 3 Flash Preview</p>
       </div>
       <aside class="winner-card" aria-label="Match winner">
         <span>Winner</span>
         <strong>Gemini 3 Flash Preview</strong>
-        <small>adjudication</small>
+        <small>by adjudication</small>
         <a class="data-link" href="../data/replays/resyst-arena-deepseekv4flash-vs-gemini3flash-thinking-high-cap2048-20260530-211733-seed761168107.json">Replay JSON</a>
       </aside>
     </div>
@@ -909,7 +917,7 @@
           <div class="board-topbar">
             <span class="live-dot"></span>
             <strong data-bot-label>Loading model</strong>
-            <small>Board state · legal actions · event telemetry</small>
+            <small>Board state, legal actions, event telemetry</small>
           </div>
           <div class="control-deck">
             <div class="transport-head">
@@ -945,9 +953,9 @@
           <div class="board-wrap">
             <div class="replay-board-live" data-board aria-label="Replay board for deepseek-v4-flash-openrouter-thinking vs gemini-3-flash-preview-openrouter-thinking"></div>
             <div class="victory-overlay" data-victory hidden>
-              <span>✦ Victory</span>
+              <span>Victory</span>
               <strong>Gemini 3 Flash Preview</strong>
-              <small>adjudication · 200 turns</small>
+              <small>adjudication after 200 turns</small>
               <button class="button secondary" type="button" data-restart>Replay from start</button>
             </div>
           </div>
@@ -974,8 +982,8 @@
     <footer class="site-footer">
       <span>Resyst Labs Benchmarks</span>
       <span>Independent evaluation for AI systems that act.</span>
+      <span class="footer-links"><a href="../data/model-comparison.json">Ranking JSON</a><a href="../data/arena-snapshots.json">Arena JSON</a><a href="../data/hard-agentic-tool.json">Hard Agentic JSON</a></span>
     </footer>
-    <script type="module" src="../background.js"></script>
     <script type="module" src="../replay.js"></script>
   </body>
 </html>

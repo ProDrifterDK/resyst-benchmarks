@@ -10,25 +10,26 @@
     <meta name="application-name" content="Resyst Labs Benchmarks" />
     <meta name="author" content="Resyst Labs" />
     <meta name="color-scheme" content="dark" />
-    <meta name="theme-color" content="#050508" />
+    <meta name="theme-color" content="#07060b" />
     <link rel="canonical" href="https://benchmarks.resyst.cl/hard-agentic/" />
     <link rel="alternate" hreflang="en" href="https://benchmarks.resyst.cl/hard-agentic/" />
     <link rel="alternate" hreflang="x-default" href="https://benchmarks.resyst.cl/hard-agentic/" />
     <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="../site.webmanifest" />
+    <link rel="preload" href="../assets/fonts/archivo-variable.woff2" as="font" type="font/woff2" crossorigin />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://benchmarks.resyst.cl/hard-agentic/" />
     <meta property="og:title" content="Hard Agentic Tool Benchmark | Resyst Labs" />
     <meta property="og:description" content="Separate hard native-tool benchmark lane for agentic AI models, covering authority, retries, unit handling, hostile data, and shortcut controls." />
-    <meta property="og:image" content="https://benchmarks.resyst.cl/og.png?v=20260613-link-preview" />
-    <meta property="og:image:secure_url" content="https://benchmarks.resyst.cl/og.png?v=20260613-link-preview" />
+    <meta property="og:image" content="https://benchmarks.resyst.cl/og.png?v=20260928-visual-overhaul" />
+    <meta property="og:image:secure_url" content="https://benchmarks.resyst.cl/og.png?v=20260928-visual-overhaul" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Resyst Labs Benchmarks: independent AI model rankings and Arena evidence" />
     <meta property="og:site_name" content="Resyst Labs Benchmarks" />
-    <link rel="stylesheet" href="../styles.css?v=20260615-ranking-local-badge" />
+    <link rel="stylesheet" href="../styles.css?v=20260928-visual-overhaul" />
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -56,7 +57,7 @@
   "dateModified": "2026-09-25",
   "primaryImageOfPage": {
     "@type": "ImageObject",
-    "url": "https://benchmarks.resyst.cl/og.png?v=20260613-link-preview",
+    "url": "https://benchmarks.resyst.cl/og.png?v=20260928-visual-overhaul",
     "width": 1200,
     "height": 630
   }
@@ -111,31 +112,28 @@
 </script>
   </head>
   <body class="detail-page hard-agentic-page-body">
-    <canvas id="signal-field" aria-hidden="true"></canvas>
     <div class="grain" aria-hidden="true"></div>
-    <div class="aurora aurora-a" aria-hidden="true"></div>
-    <div class="aurora aurora-b" aria-hidden="true"></div>
     
     <header class="site-header">
       <a class="brand" href="../" aria-label="Resyst Labs Benchmarks home">
-        <img class="brand-logo" src="../assets/ResystLabs-Logo.png" alt="Resyst Labs logo" width="42" height="42" />
-        <span>
+        <img class="brand-logo" src="../assets/ResystLabs-Logo.png" alt="Resyst Labs logo" width="40" height="40" />
+        <span class="brand-text">
           <strong>Resyst Labs</strong>
           <small>Benchmarks</small>
         </span>
       </a>
       <nav aria-label="Primary navigation">
         <a href="../ranking/">Ranking</a>
-        <a href="../hard-agentic/">Hard Agentic</a>
+        <a href="../hard-agentic/" aria-current="page">Hard Agentic</a>
         <a href="../arena/">Arena</a>
         <a href="../#methodology">Methodology</a>
         <a href="../#evidence">Evidence</a>
       </nav>
     </header>
     <main class="detail-main hard-agentic-page" id="top">
-    <section class="detail-hero section-shell hard-agentic-hero">
-      <a class="back-link" href="../ranking/">← Ranking</a>
-      <p class="eyebrow">Hard Agentic Tool Benchmark · separate lane</p>
+    <section class="page-hero">
+      <a class="back-link" href="../ranking/">Back to the ranking</a>
+      <p class="kicker">Hard Agentic Tool Benchmark, a separate lane</p>
       <h1>Hard native tool tasks, reported separately.</h1>
       <p class="hero-lead">This lane targets native-tool-capable models with ambiguous operational data: similar fields, production versus staging, date and status authority, retries, units, policy lookup, hostile data, and fallback ownership. It does not change the global overall ranking yet.</p>
       <div class="detail-actions">
@@ -144,7 +142,7 @@
       </div>
     </section>
 
-    <section class="section-shell result-stat-grid" aria-label="Hard Agentic summary">
+    <section class="section result-stat-grid" aria-label="Hard Agentic summary">
       <article class="result-stat-card"><span>Measured rows</span><strong>5</strong><p>native tool rows only</p></article>
       <article class="result-stat-card"><span>Lane leader</span><strong>GPT-6 Sol</strong><p>score 82.15</p></article>
       <article class="result-stat-card"><span>Score spread</span><strong>29.06</strong><p>53.09 to 82.15</p></article>
@@ -153,15 +151,7 @@
       <article class="result-stat-card"><span>High-spread tasks</span><strong>10</strong><p>tasks with spread at least 25</p></article>
     </section>
 
-    <section class="section-shell ranking-insight-grid" aria-label="Hard Agentic interpretation cards">
-      <article class="ranking-insight-card glass-panel"><h2>Why it is separate</h2><p>The global ranking remains unchanged while this lane matures. It is a harder tool-use slice, not a silent replacement for Full, SWE, or Hard Intelligence.</p></article>
-      <article class="ranking-insight-card glass-panel"><h2>What it measures</h2><p>Models must choose authority, follow pointers, recover from transient tool failures, reject misleading snippets, convert units, and ignore injected instructions inside data fields.</p></article>
-      <article class="ranking-insight-card glass-panel"><h2>What does not count</h2><p>Rows that cannot produce native tool calls are excluded from difficulty claims. Protocol failure is not model weakness under this lane.</p></article>
-      <article class="ranking-insight-card glass-panel"><h2>Control guardrails</h2><p>Snippet reading, blind guessing, first-hit extraction, and broad tool spraying all stay below their limits, so the lane is not solved by cheap shortcuts.</p></article>
-    </section>
-
-    <section id="hard-agentic-table" class="section-shell ranking-section ranking-page-table" aria-labelledby="hard-agentic-table-title">
-      <div class="section-kicker">Separate lane table</div>
+    <section id="hard-agentic-table" class="section ranking-section ranking-page-table" aria-labelledby="hard-agentic-table-title">
       <div class="section-head">
         <div>
           <h2 id="hard-agentic-table-title">Native-tool rows on the hard agentic lane.</h2>
@@ -169,92 +159,60 @@
         </div>
         <a class="data-link" href="../data/hard-agentic-tool.json">Lane data</a>
       </div>
-      <div class="table-wrap glass-panel ranking-explained-table hard-agentic-table">
-        <table aria-label="Hard Agentic Tool Benchmark lane results">
-          <thead><tr><th>Rank</th><th>Model</th><th>Score</th><th>Task range</th><th>Pass rate</th><th>Native tools</th></tr></thead>
+      <div class="table-wrap ranking-explained-table hard-agentic-table">
+        <table class="ranking-table" aria-label="Hard Agentic Tool Benchmark lane results">
+          <thead><tr><th scope="col">Rank</th><th scope="col">Model</th><th scope="col">Score</th><th scope="col">Task range</th><th scope="col">Pass rate</th><th scope="col">Native tools</th></tr></thead>
           <tbody><tr>
-      <td class="rank-cell">#1</td>
-      <td class="model-cell"><strong>GPT-6 Sol</strong><small>ChatGPT Codex subscription · remote api</small></td>
-      <td class="score-cell">82.15</td>
-      <td>47.50 – 100.00</td>
-      <td>71%</td>
-      <td>valid</td>
+      <td class="rank-cell" data-label="Rank">1</td>
+      <td class="model-cell" data-label="Model"><strong>GPT-6 Sol</strong><small class="model-basis">ChatGPT Codex subscription, remote api</small></td>
+      <td class="score-cell overall-cell" data-label="Score"><span class="score-value">82.15</span><i class="micro-bar" style="--v:82.2%" aria-hidden="true"></i></td>
+      <td class="num-cell" data-label="Task range">47.50 to 100.00</td>
+      <td class="num-cell" data-label="Pass rate">71%</td>
+      <td data-label="Native tools">valid</td>
     </tr>
 <tr>
-      <td class="rank-cell">#2</td>
-      <td class="model-cell"><strong>MiniMax M3</strong><small>OpenRouter · remote api</small></td>
-      <td class="score-cell">81.82</td>
-      <td>28.33 – 100.00</td>
-      <td>79%</td>
-      <td>valid</td>
+      <td class="rank-cell" data-label="Rank">2</td>
+      <td class="model-cell" data-label="Model"><strong>MiniMax M3</strong><small class="model-basis">OpenRouter, remote api</small></td>
+      <td class="score-cell overall-cell" data-label="Score"><span class="score-value">81.82</span><i class="micro-bar" style="--v:81.8%" aria-hidden="true"></i></td>
+      <td class="num-cell" data-label="Task range">28.33 to 100.00</td>
+      <td class="num-cell" data-label="Pass rate">79%</td>
+      <td data-label="Native tools">valid</td>
     </tr>
 <tr>
-      <td class="rank-cell">#3</td>
-      <td class="model-cell"><strong>Qwen3.7 Max</strong><small>OpenRouter · remote api</small></td>
-      <td class="score-cell">80.72</td>
-      <td>27.67 – 100.00</td>
-      <td>71%</td>
-      <td>valid</td>
+      <td class="rank-cell" data-label="Rank">3</td>
+      <td class="model-cell" data-label="Model"><strong>Qwen3.7 Max</strong><small class="model-basis">OpenRouter, remote api</small></td>
+      <td class="score-cell overall-cell" data-label="Score"><span class="score-value">80.72</span><i class="micro-bar" style="--v:80.7%" aria-hidden="true"></i></td>
+      <td class="num-cell" data-label="Task range">27.67 to 100.00</td>
+      <td class="num-cell" data-label="Pass rate">71%</td>
+      <td data-label="Native tools">valid</td>
     </tr>
 <tr>
-      <td class="rank-cell">#4</td>
-      <td class="model-cell"><strong>Kimi K2.7 Code</strong><small>OpenRouter · remote api</small></td>
-      <td class="score-cell">67.44</td>
-      <td>31.75 – 86.67</td>
-      <td>64%</td>
-      <td>valid</td>
+      <td class="rank-cell" data-label="Rank">4</td>
+      <td class="model-cell" data-label="Model"><strong>Kimi K2.7 Code</strong><small class="model-basis">OpenRouter, remote api</small></td>
+      <td class="score-cell overall-cell" data-label="Score"><span class="score-value">67.44</span><i class="micro-bar" style="--v:67.4%" aria-hidden="true"></i></td>
+      <td class="num-cell" data-label="Task range">31.75 to 86.67</td>
+      <td class="num-cell" data-label="Pass rate">64%</td>
+      <td data-label="Native tools">valid</td>
     </tr>
 <tr>
-      <td class="rank-cell">#5</td>
-      <td class="model-cell"><strong>Gemini 2.5 Flash</strong><small>OpenRouter · remote api</small></td>
-      <td class="score-cell">53.09</td>
-      <td>0.00 – 100.00</td>
-      <td>43%</td>
-      <td>valid</td>
+      <td class="rank-cell" data-label="Rank">5</td>
+      <td class="model-cell" data-label="Model"><strong>Gemini 2.5 Flash</strong><small class="model-basis">OpenRouter, remote api</small></td>
+      <td class="score-cell overall-cell" data-label="Score"><span class="score-value">53.09</span><i class="micro-bar" style="--v:53.1%" aria-hidden="true"></i></td>
+      <td class="num-cell" data-label="Task range">0.00 to 100.00</td>
+      <td class="num-cell" data-label="Pass rate">43%</td>
+      <td data-label="Native tools">valid</td>
     </tr></tbody>
         </table>
       </div>
     </section>
 
-    <section class="section-shell ranking-chart-grid hard-agentic-grid" aria-label="Hard Agentic controls and task spread">
-      <article class="ranking-chart-card glass-panel">
-    <div class="ranking-chart-head">
-      <span class="panel-label">Chart</span>
-      <h2>Shortcut controls</h2>
-      <p>All control bots remain below their guardrail limits.</p>
-    </div>
-    <div class="bar-chart compact"><div class="bar-row hard-agentic-control control-pass" style="--bar:26.60%">
-      <strong>Snippet-only control</strong>
-      <div class="bar-track" aria-hidden="true"><i></i></div>
-      <span>26.60 / limit 35</span>
-      <small>below guardrail</small>
-    </div>
-<div class="bar-row hard-agentic-control control-pass" style="--bar:2.33%">
-      <strong>Guess control</strong>
-      <div class="bar-track" aria-hidden="true"><i></i></div>
-      <span>2.33 / limit 20</span>
-      <small>below guardrail</small>
-    </div>
-<div class="bar-row hard-agentic-control control-pass" style="--bar:40.46%">
-      <strong>First-hit control</strong>
-      <div class="bar-track" aria-hidden="true"><i></i></div>
-      <span>40.46 / limit 50</span>
-      <small>below guardrail</small>
-    </div>
-<div class="bar-row hard-agentic-control control-pass" style="--bar:31.60%">
-      <strong>Spray control</strong>
-      <div class="bar-track" aria-hidden="true"><i></i></div>
-      <span>31.60 / limit 45</span>
-      <small>below guardrail</small>
-    </div></div>
-    <p class="chart-note">These controls protect against answers from snippets, guessing, first hits, or broad tool spraying.</p>
-  </article>
-      <article class="ranking-chart-card glass-panel">
-    <div class="ranking-chart-head">
-      <span class="panel-label">Chart</span>
-      <h2>Task spread</h2>
-      <p>Tasks ordered by model-score spread.</p>
-    </div>
+    <section class="section ranking-chart-grid hard-agentic-grid" aria-label="Hard Agentic controls and task spread">
+      <figure class="fig ranking-chart-card">
+    <figcaption>
+      <span class="fig-n">Figure 1</span>
+      <span class="fig-title">Task spread</span>
+      <span class="fig-note">Tasks ordered by the spread between the best and worst measured row.</span>
+    </figcaption>
     <div class="bar-chart compact"><div class="bar-row hard-agentic-task" style="--bar:100.00%">
       <strong>Similar field selection</strong>
       <div class="bar-track" aria-hidden="true"><i></i></div>
@@ -338,16 +296,56 @@
       <div class="bar-track" aria-hidden="true"><i></i></div>
       <span>17.00</span>
       <small>best 90.00 · worst 73.00</small>
-    </div></div>
-    <p class="chart-note">Ten of the fourteen tasks separate rows by at least 25 points in this measured set.</p>
-  </article>
+    </div></div><p class="chart-note">10 of the 14 tasks separate rows by at least 25 points in the measured set.</p>
+  </figure>
+      <figure class="fig ranking-chart-card">
+    <figcaption>
+      <span class="fig-n">Figure 2</span>
+      <span class="fig-title">Shortcut controls</span>
+      <span class="fig-note">All control bots remain below their guardrail limits.</span>
+    </figcaption>
+    <div class="bar-chart compact"><div class="bar-row hard-agentic-control control-pass" style="--bar:26.60%">
+      <strong>Snippet-only control</strong>
+      <div class="bar-track" aria-hidden="true"><i></i></div>
+      <span>26.60 / limit 35</span>
+      <small>below guardrail</small>
+    </div>
+<div class="bar-row hard-agentic-control control-pass" style="--bar:2.33%">
+      <strong>Guess control</strong>
+      <div class="bar-track" aria-hidden="true"><i></i></div>
+      <span>2.33 / limit 20</span>
+      <small>below guardrail</small>
+    </div>
+<div class="bar-row hard-agentic-control control-pass" style="--bar:40.46%">
+      <strong>First-hit control</strong>
+      <div class="bar-track" aria-hidden="true"><i></i></div>
+      <span>40.46 / limit 50</span>
+      <small>below guardrail</small>
+    </div>
+<div class="bar-row hard-agentic-control control-pass" style="--bar:31.60%">
+      <strong>Spray control</strong>
+      <div class="bar-track" aria-hidden="true"><i></i></div>
+      <span>31.60 / limit 45</span>
+      <small>below guardrail</small>
+    </div></div><p class="chart-note">These controls protect against answers from snippets, guessing, first hits, or broad tool spraying.</p>
+  </figure>
+    </section>
+
+    <section class="section ranking-insight-grid" aria-label="Hard Agentic interpretation notes">
+      <div class="section-head"><h2>Reading notes</h2></div>
+      <div class="insight-list">
+        <article class="ranking-insight-card"><h3>Why it is separate</h3><p>The global ranking remains unchanged while the lane matures. It is a harder tool-use slice, not a silent replacement for Full, SWE, or Hard Intelligence.</p></article>
+        <article class="ranking-insight-card"><h3>What it measures</h3><p>Models must choose authority, follow pointers, recover from transient tool failures, reject misleading snippets, convert units, and ignore injected instructions inside data fields.</p></article>
+        <article class="ranking-insight-card"><h3>What does not count</h3><p>Rows that cannot produce native tool calls are excluded from difficulty claims. Protocol failure is not model weakness under the lane.</p></article>
+        <article class="ranking-insight-card"><h3>Control guardrails</h3><p>Snippet reading, blind guessing, first-hit extraction, and broad tool spraying all stay below their limits, so the lane is not solved by cheap shortcuts.</p></article>
+      </div>
     </section>
   </main>
     <footer class="site-footer">
       <span>Resyst Labs Benchmarks</span>
       <span>Independent evaluation for AI systems that act.</span>
+      <span class="footer-links"><a href="../data/model-comparison.json">Ranking JSON</a><a href="../data/arena-snapshots.json">Arena JSON</a><a href="../data/hard-agentic-tool.json">Hard Agentic JSON</a></span>
     </footer>
-    <script type="module" src="../background.js"></script>
     
   </body>
 </html>
